@@ -1,2 +1,0 @@
-elevatorSim: elevatorSim.cpp
-	cl elevatorSim.cpp
