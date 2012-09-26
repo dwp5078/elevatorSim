@@ -1,9 +1,9 @@
-
-
 #include <Windows.h> 
-// #include <unistd.h> 
-// TODO: switch on this with macro
-
+/* 
+ * #include <unistd.h> 
+ * TODO: switch on this with macro
+ */
+ 
 #include <iostream>
 #include <boost/thread.hpp>
 #include <sqlite/sqlite3.h>
