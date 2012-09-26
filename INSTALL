@@ -1,5 +1,5 @@
 For tier one platforms, pre-cooked libraries are included in-tree and so building should be as easy
-as invoking make. For other platforms, building is still possible but more work will be required.
+as invoking make. For other platforms, building is still possible, but more work will be required.
 Due to time constraints, an elaborate build system is a low priority item.
 
 Dependencies:
