@@ -9,8 +9,13 @@ link
 ----
 Newest code is always available here: https://github.com/maxdeliso/elevatorSim
 
+directories
+-----------
+
 /deps includes pre-cooked binaries for tier one platforms.
 
 /inc includes header files for this project and its dependencies.
 
+building
+--------
 See INSTALL for building instructions.
