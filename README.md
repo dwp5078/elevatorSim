@@ -19,3 +19,6 @@ directories
 building
 --------
 See INSTALL for building instructions.
+
+
+TEST
