@@ -7,7 +7,7 @@ Dependencies:
     fltk
     sqlite *
     
-* sqlite is small enough and standards compliant enough that the entire source is included in-tree.
+* sqlite is small enough and is standards compliant enough that the entire source is included in-tree.
 
 Other combinations _should_ also work.
     
