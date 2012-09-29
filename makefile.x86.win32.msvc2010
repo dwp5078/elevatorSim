@@ -1,4 +1,5 @@
 ## elevatorSim makefile 
+## license: see LICENSE file
 ## arch:     x86
 ## os:       win32
 ## compiler: msvc2010
