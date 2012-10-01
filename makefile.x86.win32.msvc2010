@@ -6,7 +6,7 @@
 
 elevatorSim: elevatorSim.obj sqlite3.obj
 	cl elevatorSim.obj sqlite3.obj\
-/nologo /FeelevatorSim.exe /D_ES_WIN32\
+/nologo /FeelevatorSim.exe\
 /link /subsystem:windows\
 /libpath:deps\x86.win32.msvc10\boost /libpath:deps\x86.win32.msvc10\fltk\
 "comctl32.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib"\
@@ -17,7 +17,7 @@ elevatorSim: elevatorSim.obj sqlite3.obj
 	@echo +success
 
 elevatorSim.obj: elevatorSim.cpp
-	cl /c /EHsc /O2 /nologo /Iinc elevatorSim.cpp /FoelevatorSim.obj
+	cl /c /EHsc /O2 /nologo /D_ES_WIN32 /Iinc elevatorSim.cpp /FoelevatorSim.obj
 
 sqlite3.obj: sqlite3.c
 	cl /c /EHsc /O2 /nologo sqlite3.c /Fosqlite3.obj
