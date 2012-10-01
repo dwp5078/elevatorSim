@@ -27,12 +27,14 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#include <Windows.h> 
-/* 
- * #include <unistd.h> 
- * TODO: switch on this with macro
- */
- 
+#if defined(_ES_WIN32)
+#include <Windows.h>
+#elif defined(_ES_DARWIN) || defined(_ES_UNIX)
+#include <unistd.h>
+#else
+#error Unspecified operating system. Use the makefile.
+#endif 
+
 #include <iostream>
 #include <boost/thread.hpp>
 #include <sqlite/sqlite3.h>

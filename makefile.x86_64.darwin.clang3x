@@ -1,0 +1,21 @@
+## elevatorSim makefile 
+## license: see LICENSE file
+## arch:     x86_64
+## os:       darwin
+## compiler: clang3x
+
+elevatorSim: elevatorSim.o sqlite3.o
+	cc elevatorSim.o sqlite3.o -o elevatorSim -Ldeps/x86_64.darwin.clang3x/fltk/ -framework AppKit\
+ -framework Quartz -lstdc++ -lSystem -lfltk -lfltk_forms -lfltk_gl -lfltk_images -lfltk_jpeg -lfltk_png\
+ deps/x86_64.darwin.clang3x/boost/libboost_iostreams.a deps/x86_64.darwin.clang3x/boost/libboost_system.a\
+ deps/x86_64.darwin.clang3x/boost/libboost_thread.a deps/x86_64.darwin.clang3x/boost/libboost_chrono.a
+	@echo +success
+
+elevatorSim.o: elevatorSim.cpp
+	cc -c -O2 -D_ES_DARWIN -Iinc elevatorSim.cpp -o elevatorSim.o 
+ 
+sqlite3.o: sqlite3.c
+	cc -c -O2 sqlite3.c -o sqlite3.o
+    
+clean:
+	rm -f sqlite3.o elevatorSim.o elevatorSim   
