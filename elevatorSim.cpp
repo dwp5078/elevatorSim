@@ -42,6 +42,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Text_Display.H>
+#include <FL/glut.h>
 
 const static int    ELEVATOR_SIM_WINDOW_WIDTH = 640;
 const static int    ELEVATOR_SIM_WINDOW_HEIGHT = 480;
