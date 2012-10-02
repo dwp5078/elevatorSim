@@ -1,6 +1,6 @@
 All builds are classified as 3-tuples. The 3-tuple consists of the cpu architecture, the host 
 operating system family, and the compiler name and version separated by periods. So, the major 
-supported build for this project currently is (x86, win32, msvc2010), or x86.win32.msvc2010.
+supported build for this project currently is (x86, winnt, msvc2010), or x86.winnt.msvc2010.
 
 For tier one platforms, pre-cooked libraries are included in-tree and so building should be as easy
 as invoking (n)make. For other platforms, building is still possible, but more work will be required.
@@ -18,7 +18,7 @@ and headers.
 
 * sqlite is small enough and standards compliant enough that the entire source is included in-tree.
 
-Tier one platforms: x86.win32.msvc2010
+Tier one platforms: x86.winnt.msvc2010
 
 to build for this T1 3-tuple:
 1. first run vcvarsall.bat x86 from a shell, or just use (Visual Studio Command Prompt 2010 x86),
@@ -27,7 +27,7 @@ to ensure that the Microsoft compilers and binary utilities are in your PATH.
 2. > cd [..]\elevatorSim,
 to ensure that you are in the correct directory containing the source for this project.
 
-3. > nmake /nologo /f makefile.x86.win32.msvc2010
+3. > nmake /nologo /f makefile.x86.winnt.msvc2010
 to tell the shell to interpret the makefile metascript and issue commands required for compilation
 and linking.
 

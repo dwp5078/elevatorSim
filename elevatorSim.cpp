@@ -27,7 +27,7 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#if defined(_ES_WIN32)
+#if defined(_ES_WINNT)
 #include <Windows.h>
 #elif defined(_ES_DARWIN) || defined(_ES_UNIX)
 #include <unistd.h>
