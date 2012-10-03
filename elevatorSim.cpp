@@ -45,10 +45,6 @@
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Gl_Window.H>
 
-const static int    ELEVATOR_SIM_WINDOW_WIDTH = 640;
-const static int    ELEVATOR_SIM_WINDOW_HEIGHT = 480;
-const static char   ELEVATOR_SIM_TITLE[] = "elevatorSim";
-
 class ElevatorRenderWindow : public Fl_Gl_Window {
 	
 	void draw();
@@ -90,23 +86,33 @@ int ElevatorRenderWindow::handle(int event) {
 	}
 }
 
-int main(int argc, char** argv) {
-   Fl_Window *win = new Fl_Window(
-      ELEVATOR_SIM_WINDOW_WIDTH,
-      ELEVATOR_SIM_WINDOW_HEIGHT,
-      ELEVATOR_SIM_TITLE);
+class ElevatorSimWindow : public Fl_Window {
 
-   ElevatorRenderWindow *erw = new ElevatorRenderWindow(
-      ElevatorRenderWindow::LEFT_MARGIN,
-      ElevatorRenderWindow::TOP_MARGIN,
-      ELEVATOR_SIM_WINDOW_WIDTH - 
-         (ElevatorRenderWindow::LEFT_MARGIN + ElevatorRenderWindow::RIGHT_MARGIN),
-      ELEVATOR_SIM_WINDOW_HEIGHT - 
-         (ElevatorRenderWindow::TOP_MARGIN + ElevatorRenderWindow::BOTTOM_MARGIN));
+   public:
    
-   win->resizable(*erw);
-   win->end();
-   win->show();
+   const static int WIDTH = 640;
+   const static int HEIGHT = 480;
+   const static char TITLE[];
    
+   ElevatorSimWindow() 
+      : Fl_Window(WIDTH, HEIGHT, TITLE) {
+         ElevatorRenderWindow *erw = new ElevatorRenderWindow(
+         ElevatorRenderWindow::LEFT_MARGIN,
+         ElevatorRenderWindow::TOP_MARGIN,
+            WIDTH - 
+               (ElevatorRenderWindow::LEFT_MARGIN + ElevatorRenderWindow::RIGHT_MARGIN),
+            HEIGHT - 
+               (ElevatorRenderWindow::TOP_MARGIN + ElevatorRenderWindow::BOTTOM_MARGIN));
+   
+         resizable(*erw);
+         end();
+   }
+};
+
+const char ElevatorSimWindow::TITLE[] = "elevatorSim";
+
+int main(int argc, char** argv) {
+   ElevatorSimWindow *mainWin = new ElevatorSimWindow();
+   mainWin->show();
    return(Fl::run());
 }
