@@ -1,25 +1,32 @@
-## elevatorSim makefile 
+## elevatorSim makefile
 ## license: see LICENSE file
 ## arch:     x86
 ## os:       winnt
 ## compiler: msvc2010
 
-elevatorSim: elevatorSim.obj sqlite3.obj
-	cl elevatorSim.obj sqlite3.obj /nologo /FeelevatorSim.exe /link /subsystem:windows\
+elevatorSim: ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj sqlite3.obj
+	cl ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj sqlite3.obj\
+/nologo /FeElevatorSim.exe /link /subsystem:windows\
 /libpath:deps\x86.winnt.msvc10\boost /libpath:deps\x86.winnt.msvc10\fltk\
 "comctl32.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib"\
 "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib"\
 "fltk.lib" "fltkforms.lib" "fltkgl.lib" "fltkimages.lib" "fltkjpeg.lib" "fltkpng.lib" "fltkzlib.lib"\
 "glu32.lib" "opengl32.lib"\
 /nodefaultlib:"libcd" /nodefaultlib:"libcmt" /machine:X86 /errorreport:none
-    
+
 	@echo +success
 
-elevatorSim.obj: elevatorSim.cpp
-	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc elevatorSim.cpp /FoelevatorSim.obj
+ElevatorSim.obj: ElevatorSim.cpp
+	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc ElevatorSim.cpp /FoElevatorSim.obj
+
+ElevatorSimWindow.obj: ElevatorSimWindow.cpp
+	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc ElevatorSimWindow.cpp /FoElevatorSimWindow.obj
+
+ElevatorSimRenderWindow.obj: ElevatorSimRenderWindow.cpp
+	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc ElevatorSimRenderWindow.cpp /FoElevatorSimRenderWindow.obj
 
 sqlite3.obj: sqlite3.c
 	cl /c /EHsc /O2 /nologo sqlite3.c /Fosqlite3.obj
-    
+
 clean:
-	erase /f /q sqlite3.obj elevatorSim.obj elevatorSim.exe    
+	erase /f /q sqlite3.obj ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj ElevatorSim.exe
