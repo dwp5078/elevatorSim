@@ -4,8 +4,10 @@
 ## os:       winnt
 ## compiler: msvc2010
 
-elevatorSim: ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj sqlite3.obj
-	cl ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj sqlite3.obj\
+OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj
+
+elevatorSim: $(OBJS) sqlite3.obj
+	cl $(OBJS) sqlite3.obj\
 /nologo /FeElevatorSim.exe /link /subsystem:windows\
 /libpath:deps\x86.winnt.msvc10\boost /libpath:deps\x86.winnt.msvc10\fltk\
 "comctl32.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib"\
@@ -16,17 +18,11 @@ elevatorSim: ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj s
 
 	@echo +success
 
-ElevatorSim.obj: ElevatorSim.cpp
-	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc ElevatorSim.cpp /FoElevatorSim.obj
-
-ElevatorSimWindow.obj: ElevatorSimWindow.cpp
-	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc ElevatorSimWindow.cpp /FoElevatorSimWindow.obj
-
-ElevatorSimRenderWindow.obj: ElevatorSimRenderWindow.cpp
-	cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc ElevatorSimRenderWindow.cpp /FoElevatorSimRenderWindow.obj
+.cpp.obj:
+   cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc $<
 
 sqlite3.obj: sqlite3.c
-	cl /c /EHsc /O2 /nologo sqlite3.c /Fosqlite3.obj
+	cl /c /O2 /nologo sqlite3.c /Fosqlite3.obj
 
 clean:
-	erase /f /q sqlite3.obj ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj ElevatorSim.exe
+	erase /f /q $(OBJS) sqlite3.obj ElevatorSim.exe
