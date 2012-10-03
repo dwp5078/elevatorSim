@@ -3,6 +3,8 @@
 ## arch:     x86_64
 ## os:       darwin
 ## compiler: clang3x
+## NOTE: this platform is not directly supported and so this makefile probably won't work without some tinkering
+## (but it did work, once)
 
 elevatorSim: elevatorSim.o sqlite3.o
 	cc elevatorSim.o sqlite3.o -o elevatorSim -Ldeps/x86_64.darwin.clang3x/fltk/ -framework AppKit\
