@@ -40,15 +40,55 @@
 #include <sqlite/sqlite3.h>
 
 #include <FL/Fl.H>
+#include <FL/gl.h>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Text_Display.H>
-#include <FL/glut.h>
+#include <FL/Fl_Gl_Window.H>
 
 const static int    ELEVATOR_SIM_WINDOW_WIDTH = 640;
 const static int    ELEVATOR_SIM_WINDOW_HEIGHT = 480;
-const static int    ELEVATOR_SIM_MARGIN = 20;
 const static char   ELEVATOR_SIM_TITLE[] = "elevatorSim";
-const static char   ELEVATOR_SIM_VERSION[] = "v0.0.0-pre";
+
+class ElevatorRenderWindow : public Fl_Gl_Window {
+	
+	void draw();
+	int handle(int event);
+
+	public:
+	
+	const static int LEFT_MARGIN = 120;
+	const static int RIGHT_MARGIN = 8;
+	const static int TOP_MARGIN = 8;
+	const static int BOTTOM_MARGIN = 8;
+	
+	ElevatorRenderWindow(int X, int Y, int W, int H, const char* Label = 0) :
+		Fl_Gl_Window(X, Y, W, H, Label) {}
+};
+
+void ElevatorRenderWindow::draw() {
+   if(!valid()) {
+      /* initialize */
+   }
+   
+   /* draw */
+}
+
+int ElevatorRenderWindow::handle(int event) {
+   switch(event) {
+      case FL_FOCUS:
+
+      return 1;
+
+      case FL_UNFOCUS:
+
+      return 1;
+      
+		/* ... handle more events ... */
+
+      default:
+         return Fl_Gl_Window::handle(event);
+	}
+}
 
 int main(int argc, char** argv) {
    Fl_Window *win = new Fl_Window(
@@ -56,17 +96,16 @@ int main(int argc, char** argv) {
       ELEVATOR_SIM_WINDOW_HEIGHT,
       ELEVATOR_SIM_TITLE);
 
-   Fl_Text_Display *disp = new Fl_Text_Display(
-      ELEVATOR_SIM_MARGIN,
-      ELEVATOR_SIM_MARGIN,
-      ELEVATOR_SIM_WINDOW_WIDTH - (2 * ELEVATOR_SIM_MARGIN),
-      ELEVATOR_SIM_WINDOW_HEIGHT - (2 * ELEVATOR_SIM_MARGIN));
-
-   Fl_Text_Buffer *tbuff = new Fl_Text_Buffer();
-
-   disp->buffer(tbuff);
-   tbuff->text(ELEVATOR_SIM_VERSION);
-   win->resizable(*disp);
+   ElevatorRenderWindow *erw = new ElevatorRenderWindow(
+      ElevatorRenderWindow::LEFT_MARGIN,
+      ElevatorRenderWindow::TOP_MARGIN,
+      ELEVATOR_SIM_WINDOW_WIDTH - 
+         (ElevatorRenderWindow::LEFT_MARGIN + ElevatorRenderWindow::RIGHT_MARGIN),
+      ELEVATOR_SIM_WINDOW_HEIGHT - 
+         (ElevatorRenderWindow::TOP_MARGIN + ElevatorRenderWindow::BOTTOM_MARGIN));
+   
+   win->resizable(*erw);
+   win->end();
    win->show();
    
    return(Fl::run());
