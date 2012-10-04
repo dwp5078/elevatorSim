@@ -30,8 +30,27 @@
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
 
+/* NOTE: this will need to be moved into a more suitable place and made writable */
+const static float UPDATE_INTERVAL = 0.1f; 
+
+void periodicCallback(void *data);
+
 int main(int argc, char** argv) {
    elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
    mainWin->show();
+   
+   Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
+   
    return(Fl::run());
+}
+
+void periodicCallback(void *data) {
+   elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
+   
+   /* 
+    * TODO: periodic updates
+    * NOTE: this function will block the event processing thread, and should not contain
+    * _ANY_ computationally expensive or blocking operations. This function will likely 
+    * just check some state and maybe schedule a redraw of the mainWindow.
+    */
 }
