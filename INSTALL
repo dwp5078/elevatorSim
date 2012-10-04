@@ -20,7 +20,15 @@ and headers.
 
 Tier one platforms: x86.winnt.msvc2010
 
-to build for this T1 3-tuple:
+to build for this T1 3-tuple, the easy way:
+
+1. double click on elevatorSim.sln
+2. click the green 'play button'
+3. ???
+4. rejoice
+
+to build for this T1 3-tuple, the hard way:
+
 1. first run vcvarsall.bat x86 from a shell, or just use (Visual Studio Command Prompt 2010 x86),
 to ensure that the Microsoft compilers and binary utilities are in your PATH.
 
