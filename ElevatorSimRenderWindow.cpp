@@ -55,21 +55,4 @@ void ElevatorSimRenderWindow::draw() {
    /* draw */
 }
 
-int ElevatorSimRenderWindow::handle(int event) {
-   switch(event) {
-      case FL_FOCUS:
-
-      return 1;
-
-      case FL_UNFOCUS:
-
-      return 1;
-
-      /* ... handle more events ... */
-
-      default:
-         return Fl_Gl_Window::handle(event);
-   }
-}
-
 } /* namespace elevatorSim */

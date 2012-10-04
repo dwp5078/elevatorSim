@@ -36,6 +36,7 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Gl_Window.H>
+#include <Fl/fl_ask.h>
 
 namespace elevatorSim {
 
@@ -48,6 +49,19 @@ ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
 
    resizable(*erw);
    end();
+}
+
+int ElevatorSimWindow::handle(int event) {
+    switch(event) {
+      case FL_HIDE:  
+      if(!fl_ask("Are you sure?")) {
+         show();
+      }
+      return 1;
+      
+      default:
+         return Fl_Window::handle(event);
+   }
 }
 
 const char ElevatorSimWindow::TITLE[] = "elevatorSim";

@@ -40,10 +40,9 @@
 namespace elevatorSim {
 
 class ElevatorSimRenderWindow : public Fl_Gl_Window {
-
+ 
    void draw();
-   int handle(int event);
-
+ 
    public:
 
    const static int LEFT_MARGIN;

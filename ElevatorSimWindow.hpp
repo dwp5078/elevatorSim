@@ -39,6 +39,8 @@ namespace elevatorSim {
 
 class ElevatorSimWindow : public Fl_Window {
 
+   int handle(int event);
+   
    public:
 
    const static int WIDTH;
