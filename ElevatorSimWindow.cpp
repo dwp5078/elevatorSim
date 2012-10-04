@@ -34,8 +34,6 @@
 #include <FL/Fl.H>
 #include <FL/gl.h>
 #include <FL/Fl_Window.H>
-#include <FL/Fl_Text_Display.H>
-#include <FL/Fl_Gl_Window.H>
 #include <Fl/fl_ask.h>
 
 namespace elevatorSim {
