@@ -6,9 +6,9 @@
 
 OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj
 
-elevatorSim: $(OBJS) sqlite3.obj
+elevatorSim: $(OBJS) sqlite3.obj makefile.x86.winnt.msvc2010
 	cl $(OBJS) sqlite3.obj\
-/nologo /FeElevatorSim.exe /ZI /link /subsystem:windows\
+/RTC1 /ZI /FdElevatorSim.pdb /FmElevatorSim.map /nologo /FeElevatorSim.exe /Gm- /GL- /link /subsystem:windows\
 /libpath:deps\x86.winnt.msvc10\boost /libpath:deps\x86.winnt.msvc10\fltk\
 "comctl32.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib"\
 "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib"\
@@ -19,10 +19,10 @@ elevatorSim: $(OBJS) sqlite3.obj
 	@echo +success
 
 .cpp.obj:
-   cl /c /EHsc /O2 /W3 /WX /nologo /D_ES_WINNT /Iinc $<
+   cl /W3 /RTCsu /ZI /c /EHsc /errorReport:none /nologo /D_ES_WINNT /Iinc $< /FAcs /Fa$<.asm
 
-sqlite3.obj: sqlite3.c
-	cl /c /O2 /nologo sqlite3.c /Fosqlite3.obj
+sqlite3.obj: sqlite3.c makefile.x86.winnt.msvc2010
+	cl /c /nologo sqlite3.c /Fosqlite3.obj
 
 clean:
 	erase /f /q $(OBJS) sqlite3.obj ElevatorSim.exe
