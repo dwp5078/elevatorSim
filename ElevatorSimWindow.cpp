@@ -35,6 +35,30 @@
 #include <FL/gl.h>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Menu_Bar.H>
+
+void quit_cb(Fl_Widget*, void*) {}
+
+/*Fl_Menu_Item menutable[] = {
+  {"&File",0,0,0,FL_SUBMENU},
+    {"&Open",   FL_ALT+'o', 0, 0, FL_MENU_INACTIVE},
+    {"&Close",  0, 0},
+    {"&Quit",   FL_ALT+'q', quit_cb, 0, FL_MENU_DIVIDER},
+    {0},
+  {"&Edit",FL_F+2,0,0,FL_SUBMENU},
+    {"Undo",    FL_ALT+'z',     0},
+    {"Redo",    FL_ALT+'r',     0, 0, FL_MENU_DIVIDER},
+    {"Cut",     FL_ALT+'x',     0},
+    {"Copy",    FL_ALT+'c',     0},
+    {"Paste",   FL_ALT+'v',     0},
+    {"Inactive",FL_ALT+'d',     0, 0, FL_MENU_INACTIVE},
+    {"Clear",   0,      0, 0, FL_MENU_DIVIDER},
+    {"Invisible",FL_ALT+'e',    0, 0, FL_MENU_INVISIBLE},
+    {"Preferences",0,   0},
+    {"Size",    0,      0},
+    {0},
+  {0}
+};*/
 
 namespace elevatorSim {
 
@@ -61,6 +85,7 @@ namespace elevatorSim {
             showQuitConfirmDialog();
             return 1;
          }
+
       default:
          return Fl_Window::handle(event);
       }
@@ -105,6 +130,8 @@ namespace elevatorSim {
    }
 
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+      
+
       renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
@@ -112,6 +139,20 @@ namespace elevatorSim {
          HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
       resizable(*renderWindow);
+
+      Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+      
+      //menubar.menu(menutable);
+      menubar->add("&File/&New", FL_CTRL + 'n', Menu_CB_New);
+      menubar->add("&File/&Open", FL_CTRL + 'o', Menu_CB_Open);
+      menubar->add("&File/&Save", FL_CTRL + 's', Menu_CB_Save);
+      menubar->add("&File/&Quit", FL_CTRL + 'q', Menu_CB_Quit);
+
+      menubar->add("&Edit/&Paste", FL_CTRL + 'v', Menu_CB_Quit);
+      menubar->add("&Help/&About", 0, Menu_CB_Quit);
+      
+      add(menubar);
+
       end();
 
       confirmDialog = NULL;

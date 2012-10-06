@@ -62,6 +62,11 @@ namespace elevatorSim {
 
       ElevatorSimWindow();
 
+      static void Menu_CB_New(Fl_Widget* w, void*) {  }
+      static void Menu_CB_Open(Fl_Widget* w, void*) {  }
+      static void Menu_CB_Save(Fl_Widget* w, void*) {  }
+      static void Menu_CB_Quit(Fl_Widget* w, void*) {  }
+
    };
 
 } /* namespace elevatorSim */

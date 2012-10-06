@@ -27,6 +27,8 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
+#include <FL/Fl_Menu_Bar.H>
+
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
 
@@ -35,8 +37,11 @@ const static float UPDATE_INTERVAL = 0.1f;
 
 void periodicCallback(void *data);
 
+
 int main(int argc, char** argv) {
    elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
+   
+   //mainWin->end();
    mainWin->show();
 
    Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
