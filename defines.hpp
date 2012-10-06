@@ -8,7 +8,7 @@
 #include <cmath>
 
 const float M_PI = 3.141592f;
-const double FPS = 1/24;
+const double FPS = (double)1/(double)60;
 
 struct Vec3f
 {

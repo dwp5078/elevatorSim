@@ -35,6 +35,7 @@
 #include <FL/gl.h>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Menu_Bar.H>
 
 namespace elevatorSim {
 
@@ -47,9 +48,7 @@ namespace elevatorSim {
             show();
             showQuitConfirmDialog();
             return 1;
-         }
-
-      case FL_KEYDOWN:
+         } case FL_KEYDOWN:
          switch(Fl::event_key()) {
          case FL_Up:
             renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
@@ -78,8 +77,7 @@ namespace elevatorSim {
          case FL_Page_Down:
             renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
             return 1;
-         }
-      default:
+         } default:
          return Fl_Window::handle(event);
       }
    }
@@ -123,6 +121,8 @@ namespace elevatorSim {
    }
 
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+      
+
       renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
@@ -130,6 +130,18 @@ namespace elevatorSim {
          HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
       resizable(*renderWindow);
+
+      Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+      
+      menubar->add("&File/&New", FL_CTRL + 'n', Menu_CB_New);
+      menubar->add("&File/&Open", FL_CTRL + 'o', Menu_CB_Open);
+      menubar->add("&File/&Save", FL_CTRL + 's', Menu_CB_Save);
+      menubar->add("&File/&Quit", FL_CTRL + 'q', Menu_CB_Quit);
+
+      menubar->add("&Edit/&Paste", FL_CTRL + 'v', Menu_CB_Quit);
+      menubar->add("&Help/&About", 0, Menu_CB_Quit);
+      
+      add(menubar);
       end();
 
       confirmDialog = NULL;
