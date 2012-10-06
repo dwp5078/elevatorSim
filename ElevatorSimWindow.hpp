@@ -31,6 +31,7 @@
 #define _ELEVATOR_SIM_WINDOW_H
 
 #include "ElevatorSim.hpp"
+#include "ElevatorSimRenderWindow.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -47,6 +48,7 @@ namespace elevatorSim {
       void showQuitConfirmDialog();
       void hideQuitConfirmDialog();
 
+      ElevatorSimRenderWindow* renderWindow;
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;

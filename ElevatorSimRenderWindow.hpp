@@ -39,13 +39,16 @@
 namespace elevatorSim {
 
    class ElevatorSimRenderWindow : public Fl_Gl_Window {
-   private:
+
       float spin;
       Vec3f	m_vecCamPos;
       Vec3f	m_vecCamLookAt;
       Vec3f	m_vecCamUp;
 
+      void InitCube();
+
    public:
+
       void draw();
       void GlInit();
       void setViewport();
@@ -53,21 +56,12 @@ namespace elevatorSim {
       static void Timer_CB(void *userdata);
       void key_pressed(KEY_PRESS k);
 
-   public:
-
       const static int LEFT_MARGIN;
       const static int RIGHT_MARGIN;
       const static int TOP_MARGIN;
       const static int BOTTOM_MARGIN;
 
-
-
       ElevatorSimRenderWindow(int X, int Y, int W, int H, const char* Label = 0);
-
-
-
-   private:
-      void InitCube();
    };
 
 } /* namespace elevatorSim */

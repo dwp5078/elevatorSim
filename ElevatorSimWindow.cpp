@@ -40,6 +40,19 @@ namespace elevatorSim {
 
    int ElevatorSimWindow::handle(int event) {
       switch(event) {
+
+      case FL_KEYDOWN:
+
+         if(Fl::event_key() == FL_Up) renderWindow->key_pressed(KEY_UP);
+         else if(Fl::event_key() == FL_Down) renderWindow->key_pressed(KEY_DOWN);
+         else if(Fl::event_key() == FL_Left) renderWindow->key_pressed(KEY_LEFT);
+         else if(Fl::event_key() == FL_Right) renderWindow->key_pressed(KEY_RIGHT);
+         else if(Fl::event_key() == FL_Page_Up) renderWindow->key_pressed(KEY_FORWARD);
+         else if(Fl::event_key() == FL_Page_Down) renderWindow->key_pressed(KEY_BACKWARD);
+         else if(Fl::event_key() == FL_Escape)  return Fl_Window::handle(event);
+         return 1;
+
+
       case FL_HIDE:
          if(wantedClose) {
             return Fl_Window::handle(event);
@@ -92,13 +105,13 @@ namespace elevatorSim {
    }
 
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
-      ElevatorSimRenderWindow *erw = new ElevatorSimRenderWindow(
+      renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),
          HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
-      resizable(*erw);
+      resizable(*renderWindow);
       end();
 
       confirmDialog = NULL;

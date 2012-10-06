@@ -33,8 +33,6 @@
 #include <FL/Fl.H>
 #include <FL/gl.h>
 
-
-
 namespace elevatorSim {
 
    const int ElevatorSimRenderWindow::LEFT_MARGIN = 120;
@@ -69,7 +67,6 @@ namespace elevatorSim {
 
          GlInit();
          setViewport();
-
       }
 
       /* draw */
