@@ -61,7 +61,7 @@ namespace elevatorSim {
       thisWin->hide();
    } 
 
-   void quitCancelledCB(Fl_Button* yesButton, void* data) {
+   void quitCancelledCB(Fl_Button* noButton, void* data) {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
       thisWin->wantedClose = false;
       thisWin->hideQuitConfirmDialog();

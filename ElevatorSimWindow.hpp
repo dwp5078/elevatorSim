@@ -41,7 +41,7 @@ namespace elevatorSim {
    class ElevatorSimWindow : public Fl_Window {
 
       friend void quitConfirmedCB(Fl_Button* yesButton, void* data);
-      friend void quitCancelledCB(Fl_Button* yesButton, void* data);
+      friend void quitCancelledCB(Fl_Button* noButton, void* data);
 
       int handle(int event);
       void showQuitConfirmDialog();
