@@ -32,7 +32,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
-#include "defines.h"
+#include "defines.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>

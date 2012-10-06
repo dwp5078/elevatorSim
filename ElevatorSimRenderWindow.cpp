@@ -32,9 +32,8 @@
 
 #include <FL/Fl.H>
 #include <FL/gl.h>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Gl_Window.H>
-#include <cmath>
+
+
 
 namespace elevatorSim {
 
@@ -43,25 +42,11 @@ const int ElevatorSimRenderWindow::RIGHT_MARGIN = 8;
 const int ElevatorSimRenderWindow::TOP_MARGIN = 8;
 const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
 
-GLfloat light1_ambient[]	= { 0.4f,	0.4f,	0.4f,	1.0f };
-GLfloat light1_diffuse[]	= { 0.8f,	0.8f,	0.8f,	1.0f };
-GLfloat light1_specular[]	= { 0.5f,	0.5f,	0.5f,	1.0f };
-GLfloat light1_position[]	= { 3.0f,	10.0f,	3.0f,	0.0f };
-GLfloat light1_direction[]	= { 0.0f, 0.0f, 0.0f, 0.0f };
-
 ElevatorSimRenderWindow::ElevatorSimRenderWindow(int X, int Y, int W, int H, const char* Label) :
    Fl_Gl_Window(X, Y, W, H, Label) {
    /* special initialization code */
-
-	   Fl::add_timeout(FPS, Timer_CB, (void*)this);
-}
-
-void ElevatorSimRenderWindow::draw() {
-   if(!valid()) {
-      /* initialize */
-		valid(1);
-
-		spin = 0.0;
+	   
+	   spin = 0.0;
 		m_vecCamPos.x = 0.f;
 		m_vecCamPos.y = 0.f;
 		m_vecCamPos.z = 20.f;
@@ -74,9 +59,17 @@ void ElevatorSimRenderWindow::draw() {
 		m_vecCamUp.y = 1.0f;
 		m_vecCamUp.z = 0.0f;
 
+	   Fl::add_timeout(FPS, Timer_CB, (void*)this);
+}
+
+void ElevatorSimRenderWindow::draw() {
+   if(!valid()) {
+      /* initialize */
+	   InitCube();
+
 		GlInit();
 		setViewport();
-		InitCube();
+
    }
 
    /* draw */
@@ -115,12 +108,12 @@ void ElevatorSimRenderWindow::draw() {
 	glDisable(GL_LIGHT0);
 
 	glBegin(GL_QUADS);
-	glColor3f(0.8, 0.8, 0.8);
-	glNormal3f(0.0, 1.0, 0.0);
-	glVertex3f( 1.0, 0.0, -1.0);
-	glVertex3f(-1.0, 0.0, -1.0);
-	glVertex3f(-1.0, 0.0,  1.0);
-	glVertex3f( 1.0, 0.0,  1.0);
+	glColor3f(0.8f, 0.8f, 0.8f);
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f( 1.0f, 0.0f, -1.0f);
+	glVertex3f(-1.0f, 0.0f, -1.0f);
+	glVertex3f(-1.0f, 0.0f,  1.0f);
+	glVertex3f( 1.0f, 0.0f,  1.0f);
 	glEnd();
 
 
@@ -134,29 +127,26 @@ void ElevatorSimRenderWindow::GlInit() {
 //********************************************
 //Make sure we only do this once
 //********************************************
-	static int first_time = 1;
-	if ( first_time ) {
-		first_time = 0;
+	assert(!valid());
 		
-		glEnable(GL_TEXTURE_2D);
-		//********************************************
-		//Misc OpenGL settings
-		//********************************************
-		glShadeModel(GL_SMOOTH);
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LEQUAL);
-		glDepthMask(GL_TRUE);
+	glEnable(GL_TEXTURE_2D);
+	//********************************************
+	//Misc OpenGL settings
+	//********************************************
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glDepthMask(GL_TRUE);
 
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-		glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180);
 
-		glLightfv(GL_LIGHT0, GL_AMBIENT, light1_ambient);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, light1_diffuse);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, light1_specular);
-		glLightfv(GL_LIGHT0, GL_POSITION, light1_position);
-		glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
-	}
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light1_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light1_diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light1_specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, light1_position);
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
 }
 
 void ElevatorSimRenderWindow::setViewport() 
@@ -186,6 +176,8 @@ void ElevatorSimRenderWindow::Timer_CB(void *userdata)
 
 void ElevatorSimRenderWindow::InitCube()
 {
+	assert(!valid());
+
 	glNewList(OBJ_CUBE, GL_COMPILE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);

@@ -31,7 +31,7 @@
 #define _ELEVATOR_SIM_RENDER_WINDOW_H
 
 #include "ElevatorSim.hpp"
-#include "defines.h"
+#include "defines.hpp"
 
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
