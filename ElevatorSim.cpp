@@ -37,13 +37,9 @@ const static float UPDATE_INTERVAL = 0.1f;
 
 void periodicCallback(void *data);
 
-
 int main(int argc, char** argv) {
    elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
-   
-   //mainWin->end();
    mainWin->show();
-
    Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
    return(Fl::run());
 }

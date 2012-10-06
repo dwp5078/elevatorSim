@@ -31,7 +31,8 @@
 #include "ElevatorSimRenderWindow.hpp"
 
 #include <FL/Fl.H>
-#include <FL/gl.h>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Gl_Window.H>
 
 namespace elevatorSim {
 
@@ -114,7 +115,10 @@ namespace elevatorSim {
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
-         fprintf(stderr, "GLGETERROR=%d\n", (int)err);
+         /* 
+         * TODO: 
+         * fprintf(stderr, "GLGETERROR=%d\n", (int)err); 
+         */
       }
    }
 

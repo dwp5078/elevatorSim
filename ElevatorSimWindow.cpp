@@ -121,8 +121,6 @@ namespace elevatorSim {
    }
 
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
-      
-
       renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
@@ -132,7 +130,7 @@ namespace elevatorSim {
       resizable(*renderWindow);
 
       Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
-      
+
       menubar->add("&File/&New", FL_CTRL + 'n', Menu_CB_New);
       menubar->add("&File/&Open", FL_CTRL + 'o', Menu_CB_Open);
       menubar->add("&File/&Save", FL_CTRL + 's', Menu_CB_Save);
@@ -140,7 +138,7 @@ namespace elevatorSim {
 
       menubar->add("&Edit/&Paste", FL_CTRL + 'v', Menu_CB_Quit);
       menubar->add("&Help/&About", 0, Menu_CB_Quit);
-      
+
       add(menubar);
       end();
 
