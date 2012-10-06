@@ -25,8 +25,7 @@
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <NMakeBuildCommandLine>pushd $(MSBuildProjectDirectory) &amp;&amp; nmake /nologo /f makefile.x86.winnt.msvc2010</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>pushd $(MSBuildProjectDirectory) &amp;&amp; nmake /nologo /f makefile.x86.winnt.msvc2010</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>
-    </NMakeCleanCommandLine>
+    <NMakeCleanCommandLine>pushd $(MSBuildProjectDirectory) &amp;&amp; nmake /nologo /f makefile.x86.winnt.msvc2010 clean</NMakeCleanCommandLine>
     <NMakeOutput>elevatorSim.exe</NMakeOutput>
     <NMakeIncludeSearchPath>$(MSBuildProjectDirectory)\inc;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
   </PropertyGroup>

@@ -25,4 +25,4 @@ sqlite3.obj: sqlite3.c makefile.x86.winnt.msvc2010
 	cl /c /nologo sqlite3.c /Fosqlite3.obj
 
 clean:
-	erase /f /q $(OBJS) sqlite3.obj ElevatorSim.exe
+	erase /f /q $(OBJS) sqlite3.obj ElevatorSim.exe ElevatorSim.pdb ElevatorSim.map
