@@ -40,21 +40,25 @@ namespace elevatorSim {
 
    class ElevatorSimRenderWindow : public Fl_Gl_Window {
 
+      friend class ElevatorSimWindow;
+      static const float MOVE;
+
       float spin;
       Vec3f	m_vecCamPos;
       Vec3f	m_vecCamLookAt;
       Vec3f	m_vecCamUp;
 
-      void InitCube();
+      void initCube();
+      void glInit();
+      void setViewport();
+      void setPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+
+      friend void timerCB(void* userdata);
+      friend void keyCB(KEY_PRESS k, void* userdata);      
 
    public:
 
       void draw();
-      void GlInit();
-      void setViewport();
-      void Perspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
-      static void Timer_CB(void *userdata);
-      void key_pressed(KEY_PRESS k);
 
       const static int LEFT_MARGIN;
       const static int RIGHT_MARGIN;

@@ -40,19 +40,6 @@ namespace elevatorSim {
 
    int ElevatorSimWindow::handle(int event) {
       switch(event) {
-
-      case FL_KEYDOWN:
-
-         if(Fl::event_key() == FL_Up) renderWindow->key_pressed(KEY_UP);
-         else if(Fl::event_key() == FL_Down) renderWindow->key_pressed(KEY_DOWN);
-         else if(Fl::event_key() == FL_Left) renderWindow->key_pressed(KEY_LEFT);
-         else if(Fl::event_key() == FL_Right) renderWindow->key_pressed(KEY_RIGHT);
-         else if(Fl::event_key() == FL_Page_Up) renderWindow->key_pressed(KEY_FORWARD);
-         else if(Fl::event_key() == FL_Page_Down) renderWindow->key_pressed(KEY_BACKWARD);
-         else if(Fl::event_key() == FL_Escape)  return Fl_Window::handle(event);
-         return 1;
-
-
       case FL_HIDE:
          if(wantedClose) {
             return Fl_Window::handle(event);
@@ -61,12 +48,43 @@ namespace elevatorSim {
             showQuitConfirmDialog();
             return 1;
          }
+
+      case FL_KEYDOWN:
+         switch(Fl::event_key()) {
+         case FL_Up:
+            renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.y += ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Down:
+            renderWindow->m_vecCamPos.y -= ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.y -= ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Right:
+            renderWindow->m_vecCamPos.x += ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.x += ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Left:
+            renderWindow->m_vecCamPos.x -= ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.x -= ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Page_Up:
+            renderWindow->m_vecCamPos.z -= ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Page_Down:
+            renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
+            return 1;
+         }
       default:
          return Fl_Window::handle(event);
       }
    }
 
-   void quitConfirmedCB(Fl_Button* yesButton, void* data) {
+   static void quitConfirmedCB(Fl_Button* yesButton, void* data) {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
 
       thisWin->wantedClose = true;
@@ -74,7 +92,7 @@ namespace elevatorSim {
       thisWin->hide();
    }
 
-   void quitCancelledCB(Fl_Button* noButton, void* data) {
+   static void quitCancelledCB(Fl_Button* noButton, void* data) {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
       thisWin->wantedClose = false;
       thisWin->hideQuitConfirmDialog();

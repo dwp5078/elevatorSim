@@ -61,7 +61,6 @@ namespace elevatorSim {
       const static char TITLE[];
 
       ElevatorSimWindow();
-
    };
 
 } /* namespace elevatorSim */
