@@ -40,13 +40,11 @@ int main(int argc, char** argv) {
    mainWin->show();
 
    Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
-
    return(Fl::run());
 }
 
 void periodicCallback(void *data) {
    elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
-
    /* 
    * TODO: periodic updates
    * NOTE: this function will block the event processing thread, and should not contain
