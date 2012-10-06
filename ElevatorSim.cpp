@@ -39,13 +39,13 @@ int main(int argc, char** argv) {
    elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
    mainWin->show();
    
-   Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
+   //Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
    
    return(Fl::run());
 }
 
 void periodicCallback(void *data) {
-   elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
+   //elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
    
    /* 
     * TODO: periodic updates

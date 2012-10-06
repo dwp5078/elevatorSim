@@ -34,6 +34,7 @@
 #include <FL/gl.h>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
+#include <cmath>
 
 namespace elevatorSim {
 
@@ -42,17 +43,247 @@ const int ElevatorSimRenderWindow::RIGHT_MARGIN = 8;
 const int ElevatorSimRenderWindow::TOP_MARGIN = 8;
 const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
 
+GLfloat light1_ambient[]	= { 0.4f,	0.4f,	0.4f,	1.0f };
+GLfloat light1_diffuse[]	= { 0.8f,	0.8f,	0.8f,	1.0f };
+GLfloat light1_specular[]	= { 0.5f,	0.5f,	0.5f,	1.0f };
+GLfloat light1_position[]	= { 3.0f,	10.0f,	3.0f,	0.0f };
+GLfloat light1_direction[]	= { 0.0f, 0.0f, 0.0f, 0.0f };
+
 ElevatorSimRenderWindow::ElevatorSimRenderWindow(int X, int Y, int W, int H, const char* Label) :
    Fl_Gl_Window(X, Y, W, H, Label) {
    /* special initialization code */
+
+	   Fl::add_timeout(FPS, Timer_CB, (void*)this);
 }
 
 void ElevatorSimRenderWindow::draw() {
    if(!valid()) {
       /* initialize */
+		valid(1);
+
+		spin = 0.0;
+		m_vecCamPos.x = 0.f;
+		m_vecCamPos.y = 0.f;
+		m_vecCamPos.z = 20.f;
+		
+		m_vecCamLookAt.x = 0.f;
+		m_vecCamLookAt.y = 0.f;
+		m_vecCamLookAt.z = 0.f;
+	   
+		m_vecCamUp.x = 0.0f;
+		m_vecCamUp.y = 1.0f;
+		m_vecCamUp.z = 0.0f;
+
+		GlInit();
+		setViewport();
+		InitCube();
    }
 
    /* draw */
+
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
+
+	gluLookAt(	m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z, 
+				m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z, 
+				m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
+
+	glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+	glEnable(GL_LIGHTING);	
+	glEnable(GL_LIGHT0);
+
+	glTranslatef(0.0f, 0.0f, -2.0f);
+	glRotatef(spin, 0.5, 1.0, 0.0);
+
+	glCallList(OBJ_CUBE);
+
+
+	//Render floor
+	glLoadIdentity();
+
+	glTranslatef(0.0f, -2.0f, 0.0f);
+	glScalef(10.0f, 10.0f, 10.0f);
+
+	glDisable(GL_LIGHTING);	
+	glDisable(GL_LIGHT0);
+
+	glBegin(GL_QUADS);
+	glColor3f(0.8, 0.8, 0.8);
+	glNormal3f(0.0, 1.0, 0.0);
+	glVertex3f( 1.0, 0.0, -1.0);
+	glVertex3f(-1.0, 0.0, -1.0);
+	glVertex3f(-1.0, 0.0,  1.0);
+	glVertex3f( 1.0, 0.0,  1.0);
+	glEnd();
+
+
+	GLenum err = glGetError();
+	if ( err != GL_NO_ERROR ) {
+	    fprintf(stderr, "GLGETERROR=%d\n", (int)err);
+	}
+}
+
+void ElevatorSimRenderWindow::GlInit() {
+//********************************************
+//Make sure we only do this once
+//********************************************
+	static int first_time = 1;
+	if ( first_time ) {
+		first_time = 0;
+		
+		glEnable(GL_TEXTURE_2D);
+		//********************************************
+		//Misc OpenGL settings
+		//********************************************
+		glShadeModel(GL_SMOOTH);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LEQUAL);
+		glDepthMask(GL_TRUE);
+
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+		glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180);
+
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light1_ambient);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light1_diffuse);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, light1_specular);
+		glLightfv(GL_LIGHT0, GL_POSITION, light1_position);
+		glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
+	}
+}
+
+void ElevatorSimRenderWindow::setViewport() 
+{
+    glViewport(0, 0, w(), h());
+
+    float ratio = (float)w() / (float)h();
+    Perspective(45.0, 1.0*ratio, 1.0, 200.0);
+}
+
+void ElevatorSimRenderWindow::Perspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
+    GLdouble xmin, xmax, ymin, ymax;
+    ymax = zNear * tan(fovy * M_PI / 360.0);
+    ymin = -ymax;
+    xmin = ymin * aspect;
+    xmax = ymax * aspect;
+    glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
+}
+
+void ElevatorSimRenderWindow::Timer_CB(void *userdata)
+{
+	ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
+	myWindow->spin += 2.0;      //spin
+	myWindow->redraw();
+	Fl::repeat_timeout(FPS, Timer_CB, userdata);
+}
+
+void ElevatorSimRenderWindow::InitCube()
+{
+	glNewList(OBJ_CUBE, GL_COMPILE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+	glBegin(GL_QUADS);
+
+	//********************************************
+	//Front Face
+	//********************************************
+	glColor3f(1.0, 0.0, 0.0); //red
+	glNormal3f(0.0, 0.0, 1.0);
+	glVertex3f(-1.0,  1.0,  1.0);
+	glVertex3f( 1.0,  1.0,  1.0);
+	glVertex3f( 1.0, -1.0,  1.0);
+	glVertex3f(-1.0, -1.0,  1.0);
+	//********************************************
+	//Back Face
+	//********************************************
+	glColor3f(0.0, 1.0, 1.0); //cyn
+	glNormal3f(0.0, 0.0, -1.0);
+	glVertex3f( 1.0,  1.0, -1.0);
+	glVertex3f(-1.0,  1.0, -1.0);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f( 1.0, -1.0, -1.0);
+	//********************************************
+	//Top Face
+	//********************************************
+	glColor3f(0.0, 1.0, 0.0); //grn
+	glNormal3f(0.0, 1.0, 0.0);
+	glVertex3f(-1.0,  1.0, -1.0);
+	glVertex3f( 1.0,  1.0, -1.0);
+	glVertex3f( 1.0,  1.0,  1.0);
+	glVertex3f(-1.0,  1.0,  1.0);
+	//********************************************
+	//Bottom Face
+	//********************************************
+	glColor3f(1.0, 0.0, 1.0); //mag
+	glNormal3f(0.0, -1.0, 0.0);
+	glVertex3f( 1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0,  1.0);
+	glVertex3f( 1.0, -1.0,  1.0);
+	//********************************************
+	//Right face
+	//********************************************
+	glColor3f(0.0, 0.0, 1.0); //blu
+	glNormal3f(1.0, 0.0, 0.0);
+	glVertex3f( 1.0,  1.0,  1.0);
+	glVertex3f( 1.0,  1.0, -1.0);
+	glVertex3f( 1.0, -1.0, -1.0);
+	glVertex3f( 1.0, -1.0,  1.0);
+	//********************************************
+	//Left Face
+	//********************************************
+	glColor3f(1.0, 1.0, 0.0); //yel
+	glNormal3f(-1.0, 0.0, 0.0);
+	glVertex3f(-1.0,  1.0, -1.0);
+	glVertex3f(-1.0,  1.0,  1.0);
+	glVertex3f(-1.0, -1.0,  1.0);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glEnd();
+
+	glEndList();
+}
+
+void ElevatorSimRenderWindow::key_pressed(KEY_PRESS k)
+{
+	float move = 0.5f;
+	switch(k)
+	{
+	case KEY_UP:
+		m_vecCamPos.y += move;
+		m_vecCamLookAt.y += move;
+		break;
+
+	case KEY_DOWN:
+		m_vecCamPos.y -= move;
+		m_vecCamLookAt.y -= move;
+		break;
+
+	case KEY_RIGHT:
+		m_vecCamPos.x += move;
+		m_vecCamLookAt.x += move;
+		break;
+
+	case KEY_LEFT:
+		m_vecCamPos.x -= move;
+		m_vecCamLookAt.x -= move;
+		break;
+
+	case KEY_FORWARD:
+		m_vecCamPos.z -= move;
+		break;
+
+	case KEY_BACKWARD:
+		m_vecCamPos.z += move;
+		break;
+	}
 }
 
 } /* namespace elevatorSim */

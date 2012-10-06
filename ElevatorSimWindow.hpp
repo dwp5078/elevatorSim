@@ -31,6 +31,8 @@
 #define _ELEVATOR_SIM_WINDOW_H
 
 #include "ElevatorSim.hpp"
+#include "ElevatorSimRenderWindow.hpp"
+#include "defines.h"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -48,6 +50,8 @@ class ElevatorSimWindow : public Fl_Window {
    const static char TITLE[];
 
    ElevatorSimWindow();
+
+   ElevatorSimRenderWindow *erw;
 };
 
 } /* namespace elevatorSim */
