@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "elevatorSim", "elevatorSim.vcxproj", "{6482C59A-7757-9605-4E14-9485AE1D1BE6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "elevatorSim", "elevatorSim.vcxproj", "{23359546-977E-CDAA-A7D4-0D4BC911452B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		build|Win32 = build|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6482C59A-7757-9605-4E14-9485AE1D1BE6}.build|Win32.ActiveCfg = Debug|Win32
-		{6482C59A-7757-9605-4E14-9485AE1D1BE6}.build|Win32.Build.0 = Debug|Win32
+		{23359546-977E-CDAA-A7D4-0D4BC911452B}.build|Win32.ActiveCfg = Debug|Win32
+		{23359546-977E-CDAA-A7D4-0D4BC911452B}.build|Win32.Build.0 = Debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
