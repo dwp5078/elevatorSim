@@ -43,7 +43,120 @@ namespace elevatorSim {
 
    const float ElevatorSimRenderWindow::MOVE = 0.5f;
 
-   ElevatorSimRenderWindow::ElevatorSimRenderWindow(int X, int Y, int W, int H, const char* Label) :
+   void ElevatorSimRenderWindow::timerCB(void* userdata) {
+      ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
+
+      myWindow->spin += 2.0; /* spin */
+      myWindow->redraw();
+
+      Fl::repeat_timeout(FPS, timerCB, userdata);
+   }
+
+   void ElevatorSimRenderWindow::initCube() {
+      assert(!valid());
+
+      glNewList(OBJ_CUBE, GL_COMPILE);
+      glEnable(GL_LIGHTING);
+      glEnable(GL_LIGHT0);
+
+      glBegin(GL_QUADS);
+
+      /* Front Face */
+      glColor3f(1.0, 0.0, 0.0); /* red */
+      glNormal3f(0.0, 0.0, 1.0);
+      glVertex3f(-1.0,  1.0,  1.0);
+      glVertex3f( 1.0,  1.0,  1.0);
+      glVertex3f( 1.0, -1.0,  1.0);
+      glVertex3f(-1.0, -1.0,  1.0);
+
+      /* Back Face */
+      glColor3f(0.0, 1.0, 1.0); /* cyn */
+      glNormal3f(0.0, 0.0, -1.0);
+      glVertex3f( 1.0,  1.0, -1.0);
+      glVertex3f(-1.0,  1.0, -1.0);
+      glVertex3f(-1.0, -1.0, -1.0);
+      glVertex3f( 1.0, -1.0, -1.0);
+
+      /* Top Face */
+      glColor3f(0.0, 1.0, 0.0); /* grn */
+      glNormal3f(0.0, 1.0, 0.0);
+      glVertex3f(-1.0,  1.0, -1.0);
+      glVertex3f( 1.0,  1.0, -1.0);
+      glVertex3f( 1.0,  1.0,  1.0);
+      glVertex3f(-1.0,  1.0,  1.0);
+
+      /* Bottom Face */
+      glColor3f(1.0, 0.0, 1.0); /* mag */
+      glNormal3f(0.0, -1.0, 0.0);
+      glVertex3f( 1.0, -1.0, -1.0);
+      glVertex3f(-1.0, -1.0, -1.0);
+      glVertex3f(-1.0, -1.0,  1.0);
+      glVertex3f( 1.0, -1.0,  1.0);
+
+      /* Right face */
+      glColor3f(0.0, 0.0, 1.0); /* blu */
+      glNormal3f(1.0, 0.0, 0.0);
+      glVertex3f( 1.0,  1.0,  1.0);
+      glVertex3f( 1.0,  1.0, -1.0);
+      glVertex3f( 1.0, -1.0, -1.0);
+      glVertex3f( 1.0, -1.0,  1.0);
+
+      /* Left Face */
+      glColor3f(1.0, 1.0, 0.0); /* yel */
+      glNormal3f(-1.0, 0.0, 0.0);
+      glVertex3f(-1.0,  1.0, -1.0);
+      glVertex3f(-1.0,  1.0,  1.0);
+      glVertex3f(-1.0, -1.0,  1.0);
+      glVertex3f(-1.0, -1.0, -1.0);
+      glEnd();
+
+      glEndList();
+   }
+
+   void ElevatorSimRenderWindow::glInit() {
+      /* if GlInit is called while valid() returns true, drop a breakpoint */
+      assert(!valid()); 
+
+      glEnable(GL_TEXTURE_2D);
+
+      glShadeModel(GL_SMOOTH);
+      glEnable(GL_DEPTH_TEST);
+      glDepthFunc(GL_LEQUAL);
+      glDepthMask(GL_TRUE);
+
+      glEnable(GL_LIGHTING);
+      glEnable(GL_LIGHT0);
+      glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180);
+
+      glLightfv(GL_LIGHT0, GL_AMBIENT, light1_ambient);
+      glLightfv(GL_LIGHT0, GL_DIFFUSE, light1_diffuse);
+      glLightfv(GL_LIGHT0, GL_SPECULAR, light1_specular);
+      glLightfv(GL_LIGHT0, GL_POSITION, light1_position);
+      glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
+   }
+
+   void ElevatorSimRenderWindow::setViewport() {
+      glViewport(0, 0, w(), h());
+
+      float ratio = (float)w() / (float)h();
+
+      setPerspective(45.0, 1.0*ratio, 1.0, 200.0);
+   }
+
+   void ElevatorSimRenderWindow::setPerspective(
+      GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
+      GLdouble xmin, xmax, ymin, ymax;
+
+      ymax = zNear * tan(fovy * M_PI / 360.0);
+      ymin = -ymax;
+      xmin = ymin * aspect;
+      xmax = ymax * aspect;
+
+      glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
+   }
+
+   ElevatorSimRenderWindow::ElevatorSimRenderWindow(
+      int X, int Y, int W, int H, const char* Label) :
    Fl_Gl_Window(X, Y, W, H, Label) {
 
       spin = 0.0;
@@ -121,115 +234,5 @@ namespace elevatorSim {
          */
       }
    }
-
-   void ElevatorSimRenderWindow::glInit() {
-      /* if GlInit is called while valid() returns true, drop a breakpoint */
-      assert(!valid()); 
-
-      glEnable(GL_TEXTURE_2D);
-
-      glShadeModel(GL_SMOOTH);
-      glEnable(GL_DEPTH_TEST);
-      glDepthFunc(GL_LEQUAL);
-      glDepthMask(GL_TRUE);
-
-      glEnable(GL_LIGHTING);
-      glEnable(GL_LIGHT0);
-      glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 180);
-
-      glLightfv(GL_LIGHT0, GL_AMBIENT, light1_ambient);
-      glLightfv(GL_LIGHT0, GL_DIFFUSE, light1_diffuse);
-      glLightfv(GL_LIGHT0, GL_SPECULAR, light1_specular);
-      glLightfv(GL_LIGHT0, GL_POSITION, light1_position);
-      glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
-   }
-
-   void ElevatorSimRenderWindow::setViewport() {
-      glViewport(0, 0, w(), h());
-
-      float ratio = (float)w() / (float)h();
-
-      setPerspective(45.0, 1.0*ratio, 1.0, 200.0);
-   }
-
-   void ElevatorSimRenderWindow::setPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
-      GLdouble xmin, xmax, ymin, ymax;
-
-      ymax = zNear * tan(fovy * M_PI / 360.0);
-      ymin = -ymax;
-      xmin = ymin * aspect;
-      xmax = ymax * aspect;
-
-      glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
-   }
-
-   void ElevatorSimRenderWindow::initCube() {
-      assert(!valid());
-
-      glNewList(OBJ_CUBE, GL_COMPILE);
-      glEnable(GL_LIGHTING);
-      glEnable(GL_LIGHT0);
-
-      glBegin(GL_QUADS);
-
-      /* Front Face */
-      glColor3f(1.0, 0.0, 0.0); /* red */
-      glNormal3f(0.0, 0.0, 1.0);
-      glVertex3f(-1.0,  1.0,  1.0);
-      glVertex3f( 1.0,  1.0,  1.0);
-      glVertex3f( 1.0, -1.0,  1.0);
-      glVertex3f(-1.0, -1.0,  1.0);
-
-      /* Back Face */
-      glColor3f(0.0, 1.0, 1.0); /* cyn */
-      glNormal3f(0.0, 0.0, -1.0);
-      glVertex3f( 1.0,  1.0, -1.0);
-      glVertex3f(-1.0,  1.0, -1.0);
-      glVertex3f(-1.0, -1.0, -1.0);
-      glVertex3f( 1.0, -1.0, -1.0);
-
-      /* Top Face */
-      glColor3f(0.0, 1.0, 0.0); /* grn */
-      glNormal3f(0.0, 1.0, 0.0);
-      glVertex3f(-1.0,  1.0, -1.0);
-      glVertex3f( 1.0,  1.0, -1.0);
-      glVertex3f( 1.0,  1.0,  1.0);
-      glVertex3f(-1.0,  1.0,  1.0);
-
-      /* Bottom Face */
-      glColor3f(1.0, 0.0, 1.0); /* mag */
-      glNormal3f(0.0, -1.0, 0.0);
-      glVertex3f( 1.0, -1.0, -1.0);
-      glVertex3f(-1.0, -1.0, -1.0);
-      glVertex3f(-1.0, -1.0,  1.0);
-      glVertex3f( 1.0, -1.0,  1.0);
-
-      /* Right face */
-      glColor3f(0.0, 0.0, 1.0); /* blu */
-      glNormal3f(1.0, 0.0, 0.0);
-      glVertex3f( 1.0,  1.0,  1.0);
-      glVertex3f( 1.0,  1.0, -1.0);
-      glVertex3f( 1.0, -1.0, -1.0);
-      glVertex3f( 1.0, -1.0,  1.0);
-
-      /* Left Face */
-      glColor3f(1.0, 1.0, 0.0); /* yel */
-      glNormal3f(-1.0, 0.0, 0.0);
-      glVertex3f(-1.0,  1.0, -1.0);
-      glVertex3f(-1.0,  1.0,  1.0);
-      glVertex3f(-1.0, -1.0,  1.0);
-      glVertex3f(-1.0, -1.0, -1.0);
-      glEnd();
-
-      glEndList();
-   }
-
-   static void timerCB(void* userdata) {
-      ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
-
-      myWindow->spin += 2.0; /* spin */
-      myWindow->redraw();
-
-      Fl::repeat_timeout(FPS, timerCB, userdata);
-   }
+   
 } /* namespace elevatorSim */
