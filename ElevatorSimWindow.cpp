@@ -39,6 +39,7 @@
 
 namespace elevatorSim {
 
+   /* private methods */
    int ElevatorSimWindow::handle(int event) {
       switch(event) {
       case FL_HIDE:
@@ -82,20 +83,6 @@ namespace elevatorSim {
       }
    }
 
-   static void quitConfirmedCB(Fl_Button* yesButton, void* data) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
-
-      thisWin->wantedClose = true;
-      thisWin->hideQuitConfirmDialog();
-      thisWin->hide();
-   }
-
-   static void quitCancelledCB(Fl_Button* noButton, void* data) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
-      thisWin->wantedClose = false;
-      thisWin->hideQuitConfirmDialog();
-   }
-
    void ElevatorSimWindow::showQuitConfirmDialog() {
       /* Lazy-allocation of quit dialog widgets */
       if(!confirmDialog && !yesButton && !noButton) {
@@ -120,6 +107,47 @@ namespace elevatorSim {
       }
    }
 
+   /* private static methods */
+   void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* data) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
+
+      thisWin->wantedClose = true;
+      thisWin->hideQuitConfirmDialog();
+      thisWin->hide();
+   }
+
+   void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* data) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
+      thisWin->wantedClose = false;
+      thisWin->hideQuitConfirmDialog();
+   }
+
+   /* public static member initializers */
+   const char ElevatorSimWindow::TITLE[] = "elevatorSim";
+   const int ElevatorSimWindow::WIDTH = 640;
+   const int ElevatorSimWindow::HEIGHT = 480;
+
+   /* public methods */
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
       renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
@@ -131,13 +159,11 @@ namespace elevatorSim {
 
       Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
 
-      menubar->add("&File/&New", FL_CTRL + 'n', Menu_CB_New);
-      menubar->add("&File/&Open", FL_CTRL + 'o', Menu_CB_Open);
-      menubar->add("&File/&Save", FL_CTRL + 's', Menu_CB_Save);
-      menubar->add("&File/&Quit", FL_CTRL + 'q', Menu_CB_Quit);
-
-      menubar->add("&Edit/&Paste", FL_CTRL + 'v', Menu_CB_Quit);
-      menubar->add("&Help/&About", 0, Menu_CB_Quit);
+      menubar->add("&File/&New", FL_CTRL + 'n', menuNewCB, this);
+      menubar->add("&File/&Open", FL_CTRL + 'o', menuOpenCB, this);
+      menubar->add("&File/&Save", FL_CTRL + 's', menuSaveCB, this);
+      menubar->add("&File/&Quit", FL_CTRL + 'q', menuQuitCB, this);
+      menubar->add("&Help/&About", 0, menuAboutCB, this);
 
       add(menubar);
       end();
@@ -147,9 +173,5 @@ namespace elevatorSim {
       noButton = NULL;
       wantedClose = false;
    }
-
-   const char ElevatorSimWindow::TITLE[] = "elevatorSim";
-   const int ElevatorSimWindow::WIDTH = 640;
-   const int ElevatorSimWindow::HEIGHT = 480;
 
 } /* namespace elevatorSim */
