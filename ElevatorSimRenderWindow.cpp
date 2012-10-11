@@ -193,7 +193,7 @@ namespace elevatorSim {
 
       gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-      gluLookAt(	m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z, 
+      gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z, 
          m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z, 
          m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
 
