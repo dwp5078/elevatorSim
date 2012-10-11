@@ -49,7 +49,8 @@ namespace elevatorSim {
             show();
             showQuitConfirmDialog();
             return 1;
-         } case FL_KEYDOWN:
+         } 
+      case FL_KEYDOWN:
          switch(Fl::event_key()) {
          case FL_Up:
             renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
@@ -78,7 +79,8 @@ namespace elevatorSim {
          case FL_Page_Down:
             renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
             return 1;
-         } default:
+         } 
+      default:
          return Fl_Window::handle(event);
       }
    }
