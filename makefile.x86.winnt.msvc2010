@@ -49,10 +49,11 @@ PDBFILE=elevatorSim.pdb
 
 elevatorSim: $(OBJS) makefile.x86.winnt.msvc2010
 	@cl $(OBJS) $(DRIVERFLAGS) /Fd$(PDBFILE) /Fm$(MAPFILE) /Fe$(OUT) /link $(LINKFLAGS) $(SYSDEPS) $(COOKEDDEPS)
-	@echo +success
+	@echo + success
 
 .cpp.obj:
 	cl $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
 
 clean:
 	@erase /f /q $(OBJS) $(OUT) $(MAPFILE) $(PDBFILE)
+	@echo + clean

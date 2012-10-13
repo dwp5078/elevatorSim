@@ -59,9 +59,9 @@ namespace elevatorSim {
       void glInit();
       void setViewport();
       void setPerspective(
-         GLdouble fovy, 
-         GLdouble aspect, 
-         GLdouble zNear, 
+         GLdouble fovy,
+         GLdouble aspect,
+         GLdouble zNear,
          GLdouble zFar);
 
    public:
