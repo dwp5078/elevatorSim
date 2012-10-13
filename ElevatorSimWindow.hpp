@@ -41,31 +41,36 @@ namespace elevatorSim {
 
    class ElevatorSimWindow : public Fl_Window {
 
-      friend void quitConfirmedCB(Fl_Button* yesButton, void* data);
-      friend void quitCancelledCB(Fl_Button* noButton, void* data);
-
+      /* private methods */
       int handle(int event);
       void showQuitConfirmDialog();
       void hideQuitConfirmDialog();
 
+      /* private static methods */
+      static void windowCloseCB(Fl_Window* w, void* userData);
+      static void menuNewCB(Fl_Widget* w, void* userData);
+      static void menuOpenCB(Fl_Widget* w, void* userData);
+      static void menuSaveCB(Fl_Widget* w, void* userData);
+      static void menuQuitCB(Fl_Widget* w, void* userData);
+      static void menuAboutCB(Fl_Widget* w, void* userData);
+      static void quitConfirmedCB(Fl_Button* yesButton, void* data);
+      static void quitCancelledCB(Fl_Button* noButton, void* data);
+
+      /* private members */
       ElevatorSimRenderWindow* renderWindow;
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
-      bool wantedClose;
 
    public:
 
+      /* public static members */
       const static int WIDTH;
       const static int HEIGHT;
       const static char TITLE[];
 
+      /* public methods */
       ElevatorSimWindow();
-      static void Menu_CB_New(Fl_Widget* w, void*) {  }
-      static void Menu_CB_Open(Fl_Widget* w, void*) {  }
-      static void Menu_CB_Save(Fl_Widget* w, void*) {  }
-      static void Menu_CB_Quit(Fl_Widget* w, void*) {  }
-
    };
 
 } /* namespace elevatorSim */
