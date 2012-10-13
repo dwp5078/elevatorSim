@@ -1,0 +1,65 @@
+## elevatorSim makefile
+## license: see LICENSE file
+## arch:     x86
+## os:       winnt
+## compiler: msvc2010
+
+OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj
+
+DRIVERFLAGS=/errorreport:none /nologo
+
+CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /Iinc
+
+DEBUGFLAGS=/Zi
+
+RELEASEFLAGS=/0x /DNDEBUG
+
+LINKFLAGS=/subsystem:windows\
+/libpath:deps\x86.winnt.msvc10\boost\
+/libpath:deps\x86.winnt.msvc10\fltk\
+/nodefaultlib:"libcd"\
+/nodefaultlib:"libcmt"\
+/machine:X86
+
+SYSDEPS=\
+"comctl32.lib"\
+"kernel32.lib"\
+"user32.lib"\
+"gdi32.lib"\
+"winspool.lib"\
+"comdlg32.lib"\
+"advapi32.lib"\
+"shell32.lib"\
+"ole32.lib"\
+"oleaut32.lib"\
+"uuid.lib"\
+"odbc32.lib"\
+"odbccp32.lib"\
+"glu32.lib"\
+"opengl32.lib"
+
+COOKEDDEPS=\
+"fltk.lib"\
+"fltkforms.lib"\
+"fltkgl.lib"\
+"fltkimages.lib"\
+"fltkjpeg.lib"\
+"fltkpng.lib"\
+"fltkzlib.lib"
+
+OUT=elevatorSim.exe
+MAPFILE=elevatorSim.map
+PDBFILE=elevatorSim.pdb
+
+elevatorSim: $(OBJS) makefile.x86.winnt.msvc2010
+	@cl $(OBJS) $(DEBUGFLAGS) $(DRIVERFLAGS)\
+/Fd$(PDBFILE) /Fm$(MAPFILE) /Fe$(OUT)\
+/link $(LINKFLAGS) $(SYSDEPS) $(COOKEDDEPS)
+	@echo + success
+
+.cpp.obj:
+	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
+
+clean:
+	@erase /f /q $(OBJS) $(OUT) $(MAPFILE) $(PDBFILE)
+	@echo + clean
