@@ -46,22 +46,5 @@ int main(int argc, char** argv) {
 
 void periodicCallback(void *data) {
    elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
-<<<<<<< HEAD
-   /*
-* TODO: periodic updates
-* NOTE: this function will block the event processing thread, and should not contain
-* _ANY_ computationally expensive or blocking operations. This function will likely
-* just check some state and maybe schedule a redraw of the mainWindow.
-*/
-=======
-
-   /*
-   * TODO: periodic updates
-   * NOTE: this function will block the event processing thread, and should not contain
-   * _ANY_ computationally expensive or blocking operations. This function will likely
-   * just check some state and maybe schedule a redraw of the mainWindow.
-   */
->>>>>>> upstream/master
-
    Fl::repeat_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
 }
