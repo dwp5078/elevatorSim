@@ -34,19 +34,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
+    <NMakeOutput>elevatorSim.exe</NMakeOutput>
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeOutput>elevatorSim.exe</NMakeOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
+    <NMakeOutput>elevatorSim.exe</NMakeOutput>
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeOutput>elevatorSim.exe</NMakeOutput>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ElevatorSim.cpp" />
+    <ClCompile Include="ElevatorSimRenderWindow.cpp" />
+    <ClCompile Include="ElevatorSimWindow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ElevatorSim.hpp" />
+    <ClInclude Include="ElevatorSimRenderWindow.hpp" />
+    <ClInclude Include="ElevatorSimWindow.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
