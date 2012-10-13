@@ -8,7 +8,7 @@ OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj cTimeMana
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /Iinc
+CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /D_CRT_SECURE_NO_WARNINGS /Iinc
 
 DEBUGFLAGS=/Zi
 
