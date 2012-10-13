@@ -143,34 +143,7 @@ namespace elevatorSim {
       spin += 2.0; /* spin */
 
       if(cKeyManager::GetInstance()->OnceKeyDown('F'))   m_bRenderFPS = !m_bRenderFPS;
-
-      /*case FL_Up:
-            renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.y += ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Down:
-            renderWindow->m_vecCamPos.y -= ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.y -= ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Right:
-            renderWindow->m_vecCamPos.x += ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.x += ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Left:
-            renderWindow->m_vecCamPos.x -= ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.x -= ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Page_Up:
-            renderWindow->m_vecCamPos.z -= ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Page_Down:
-            renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
-            return 1;*/
+      m_CameraManager.Update();
    }
 
    void ElevatorSimRenderWindow::setViewport() {
@@ -207,7 +180,6 @@ namespace elevatorSim {
       glLoadIdentity();
 
       glRasterPos2f(x, y);
-      //glColor3f(0.5f, 0.f, 0.f);
       
       char *c;
       for (c=str; *c != '\0'; c++) {
@@ -227,17 +199,6 @@ namespace elevatorSim {
    Fl_Gl_Window(X, Y, W, H, Label) {
 
       spin = 0.0;
-      m_vecCamPos.x = 0.f;
-      m_vecCamPos.y = 0.f;
-      m_vecCamPos.z = 20.f;
-
-      m_vecCamLookAt.x = 0.f;
-      m_vecCamLookAt.y = 0.f;
-      m_vecCamLookAt.z = 0.f;
-
-      m_vecCamUp.x = 0.0f;
-      m_vecCamUp.y = 1.0f;
-      m_vecCamUp.z = 0.0f;
 
       m_bRenderFPS = true;
 
@@ -262,9 +223,13 @@ namespace elevatorSim {
 
       gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-      gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z,
-         m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z,
-         m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
+      Vec3f camPos = m_CameraManager.GetCameraPos();
+      Vec3f camLook = m_CameraManager.GetCameraLookAt();
+      Vec3f camUp = m_CameraManager.GetCameraUp();
+
+      gluLookAt(camPos.x(), camPos.y(), camPos.z(),
+         camLook.x(), camLook.y(), camLook.z(),
+         camUp.x(), camUp.y(), camUp.z());
 
       glMatrixMode(GL_MODELVIEW);
       glLoadIdentity();

@@ -47,11 +47,15 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="ElevatorSim.cpp" />
     <ClCompile Include="ElevatorSimRenderWindow.cpp" />
     <ClCompile Include="ElevatorSimWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cKeyManager.hpp" />
+    <ClInclude Include="cTimeManager.hpp" />
     <ClInclude Include="ElevatorSim.hpp" />
     <ClInclude Include="ElevatorSimRenderWindow.hpp" />
     <ClInclude Include="ElevatorSimWindow.hpp" />
