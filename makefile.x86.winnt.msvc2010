@@ -8,7 +8,11 @@ OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W3 /Ox /EHsc /Zi /c /D_ES_WINNT /Iinc
+CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /Iinc
+
+DEBUGFLAGS=/Zi
+
+RELEASEFLAGS=/0x /DNDEBUG
 
 LINKFLAGS=/subsystem:windows\
 /libpath:deps\x86.winnt.msvc10\boost\
@@ -48,11 +52,13 @@ MAPFILE=elevatorSim.map
 PDBFILE=elevatorSim.pdb
 
 elevatorSim: $(OBJS) makefile.x86.winnt.msvc2010
-	@cl $(OBJS) $(DRIVERFLAGS) /Fd$(PDBFILE) /Fm$(MAPFILE) /Fe$(OUT) /link $(LINKFLAGS) $(SYSDEPS) $(COOKEDDEPS)
+	@cl $(OBJS) $(DEBUGFLAGS) $(DRIVERFLAGS)\
+/Fd$(PDBFILE) /Fm$(MAPFILE) /Fe$(OUT)\
+/link $(LINKFLAGS) $(SYSDEPS) $(COOKEDDEPS)
 	@echo + success
 
 .cpp.obj:
-	cl $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
+	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
 
 clean:
 	@erase /f /q $(OBJS) $(OUT) $(MAPFILE) $(PDBFILE)
