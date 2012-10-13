@@ -6,10 +6,10 @@
 * modification, are permitted provided that the following conditions are met:
 *
 * 1. Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.
+*    list of conditions and the following disclaimer.
 * 2. Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.
+*   this list of conditions and the following disclaimer in the documentation
+*   and/or other materials provided with the distribution.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -42,14 +42,6 @@ namespace elevatorSim {
    /* private methods */
    int ElevatorSimWindow::handle(int event) {
       switch(event) {
-      case FL_HIDE:
-         if(wantedClose) {
-            return Fl_Window::handle(event);
-         } else {
-            show();
-            showQuitConfirmDialog();
-            return 1;
-         }
       case FL_KEYDOWN:
          switch(Fl::event_key()) {
          case FL_Up:
@@ -110,6 +102,12 @@ namespace elevatorSim {
    }
 
    /* private static methods */
+   void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+
+      thisWin->showQuitConfirmDialog();
+   }
+
    void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
       /* TODO */
    }
@@ -133,14 +131,13 @@ namespace elevatorSim {
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* data) {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
 
-      thisWin->wantedClose = true;
       thisWin->hideQuitConfirmDialog();
       thisWin->hide();
    }
 
    void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* data) {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
-      thisWin->wantedClose = false;
+
       thisWin->hideQuitConfirmDialog();
    }
 
@@ -169,6 +166,8 @@ namespace elevatorSim {
 
       add(menubar);
       end();
+
+      callback((Fl_Callback*)windowCloseCB, this);
 
       confirmDialog = NULL;
       yesButton = NULL;

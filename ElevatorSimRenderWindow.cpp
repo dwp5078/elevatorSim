@@ -115,7 +115,7 @@ namespace elevatorSim {
 
    void ElevatorSimRenderWindow::glInit() {
       /* if GlInit is called while valid() returns true, drop a breakpoint */
-      assert(!valid()); 
+      assert(!valid());
 
       glEnable(GL_TEXTURE_2D);
 
@@ -193,14 +193,14 @@ namespace elevatorSim {
 
       gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-      gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z, 
-         m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z, 
+      gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z,
+         m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z,
          m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
 
       glMatrixMode(GL_MODELVIEW);
       glLoadIdentity();
 
-      glEnable(GL_LIGHTING);	
+      glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
 
       glTranslatef(0.0f, 0.0f, -2.0f);
@@ -214,7 +214,7 @@ namespace elevatorSim {
       glTranslatef(0.0f, -2.0f, 0.0f);
       glScalef(10.0f, 10.0f, 10.0f);
 
-      glDisable(GL_LIGHTING);	
+      glDisable(GL_LIGHTING);
       glDisable(GL_LIGHT0);
 
       glBegin(GL_QUADS);
@@ -228,11 +228,11 @@ namespace elevatorSim {
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
-         /* 
-         * TODO: 
-         * fprintf(stderr, "GLGETERROR=%d\n", (int)err); 
+         /*
+         * TODO:
+         * fprintf(stderr, "GLGETERROR=%d\n", (int)err);
          */
       }
    }
-   
+
 } /* namespace elevatorSim */

@@ -47,6 +47,7 @@ namespace elevatorSim {
       void hideQuitConfirmDialog();
 
       /* private static methods */
+      static void windowCloseCB(Fl_Window* w, void* userData);
       static void menuNewCB(Fl_Widget* w, void* userData);
       static void menuOpenCB(Fl_Widget* w, void* userData);
       static void menuSaveCB(Fl_Widget* w, void* userData);
