@@ -257,23 +257,6 @@ namespace elevatorSim {
       glClearColor(0.0, 0.0, 0.0, 0.0);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      if(m_bRenderFPS)  {
-         char temp[50];
-         
-         glColor3f(0.0f, 1.f, 0.f);
-         sprintf(temp, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
-         drawText(temp, 10.f, 10.f);
-         
-         sprintf(temp, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
-         drawText(temp, 10.f, 20.f);
-
-         sprintf(temp, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
-         drawText(temp, 10.f, 30.f);
-
-         sprintf(temp, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
-         drawText(temp, 10.f, 40.f);
-      }
-
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
 
@@ -313,9 +296,22 @@ namespace elevatorSim {
 
       glEnd();
 
+      if(m_bRenderFPS)  {
+         char temp[50];
+         
+         glColor3f(0.0f, 1.f, 0.f);
+         sprintf(temp, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
+         drawText(temp, 10.f, 10.f);
+         
+         sprintf(temp, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
+         drawText(temp, 10.f, 20.f);
 
+         sprintf(temp, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
+         drawText(temp, 10.f, 30.f);
 
-	  
+         sprintf(temp, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
+         drawText(temp, 10.f, 40.f);
+      }
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
