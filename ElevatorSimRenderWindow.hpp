@@ -64,6 +64,8 @@ namespace elevatorSim {
          GLdouble zNear,
          GLdouble zFar);
 
+      void drawText(char *str, float x, float y);
+
    public:
 
       /* public static constants */

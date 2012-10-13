@@ -155,6 +155,35 @@ namespace elevatorSim {
       glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
    }
 
+   void ElevatorSimRenderWindow::drawText(char *str, float x, float y)
+   {
+      glDisable(GL_DEPTH_TEST);
+      glPushAttrib(GL_LIGHTING_BIT);
+      glDisable(GL_LIGHTING);
+      glMatrixMode(GL_PROJECTION);
+      glPushMatrix();
+      glLoadIdentity();
+      gluOrtho2D(0, w(), 0, h());
+      glMatrixMode(GL_MODELVIEW);
+      glPushMatrix();
+      glLoadIdentity();
+
+      glRasterPos2f(x, y);
+      glColor3f(0.5f, 0.f, 0.f);
+      
+      char *c;
+      for (c=str; *c != '\0'; c++) {
+         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+      }
+
+      glPopMatrix();
+      glMatrixMode(GL_PROJECTION);
+      glPopMatrix();
+      glMatrixMode(GL_MODELVIEW);
+      glPopAttrib();
+      glEnable(GL_DEPTH_TEST);
+   }
+
    ElevatorSimRenderWindow::ElevatorSimRenderWindow(
       int X, int Y, int W, int H, const char* Label) :
    Fl_Gl_Window(X, Y, W, H, Label) {
@@ -184,9 +213,16 @@ namespace elevatorSim {
          setViewport();
       }
 
+      cTimeManager::GetInstance()->Update();
+
       /* draw */
       glClearColor(0.0, 0.0, 0.0, 0.0);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+      char temp[50];
+      sprintf(temp, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
+      
+      drawText(temp, 10.f, 10.f);
 
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
@@ -224,7 +260,12 @@ namespace elevatorSim {
       glVertex3f(-1.0f, 0.0f, -1.0f);
       glVertex3f(-1.0f, 0.0f,  1.0f);
       glVertex3f( 1.0f, 0.0f,  1.0f);
+
       glEnd();
+
+
+
+	  
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {

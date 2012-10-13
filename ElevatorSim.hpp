@@ -50,6 +50,8 @@
 #include <cassert>
 #include <cmath>
 
+#include "cTimeManager.hpp"
+
 const float M_PI = 3.141592f;
 const double FPS = 1/(double)60;
 
