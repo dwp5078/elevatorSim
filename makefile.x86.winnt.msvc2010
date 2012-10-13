@@ -4,8 +4,7 @@
 ## os:       winnt
 ## compiler: msvc2010
 
-OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj cTimeManager.obj cKeyManager.obj
-
+OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj Elevator.obj Location.obj Person.obj Building.obj Floor.obj cTimeManager.obj cKeyManager.obj
 DRIVERFLAGS=/errorreport:none /nologo
 
 CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /D_CRT_SECURE_NO_WARNINGS /Iinc

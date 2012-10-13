@@ -27,34 +27,20 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#include <FL/Fl_Menu_Bar.H>
+#include <vector>
 
-#include "ElevatorSim.hpp"
-#include "ElevatorSimWindow.hpp"
+#include "Building.hpp"
+#include "Floor.hpp"
+#include "Elevator.hpp"
 
-/* NOTE: this will need to be moved into a more suitable place and made writable */
-const static float UPDATE_INTERVAL = 0.1f;
+namespace elevatorSim { 
+   /* constructors */
+   Building::Building() {
+      /* nothing */
+   }
 
-void periodicCallback(void *data);
-
-int main(int argc, char** argv) {
-   cTimeManager::GetInstance()->Setup();
-
-   elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
-   mainWin->show();
-   Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
-   return(Fl::run());
-}
-
-void periodicCallback(void *data) {
-   elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
-
-   /*
-   * TODO: periodic updates
-   * NOTE: this function will block the event processing thread, and should not contain
-   * _ANY_ computationally expensive or blocking operations. This function will likely
-   * just check some state and maybe schedule a redraw of the mainWindow.
-   */
-
-   Fl::repeat_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
+   /*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
+      floors.assign(floorSetup.begin(), floorSetup.end());
+      elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
+   }*/
 }

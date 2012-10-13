@@ -27,34 +27,43 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#include <FL/Fl_Menu_Bar.H>
+#include "Person.hpp"
+#include "Location.hpp"
 
-#include "ElevatorSim.hpp"
-#include "ElevatorSimWindow.hpp"
+namespace elevatorSim {
 
-/* NOTE: this will need to be moved into a more suitable place and made writable */
-const static float UPDATE_INTERVAL = 0.1f;
+   /* constructors */
+   Person::Person(Location startLoc, Location dest, enum PRIORITY p) {
+      priority = p;
+      current = startLoc;
+      destination = dest;
+   }
 
-void periodicCallback(void *data);
+	/* getters and setters */
+	enum Person::PRIORITY Person::getPriority()	{
+		return priority;
+	}
 
-int main(int argc, char** argv) {
-   cTimeManager::GetInstance()->Setup();
+	void Person::setPriority(enum Person::PRIORITY newPriority) {
+		priority = newPriority;
+	}
 
-   elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
-   mainWin->show();
-   Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
-   return(Fl::run());
-}
+	Location Person::getCurrent() {
+		return current;
+	}
 
-void periodicCallback(void *data) {
-   elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
+	void Person::setCurrent(Location newLoc) {
+		current = newLoc;
+	}
 
-   /*
-   * TODO: periodic updates
-   * NOTE: this function will block the event processing thread, and should not contain
-   * _ANY_ computationally expensive or blocking operations. This function will likely
-   * just check some state and maybe schedule a redraw of the mainWindow.
-   */
+	Location Person::getDestination() {
+		return destination;
+	}
 
-   Fl::repeat_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
+	void Person::setDestination(Location newLoc) {
+		destination = newLoc;
+	}
+
+
+
 }

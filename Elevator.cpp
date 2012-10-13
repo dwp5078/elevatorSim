@@ -27,59 +27,27 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#ifndef _ELEVATOR_SIM_WINDOW_H
-#define _ELEVATOR_SIM_WINDOW_H
+#include <vector>
 
-#include "ElevatorSim.hpp"
-#include "ElevatorSimRenderWindow.hpp"
-
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Menu_Bar.H>
-
+#include "Elevator.hpp"
 
 namespace elevatorSim {
+   /* constructors */
+   Elevator::Elevator()
+      : maxVel(0), maxAccel(0), maxOccupants(0) {
+      /* nothing */
+   }
 
-   class ElevatorSimWindow : public Fl_Window {
+   Elevator::Elevator(const int mVel, int mAccel, int mOccupants)
+      : maxVel(mVel), maxAccel(mAccel), maxOccupants(mOccupants) {
+      /* nothing */
+   }
 
-      /* private methods */
-      int handle(int event);
-	   void showQuitConfirmDialog();
-      void hideQuitConfirmDialog();
-      void buildMenu();
-      void buildButtons();
+   Elevator::Elevator(const Elevator & copy)
+      : maxVel(copy.maxVel), maxAccel(copy.maxAccel), maxOccupants(copy.maxOccupants) {
+         currentVel = copy.currentVel;
+         currentAccel = copy.currentAccel;
+         occupants.assign(copy.occupants.begin(), copy.occupants.end());
+   }
 
-      /* private static methods */
-      static void windowCloseCB(Fl_Window* w, void* userData);
-      static void menuNewCB(Fl_Widget* w, void* userData);
-      static void menuOpenCB(Fl_Widget* w, void* userData);
-      static void menuSaveCB(Fl_Widget* w, void* userData);
-      static void menuQuitCB(Fl_Widget* w, void* userData);
-      static void menuAboutCB(Fl_Widget* w, void* userData);
-      static void startSimCB(Fl_Widget* w, void* userData);
-      static void pauseSimCB(Fl_Widget* w, void* userData);
-      static void stopSimCB(Fl_Widget* w, void* userData);
-      static void quitConfirmedCB(Fl_Button* yesButton, void* data);
-      static void quitCancelledCB(Fl_Button* noButton, void* data);
-
-      /* private members */
-      ElevatorSimRenderWindow* renderWindow;
-      Fl_Window* confirmDialog;
-      Fl_Button* yesButton;
-      Fl_Button* noButton;
-
-   public:
-
-      /* public static members */
-      const static int WIDTH;
-      const static int HEIGHT;
-      const static char TITLE[];
-
-      /* public methods */
-      ElevatorSimWindow();
-   };
-
-} /* namespace elevatorSim */
-
-#endif
+}

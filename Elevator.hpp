@@ -27,57 +27,61 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#ifndef _ELEVATOR_SIM_WINDOW_H
-#define _ELEVATOR_SIM_WINDOW_H
+#ifndef _ELEVATOR_H
+#define _ELEVATOR_H
 
-#include "ElevatorSim.hpp"
-#include "ElevatorSimRenderWindow.hpp"
+#include <vector>
 
-#include <FL/Fl.H>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Menu_Bar.H>
+#include "Location.hpp"
+#include "Person.hpp"
 
 
 namespace elevatorSim {
 
-   class ElevatorSimWindow : public Fl_Window {
+   class Elevator : public Location {
 
-      /* private methods */
-      int handle(int event);
-	   void showQuitConfirmDialog();
-      void hideQuitConfirmDialog();
-      void buildMenu();
-      void buildButtons();
+      /* friends */
+      
+
+      /* private static constants */
+      
 
       /* private static methods */
-      static void windowCloseCB(Fl_Window* w, void* userData);
-      static void menuNewCB(Fl_Widget* w, void* userData);
-      static void menuOpenCB(Fl_Widget* w, void* userData);
-      static void menuSaveCB(Fl_Widget* w, void* userData);
-      static void menuQuitCB(Fl_Widget* w, void* userData);
-      static void menuAboutCB(Fl_Widget* w, void* userData);
-      static void startSimCB(Fl_Widget* w, void* userData);
-      static void pauseSimCB(Fl_Widget* w, void* userData);
-      static void stopSimCB(Fl_Widget* w, void* userData);
-      static void quitConfirmedCB(Fl_Button* yesButton, void* data);
-      static void quitCancelledCB(Fl_Button* noButton, void* data);
+      
 
-      /* private members */
-      ElevatorSimRenderWindow* renderWindow;
-      Fl_Window* confirmDialog;
-      Fl_Button* yesButton;
-      Fl_Button* noButton;
+      /* private instance members */
+	  const int maxVel;
+	  const int maxAccel;
+	  const int maxOccupants;
+     int currentVel;
+	  int currentAccel;
+     std::vector<Person> occupants;
+	  
+
+      /* private methods */
+      
 
    public:
 
-      /* public static members */
-      const static int WIDTH;
-      const static int HEIGHT;
-      const static char TITLE[];
+      /* public static constants */
+      
+
+      /* public instance members */
+
+      /* constructors */
+      Elevator();
+      Elevator(int mVel, int mAccel, int mOccupants);
+      Elevator(const Elevator & copy);
 
       /* public methods */
-      ElevatorSimWindow();
+      /*int getMaxVel();
+      int getMaxAccel();
+      int getMaxOccupants();
+      int getCurrentVel();
+      void setCurrentVel(int newVel);
+      int getCurrentAccel();
+      void setCurrentAccel();*/
+
    };
 
 } /* namespace elevatorSim */
