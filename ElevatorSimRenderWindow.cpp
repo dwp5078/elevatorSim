@@ -46,7 +46,9 @@ namespace elevatorSim {
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
 
-      myWindow->spin += 2.0; /* spin */
+      
+      
+      myWindow->Update();
       myWindow->redraw();
 
       Fl::repeat_timeout(FPS, timerCB, userdata);
@@ -135,6 +137,42 @@ namespace elevatorSim {
       glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
    }
 
+   void ElevatorSimRenderWindow::Update()
+   {
+      cTimeManager::GetInstance()->Update();
+      spin += 2.0; /* spin */
+
+      if(cKeyManager::GetInstance()->OnceKeyDown('F'))   m_bRenderFPS = !m_bRenderFPS;
+
+      /*case FL_Up:
+            renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.y += ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Down:
+            renderWindow->m_vecCamPos.y -= ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.y -= ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Right:
+            renderWindow->m_vecCamPos.x += ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.x += ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Left:
+            renderWindow->m_vecCamPos.x -= ElevatorSimRenderWindow::MOVE;
+            renderWindow->m_vecCamLookAt.x -= ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Page_Up:
+            renderWindow->m_vecCamPos.z -= ElevatorSimRenderWindow::MOVE;
+            return 1;
+
+         case FL_Page_Down:
+            renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
+            return 1;*/
+   }
+
    void ElevatorSimRenderWindow::setViewport() {
       glViewport(0, 0, w(), h());
 
@@ -169,7 +207,7 @@ namespace elevatorSim {
       glLoadIdentity();
 
       glRasterPos2f(x, y);
-      glColor3f(0.5f, 0.f, 0.f);
+      //glColor3f(0.5f, 0.f, 0.f);
       
       char *c;
       for (c=str; *c != '\0'; c++) {
@@ -201,6 +239,8 @@ namespace elevatorSim {
       m_vecCamUp.y = 1.0f;
       m_vecCamUp.z = 0.0f;
 
+      m_bRenderFPS = true;
+
       Fl::add_timeout(FPS, timerCB, (void*)this);
    }
 
@@ -213,16 +253,26 @@ namespace elevatorSim {
          setViewport();
       }
 
-      cTimeManager::GetInstance()->Update();
-
       /* draw */
       glClearColor(0.0, 0.0, 0.0, 0.0);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      char temp[50];
-      sprintf(temp, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
-      
-      drawText(temp, 10.f, 10.f);
+      if(m_bRenderFPS)  {
+         char temp[50];
+         
+         glColor3f(0.0f, 1.f, 0.f);
+         sprintf(temp, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
+         drawText(temp, 10.f, 10.f);
+         
+         sprintf(temp, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
+         drawText(temp, 10.f, 20.f);
+
+         sprintf(temp, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
+         drawText(temp, 10.f, 30.f);
+
+         sprintf(temp, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
+         drawText(temp, 10.f, 40.f);
+      }
 
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();

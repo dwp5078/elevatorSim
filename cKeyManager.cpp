@@ -1,5 +1,5 @@
 #include "cKeyManager.hpp"
-#include "Defines.h"
+//#include "Defines.h"
 
 cKeyManager::cKeyManager(void)
 {
@@ -23,7 +23,7 @@ cKeyManager* cKeyManager::GetInstance()
 
 bool cKeyManager::OnceKeyUp(int key)
 {
-	if(g_hWnd != GetFocus())	return false;
+	//if(g_hWnd != GetFocus())	return false;
 	if(GetKeyState(key) & 8000)
 	{
 		if(m_bOnceKeyUp[key] == false)
@@ -43,7 +43,7 @@ bool cKeyManager::OnceKeyUp(int key)
 
 bool cKeyManager::OnceKeyDown(int key)
 {
-	if(g_hWnd != GetFocus())	return false;
+	//if(g_hWnd != GetFocus())	return false;
 	if(GetKeyState(key) & 8000)
 	{
 		if(m_bOnceKeyDown[key] == false)
@@ -63,7 +63,7 @@ bool cKeyManager::OnceKeyDown(int key)
 
 bool cKeyManager::KeyPress(int key)
 {
-	if(g_hWnd != GetFocus())	return false;
+	//if(g_hWnd != GetFocus())	return false;
 	if(GetKeyState(key) & 8000)
 	{
 		return true;

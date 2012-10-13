@@ -28,6 +28,7 @@ public:
 	inline	DWORD	GetElapsedTime()	{	return m_dwElapsedTime;	}
 	inline	DWORD	GetWorldTime()		{	return m_dwWorldTime;	}
 	inline	DWORD	GetFPS()			{	return m_dwFps;	}
+   inline   DWORD GetTotalFrame()   {  return m_dwFpsPlus;  }
 
 
 	void Setup();

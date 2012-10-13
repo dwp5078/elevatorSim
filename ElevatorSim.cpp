@@ -39,6 +39,7 @@ void periodicCallback(void *data);
 
 int main(int argc, char** argv) {
    cTimeManager::GetInstance()->Setup();
+
    elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
    mainWin->show();
    Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
