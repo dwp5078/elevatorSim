@@ -172,7 +172,6 @@ namespace elevatorSim {
       confirmDialog = NULL;
       yesButton = NULL;
       noButton = NULL;
-      wantedClose = false;
    }
 
 } /* namespace elevatorSim */

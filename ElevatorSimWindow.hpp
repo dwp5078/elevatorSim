@@ -61,7 +61,6 @@ namespace elevatorSim {
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
-      bool wantedClose;
 
    public:
 
