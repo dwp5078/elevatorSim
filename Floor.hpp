@@ -27,32 +27,54 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#include <FL/Fl_Menu_Bar.H>
+#ifndef _FLOOR_H
+#define _FLOOR_H
 
-#include "ElevatorSim.hpp"
-#include "ElevatorSimWindow.hpp"
+#include <vector>
 
-/* NOTE: this will need to be moved into a more suitable place and made writable */
-const static float UPDATE_INTERVAL = 0.1f;
+#include "Location.hpp"
+#include "Person.hpp"
 
-void periodicCallback(void *data);
+namespace elevatorSim { 
 
-int main(int argc, char** argv) {
-   elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
-   mainWin->show();
-   Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
-   return(Fl::run());
-}
+   class Floor : public Location {
 
-void periodicCallback(void *data) {
-   elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
+      /* friends */
+      
 
-   /*
-   * TODO: periodic updates
-   * NOTE: this function will block the event processing thread, and should not contain
-   * _ANY_ computationally expensive or blocking operations. This function will likely
-   * just check some state and maybe schedule a redraw of the mainWindow.
-   */
+      /* private static constants */
+      
 
-   Fl::repeat_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
-}
+      /* private static methods */
+      
+
+      /* private instance members */
+      std::vector<Person> occupants;
+      bool signalingUp;
+      bool signalingDown;
+      bool hasUpperFloor;
+      bool hasLowerFloor;
+
+      /* private methods */
+      
+
+   public:
+
+      /* public static constants */
+      
+
+      /* public instance members */
+
+      /* constructors */
+      Floor();
+      Floor(bool hasUpper, bool hasLower);
+      Floor(const Floor & copy);
+
+      /* public methods */
+      
+
+   };
+
+} /* namespace elevatorSim */
+
+#endif

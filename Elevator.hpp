@@ -30,7 +30,11 @@
 #ifndef _ELEVATOR_H
 #define _ELEVATOR_H
 
+#include <vector>
+
 #include "Location.hpp"
+#include "Person.hpp"
+
 
 namespace elevatorSim {
 
@@ -46,7 +50,13 @@ namespace elevatorSim {
       
 
       /* private instance members */
-      
+	  const int maxVel;
+	  const int maxAccel;
+	  const int maxOccupants;
+     int currentVel;
+	  int currentAccel;
+     std::vector<Person> occupants;
+	  
 
       /* private methods */
       
@@ -58,8 +68,19 @@ namespace elevatorSim {
 
       /* public instance members */
 
+      /* constructors */
+      Elevator();
+      Elevator(int mVel, int mAccel, int mOccupants);
+      Elevator(const Elevator & copy);
+
       /* public methods */
-      
+      /*int getMaxVel();
+      int getMaxAccel();
+      int getMaxOccupants();
+      int getCurrentVel();
+      void setCurrentVel(int newVel);
+      int getCurrentAccel();
+      void setCurrentAccel();*/
 
    };
 

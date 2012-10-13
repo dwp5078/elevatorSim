@@ -4,7 +4,7 @@
 ## os:       winnt
 ## compiler: msvc2010
 
-OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj
+OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj Elevator.obj Location.obj Person.obj Building.obj Floor.obj
 
 DRIVERFLAGS=/errorreport:none /nologo
 

@@ -27,32 +27,30 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#include <FL/Fl_Menu_Bar.H>
+#include "Floor.hpp"
 
-#include "ElevatorSim.hpp"
-#include "ElevatorSimWindow.hpp"
 
-/* NOTE: this will need to be moved into a more suitable place and made writable */
-const static float UPDATE_INTERVAL = 0.1f;
+namespace elevatorSim { 
+   /* constructors */
+   Floor::Floor() {
+      signalingUp = false;
+      signalingDown = false;
+      hasUpperFloor = false;
+      hasLowerFloor = false;
+   }
 
-void periodicCallback(void *data);
+   Floor::Floor(bool hasUpper, bool hasLower) {
+      signalingUp = false;
+      signalingDown = false;
+      hasUpperFloor = hasUpper;
+      hasLowerFloor = hasLower;
+   }
 
-int main(int argc, char** argv) {
-   elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
-   mainWin->show();
-   Fl::add_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
-   return(Fl::run());
-}
-
-void periodicCallback(void *data) {
-   elevatorSim::ElevatorSimWindow *mainWin = (elevatorSim::ElevatorSimWindow*) data;
-
-   /*
-   * TODO: periodic updates
-   * NOTE: this function will block the event processing thread, and should not contain
-   * _ANY_ computationally expensive or blocking operations. This function will likely
-   * just check some state and maybe schedule a redraw of the mainWindow.
-   */
-
-   Fl::repeat_timeout(UPDATE_INTERVAL, periodicCallback, mainWin);
+   Floor::Floor(const Floor & copy) {
+      signalingUp = copy.signalingUp;
+      signalingDown = copy.signalingDown;
+      hasUpperFloor = copy.hasUpperFloor;
+      hasLowerFloor = copy.hasLowerFloor;
+      occupants.assign(copy.occupants.begin(), copy.occupants.end());
+   }
 }

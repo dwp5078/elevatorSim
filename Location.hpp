@@ -30,7 +30,7 @@
 #ifndef _LOCATION_H
 #define _LOCATION_H
 
-namespace elevatorSim{
+namespace elevatorSim {
 
    class Location {
 
@@ -44,7 +44,7 @@ namespace elevatorSim{
       
 
       /* private instance members */
-      
+      int yVal;
 
       /* private methods */
       
@@ -55,9 +55,15 @@ namespace elevatorSim{
       
 
       /* public instance members */
+	   
+      /* constructors */
+      Location();
+      Location(int startYVal);
+      Location(const Location & copy);
 
       /* public methods */
-      
+      int getYVal();
+      void setYVal(int newYVal);
 
    };
 

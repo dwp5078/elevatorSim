@@ -28,5 +28,42 @@
 */
 
 #include "Person.hpp"
+#include "Location.hpp"
+
+namespace elevatorSim {
+
+   /* constructors */
+   Person::Person(Location startLoc, Location dest, enum PRIORITY p) {
+      priority = p;
+      current = startLoc;
+      destination = dest;
+   }
+
+	/* getters and setters */
+	enum Person::PRIORITY Person::getPriority()	{
+		return priority;
+	}
+
+	void Person::setPriority(enum Person::PRIORITY newPriority) {
+		priority = newPriority;
+	}
+
+	Location Person::getCurrent() {
+		return current;
+	}
+
+	void Person::setCurrent(Location newLoc) {
+		current = newLoc;
+	}
+
+	Location Person::getDestination() {
+		return destination;
+	}
+
+	void Person::setDestination(Location newLoc) {
+		destination = newLoc;
+	}
 
 
+
+}

@@ -27,6 +27,27 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
+#include <vector>
+
 #include "Elevator.hpp"
 
+namespace elevatorSim {
+   /* constructors */
+   Elevator::Elevator()
+      : maxVel(0), maxAccel(0), maxOccupants(0) {
+      /* nothing */
+   }
 
+   Elevator::Elevator(const int mVel, int mAccel, int mOccupants)
+      : maxVel(mVel), maxAccel(mAccel), maxOccupants(mOccupants) {
+      /* nothing */
+   }
+
+   Elevator::Elevator(const Elevator & copy)
+      : maxVel(copy.maxVel), maxAccel(copy.maxAccel), maxOccupants(copy.maxOccupants) {
+         currentVel = copy.currentVel;
+         currentAccel = copy.currentAccel;
+         occupants.assign(copy.occupants.begin(), copy.occupants.end());
+   }
+
+}

@@ -29,4 +29,28 @@
 
 #include "Location.hpp"
 
+namespace elevatorSim {
 
+   /* constructors */
+   Location::Location() {
+      yVal = 0;
+   }
+
+   Location::Location(int startYVal) {
+      yVal = startYVal;
+   }
+
+   Location::Location(const Location & copy) {
+      yVal = copy.yVal;
+   }
+
+   /* getters and setters */
+	int Location::getYVal() {
+		return yVal;
+	}
+
+	void Location::setYVal(int newYVal) {
+		yVal = newYVal;
+	}
+
+}

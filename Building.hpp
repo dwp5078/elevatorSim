@@ -30,6 +30,11 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
+#include <vector>
+
+#include "Floor.hpp"
+#include "Elevator.hpp"
+
 namespace elevatorSim{
 
    class Building {
@@ -44,7 +49,8 @@ namespace elevatorSim{
       
 
       /* private instance members */
-      
+      std::vector<Floor> floors;
+      std::vector<Elevator> elevators;
 
       /* private methods */
       
@@ -55,6 +61,10 @@ namespace elevatorSim{
       
 
       /* public instance members */
+
+      /* constructors */
+      Building();
+      /*Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup);*/
 
       /* public methods */
       

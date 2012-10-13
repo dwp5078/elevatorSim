@@ -30,7 +30,9 @@
 #ifndef _PERSON_H
 #define _PERSON_H
 
-namespace elevatorSim{
+#include "Location.hpp"
+
+namespace elevatorSim {
 
    class Person {
 
@@ -38,13 +40,20 @@ namespace elevatorSim{
       
 
       /* private static constants */
-      
+      enum PRIORITY {
+		  UNKNOWN,
+		  NORMAL,
+		  HIGH,
+		  EMERGENCY
+	  };
 
       /* private static methods */
       
 
       /* private instance members */
-      
+      Location current;
+	   Location destination;
+	   enum PRIORITY priority;
 
       /* private methods */
       
@@ -56,8 +65,18 @@ namespace elevatorSim{
 
       /* public instance members */
 
+      /* constructors */
+      Person(Location startLoc, Location dest, enum PRIORITY p=UNKNOWN);
+
       /* public methods */
-      
+      Location getCurrent();
+      void setCurrent(Location newLoc);
+
+	   Location getDestination();
+	   void setDestination(Location newLoc);
+
+	   enum PRIORITY getPriority();
+	   void setPriority(enum PRIORITY newPriority);
 
    };
 

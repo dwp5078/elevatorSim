@@ -27,6 +27,20 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
+#include <vector>
+
 #include "Building.hpp"
+#include "Floor.hpp"
+#include "Elevator.hpp"
 
+namespace elevatorSim { 
+   /* constructors */
+   Building::Building() {
+      /* nothing */
+   }
 
+   /*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
+      floors.assign(floorSetup.begin(), floorSetup.end());
+      elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
+   }*/
+}

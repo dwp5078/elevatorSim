@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012, Joseph Max DeLiso
+* Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
