@@ -125,19 +125,7 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
-         Fl_Window* confirmDialog;
-	     confirmDialog = new Fl_Window(220, 110, "Are you sure?");
-         Fl_Button yesButton = new Fl_Button(10, 10, 200, 40, "yes");
-        Fl_Button  noButton = new Fl_Button(10, 60, 200, 40, "no");
-
-         yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
-         noButton->callback((Fl_Callback*) quitCancelledCB, this);
-
-         confirmDialog->add(yesButton);
-         confirmDialog->add(noButton);
-         confirmDialog->end();
-
-	   confirmDialog->show();
+      /* TODO */
    }
 
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* data) {
