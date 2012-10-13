@@ -1,4 +1,4 @@
-#include "cCameraManager.h"
+#include "cCameraManager.hpp"
 
 const float MOVE = 0.5f;
 const float ROT = 0.3f;
@@ -49,6 +49,9 @@ void cCameraManager::Update()
    if(cKeyManager::GetInstance()->KeyPress(FL_Page_Down))    {
       m_vecCamPos.SetZ(m_vecCamPos.z() + MOVE);
    }
+
+   if(cKeyManager::GetInstance()->KeyPress('O'))      Pitch(-ROT);
+   if(cKeyManager::GetInstance()->KeyPress('P'))      Pitch(ROT);
 }
 
 void cCameraManager::Yaw(float fAngle)
@@ -61,7 +64,7 @@ void cCameraManager::Pitch(float fAngle)
    Vec3f right;
    Vec3f::Cross3(right, m_vecCamPos, m_vecCamLookAt);
 
-
+   
 }
 
 void cCameraManager::Roll(float fAngle)
