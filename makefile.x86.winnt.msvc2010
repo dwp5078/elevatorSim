@@ -4,7 +4,7 @@
 ## os:       winnt
 ## compiler: msvc2010
 
-OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj cTimeManager.obj cKeyManager.obj
+OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj cTimeManager.obj cKeyManager.obj cCameraManager.obj
 
 DRIVERFLAGS=/errorreport:none /nologo
 
