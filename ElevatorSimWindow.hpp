@@ -38,14 +38,13 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 
-
 namespace elevatorSim {
 
    class ElevatorSimWindow : public Fl_Window {
 
       /* private methods */
       int handle(int event);
-	   void showQuitConfirmDialog();
+      void showQuitConfirmDialog();
       void hideQuitConfirmDialog();
       void buildMenu();
       void buildButtons();

@@ -35,27 +35,22 @@ namespace elevatorSim {
    class Location {
 
       /* friends */
-      
 
       /* private static constants */
-      
 
       /* private static methods */
-      
 
       /* private instance members */
       int yVal;
 
       /* private methods */
-      
 
    public:
 
       /* public static constants */
-      
 
       /* public instance members */
-	   
+
       /* constructors */
       Location();
       Location(int startYVal);

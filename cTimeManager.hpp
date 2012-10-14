@@ -3,34 +3,38 @@
 
 #include <cstdint>
 
-class cTimeManager
-{
-   uint32_t m_dwPrevTime;
-   uint32_t m_dwCurrTime;
+namespace elevatorSim {
 
-   uint32_t m_dwWorldTime;
-   uint32_t m_dwElapsedTime;
-   uint32_t m_dwFps;
-   uint32_t m_dwFrame;
+   class cTimeManager {
 
-   uint32_t m_dwLimitTime;
-   uint32_t m_dwFpsPlus;
+      uint32_t m_dwPrevTime;
+      uint32_t m_dwCurrTime;
 
-   cTimeManager(void);
+      uint32_t m_dwWorldTime;
+      uint32_t m_dwElapsedTime;
+      uint32_t m_dwFps;
+      uint32_t m_dwFrame;
 
-public:
-   ~cTimeManager(void);
+      uint32_t m_dwLimitTime;
+      uint32_t m_dwFpsPlus;
 
-   static cTimeManager* GetInstance();
+      cTimeManager(void);
 
-   inline uint32_t GetElapsedTime() {  return m_dwElapsedTime; }
-   inline uint32_t GetWorldTime() {  return m_dwWorldTime;   }
-   inline uint32_t GetFPS() {  return m_dwFps;   }
-   inline uint32_t GetTotalFrame() {  return m_dwFpsPlus;  }
+   public:
 
+      ~cTimeManager(void);
 
-   void Setup();
-   void Update();
-};
+      static cTimeManager* GetInstance();
 
-#endif //__CTIMEMANAGER_H__
+      inline uint32_t GetElapsedTime() { return m_dwElapsedTime; }
+      inline uint32_t GetWorldTime() { return m_dwWorldTime; }
+      inline uint32_t GetFPS() { return m_dwFps; }
+      inline uint32_t GetTotalFrame() { return m_dwFpsPlus; }
+
+      void Setup();
+      void Update();
+
+   };
+} /* namespace elevatorSim */
+
+#endif /* __CTIMEMANAGER_H__ */

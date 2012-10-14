@@ -39,31 +39,29 @@ namespace elevatorSim {
       destination = dest;
    }
 
-	/* getters and setters */
-	enum Person::PRIORITY Person::getPriority()	{
-		return priority;
-	}
+    /* getters and setters */
+   enum Person::PRIORITY Person::getPriority() {
+      return priority;
+   }
 
-	void Person::setPriority(enum Person::PRIORITY newPriority) {
-		priority = newPriority;
-	}
+   void Person::setPriority(enum Person::PRIORITY newPriority) {
+      priority = newPriority;
+   }
 
-	Location Person::getCurrent() {
-		return current;
-	}
+   Location Person::getCurrent() {
+      return current;
+   }
 
-	void Person::setCurrent(Location newLoc) {
-		current = newLoc;
-	}
+   void Person::setCurrent(Location newLoc) {
+      current = newLoc;
+   }
 
-	Location Person::getDestination() {
-		return destination;
-	}
+   Location Person::getDestination() {
+      return destination;
+   }
 
-	void Person::setDestination(Location newLoc) {
-		destination = newLoc;
-	}
+   void Person::setDestination(Location newLoc) {
+      destination = newLoc;
+   }
 
-
-
-}
+} /* namespace ElevatorSim */

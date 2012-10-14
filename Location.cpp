@@ -27,6 +27,7 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
+#include "ElevatorSim.hpp"
 #include "Location.hpp"
 
 namespace elevatorSim {
@@ -45,12 +46,12 @@ namespace elevatorSim {
    }
 
    /* getters and setters */
-	int Location::getYVal() {
-		return yVal;
-	}
+    int Location::getYVal() {
+        return yVal;
+    }
 
-	void Location::setYVal(int newYVal) {
-		yVal = newYVal;
-	}
+    void Location::setYVal(int newYVal) {
+        yVal = newYVal;
+    }
 
 }

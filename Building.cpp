@@ -27,13 +27,14 @@
 * either expressed or implied, of the FreeBSD Project.
 */
 
-#include <vector>
-
+#include "ElevatorSim.hpp"
 #include "Building.hpp"
 #include "Floor.hpp"
 #include "Elevator.hpp"
 
-namespace elevatorSim { 
+#include <vector>
+
+namespace elevatorSim {
    /* constructors */
    Building::Building() {
       /* nothing */

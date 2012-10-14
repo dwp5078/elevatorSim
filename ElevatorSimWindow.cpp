@@ -36,9 +36,6 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
-#include <windows.h>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Menu_Bar.H>
 
 namespace elevatorSim {
 
@@ -163,8 +160,8 @@ namespace elevatorSim {
          {"&File", 0, 0, 0, FL_SUBMENU },
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
          { 0 },
-         {"&About", 0,0,0, FL_SUBMENU},
-         {"&Our Website", FL_COMMAND + 'a', (Fl_Callback *) menuAboutCB, this},
+         {"&About", 0, 0, 0, FL_SUBMENU},
+         {"&Our Website", FL_COMMAND + 'a', (Fl_Callback *)menuAboutCB, this},
          {0},
          {0}};
 
@@ -184,22 +181,21 @@ namespace elevatorSim {
       stopButton->callback((Fl_Callback *)stopSimCB, this);
    }
 
-   
-
    /* public static member initializers */
    const char ElevatorSimWindow::TITLE[] = "elevatorSim";
    const int ElevatorSimWindow::WIDTH = 640;
    const int ElevatorSimWindow::HEIGHT = 480;
 
    /* public methods */
-   
+
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
 
-       renderWindow = new ElevatorSimRenderWindow(
+      renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),
          HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
+
       resizable(*renderWindow);
 
       buildMenu();

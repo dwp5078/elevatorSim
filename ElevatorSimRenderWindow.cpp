@@ -29,6 +29,8 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "cTimeManager.hpp"
+#include "cKeyManager.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -46,8 +48,6 @@ namespace elevatorSim {
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
 
-      
-      
       myWindow->Update();
       myWindow->redraw();
 
@@ -208,7 +208,7 @@ namespace elevatorSim {
 
       glRasterPos2f(x, y);
       //glColor3f(0.5f, 0.f, 0.f);
-      
+
       char *c;
       for (c=str; *c != '\0'; c++) {
          glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
@@ -297,20 +297,21 @@ namespace elevatorSim {
       glEnd();
 
       if(m_bRenderFPS)  {
-         char temp[50];
-         
+         char renderStringBuffer[256];
+
          glColor3f(0.0f, 1.f, 0.f);
-         sprintf(temp, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
-         drawText(temp, 10.f, 10.f);
-         
-         sprintf(temp, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
-         drawText(temp, 10.f, 20.f);
 
-         sprintf(temp, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
-         drawText(temp, 10.f, 30.f);
+         sprintf_s(renderStringBuffer, 256, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
+         drawText(renderStringBuffer, 10.f, 10.f);
 
-         sprintf(temp, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
-         drawText(temp, 10.f, 40.f);
+         sprintf_s(renderStringBuffer, 256, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
+         drawText(renderStringBuffer, 10.f, 20.f);
+
+         sprintf_s(renderStringBuffer, 256, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
+         drawText(renderStringBuffer, 10.f, 30.f);
+
+         sprintf_s(renderStringBuffer, 256, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
+         drawText(renderStringBuffer, 10.f, 40.f);
       }
 
       GLenum err = glGetError();

@@ -1,5 +1,8 @@
 #include "cTimeManager.hpp"
+
 #include <ctime>
+
+namespace elevatorSim {
 
 cTimeManager::cTimeManager() {
 
@@ -31,6 +34,7 @@ void cTimeManager::Setup()
 
 void cTimeManager::Update()
 {
+   /* TODO: re-implement this using boost::chrono */
    m_dwPrevTime = m_dwCurrTime;
    m_dwCurrTime = clock();
 
@@ -44,9 +48,10 @@ void cTimeManager::Update()
       m_dwFpsPlus += m_dwFrame;
       m_dwFrame = 0;
    }
-
    else
    {
       m_dwFrame++;
    }
 }
+
+} /* namespace elevatorSim */
