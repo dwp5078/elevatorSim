@@ -6,10 +6,10 @@
 * modification, are permitted provided that the following conditions are met:
 *
 * 1. Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.
+*    list of conditions and the following disclaimer.
 * 2. Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.
+*   this list of conditions and the following disclaimer in the documentation
+*   and/or other materials provided with the distribution.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -39,16 +39,10 @@
 
 namespace elevatorSim {
 
+   /* private methods */
    int ElevatorSimWindow::handle(int event) {
       switch(event) {
-      case FL_HIDE:
-         if(wantedClose) {
-            return Fl_Window::handle(event);
-         } else {
-            show();
-            showQuitConfirmDialog();
-            return 1;
-         } case FL_KEYDOWN:
+      case FL_KEYDOWN:
          switch(Fl::event_key()) {
          case FL_Up:
             renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
@@ -77,23 +71,10 @@ namespace elevatorSim {
          case FL_Page_Down:
             renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
             return 1;
-         } default:
+         }
+      default:
          return Fl_Window::handle(event);
       }
-   }
-
-   static void quitConfirmedCB(Fl_Button* yesButton, void* data) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
-
-      thisWin->wantedClose = true;
-      thisWin->hideQuitConfirmDialog();
-      thisWin->hide();
-   }
-
-   static void quitCancelledCB(Fl_Button* noButton, void* data) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
-      thisWin->wantedClose = false;
-      thisWin->hideQuitConfirmDialog();
    }
 
    void ElevatorSimWindow::showQuitConfirmDialog() {
@@ -120,7 +101,95 @@ namespace elevatorSim {
       }
    }
 
+   /* private static methods */
+   void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+
+      thisWin->showQuitConfirmDialog();
+   }
+
+   void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
+      /*TODO*/
+   }
+
+   void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+      thisWin->showQuitConfirmDialog();
+   }
+
+   void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
+     	ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
+      NULL, NULL, SW_SHOWNORMAL);
+   }
+
+   void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* data) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
+
+      thisWin->hideQuitConfirmDialog();
+      thisWin->hide();
+   }
+
+   void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* data) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
+
+      thisWin->hideQuitConfirmDialog();
+   }
+
+   void ElevatorSimWindow::buildMenu(){
+      Fl_Menu_Item menuitems[] = {
+         {"&File", 0, 0, 0, FL_SUBMENU },
+         { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
+         { 0 },
+         {"&About", 0, 0, 0, FL_SUBMENU},
+         {"&Our Website", FL_COMMAND + 'a', (Fl_Callback *)menuAboutCB, this},
+         {0},
+         {0}};
+
+         Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+         menubar->copy(menuitems);
+
+         add(menubar);
+   }
+
+   void ElevatorSimWindow::buildButtons(){
+      Fl_Button *startButton = new Fl_Button(10, 35, 100, 20, "Begin");
+      Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Toggle Pause");
+      Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "End");
+
+      startButton->callback((Fl_Callback *)startSimCB, this);
+      pauseButton->callback((Fl_Callback *)pauseSimCB, this);
+      stopButton->callback((Fl_Callback *)stopSimCB, this);
+   }
+
+   /* public static member initializers */
+   const char ElevatorSimWindow::TITLE[] = "elevatorSim";
+   const int ElevatorSimWindow::WIDTH = 640;
+   const int ElevatorSimWindow::HEIGHT = 480;
+
+   /* public methods */
+
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+
       renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
@@ -129,27 +198,16 @@ namespace elevatorSim {
 
       resizable(*renderWindow);
 
-      Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+      buildMenu();
+      buildButtons();
 
-      menubar->add("&File/&New", FL_CTRL + 'n', Menu_CB_New);
-      menubar->add("&File/&Open", FL_CTRL + 'o', Menu_CB_Open);
-      menubar->add("&File/&Save", FL_CTRL + 's', Menu_CB_Save);
-      menubar->add("&File/&Quit", FL_CTRL + 'q', Menu_CB_Quit);
-
-      menubar->add("&Edit/&Paste", FL_CTRL + 'v', Menu_CB_Quit);
-      menubar->add("&Help/&About", 0, Menu_CB_Quit);
-
-      add(menubar);
       end();
+
+      callback((Fl_Callback*)windowCloseCB, this);
 
       confirmDialog = NULL;
       yesButton = NULL;
       noButton = NULL;
-      wantedClose = false;
    }
-
-   const char ElevatorSimWindow::TITLE[] = "elevatorSim";
-   const int ElevatorSimWindow::WIDTH = 640;
-   const int ElevatorSimWindow::HEIGHT = 480;
 
 } /* namespace elevatorSim */

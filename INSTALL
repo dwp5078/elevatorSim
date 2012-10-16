@@ -3,20 +3,17 @@ operating system family, and the compiler name and version separated by periods.
 supported build for this project currently is (x86, winnt, msvc2010), or x86.winnt.msvc2010.
 
 For tier one platforms, pre-cooked libraries are included in-tree and so building should be as easy
-as invoking (n)make. For other platforms, building is still possible, but more work will be required.
+as invoking (n)make. For other platforms building is still possible but more work will be required.
 Due to time constraints, an elaborate build system is a low priority item.
 
 Dependencies:
     boost 1.51.0
     fltk 1.3.0
-    sqlite *
 
 If attempting builds for platforms which do not include pre-built binaries, either replace the 
 header files included in-tree or make sure to build the _exact_ version of the dependencies
 and place them in the correct subdirectory of ./deps to avoid conflicts between binaries
 and headers.    
-
-* sqlite is small enough and standards compliant enough that the entire source is included in-tree.
 
 Tier one platforms: x86.winnt.msvc2010
 
@@ -35,8 +32,10 @@ to ensure that the Microsoft compilers and binary utilities are in your PATH.
 2. > cd [..]\elevatorSim,
 to ensure that you are in the correct directory containing the source for this project.
 
-3. > nmake /nologo /f makefile.x86.winnt.msvc2010
+3a. > nmake /nologo /f makefile.x86.winnt.msvc2010
 to tell the shell to interpret the makefile metascript and issue commands required for compilation
 and linking.
+
+3b. alternately you can run build.bat which will simply invoke the command listed in 3a
 
 if the build succeeds, the resulting statically linked binary will reside in the current directory.

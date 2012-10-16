@@ -39,32 +39,51 @@ namespace elevatorSim {
 
    class ElevatorSimRenderWindow : public Fl_Gl_Window {
 
+      /* friends */
       friend class ElevatorSimWindow;
+
+      /* private static constants */
       static const float MOVE;
 
+      /* private static methods */
+      static void timerCB(void* userData);
+
+      /* private instance members */
       float spin;
       Vec3f	m_vecCamPos;
       Vec3f	m_vecCamLookAt;
       Vec3f	m_vecCamUp;
 
+      /* private methods */
       void initCube();
       void glInit();
+      void Update();       //update values every frame
       void setViewport();
-      void setPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+      void setPerspective(
+         GLdouble fovy,
+         GLdouble aspect,
+         GLdouble zNear,
+         GLdouble zFar);
 
-      friend void timerCB(void* userdata);
-      friend void keyCB(KEY_PRESS k, void* userdata);      
+      void drawText(char *str, float x, float y);
 
    public:
 
+      /* public static constants */
+      static const int LEFT_MARGIN;
+      static const int RIGHT_MARGIN;
+      static const int TOP_MARGIN;
+      static const int BOTTOM_MARGIN;
+
+      bool  m_bRenderFPS;
+
+      /* public instance members */
+
+      /* public methods */
+      ElevatorSimRenderWindow(
+         int X, int Y, int W, int H, const char* Label = 0);
       void draw();
 
-      const static int LEFT_MARGIN;
-      const static int RIGHT_MARGIN;
-      const static int TOP_MARGIN;
-      const static int BOTTOM_MARGIN;
-
-      ElevatorSimRenderWindow(int X, int Y, int W, int H, const char* Label = 0);
    };
 
 } /* namespace elevatorSim */
