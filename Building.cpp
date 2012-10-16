@@ -6,10 +6,10 @@
 * modification, are permitted provided that the following conditions are met:
 *
 * 1. Redistributions of source code must retain the above copyright notice, this
-* list of conditions and the following disclaimer.
+*    list of conditions and the following disclaimer.
 * 2. Redistributions in binary form must reproduce the above copyright notice,
-* this list of conditions and the following disclaimer in the documentation
-* and/or other materials provided with the distribution.
+*   this list of conditions and the following disclaimer in the documentation
+*   and/or other materials provided with the distribution.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -28,15 +28,20 @@
 */
 
 #include "ElevatorSim.hpp"
-#include "ElevatorSimWindow.hpp"
-#include "cTimeManager.hpp"
+#include "Building.hpp"
+#include "Floor.hpp"
+#include "Elevator.hpp"
 
-#include <FL/Fl_Menu_Bar.H>
+#include <vector>
 
-int main(int argc, char** argv) {
-   elevatorSim::cTimeManager::GetInstance()->Setup();
-   elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
-   mainWin->show();
+namespace elevatorSim {
+   /* constructors */
+   Building::Building() {
+      /* nothing */
+   }
 
-   return(Fl::run());
+   /*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
+      floors.assign(floorSetup.begin(), floorSetup.end());
+      elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
+   }*/
 }

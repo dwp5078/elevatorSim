@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2012, Joseph Max DeLiso
+* Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_Menu_Bar.H>
 
 namespace elevatorSim {
 
@@ -45,6 +46,8 @@ namespace elevatorSim {
       int handle(int event);
       void showQuitConfirmDialog();
       void hideQuitConfirmDialog();
+      void buildMenu();
+      void buildButtons();
 
       /* private static methods */
       static void windowCloseCB(Fl_Window* w, void* userData);
@@ -53,6 +56,9 @@ namespace elevatorSim {
       static void menuSaveCB(Fl_Widget* w, void* userData);
       static void menuQuitCB(Fl_Widget* w, void* userData);
       static void menuAboutCB(Fl_Widget* w, void* userData);
+      static void startSimCB(Fl_Widget* w, void* userData);
+      static void pauseSimCB(Fl_Widget* w, void* userData);
+      static void stopSimCB(Fl_Widget* w, void* userData);
       static void quitConfirmedCB(Fl_Button* yesButton, void* data);
       static void quitCancelledCB(Fl_Button* noButton, void* data);
 

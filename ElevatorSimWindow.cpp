@@ -116,16 +116,30 @@ namespace elevatorSim {
       /* TODO */
    }
 
+   void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
+      /*TODO*/
+   }
+
+   void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
+   void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
+      /* TODO */
+   }
+
    void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
       /* TODO */
    }
 
    void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
-      /* TODO */
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+      thisWin->showQuitConfirmDialog();
    }
 
    void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
-      /* TODO */
+     	ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
+      NULL, NULL, SW_SHOWNORMAL);
    }
 
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* data) {
@@ -141,13 +155,41 @@ namespace elevatorSim {
       thisWin->hideQuitConfirmDialog();
    }
 
+   void ElevatorSimWindow::buildMenu(){
+      Fl_Menu_Item menuitems[] = {
+         {"&File", 0, 0, 0, FL_SUBMENU },
+         { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
+         { 0 },
+         {"&About", 0, 0, 0, FL_SUBMENU},
+         {"&Our Website", FL_COMMAND + 'a', (Fl_Callback *)menuAboutCB, this},
+         {0},
+         {0}};
+
+         Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+         menubar->copy(menuitems);
+
+         add(menubar);
+   }
+
+   void ElevatorSimWindow::buildButtons(){
+      Fl_Button *startButton = new Fl_Button(10, 35, 100, 20, "Begin");
+      Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Toggle Pause");
+      Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "End");
+
+      startButton->callback((Fl_Callback *)startSimCB, this);
+      pauseButton->callback((Fl_Callback *)pauseSimCB, this);
+      stopButton->callback((Fl_Callback *)stopSimCB, this);
+   }
+
    /* public static member initializers */
    const char ElevatorSimWindow::TITLE[] = "elevatorSim";
    const int ElevatorSimWindow::WIDTH = 640;
    const int ElevatorSimWindow::HEIGHT = 480;
 
    /* public methods */
+
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+
       renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
@@ -156,15 +198,9 @@ namespace elevatorSim {
 
       resizable(*renderWindow);
 
-      Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+      buildMenu();
+      buildButtons();
 
-      menubar->add("&File/&New", FL_CTRL + 'n', menuNewCB, this);
-      menubar->add("&File/&Open", FL_CTRL + 'o', menuOpenCB, this);
-      menubar->add("&File/&Save", FL_CTRL + 's', menuSaveCB, this);
-      menubar->add("&File/&Quit", FL_CTRL + 'q', menuQuitCB, this);
-      menubar->add("&Help/&About", 0, menuAboutCB, this);
-
-      add(menubar);
       end();
 
       callback((Fl_Callback*)windowCloseCB, this);

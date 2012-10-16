@@ -57,12 +57,15 @@ namespace elevatorSim {
       /* private methods */
       void initCube();
       void glInit();
+      void Update();       //update values every frame
       void setViewport();
       void setPerspective(
          GLdouble fovy,
          GLdouble aspect,
          GLdouble zNear,
          GLdouble zFar);
+
+      void drawText(char *str, float x, float y);
 
    public:
 
@@ -71,6 +74,8 @@ namespace elevatorSim {
       static const int RIGHT_MARGIN;
       static const int TOP_MARGIN;
       static const int BOTTOM_MARGIN;
+
+      bool  m_bRenderFPS;
 
       /* public instance members */
 
