@@ -51,14 +51,12 @@
 #include <cassert>
 #include <cmath>
 
+#include "util_vectors.hpp"
+
 namespace elevatorSim {
 
 const float M_PI = 3.141592f;
 const double FPS = 1/(double)60;
-
-struct Vec3f {
-   float x, y, z;
-};
 
 enum KEY_PRESS {
    KEY_UP,

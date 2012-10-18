@@ -31,6 +31,7 @@
 #define _ELEVATOR_SIM_RENDER_WINDOW_H
 
 #include "ElevatorSim.hpp"
+#include "cCameraManager.hpp"
 
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
@@ -50,9 +51,8 @@ namespace elevatorSim {
 
       /* private instance members */
       float spin;
-      Vec3f	m_vecCamPos;
-      Vec3f	m_vecCamLookAt;
-      Vec3f	m_vecCamUp;
+
+      cCameraManager m_CameraManager;
 
       /* private methods */
       void initCube();

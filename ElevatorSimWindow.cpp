@@ -41,40 +41,9 @@ namespace elevatorSim {
 
    /* private methods */
    int ElevatorSimWindow::handle(int event) {
-      switch(event) {
-      case FL_KEYDOWN:
-         switch(Fl::event_key()) {
-         case FL_Up:
-            renderWindow->m_vecCamPos.y += ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.y += ElevatorSimRenderWindow::MOVE;
-            return 1;
 
-         case FL_Down:
-            renderWindow->m_vecCamPos.y -= ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.y -= ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Right:
-            renderWindow->m_vecCamPos.x += ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.x += ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Left:
-            renderWindow->m_vecCamPos.x -= ElevatorSimRenderWindow::MOVE;
-            renderWindow->m_vecCamLookAt.x -= ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Page_Up:
-            renderWindow->m_vecCamPos.z -= ElevatorSimRenderWindow::MOVE;
-            return 1;
-
-         case FL_Page_Down:
-            renderWindow->m_vecCamPos.z += ElevatorSimRenderWindow::MOVE;
-            return 1;
-         }
-      default:
-         return Fl_Window::handle(event);
-      }
+      return Fl_Window::handle(event);
+   
    }
 
    void ElevatorSimWindow::showQuitConfirmDialog() {

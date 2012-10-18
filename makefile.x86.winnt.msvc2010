@@ -4,12 +4,23 @@
 ## os:       winnt
 ## compiler: msvc2010
 
-OBJS=ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj Elevator.obj Location.obj Person.obj Building.obj Floor.obj cTimeManager.obj cKeyManager.obj
+OBJS=ElevatorSim.obj\
+ElevatorSimWindow.obj\
+ElevatorSimRenderWindow.obj\
+cTimeManager.obj\
+cKeyManager.obj\
+cCameraManager.obj\
+Elevator.obj\
+Location.obj\
+Person.obj\
+Building.obj\
+Floor.obj
+
 DRIVERFLAGS=/errorreport:none /nologo
 
 CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /D_CRT_SECURE_NO_WARNINGS /Iinc
 
-DEBUGFLAGS=/Zi
+DEBUGFLAGS=/Zi /Gm-
 
 RELEASEFLAGS=/0x /DNDEBUG
 
@@ -18,6 +29,7 @@ LINKFLAGS=/subsystem:windows\
 /libpath:deps\x86.winnt.msvc10\fltk\
 /nodefaultlib:"libcd"\
 /nodefaultlib:"libcmt"\
+/incremental:NO\
 /machine:X86
 
 SYSDEPS=\
@@ -37,7 +49,16 @@ SYSDEPS=\
 "glu32.lib"\
 "opengl32.lib"
 
-COOKEDDEPS=\
+DEBUG_COOKEDDEPS=\
+"fltkd.lib"\
+"fltkformsd.lib"\
+"fltkgld.lib"\
+"fltkimagesd.lib"\
+"fltkjpegd.lib"\
+"fltkpngd.lib"\
+"fltkzlibd.lib"
+
+RELEASE_COOKEDDEPS=\
 "fltk.lib"\
 "fltkforms.lib"\
 "fltkgl.lib"\
@@ -51,9 +72,17 @@ MAPFILE=elevatorSim.map
 PDBFILE=elevatorSim.pdb
 
 elevatorSim: $(OBJS) makefile.x86.winnt.msvc2010
-	@cl $(OBJS) $(DEBUGFLAGS) $(DRIVERFLAGS)\
-/Fd$(PDBFILE) /Fm$(MAPFILE) /Fe$(OUT)\
-/link $(LINKFLAGS) $(SYSDEPS) $(COOKEDDEPS)
+	cl\
+$(OBJS)\
+$(DEBUGFLAGS)\
+$(DRIVERFLAGS)\
+/Fd$(PDBFILE)\
+/Fm$(MAPFILE)\
+/Fe$(OUT)\
+/link\
+$(LINKFLAGS)\
+$(SYSDEPS)\
+$(DEBUG_COOKEDDEPS)
 	@echo + success
 
 .cpp.obj:
