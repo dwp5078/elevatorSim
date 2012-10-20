@@ -30,8 +30,6 @@ LINKFLAGS=/subsystem:windows\
 /nodefaultlib:"libcd"\
 /nodefaultlib:"libcmt"\
 /incremental:NO\
-/verbose\
-/verbose:lib\
 /machine:X86
 
 SYSDEPS=\
