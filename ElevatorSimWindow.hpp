@@ -48,6 +48,7 @@ namespace elevatorSim {
       void hideQuitConfirmDialog();
       void buildMenu();
       void buildButtons();
+	  void openScript();
 
       /* private static methods */
       static void windowCloseCB(Fl_Window* w, void* userData);
@@ -67,6 +68,7 @@ namespace elevatorSim {
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
+	  char* pythonScript;
 
    public:
 
