@@ -43,8 +43,6 @@ namespace elevatorSim {
    const int ElevatorSimRenderWindow::TOP_MARGIN = 28;
    const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
 
-   const float ElevatorSimRenderWindow::MOVE = 0.5f;
-
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
 
@@ -54,66 +52,6 @@ namespace elevatorSim {
       Fl::repeat_timeout(FPS, timerCB, userdata);
    }
 
-   void ElevatorSimRenderWindow::initCube() {
-      assert(!valid());
-
-      glNewList(OBJ_CUBE, GL_COMPILE);
-      glEnable(GL_LIGHTING);
-      glEnable(GL_LIGHT0);
-
-      glBegin(GL_QUADS);
-
-      /* Front Face */
-      glColor3f(1.0, 0.0, 0.0); /* red */
-      glNormal3f(0.0, 0.0, 1.0);
-      glVertex3f(-1.0,  1.0,  1.0);
-      glVertex3f( 1.0,  1.0,  1.0);
-      glVertex3f( 1.0, -1.0,  1.0);
-      glVertex3f(-1.0, -1.0,  1.0);
-
-      /* Back Face */
-      glColor3f(0.0, 1.0, 1.0); /* cyn */
-      glNormal3f(0.0, 0.0, -1.0);
-      glVertex3f( 1.0,  1.0, -1.0);
-      glVertex3f(-1.0,  1.0, -1.0);
-      glVertex3f(-1.0, -1.0, -1.0);
-      glVertex3f( 1.0, -1.0, -1.0);
-
-      /* Top Face */
-      glColor3f(0.0, 1.0, 0.0); /* grn */
-      glNormal3f(0.0, 1.0, 0.0);
-      glVertex3f(-1.0,  1.0, -1.0);
-      glVertex3f( 1.0,  1.0, -1.0);
-      glVertex3f( 1.0,  1.0,  1.0);
-      glVertex3f(-1.0,  1.0,  1.0);
-
-      /* Bottom Face */
-      glColor3f(1.0, 0.0, 1.0); /* mag */
-      glNormal3f(0.0, -1.0, 0.0);
-      glVertex3f( 1.0, -1.0, -1.0);
-      glVertex3f(-1.0, -1.0, -1.0);
-      glVertex3f(-1.0, -1.0,  1.0);
-      glVertex3f( 1.0, -1.0,  1.0);
-
-      /* Right face */
-      glColor3f(0.0, 0.0, 1.0); /* blu */
-      glNormal3f(1.0, 0.0, 0.0);
-      glVertex3f( 1.0,  1.0,  1.0);
-      glVertex3f( 1.0,  1.0, -1.0);
-      glVertex3f( 1.0, -1.0, -1.0);
-      glVertex3f( 1.0, -1.0,  1.0);
-
-      /* Left Face */
-      glColor3f(1.0, 1.0, 0.0); /* yel */
-      glNormal3f(-1.0, 0.0, 0.0);
-      glVertex3f(-1.0,  1.0, -1.0);
-      glVertex3f(-1.0,  1.0,  1.0);
-      glVertex3f(-1.0, -1.0,  1.0);
-      glVertex3f(-1.0, -1.0, -1.0);
-      glEnd();
-
-      glEndList();
-   }
 
    void ElevatorSimRenderWindow::glInit() {
       /* if GlInit is called while valid() returns true, drop a breakpoint */
@@ -156,14 +94,36 @@ namespace elevatorSim {
 
    void ElevatorSimRenderWindow::setPerspective(
       GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
+ 
          GLdouble xmin, xmax, ymin, ymax;
+
 
          ymax = zNear * tan(fovy * M_PI / 360.0);
          ymin = -ymax;
          xmin = ymin * aspect;
          xmax = ymax * aspect;
 
+
          glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
+   }
+
+   void ElevatorSimRenderWindow::drawFPS()
+   {
+      char renderStringBuffer[256];
+
+      glColor3f(0.0f, 1.f, 0.f);
+
+      sprintf_s(renderStringBuffer, 256, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
+      drawText(renderStringBuffer, 10.f, 10.f);
+
+      sprintf_s(renderStringBuffer, 256, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
+      drawText(renderStringBuffer, 10.f, 20.f);
+
+      sprintf_s(renderStringBuffer, 256, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
+      drawText(renderStringBuffer, 10.f, 30.f);
+
+      sprintf_s(renderStringBuffer, 256, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
+      drawText(renderStringBuffer, 10.f, 40.f);
    }
 
    void ElevatorSimRenderWindow::drawText(char *str, float x, float y)
@@ -209,7 +169,7 @@ namespace elevatorSim {
       if(!valid()) {
          /* initialize, this code only gets executed the first time draw() is called */
 
-         initCube();
+         m_renderObjs.Init();
          glInit();
          setViewport();
       }
@@ -223,62 +183,47 @@ namespace elevatorSim {
 
       gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-      Vec3f camPos = m_CameraManager.GetCameraPos();
-      Vec3f camLook = m_CameraManager.GetCameraLookAt();
-      Vec3f camUp = m_CameraManager.GetCameraUp();
 
-      gluLookAt(camPos.x(), camPos.y(), camPos.z(),
-         camLook.x(), camLook.y(), camLook.z(),
-         camUp.x(), camUp.y(), camUp.z());
+      m_CameraManager.Render();
 
       glMatrixMode(GL_MODELVIEW);
-      glLoadIdentity();
 
+      
       glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
 
-      glTranslatef(0.0f, 0.0f, -2.0f);
-      glRotatef(spin, 0.5, 1.0, 0.0);
-
+      // Draw simple cube
+      glLoadIdentity();
+      glTranslatef(10.0f, 0.0f, -2.0f);
+      glRotatef(spin, 0.5f, 1.0f, 0.0f);
       glCallList(OBJ_CUBE);
 
-      /* Render floor */
+      // Draw building object
       glLoadIdentity();
-
       glTranslatef(0.0f, -2.0f, 0.0f);
-      glScalef(10.0f, 10.0f, 10.0f);
 
-      glDisable(GL_LIGHTING);
-      glDisable(GL_LIGHT0);
+      glCallList(OBJ_BUILDING);
 
-      glBegin(GL_QUADS);
-      glColor3f(0.8f, 0.8f, 0.8f);
-      glNormal3f(0.0f, 1.0f, 0.0f);
-      glVertex3f( 1.0f, 0.0f, -1.0f);
-      glVertex3f(-1.0f, 0.0f, -1.0f);
-      glVertex3f(-1.0f, 0.0f,  1.0f);
-      glVertex3f( 1.0f, 0.0f,  1.0f);
 
-      glEnd();
+      //Draw Elevators;
+      float buildingLeft = -g_nNumberOfElev * ELEV_GAP_WIDTH;
+      for(int i=0; i<g_nNumberOfElev; i++)   {
+         float pos = (buildingLeft * 2 + ELEV_GAP_WIDTH*2) / 2;
 
-      if(m_bRenderFPS)  {
 
-         char renderStringBuffer[256];
+         glLoadIdentity();
+         glTranslatef(pos, 4.0f + (float)i*2, 0.0f);
+         glCallList(OBJ_ELEVATOR);
 
-         glColor3f(0.0f, 1.f, 0.f);
 
-         sprintf_s(renderStringBuffer, 256, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
-         drawText(renderStringBuffer, 10.f, 10.f);
-
-         sprintf_s(renderStringBuffer, 256, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
-         drawText(renderStringBuffer, 10.f, 20.f);
-
-         sprintf_s(renderStringBuffer, 256, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
-         drawText(renderStringBuffer, 10.f, 30.f);
-
-         sprintf_s(renderStringBuffer, 256, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
-         drawText(renderStringBuffer, 10.f, 40.f);
+         buildingLeft += ELEV_GAP_WIDTH *2;
       }
+
+
+
+
+      if(m_bRenderFPS)  drawFPS();
+
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
