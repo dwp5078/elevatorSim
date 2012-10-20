@@ -53,6 +53,10 @@ namespace elevatorSim {
       cRenderObjs    m_renderObjs;
       cCameraManager m_CameraManager;
 
+      //remove later. For test purpose
+      float elevPos[g_nNumberOfElev];
+      bool elevGoingDown[g_nNumberOfElev];
+
       /* private methods */
       //void initCube();
       void glInit();

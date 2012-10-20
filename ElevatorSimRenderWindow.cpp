@@ -35,6 +35,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
+#include <time.h>
 
 namespace elevatorSim {
 
@@ -42,6 +43,8 @@ namespace elevatorSim {
    const int ElevatorSimRenderWindow::RIGHT_MARGIN = 8;
    const int ElevatorSimRenderWindow::TOP_MARGIN = 28;
    const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
+
+   //const float ElevatorSimRenderWindow::MOVE = 0.5f;
 
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
@@ -51,7 +54,6 @@ namespace elevatorSim {
 
       Fl::repeat_timeout(FPS, timerCB, userdata);
    }
-
 
    void ElevatorSimRenderWindow::glInit() {
       /* if GlInit is called while valid() returns true, drop a breakpoint */
@@ -82,6 +84,23 @@ namespace elevatorSim {
 
       if(cKeyManager::GetInstance()->OnceKeyDown('F'))   m_bRenderFPS = !m_bRenderFPS;
       m_CameraManager.Update();
+
+      //remove this part later (updating position of elevator)
+      for(int i=0; i<g_nNumberOfElev; i++)   {
+         float dist = 0.005f * cTimeManager::GetInstance()->GetElapsedTime();
+         if(elevGoingDown[i]) {
+            elevPos[i] -= dist;
+
+            if(elevPos[i] < 0.9f)   elevGoingDown[i] = false;
+         }
+
+         else  {
+            elevPos[i] += dist;
+
+            float maxHeight = BUILDING_GAP_HEIGHT * g_nNumberOfFloor * 2 - 0.9f;
+            if(elevPos[i] > maxHeight)   elevGoingDown[i] = true;
+         }
+      }
    }
 
    void ElevatorSimRenderWindow::setViewport() {
@@ -94,15 +113,12 @@ namespace elevatorSim {
 
    void ElevatorSimRenderWindow::setPerspective(
       GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
- 
          GLdouble xmin, xmax, ymin, ymax;
-
 
          ymax = zNear * tan(fovy * M_PI / 360.0);
          ymin = -ymax;
          xmin = ymin * aspect;
          xmax = ymax * aspect;
-
 
          glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
    }
@@ -172,6 +188,12 @@ namespace elevatorSim {
          m_renderObjs.Init();
          glInit();
          setViewport();
+
+         srand((unsigned)time(NULL));
+         for(int i=0; i<g_nNumberOfElev; i++)   {
+            elevPos[i] = (float)(rand() % g_nNumberOfFloor);
+            elevGoingDown[i] = (rand() % 2 == 1 ? true : false);
+         }
       }
 
       /* draw */
@@ -183,11 +205,9 @@ namespace elevatorSim {
 
       gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-
       m_CameraManager.Render();
 
       glMatrixMode(GL_MODELVIEW);
-
       
       glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
@@ -201,29 +221,24 @@ namespace elevatorSim {
       // Draw building object
       glLoadIdentity();
       glTranslatef(0.0f, -2.0f, 0.0f);
-
       glCallList(OBJ_BUILDING);
-
 
       //Draw Elevators;
       float buildingLeft = -g_nNumberOfElev * ELEV_GAP_WIDTH;
       for(int i=0; i<g_nNumberOfElev; i++)   {
          float pos = (buildingLeft * 2 + ELEV_GAP_WIDTH*2) / 2;
 
-
-         glLoadIdentity();
-         glTranslatef(pos, 4.0f + (float)i*2, 0.0f);
+         glPushMatrix();
+         glTranslatef(pos, elevPos[i], 0.0f);
          glCallList(OBJ_ELEVATOR);
 
+         glPopMatrix();
 
          buildingLeft += ELEV_GAP_WIDTH *2;
       }
 
 
-
-
       if(m_bRenderFPS)  drawFPS();
-
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {

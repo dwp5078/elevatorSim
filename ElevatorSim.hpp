@@ -58,10 +58,11 @@ namespace elevatorSim {
 const float M_PI = 3.141592f;
 const double FPS = 1/(double)60;
 
-
+const int g_nNumberOfFloor = 10;
 const int g_nNumberOfElev = 5;
 
 const float ELEV_GAP_WIDTH   = 1.7f;
+const float BUILDING_GAP_HEIGHT   = 1.1f;
 
 enum KEY_PRESS {
    KEY_UP,
@@ -71,8 +72,6 @@ enum KEY_PRESS {
    KEY_FORWARD,
    KEY_BACKWARD,
 };
-
-
 
 const GLfloat light1_ambient[] = { 0.4f, 0.4f, 0.4f, 1.0f };
 const GLfloat light1_diffuse[] = { 0.15f, 0.15f, 0.15f, 1.0f };
