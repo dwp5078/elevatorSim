@@ -4,7 +4,7 @@ namespace elevatorSim   {
    cRenderObjs::cRenderObjs(void)
    {
       m_bIsInit= false;
-      m_nNumberOfFloor = 10;
+      m_nNumberOfFloor = g_nNumberOfFloor;
       m_nNumberOfElevator = g_nNumberOfElev;
    }
 
@@ -109,7 +109,7 @@ namespace elevatorSim   {
    {
       glNewList(OBJ_BUILDING, GL_COMPILE);
 
-      float scaleHeight = m_nNumberOfFloor * 1.1f;
+      float scaleHeight = m_nNumberOfFloor * BUILDING_GAP_HEIGHT;
       float scaleWidth = m_nNumberOfElevator * ELEV_GAP_WIDTH;
 
       glPushMatrix();
