@@ -90,7 +90,19 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
-      /* TODO */
+		static bool paused = true;
+
+		if(paused) //Sim paused
+		{
+			w->label("Resume");
+		}
+		else
+		{
+			w->label("Pause");
+		}
+
+		paused = !paused;
+	  
    }
 
    void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
@@ -142,8 +154,8 @@ namespace elevatorSim {
 
    void ElevatorSimWindow::buildButtons(){
       Fl_Button *startButton = new Fl_Button(10, 35, 100, 20, "Begin");
-      Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Toggle Pause");
-      Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "End");
+      Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
+      Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
 
       startButton->callback((Fl_Callback *)startSimCB, this);
       pauseButton->callback((Fl_Callback *)pauseSimCB, this);
@@ -171,7 +183,6 @@ namespace elevatorSim {
       buildButtons();
 
       end();
-
       callback((Fl_Callback*)windowCloseCB, this);
 
       confirmDialog = NULL;
