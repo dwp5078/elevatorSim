@@ -10,9 +10,13 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{23359546-977E-CDAA-A7D4-0D4BC911452B}.Debug|Win32.ActiveCfg = Debug|Win32
+<<<<<<< HEAD
 		{23359546-977E-CDAA-A7D4-0D4BC911452B}.Debug|Win32.Build.0 = Debug|Win32
 		{23359546-977E-CDAA-A7D4-0D4BC911452B}.Release|Win32.ActiveCfg = Release|Win32
 		{23359546-977E-CDAA-A7D4-0D4BC911452B}.Release|Win32.Build.0 = Release|Win32
+=======
+		{23359546-977E-CDAA-A7D4-0D4BC911452B}.Release|Win32.ActiveCfg = Release|Win32
+>>>>>>> 4b6c58b5570a0b123d6f040fb2c7188343ae089f
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
