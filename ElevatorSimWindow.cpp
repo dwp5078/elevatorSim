@@ -36,6 +36,7 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
+#include <FL/Fl_File_Chooser.H>
 
 namespace elevatorSim {
 
@@ -82,7 +83,8 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
-      /* TODO */
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+      thisWin->openScript();
    }
 
    void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
@@ -123,22 +125,27 @@ namespace elevatorSim {
          NULL, NULL, SW_SHOWNORMAL);
    }
 
-   void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* data) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
+   void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
       thisWin->hideQuitConfirmDialog();
       thisWin->hide();
    }
 
-   void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* data) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) data;
+   void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
       thisWin->hideQuitConfirmDialog();
    }
 
-   void ElevatorSimWindow::buildMenu(){
+   void ElevatorSimWindow::openScript() {
+	   pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
+   }
+
+   void ElevatorSimWindow::buildMenu() {
       Fl_Menu_Item menuitems[] = {
          {"&File", 0, 0, 0, FL_SUBMENU },
+		 { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
          { 0 },
          {"&About", 0, 0, 0, FL_SUBMENU},
