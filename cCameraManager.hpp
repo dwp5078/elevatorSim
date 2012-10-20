@@ -19,7 +19,7 @@ public:
    void Yaw(float fAngle);
    void Pitch(float fAngle);
    void Roll(float fAngle);
-   
+
    inline Vec3f GetCameraPos()   {  return m_vecCamPos;  }
    inline Vec3f GetCameraLookAt()   {  return m_vecCamLookAt;  }
    inline Vec3f GetCameraUp()   {  return m_vecCamUp;  }

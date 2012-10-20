@@ -35,12 +35,12 @@ namespace elevatorSim {
    /* constructors */
    Elevator::Elevator()
       : maxVel(0), maxAccel(0), maxOccupants(0) {
-      /* nothing */
+         /* nothing */
    }
 
    Elevator::Elevator(const int mVel, int mAccel, int mOccupants)
       : maxVel(mVel), maxAccel(mAccel), maxOccupants(mOccupants) {
-      /* nothing */
+         /* nothing */
    }
 
    Elevator::Elevator(const Elevator & copy)

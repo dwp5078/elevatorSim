@@ -41,10 +41,10 @@ namespace elevatorSim {
 
       /* private static constants */
       enum PRIORITY {
-          UNKNOWN,
-          NORMAL,
-          HIGH,
-          EMERGENCY
+         UNKNOWN,
+         NORMAL,
+         HIGH,
+         EMERGENCY
       };
 
       /* private static methods */
@@ -52,8 +52,8 @@ namespace elevatorSim {
 
       /* private instance members */
       Location current;
-       Location destination;
-       enum PRIORITY priority;
+      Location destination;
+      enum PRIORITY priority;
 
       /* private methods */
 
@@ -72,11 +72,11 @@ namespace elevatorSim {
       Location getCurrent();
       void setCurrent(Location newLoc);
 
-       Location getDestination();
-       void setDestination(Location newLoc);
+      Location getDestination();
+      void setDestination(Location newLoc);
 
-       enum PRIORITY getPriority();
-       void setPriority(enum PRIORITY newPriority);
+      enum PRIORITY getPriority();
+      void setPriority(enum PRIORITY newPriority);
 
    };
 

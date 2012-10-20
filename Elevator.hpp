@@ -41,30 +41,30 @@ namespace elevatorSim {
    class Elevator : public Location {
 
       /* friends */
-      
+
 
       /* private static constants */
-      
+
 
       /* private static methods */
-      
+
 
       /* private instance members */
-	  const int maxVel;
-	  const int maxAccel;
-	  const int maxOccupants;
-     int currentVel;
-	  int currentAccel;
-     std::vector<Person> occupants;
-	  
+      const int maxVel;
+      const int maxAccel;
+      const int maxOccupants;
+      int currentVel;
+      int currentAccel;
+      std::vector<Person> occupants;
+
 
       /* private methods */
-      
+
 
    public:
 
       /* public static constants */
-      
+
 
       /* public instance members */
 

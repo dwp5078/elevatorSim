@@ -40,13 +40,13 @@ namespace elevatorSim {
    class Floor : public Location {
 
       /* friends */
-      
+
 
       /* private static constants */
-      
+
 
       /* private static methods */
-      
+
 
       /* private instance members */
       std::vector<Person> occupants;
@@ -56,12 +56,12 @@ namespace elevatorSim {
       bool hasLowerFloor;
 
       /* private methods */
-      
+
 
    public:
 
       /* public static constants */
-      
+
 
       /* public instance members */
 
@@ -71,7 +71,7 @@ namespace elevatorSim {
       Floor(const Floor & copy);
 
       /* public methods */
-      
+
 
    };
 

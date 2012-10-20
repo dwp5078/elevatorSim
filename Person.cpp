@@ -39,7 +39,7 @@ namespace elevatorSim {
       destination = dest;
    }
 
-    /* getters and setters */
+   /* getters and setters */
    enum Person::PRIORITY Person::getPriority() {
       return priority;
    }

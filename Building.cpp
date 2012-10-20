@@ -41,7 +41,7 @@ namespace elevatorSim {
    }
 
    /*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
-      floors.assign(floorSetup.begin(), floorSetup.end());
-      elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
+   floors.assign(floorSetup.begin(), floorSetup.end());
+   elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
    }*/
 }

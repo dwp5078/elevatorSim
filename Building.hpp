@@ -40,25 +40,25 @@ namespace elevatorSim{
    class Building {
 
       /* friends */
-      
+
 
       /* private static constants */
-      
+
 
       /* private static methods */
-      
+
 
       /* private instance members */
       std::vector<Floor> floors;
       std::vector<Elevator> elevators;
 
       /* private methods */
-      
+
 
    public:
 
       /* public static constants */
-      
+
 
       /* public instance members */
 
@@ -67,7 +67,7 @@ namespace elevatorSim{
       /*Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup);*/
 
       /* public methods */
-      
+
 
    };
 

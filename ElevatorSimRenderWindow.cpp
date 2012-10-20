@@ -156,14 +156,14 @@ namespace elevatorSim {
 
    void ElevatorSimRenderWindow::setPerspective(
       GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
-      GLdouble xmin, xmax, ymin, ymax;
+         GLdouble xmin, xmax, ymin, ymax;
 
-      ymax = zNear * tan(fovy * M_PI / 360.0);
-      ymin = -ymax;
-      xmin = ymin * aspect;
-      xmax = ymax * aspect;
+         ymax = zNear * tan(fovy * M_PI / 360.0);
+         ymin = -ymax;
+         xmin = ymin * aspect;
+         xmax = ymax * aspect;
 
-      glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
+         glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
    }
 
    void ElevatorSimRenderWindow::drawText(char *str, float x, float y)
@@ -262,7 +262,7 @@ namespace elevatorSim {
       glEnd();
 
       if(m_bRenderFPS)  {
-         
+
          char renderStringBuffer[256];
 
          glColor3f(0.0f, 1.f, 0.f);

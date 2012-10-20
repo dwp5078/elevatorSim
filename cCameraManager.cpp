@@ -65,7 +65,7 @@ void cCameraManager::Pitch(float fAngle)
    Vec3f right;
    Vec3f::Cross3(right, m_vecCamPos, m_vecCamLookAt);
 
-   
+
 }
 
 void cCameraManager::Roll(float fAngle)
