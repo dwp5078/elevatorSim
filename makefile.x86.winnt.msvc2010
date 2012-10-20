@@ -20,7 +20,7 @@ DRIVERFLAGS=/errorreport:none /nologo
 
 CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /D_CRT_SECURE_NO_WARNINGS /Iinc
 
-DEBUGFLAGS=/Zi /Gm-
+DEBUGFLAGS=/Z7 /Gm-
 
 RELEASEFLAGS=/0x /DNDEBUG
 
@@ -30,6 +30,8 @@ LINKFLAGS=/subsystem:windows\
 /nodefaultlib:"libcd"\
 /nodefaultlib:"libcmt"\
 /incremental:NO\
+/verbose\
+/verbose:lib\
 /machine:X86
 
 SYSDEPS=\
