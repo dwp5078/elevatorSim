@@ -37,6 +37,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_Multiline_Output.H>
 
 namespace elevatorSim {
 
@@ -86,7 +87,23 @@ namespace elevatorSim {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
       thisWin->openScript();
    }
+   
+   void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
+      Fl_Window* helpWin = new Fl_Window(300, 300, "Help");
+	  Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
+      Fl_Button* doneButton = new Fl_Button(100, 240, 100, 40, "Done");
 
+      doneButton->callback((Fl_Callback*) dismissHelpCB, helpWin);
+
+	  helpWin->add(label);
+      helpWin->add(doneButton);
+      helpWin->end();
+      helpWin->show();
+   }
+
+   void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
+      ((Fl_Window*)userData)->hide();
+   }
    void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
       /*TODO*/
    }
@@ -141,7 +158,7 @@ namespace elevatorSim {
    void ElevatorSimWindow::openScript() {
 	   pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
    }
-
+   
    void ElevatorSimWindow::buildMenu() {
       Fl_Menu_Item menuitems[] = {
          {"&File", 0, 0, 0, FL_SUBMENU },
@@ -149,6 +166,7 @@ namespace elevatorSim {
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
          { 0 },
          {"&About", 0, 0, 0, FL_SUBMENU},
+		 {"&Help", FL_COMMAND + 'a', (Fl_Callback *)menuHelpCB, this},
          {"&Our Website", FL_COMMAND + 'a', (Fl_Callback *)menuAboutCB, this},
          {0},
          {0}};

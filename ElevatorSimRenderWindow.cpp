@@ -80,7 +80,6 @@ namespace elevatorSim {
    void ElevatorSimRenderWindow::Update()
    {
       cTimeManager::GetInstance()->Update();
-      spin += 2.0; /* spin */
 
       if(cKeyManager::GetInstance()->OnceKeyDown('F'))   m_bRenderFPS = !m_bRenderFPS;
       m_CameraManager.Update();
@@ -213,10 +212,12 @@ namespace elevatorSim {
       glEnable(GL_LIGHT0);
 
       // Draw simple cube
+	  /*
       glLoadIdentity();
       glTranslatef(10.0f, 0.0f, -2.0f);
       glRotatef(spin, 0.5f, 1.0f, 0.0f);
       glCallList(OBJ_CUBE);
+	  */
 
       // Draw building object
       glLoadIdentity();
