@@ -44,8 +44,6 @@ namespace elevatorSim {
    const int ElevatorSimRenderWindow::TOP_MARGIN = 28;
    const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
 
-   //const float ElevatorSimRenderWindow::MOVE = 0.5f;
-
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
 
@@ -211,20 +209,12 @@ namespace elevatorSim {
       glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
 
-      // Draw simple cube
-	  /*
-      glLoadIdentity();
-      glTranslatef(10.0f, 0.0f, -2.0f);
-      glRotatef(spin, 0.5f, 1.0f, 0.0f);
-      glCallList(OBJ_CUBE);
-	  */
-
-      // Draw building object
+      /* Draw building object */
       glLoadIdentity();
       glTranslatef(0.0f, -2.0f, 0.0f);
       glCallList(OBJ_BUILDING);
 
-      //Draw Elevators;
+      /* Draw Elevators; */
       float buildingLeft = -g_nNumberOfElev * ELEV_GAP_WIDTH;
       for(int i=0; i<g_nNumberOfElev; i++)   {
          float pos = (buildingLeft * 2 + ELEV_GAP_WIDTH*2) / 2;

@@ -109,19 +109,16 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+      /* TODO: this needs to be moved into time manager */
 		static bool paused = true;
 
-		if(paused) //Sim paused
-		{
+		if(paused) {
 			w->label("Resume");
-		}
-		else
-		{
+		} else {
 			w->label("Pause");
 		}
 
 		paused = !paused;
-	  
    }
 
    void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
@@ -161,15 +158,15 @@ namespace elevatorSim {
    
    void ElevatorSimWindow::buildMenu() {
       Fl_Menu_Item menuitems[] = {
-         {"&File", 0, 0, 0, FL_SUBMENU },
-		 { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
-         { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
-         { 0 },
-         {"&About", 0, 0, 0, FL_SUBMENU},
-		 {"&Help", FL_COMMAND + 'a', (Fl_Callback *)menuHelpCB, this},
-         {"&Our Website", FL_COMMAND + 'a', (Fl_Callback *)menuAboutCB, this},
-         {0},
-         {0}};
+      {"&File", 0, 0, 0, FL_SUBMENU },
+		{ "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
+      { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
+      { 0 },
+      {"&Help", 0, 0, 0, FL_SUBMENU},
+		{"How to use", 0, (Fl_Callback *)menuHelpCB, this},
+      {"Website", 0, (Fl_Callback *)menuAboutCB, this},
+      {0},
+      {0}};
 
          Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
          menubar->copy(menuitems);
