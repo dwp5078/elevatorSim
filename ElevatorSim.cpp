@@ -32,8 +32,6 @@
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
-#include <FL/Fl_Menu_Bar.H>
-
 int main(int argc, char** argv) {
    elevatorSim::cTimeManager::GetInstance()->Setup();
    elevatorSim::cKeyManager::GetInstance();
