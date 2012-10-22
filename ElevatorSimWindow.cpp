@@ -44,8 +44,9 @@ namespace elevatorSim {
    /* private methods */
    int ElevatorSimWindow::handle(int event) {
 
-      return Fl_Window::handle(event);
+      /* TODO */
 
+      return Fl_Window::handle(event);
    }
 
    void ElevatorSimWindow::showQuitConfirmDialog() {
@@ -87,15 +88,15 @@ namespace elevatorSim {
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
       thisWin->openScript();
    }
-   
+
    void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
       Fl_Window* helpWin = new Fl_Window(300, 300, "Help");
-	  Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
+      Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
       Fl_Button* doneButton = new Fl_Button(100, 240, 100, 40, "Done");
 
       doneButton->callback((Fl_Callback*) dismissHelpCB, helpWin);
 
-	  helpWin->add(label);
+      helpWin->add(label);
       helpWin->add(doneButton);
       helpWin->end();
       helpWin->show();
@@ -110,15 +111,15 @@ namespace elevatorSim {
 
    void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
       /* TODO: this needs to be moved into time manager */
-		static bool paused = true;
+      static bool paused = true;
 
-		if(paused) {
-			w->label("Resume");
-		} else {
-			w->label("Pause");
-		}
+      if(paused) {
+         w->label("Resume");
+      } else {
+         w->label("Pause");
+      }
 
-		paused = !paused;
+      paused = !paused;
    }
 
    void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
@@ -153,20 +154,20 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::openScript() {
-	   pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
+      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
    }
-   
+
    void ElevatorSimWindow::buildMenu() {
       Fl_Menu_Item menuitems[] = {
-      {"&File", 0, 0, 0, FL_SUBMENU },
-		{ "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
-      { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
-      { 0 },
-      {"&Help", 0, 0, 0, FL_SUBMENU},
-		{"How to use", 0, (Fl_Callback *)menuHelpCB, this},
-      {"Website", 0, (Fl_Callback *)menuAboutCB, this},
-      {0},
-      {0}};
+         {"&File", 0, 0, 0, FL_SUBMENU },
+         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
+         { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
+         {0},
+         {"&Help", 0, 0, 0, FL_SUBMENU},
+         {"How to use", 0, (Fl_Callback *)menuHelpCB, this},
+         {"Website", 0, (Fl_Callback *)menuAboutCB, this},
+         {0},
+         {0}};
 
          Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
          menubar->copy(menuitems);

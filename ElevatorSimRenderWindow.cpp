@@ -122,49 +122,77 @@ namespace elevatorSim {
 
    void ElevatorSimRenderWindow::drawFPS()
    {
-      char renderStringBuffer[256];
+      const static int renderStringBufferLength = 256;
+      char* renderStringBuffer = (char*) malloc(renderStringBufferLength);
 
-      glColor3f(0.0f, 1.f, 0.f);
+      glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
-      sprintf_s(renderStringBuffer, 256, "Total Frame : %d", cTimeManager::GetInstance()->GetTotalFrame());
+      sprintf_s(renderStringBuffer, 
+         renderStringBufferLength, 
+         "Total Frame : %d", 
+         cTimeManager::GetInstance()->GetTotalFrame());
+
       drawText(renderStringBuffer, 10.f, 10.f);
 
-      sprintf_s(renderStringBuffer, 256, "FPS : %d", cTimeManager::GetInstance()->GetFPS());
+      sprintf_s(renderStringBuffer, 
+         renderStringBufferLength, 
+         "FPS : %d", 
+         cTimeManager::GetInstance()->GetFPS());
+
       drawText(renderStringBuffer, 10.f, 20.f);
 
-      sprintf_s(renderStringBuffer, 256, "Elapsed Time : %d", cTimeManager::GetInstance()->GetElapsedTime());
+      sprintf_s(renderStringBuffer, 
+         renderStringBufferLength, 
+         "Elapsed Time : %d", 
+         cTimeManager::GetInstance()->GetElapsedTime());
+
       drawText(renderStringBuffer, 10.f, 30.f);
 
-      sprintf_s(renderStringBuffer, 256, "World Time : %d", cTimeManager::GetInstance()->GetWorldTime());
+      sprintf_s(renderStringBuffer, 
+         renderStringBufferLength, 
+         "World Time : %d", 
+         cTimeManager::GetInstance()->GetWorldTime());
+
       drawText(renderStringBuffer, 10.f, 40.f);
+
+      free(renderStringBuffer);
    }
 
-   void ElevatorSimRenderWindow::drawText(char *str, float x, float y)
-   {
+   void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y) {
+      /* enabling prolog */
       glDisable(GL_DEPTH_TEST);
       glPushAttrib(GL_LIGHTING_BIT);
-      glDisable(GL_LIGHTING);
-      glMatrixMode(GL_PROJECTION);
+      glDisable(GL_LIGHTING); 
+
+      /* projection push */
+      glMatrixMode(GL_PROJECTION); 
       glPushMatrix();
+
+      /* modelview push */
       glLoadIdentity();
       gluOrtho2D(0, w(), 0, h());
       glMatrixMode(GL_MODELVIEW);
-      glPushMatrix();
-      glLoadIdentity();
+      glPushMatrix(); 
 
+      glLoadIdentity();
       glRasterPos2f(x, y);
 
-      char *c;
-      for (c=str; *c != '\0'; c++) {
+      /* loop through the string and draw each character */
+      for (const char *c = str; *c != '\0'; c++) {
          glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
       }
 
-      glPopMatrix();
+      /* modelview pop */
+      glPopMatrix(); 
+
+      /* projection pop */
       glMatrixMode(GL_PROJECTION);
-      glPopMatrix();
+      glPopMatrix(); 
+
+      /* disabling prolog */
       glMatrixMode(GL_MODELVIEW);
       glPopAttrib();
-      glEnable(GL_DEPTH_TEST);
+      glEnable(GL_DEPTH_TEST); 
    }
 
    ElevatorSimRenderWindow::ElevatorSimRenderWindow(
@@ -186,6 +214,7 @@ namespace elevatorSim {
          glInit();
          setViewport();
 
+         /* TODO: move srand somewhere else or scrap it entirely */
          srand((unsigned)time(NULL));
          for(int i=0; i<g_nNumberOfElev; i++)   {
             elevPos[i] = (float)(rand() % g_nNumberOfFloor);
@@ -200,12 +229,13 @@ namespace elevatorSim {
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
 
+      /* TODO: make these constants somewhere */
       gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
       m_CameraManager.Render();
 
       glMatrixMode(GL_MODELVIEW);
-      
+
       glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
 
@@ -233,10 +263,7 @@ namespace elevatorSim {
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
-         /*
-         * TODO:
-         * fprintf(stderr, "GLGETERROR=%d\n", (int)err);
-         */
+         fprintf(stderr, "GLGETERROR=%d\n", (int)err);
       }
    }
 

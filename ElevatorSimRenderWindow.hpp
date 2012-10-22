@@ -69,7 +69,7 @@ namespace elevatorSim {
          GLdouble zFar);
 
       void drawFPS();
-      void drawText(char *str, float x, float y);
+      void drawText(const char * const str, float x, float y);
 
    public:
 

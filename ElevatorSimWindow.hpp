@@ -48,7 +48,7 @@ namespace elevatorSim {
       void hideQuitConfirmDialog();
       void buildMenu();
       void buildButtons();
-	  void openScript();
+      void openScript();
 
       /* private static methods */
       static void windowCloseCB(Fl_Window* w, void* userData);
@@ -57,20 +57,20 @@ namespace elevatorSim {
       static void menuSaveCB(Fl_Widget* w, void* userData);
       static void menuQuitCB(Fl_Widget* w, void* userData);
       static void menuAboutCB(Fl_Widget* w, void* userData);
-	  static void menuHelpCB(Fl_Widget* w, void* userData);
+      static void menuHelpCB(Fl_Widget* w, void* userData);
       static void startSimCB(Fl_Widget* w, void* userData);
       static void pauseSimCB(Fl_Widget* w, void* userData);
       static void stopSimCB(Fl_Widget* w, void* userData);
       static void quitConfirmedCB(Fl_Button* yesButton, void* data);
       static void quitCancelledCB(Fl_Button* noButton, void* data);
-	  static void dismissHelpCB(Fl_Widget* w, void* userData);
+      static void dismissHelpCB(Fl_Widget* w, void* userData);
 
       /* private members */
       ElevatorSimRenderWindow* renderWindow;
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
-	  char* pythonScript;
+      char* pythonScript;
 
    public:
 
