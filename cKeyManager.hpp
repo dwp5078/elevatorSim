@@ -3,8 +3,6 @@
 
 #include "ElevatorSim.hpp"
 
-#define	KEYMAX	150
-
 class cKeyManager {
    const static int MAX_KEY;
 
