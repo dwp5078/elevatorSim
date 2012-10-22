@@ -30,12 +30,17 @@
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
 #include "cTimeManager.hpp"
+#include "cKeyManager.hpp"
 
 #include <FL/Fl_Menu_Bar.H>
 
 int main(int argc, char** argv) {
    elevatorSim::cTimeManager::GetInstance()->Setup();
-   elevatorSim::ElevatorSimWindow *mainWin = new elevatorSim::ElevatorSimWindow();
+   elevatorSim::cKeyManager::GetInstance();
+
+   elevatorSim::ElevatorSimWindow *mainWin = 
+      new elevatorSim::ElevatorSimWindow();
+
    mainWin->show();
 
    return(Fl::run());

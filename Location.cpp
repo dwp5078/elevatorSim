@@ -54,4 +54,4 @@ namespace elevatorSim {
       yVal = newYVal;
    }
 
-}
+} /* namespace elevatorSim */

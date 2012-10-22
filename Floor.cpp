@@ -29,7 +29,6 @@
 
 #include "Floor.hpp"
 
-
 namespace elevatorSim { 
    /* constructors */
    Floor::Floor() {
@@ -51,6 +50,10 @@ namespace elevatorSim {
       signalingDown = copy.signalingDown;
       hasUpperFloor = copy.hasUpperFloor;
       hasLowerFloor = copy.hasLowerFloor;
-      occupants.assign(copy.occupants.begin(), copy.occupants.end());
+
+      occupants.assign(
+         copy.occupants.begin(), 
+         copy.occupants.end());
    }
-}
+
+} /* namespace elevatorSim */

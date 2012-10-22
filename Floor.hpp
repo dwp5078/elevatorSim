@@ -77,4 +77,4 @@ namespace elevatorSim {
 
 } /* namespace elevatorSim */
 
-#endif
+#endif /* _FLOOR_H */

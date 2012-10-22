@@ -79,7 +79,7 @@ namespace elevatorSim {
       static const int TOP_MARGIN;
       static const int BOTTOM_MARGIN;
 
-      bool  m_bRenderFPS;
+      bool m_bRenderFPS;
 
       /* public instance members */
 

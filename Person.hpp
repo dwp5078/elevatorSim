@@ -38,6 +38,7 @@ namespace elevatorSim {
 
       /* friends */
 
+      /* (this person has no friends, trololoo) */
 
       /* private static constants */
       enum PRIORITY {
@@ -66,7 +67,10 @@ namespace elevatorSim {
       /* public instance members */
 
       /* constructors */
-      Person(Location startLoc, Location dest, enum PRIORITY p=UNKNOWN);
+      Person(
+         Location startLoc, 
+         Location dest, 
+         enum PRIORITY p=UNKNOWN);
 
       /* public methods */
       Location getCurrent();
@@ -82,4 +86,4 @@ namespace elevatorSim {
 
 } /* namespace elevatorSim */
 
-#endif
+#endif /* _PERSON_H */

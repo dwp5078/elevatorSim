@@ -3,24 +3,28 @@
 
 #include "ElevatorSim.hpp"
 
-class cKeyManager {
-   const static int MAX_KEY;
+namespace elevatorSim { 
 
-private:
+   class cKeyManager {
+      const static int MAX_KEY;
 
-   cKeyManager();
-   bool* m_bOnceKeyDown;
-   bool* m_bOnceKeyUp;
-   bool* m_bKeyPress;
+   private:
 
-public:
-   static cKeyManager* GetInstance();
+      cKeyManager();
+      bool* m_bOnceKeyDown;
+      bool* m_bOnceKeyUp;
+      bool* m_bKeyPress;
 
-   bool OnceKeyUp(int key);
-   bool OnceKeyDown(int key);
-   bool KeyPress(int key);
+   public:
+      static cKeyManager* GetInstance();
 
-   ~cKeyManager(void);
-};
+      bool OnceKeyUp(int key);
+      bool OnceKeyDown(int key);
+      bool KeyPress(int key);
+
+      ~cKeyManager(void);
+   };
+
+} /* namespace elevatorSim */
 
 #endif /* __CKEYMANAGER_H__ */

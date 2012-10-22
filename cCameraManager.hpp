@@ -5,8 +5,8 @@
 
 
 namespace elevatorSim {
-   class cCameraManager
-   {
+
+   class cCameraManager {
    private:
       Vec3f	m_vecCamPos;
       Vec3f	m_vecCamLookAt;
@@ -34,10 +34,19 @@ namespace elevatorSim {
 
       Vec3f GetRight();
 
-      inline Vec3f GetCameraPos()   {  return m_vecCamPos;  }
-      inline Vec3f GetCameraLookAt()   {  return m_vecCamLookAt;  }
-      inline Vec3f GetCameraUp()   {  return m_vecCamUp;  }
-   };
+      inline Vec3f GetCameraPos() {
+         return m_vecCamPos;  
+      }
+
+      inline Vec3f GetCameraLookAt() {  
+         return m_vecCamLookAt;  
+      }
+
+      inline Vec3f GetCameraUp() {  
+         return m_vecCamUp;  
+      }
+   }; /* cCameraManager */
+
 } /* namespace elevatorSim */
 
 #endif //__CCAMERAMANAGER_H__

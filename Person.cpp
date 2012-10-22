@@ -33,10 +33,13 @@
 namespace elevatorSim {
 
    /* constructors */
-   Person::Person(Location startLoc, Location dest, enum PRIORITY p) {
-      priority = p;
-      current = startLoc;
-      destination = dest;
+   Person::Person(
+      Location startLoc, 
+      Location dest, 
+      enum PRIORITY p) {
+         priority = p;
+         current = startLoc;
+         destination = dest;
    }
 
    /* getters and setters */
