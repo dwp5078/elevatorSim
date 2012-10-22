@@ -3,16 +3,17 @@
 
 #include "ElevatorSim.hpp"
 
-
 #define	KEYMAX	150
 
-class cKeyManager
-{
+class cKeyManager {
+   const static int MAX_KEY;
+
 private:
-   cKeyManager(void);
-   bool m_bOnceKeyDown[KEYMAX];
-   bool m_bOnceKeyUp[KEYMAX];
-   bool m_bKeyPress[KEYMAX];
+
+   cKeyManager();
+   bool* m_bOnceKeyDown;
+   bool* m_bOnceKeyUp;
+   bool* m_bKeyPress;
 
 public:
    static cKeyManager* GetInstance();
@@ -24,4 +25,4 @@ public:
    ~cKeyManager(void);
 };
 
-#endif //__CKEYMANAGER_H__
+#endif /* __CKEYMANAGER_H__ */

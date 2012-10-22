@@ -1,75 +1,57 @@
 #include "ElevatorSim.hpp"
 #include "cKeyManager.hpp"
 
-cKeyManager::cKeyManager(void)
-{
-   for(int i=0; i<128; i++)
-   {
-      m_bOnceKeyDown[i]	= false;
-      m_bOnceKeyUp[i]		= false;
-      m_bKeyPress[i]		= false;
-   }}
+const int cKeyManager::MAX_KEY = 256;
 
-cKeyManager::~cKeyManager(void)
-{
+cKeyManager::cKeyManager() {
+   m_bOnceKeyDown = new bool[MAX_KEY];
+   m_bOnceKeyUp = new bool[MAX_KEY];
+   m_bKeyPress = new bool[MAX_KEY];
 
+   assert( 
+      m_bOnceKeyDown && 
+      m_bOnceKeyUp && 
+      m_bKeyPress);
+
+   memset(m_bOnceKeyDown, 0, MAX_KEY);
+   memset(m_bOnceKeyUp, 0, MAX_KEY);
+   memset(m_bKeyPress, 0, MAX_KEY);
 }
 
-cKeyManager* cKeyManager::GetInstance()
-{
+cKeyManager::~cKeyManager() {
+   delete [] m_bKeyPress;
+   delete [] m_bOnceKeyUp;
+   delete [] m_bOnceKeyDown;
+}
+
+cKeyManager* cKeyManager::GetInstance() {
    static cKeyManager Instance;
    return &Instance;
 }
 
-bool cKeyManager::OnceKeyUp(int key)
-{
-   if(Fl::focus() == 0) return false;
-
-   if(Fl::event_key(key))
-   {
-      if(m_bOnceKeyUp[key] == false)
-      {
-         m_bOnceKeyUp[key] = true;
-      }
-   }
-   else if(m_bOnceKeyUp[key] == true)
-   {
-      m_bOnceKeyUp[key] = false;
+bool cKeyManager::OnceKeyUp(int key) {
+   if(Fl::focus() && Fl::event_key(key)) {
+      m_bOnceKeyUp[key] ^= true;
       return true;
+   } else {
+      return false;
    }
-
-   return false;
 }
 
-bool cKeyManager::OnceKeyDown(int key)
-{
-
-   if(Fl::focus() == 0) return false;
-   if(Fl::event_key(key))
-   {
-      if(m_bOnceKeyDown[key] == false)
-      {
-         m_bOnceKeyDown[key] = true;
-         return true;
-      }
+bool cKeyManager::OnceKeyDown(int key) {
+   if(Fl::focus() && Fl::event_key(key)) {
+      m_bOnceKeyDown[key] ^= 1;
+      return true; 
+   } else {
+      return false;
    }
-
-   else if(m_bOnceKeyDown[key] == true)
-   {
-      m_bOnceKeyDown[key] = false;
-   }
-
-   return false;
 }
 
-bool cKeyManager::KeyPress(int key)
-{
-
-   if(Fl::focus() == 0) return false;
-   if(Fl::event_key(key))
-   {
+bool cKeyManager::KeyPress(int key) {
+   /* TODO: figure out why this is even here */
+   if(Fl::focus() && Fl::event_key(key)) {
       return true;
+   } else {
+      return false;
    }
-
-   return false;
 }
