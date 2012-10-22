@@ -191,7 +191,6 @@ namespace elevatorSim {
    const int ElevatorSimWindow::HEIGHT = 480;
 
    /* public methods */
-
    ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
 
       renderWindow = new ElevatorSimRenderWindow(
@@ -201,16 +200,22 @@ namespace elevatorSim {
          HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
       resizable(*renderWindow);
-
       buildMenu();
       buildButtons();
 
+      /* add more widgets to main window here */
+
       end();
+
       callback((Fl_Callback*)windowCloseCB, this);
+
+      /* add more callbacks to main window here */
 
       confirmDialog = NULL;
       yesButton = NULL;
       noButton = NULL;
+
+      /* initialize any other main window member variables here */
    }
 
 } /* namespace elevatorSim */
