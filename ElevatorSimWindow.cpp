@@ -38,13 +38,24 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Multiline_Output.H>
+#include <FL/names.H>
 
 namespace elevatorSim {
 
    /* private methods */
    int ElevatorSimWindow::handle(int event) {
+      int lastKey = Fl::event_key();
 
-      /* TODO */
+      /* for debugging */
+      printf("MainWin: event: %s (%d)\n", fl_eventnames[event], event);
+
+      if(event == FL_KEYDOWN)  {
+         keyManager.down(lastKey);
+         return true;
+      } else if ( event == FL_KEYUP) {
+         keyManager.up(lastKey);
+         return true;
+      }
 
       return Fl_Window::handle(event);
    }
@@ -106,24 +117,37 @@ namespace elevatorSim {
       ((Fl_Window*)userData)->hide();
    }
    void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
-      /*TODO*/
+      Fl_Button* startButton = (Fl_Button*)w;
+
+      if(startButton->value()) {
+         printf("startSim CB fired");
+      }
    }
 
    void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+      Fl_Button* pauseButton = (Fl_Button*)w;
       /* TODO: this needs to be moved into time manager */
       static bool paused = true;
 
-      if(paused) {
-         w->label("Resume");
-      } else {
-         w->label("Pause");
-      }
+      if(pauseButton->value()) {
+         printf("pauseSim CB fired\n");
 
-      paused = !paused;
+         if(paused) {
+            w->label("Resume");
+         } else {
+            w->label("Pause");
+         }
+
+         paused = !paused;
+      }
    }
 
    void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
-      /* TODO */
+      Fl_Button* stopButton = (Fl_Button*)w;
+
+      if(stopButton->value()) {
+         printf("stopSim CB fired\n");
+      }
    }
 
    void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
@@ -136,8 +160,9 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
+      /* no - windows api are disallowed
       ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
-         NULL, NULL, SW_SHOWNORMAL);
+      NULL, NULL, SW_SHOWNORMAL);*/
    }
 
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
@@ -154,11 +179,14 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::openScript() {
-      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
+
+      /*
+      no - wrong storage class
+      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);*/
    }
 
    void ElevatorSimWindow::buildMenu() {
-      Fl_Menu_Item menuitems[] = {
+      static const Fl_Menu_Item menuitems[] = {
          {"&File", 0, 0, 0, FL_SUBMENU },
          { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
@@ -180,6 +208,14 @@ namespace elevatorSim {
       Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
       Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
 
+      startButton ->when( FL_LEFT_MOUSE);
+      pauseButton->when(FL_LEFT_MOUSE);
+      stopButton->when(FL_LEFT_MOUSE);
+
+      startButton->clear_visible_focus();
+      pauseButton->clear_visible_focus();
+      stopButton->clear_visible_focus();
+
       startButton->callback((Fl_Callback *)startSimCB, this);
       pauseButton->callback((Fl_Callback *)pauseSimCB, this);
       stopButton->callback((Fl_Callback *)stopSimCB, this);
@@ -190,10 +226,12 @@ namespace elevatorSim {
    const int ElevatorSimWindow::WIDTH = 640;
    const int ElevatorSimWindow::HEIGHT = 480;
 
+
    /* public methods */
-   ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+   ElevatorSimWindow::ElevatorSimWindow(cKeyManager& _keyManager) : Fl_Window(WIDTH, HEIGHT, TITLE), keyManager(_keyManager) {
 
       renderWindow = new ElevatorSimRenderWindow(
+         keyManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),

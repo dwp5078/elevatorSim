@@ -2,7 +2,7 @@
 #define __CCAMERAMANAGER_H__
 
 #include "ElevatorSim.hpp"
-
+#include "cKeyManager.hpp"
 
 namespace elevatorSim {
 
@@ -12,17 +12,15 @@ namespace elevatorSim {
       Vec3f	m_vecCamLookAt;
       Vec3f	m_vecCamUp;
 
-
       float m_fPitchAngle;
       float m_fYawAngle;
       float m_fRollAngle;
 
+      const cKeyManager& keyManager;
 
    public:
-      cCameraManager(void);
-      ~cCameraManager(void);
+      cCameraManager(const cKeyManager& _keyManager);
 
- 
       void Update();
       void Render();
 

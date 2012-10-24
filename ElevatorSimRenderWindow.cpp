@@ -35,7 +35,8 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
-#include <time.h>
+#include <FL/names.H>
+#include <ctime>
 
 namespace elevatorSim {
 
@@ -51,6 +52,24 @@ namespace elevatorSim {
       myWindow->redraw();
 
       Fl::repeat_timeout(FPS, timerCB, userdata);
+   }
+
+   int ElevatorSimRenderWindow::handle(int event) {
+      int lastKey = Fl::event_key();
+
+      /* for debugging */
+      printf("RenderWin: event: %s (%d)\n", fl_eventnames[event], event);
+
+      if(event == FL_KEYDOWN)  {
+        // keyManager.down(lastKey);
+         return true;
+      } else if ( event == FL_KEYUP) {
+      //   keyManager.up(lastKey);
+         return true;
+      }
+
+      return Fl_Gl_Window::handle(event);
+
    }
 
    void ElevatorSimRenderWindow::glInit() {
@@ -79,7 +98,7 @@ namespace elevatorSim {
    {
       cTimeManager::GetInstance()->Update();
 
-      if(cKeyManager::GetInstance()->OnceKeyDown('F'))   m_bRenderFPS = !m_bRenderFPS;
+      if(keyManager.isDown('F'))   m_bRenderFPS = !m_bRenderFPS;
       m_CameraManager.Update();
 
       //remove this part later (updating position of elevator)
@@ -196,14 +215,16 @@ namespace elevatorSim {
    }
 
    ElevatorSimRenderWindow::ElevatorSimRenderWindow(
+      const cKeyManager& _keyManager,
       int X, int Y, int W, int H, const char* Label) :
-   Fl_Gl_Window(X, Y, W, H, Label) {
+   Fl_Gl_Window(X, Y, W, H, Label), keyManager(_keyManager), m_CameraManager(_keyManager)  {
 
       spin = 0.0;
 
       m_bRenderFPS = true;
 
       Fl::add_timeout(FPS, timerCB, (void*)this);
+      take_focus();
    }
 
    void ElevatorSimRenderWindow::draw() {

@@ -1,29 +1,37 @@
 #ifndef __CKEYMANAGER_H__
 #define __CKEYMANAGER_H__
 
+#include <map>
+
 #include "ElevatorSim.hpp"
 
 namespace elevatorSim { 
 
-   class cKeyManager {
-      const static int MAX_KEY;
+class cKeyManager {
+private:
 
-   private:
+   std::map<int, bool> keysPressed;
 
-      cKeyManager();
-      bool* m_bOnceKeyDown;
-      bool* m_bOnceKeyUp;
-      bool* m_bKeyPress;
+public:
 
-   public:
-      static cKeyManager* GetInstance();
+   inline void up(int key) {
+      keysPressed[key] = false;
+   }
 
-      bool OnceKeyUp(int key);
-      bool OnceKeyDown(int key);
-      bool KeyPress(int key);
+   inline void down(int key) {
+      keysPressed[key] = true;
+   }
 
-      ~cKeyManager(void);
-   };
+   inline bool isDown(int key) const {
+      std::map<int, bool>::const_iterator cit = keysPressed.find(key);
+      
+      if(cit == keysPressed.end()) {
+         return false;
+      } else {
+         return cit->second;;
+      }
+   }
+};
 
 } /* namespace elevatorSim */
 

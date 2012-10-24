@@ -32,6 +32,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "cKeyManager.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -70,7 +71,9 @@ namespace elevatorSim {
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
-      char* pythonScript;
+      cKeyManager& keyManager;
+      /*char* pythonScript;*/
+
 
    public:
 
@@ -80,7 +83,7 @@ namespace elevatorSim {
       const static char TITLE[];
 
       /* public methods */
-      ElevatorSimWindow();
+      ElevatorSimWindow(cKeyManager& _keyManager);
    };
 
 } /* namespace elevatorSim */

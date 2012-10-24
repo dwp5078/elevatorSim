@@ -32,6 +32,7 @@
 
 #include "ElevatorSim.hpp"
 #include "cCameraManager.hpp"
+#include "cKeyManager.hpp"
 #include "cRenderObjs.hpp"
 
 #include <FL/Fl_Window.H>
@@ -49,6 +50,7 @@ namespace elevatorSim {
 
       /* private instance members */
       float spin;
+      const cKeyManager& keyManager;
 
       cRenderObjs    m_renderObjs;
       cCameraManager m_CameraManager;
@@ -59,6 +61,7 @@ namespace elevatorSim {
 
       /* private methods */
       //void initCube();
+      int handle(int event);
       void glInit();
       void Update();       //update values every frame
       void setViewport();
@@ -85,6 +88,7 @@ namespace elevatorSim {
 
       /* public methods */
       ElevatorSimRenderWindow(
+         const cKeyManager& keyManager,
          int X, int Y, int W, int H, const char* Label = 0);
       void draw();
 

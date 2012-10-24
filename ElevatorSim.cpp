@@ -34,10 +34,10 @@
 
 int main(int argc, char** argv) {
    elevatorSim::cTimeManager::GetInstance()->Setup();
-   elevatorSim::cKeyManager::GetInstance();
+   elevatorSim::cKeyManager keyManager;
 
    elevatorSim::ElevatorSimWindow *mainWin = 
-      new elevatorSim::ElevatorSimWindow();
+      new elevatorSim::ElevatorSimWindow(keyManager);
 
    mainWin->show();
 
