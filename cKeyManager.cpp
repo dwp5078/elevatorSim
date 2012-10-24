@@ -1,3 +1,5 @@
+#include <FL/Fl.h>
+
 #include "ElevatorSim.hpp"
 #include "cKeyManager.hpp"
 
@@ -31,8 +33,8 @@ namespace elevatorSim {
       return &Instance;
    }
 
-   bool cKeyManager::OnceKeyUp(int key) {
-      if(Fl::focus() && Fl::event_key(key)) {
+   bool cKeyManager::onceKeyUp(int key) {
+      if(Fl::event_key(key)) {
          m_bOnceKeyUp[key] ^= true;
          return true;
       } else {
@@ -40,8 +42,8 @@ namespace elevatorSim {
       }
    }
 
-   bool cKeyManager::OnceKeyDown(int key) {
-      if(Fl::focus() && Fl::event_key(key)) {
+   bool cKeyManager::onceKeyDown(int key) {
+      if(Fl::event_key(key)) {
          m_bOnceKeyDown[key] ^= 1;
          return true; 
       } else {
@@ -49,9 +51,9 @@ namespace elevatorSim {
       }
    }
 
-   bool cKeyManager::KeyPress(int key) {
+   bool cKeyManager::keyPress(int key) {
       /* TODO: figure out why this is even here */
-      if(Fl::focus() && Fl::event_key(key)) {
+      if(Fl::event_key(key)) {
          return true;
       } else {
          return false;

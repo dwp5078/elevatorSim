@@ -1,3 +1,0 @@
-This is the directory into which you should symlink your 64 bit fltk build artifacts.
-You need to build it using clang 3.1 or higher.
-Note that fltk will only ever produce statically linkable artifacts, so there is no need to differentiate these cases in the makefile.

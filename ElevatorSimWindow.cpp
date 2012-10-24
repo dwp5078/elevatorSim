@@ -136,8 +136,7 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
-      ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
-         NULL, NULL, SW_SHOWNORMAL);
+
    }
 
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {

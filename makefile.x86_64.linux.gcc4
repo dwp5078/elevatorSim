@@ -1,0 +1,31 @@
+OBJS=ElevatorSim.o\
+ElevatorSimWindow.o\
+ElevatorSimRenderWindow.o\
+cRenderObjs.o\
+cTimeManager.o\
+cKeyManager.o\
+cCameraManager.o\
+Elevator.o\
+Location.o\
+Person.o\
+Building.o\
+Floor.o
+
+CXXFLAGS=-c -std=c++11 -D_ES_UNIX
+LDFLAGS=-lglut -lGL -lGLU -lm -lfltk -lfltk_gl -lstdc++
+DBGFLAGS=-g
+
+CC=gcc
+RM=rm
+OUT=elevatorSim
+
+all: elevatorSim
+
+elevatorSim: $(OBJS)
+	$(CC) $(OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
+
+.cpp.o:
+	$(CC) $(DBGFLAGS) $(CXXFLAGS) $<
+
+clean:
+	$(RM) -f $(OBJS)

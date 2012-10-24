@@ -18,9 +18,9 @@ namespace elevatorSim {
    public:
       static cKeyManager* GetInstance();
 
-      bool OnceKeyUp(int key);
-      bool OnceKeyDown(int key);
-      bool KeyPress(int key);
+      bool onceKeyUp(int key);
+      bool onceKeyDown(int key);
+      bool keyPress(int key);
 
       ~cKeyManager(void);
    };
