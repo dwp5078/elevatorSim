@@ -29,6 +29,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "cCameraManager.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
@@ -83,13 +84,13 @@ void ElevatorSimRenderWindow::glInit() {
 
 void ElevatorSimRenderWindow::Update()
 {
-   cTimeManager::GetInstance()->Update();
+   /*cTimeManager::GetInstance()->Update();
 
    if(cKeyManager::GetInstance()->onceKeyDown('F')){
       m_bRenderFPS = !m_bRenderFPS;
    }
 
-   m_CameraManager.Update();
+   m_CameraManager.Update();*/
 }
 
 void ElevatorSimRenderWindow::setViewport() {
@@ -100,8 +101,7 @@ void ElevatorSimRenderWindow::setViewport() {
    setPerspective(45.0, 1.0*ratio, 1.0, 200.0);
 }
 
-void ElevatorSimRenderWindow::setPerspective(
-      GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
+void ElevatorSimRenderWindow::setPerspective(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
    GLdouble xmin, xmax, ymin, ymax;
 
    ymax = zNear * tan(fovy * M_PI / 360.0);
@@ -120,7 +120,7 @@ void ElevatorSimRenderWindow::drawFPS()
    glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
 
-   snprintf(renderStringBuffer,
+   /*snprintf(renderStringBuffer,
          renderStringBufferLength, 
          "Total Frame : %d", 
          cTimeManager::GetInstance()->GetTotalFrame());
@@ -148,7 +148,7 @@ void ElevatorSimRenderWindow::drawFPS()
 
    drawText(renderStringBuffer, 10.f, 40.f);
 
-   free(renderStringBuffer);
+   free(renderStringBuffer);*/
 }
 
 void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y) {
@@ -189,8 +189,11 @@ void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y)
 }
 
 ElevatorSimRenderWindow::ElevatorSimRenderWindow(
+      const cTimeManager& timeManager,
+      const cKeyManager& keyManager,
+      const cCameraManager& cameraManager,
       int X, int Y, int W, int H, const char* Label) :
-                                 Fl_Gl_Window(X, Y, W, H, Label) {
+                                             Fl_Gl_Window(X, Y, W, H, Label) {
 
    spin = 0.0;
    FPS = 38;
@@ -203,7 +206,7 @@ void ElevatorSimRenderWindow::draw() {
    if(!valid()) {
       /* initialize, this code only gets executed the first time draw() is called */
 
-      m_renderObjs.Init();
+      m_renderObjs.init();
       glInit();
       setViewport();
    }

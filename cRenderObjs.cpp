@@ -3,24 +3,24 @@
 namespace elevatorSim   {
 cRenderObjs::cRenderObjs(void)
 {
-   m_bIsInit= false;
+   m_bIsInit = false;
 }
 
 cRenderObjs::~cRenderObjs(void)
 {
 }
-void cRenderObjs::Init()
+void cRenderObjs::init()
 {
    if(!m_bIsInit) {
       m_bIsInit = true;
-      InitPlane();
-      InitCube();
-      InitBuilding();
-      InitElevator();
+      initPlane();
+      initCube();
+      initBuilding();
+      initElevator();
    }
 }
 
-void cRenderObjs::InitPlane()
+void cRenderObjs::initPlane()
 {
    glNewList(OBJ_PLANE, GL_COMPILE);
    glDisable(GL_LIGHTING);
@@ -43,7 +43,7 @@ void cRenderObjs::InitPlane()
    glEndList();
 }
 
-void cRenderObjs::InitCube()
+void cRenderObjs::initCube()
 {
    glNewList(OBJ_CUBE, GL_COMPILE);
    glEnable(GL_LIGHTING);
@@ -103,14 +103,14 @@ void cRenderObjs::InitCube()
    glEndList();
 }
 
-void cRenderObjs::InitBuilding()
+void cRenderObjs::initBuilding()
 {
    glNewList(OBJ_BUILDING, GL_COMPILE);
 
    glEndList();
 }
 
-void cRenderObjs::InitElevator()
+void cRenderObjs::initElevator()
 {
    glNewList(OBJ_ELEVATOR, GL_COMPILE);
    glEndList();

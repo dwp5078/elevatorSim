@@ -21,10 +21,10 @@ cCameraManager::~cCameraManager(void)
 
 void cCameraManager::Update()
 {
-   float move = MOVE * cTimeManager::GetInstance()->GetElapsedTime();
-   float rot = ROT * cTimeManager::GetInstance()->GetElapsedTime();
+   /*float move = MOVE * cTimeManager::GetInstance()->GetElapsedTime();
+   float rot = ROT * cTimeManager::GetInstance()->GetElapsedTime();*/
 
-   Vec3f right = GetRight() * move;
+   //Vec3f right = GetRight() * move;
 
    /*
    if(cKeyManager::GetInstance()->keyPress(FL_Page_Up))    {

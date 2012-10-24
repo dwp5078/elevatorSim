@@ -80,7 +80,7 @@ public:
    const static char TITLE[];
 
    /* public methods */
-   ElevatorSimWindow();
+   ElevatorSimWindow(const cTimeManager& timeManager, const cKeyManager& keyManager, const cCameraManager& cameraManager);
 };
 
 } /* namespace elevatorSim */

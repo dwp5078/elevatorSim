@@ -19,14 +19,12 @@ public:
    ~cRenderObjs(void);
 
    bool  m_bIsInit;
-   int   m_nNumberOfFloor;
-   int   m_nNumberOfElevator;
 
-   void Init();
-   void InitCube();
-   void InitPlane();
-   void InitBuilding();
-   void InitElevator();
+   void init();
+   void initCube();
+   void initPlane();
+   void initBuilding();
+   void initElevator();
 };
 }
 

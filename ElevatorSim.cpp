@@ -33,13 +33,14 @@
 #include "cKeyManager.hpp"
 
 int main(int argc, char** argv) {
-   elevatorSim::cTimeManager::GetInstance()->Setup();
-   elevatorSim::cKeyManager::GetInstance();
+   elevatorSim::cTimeManager timeManager;
+   elevatorSim::cKeyManager keyManager;
+   elevatorSim::cCameraManager cameraManager;
 
-   elevatorSim::ElevatorSimWindow *mainWin = 
-         new elevatorSim::ElevatorSimWindow();
+   elevatorSim::ElevatorSimWindow mainWin(timeManager, keyManager, cameraManager);
+   mainWin.show();
 
-   mainWin->show();
+   /* TODO start other threads */
 
    return(Fl::run());
 }

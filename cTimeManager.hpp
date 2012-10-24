@@ -1,38 +1,29 @@
 #ifndef __CTIMEMANAGER_H__
 #define __CTIMEMANAGER_H__
 
-#include <cstdint>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace elevatorSim {
 
 class cTimeManager {
 
-   uint32_t m_dwPrevTime;
-   uint32_t m_dwCurrTime;
+   boost::posix_time::ptime m_dwPrevTime;
+   boost::posix_time::ptime m_dwCurrTime;
 
-   uint32_t m_dwWorldTime;
-   uint32_t m_dwElapsedTime;
-   uint32_t m_dwFps;
-   uint32_t m_dwFrame;
-
-   uint32_t m_dwLimitTime;
-   uint32_t m_dwFpsPlus;
-
-   cTimeManager(void);
+   boost::posix_time::time_duration m_dwWorldTime;
+   boost::posix_time::time_duration m_dwElapsedTime;
+   boost::posix_time::ptime m_dwLimitTime;
 
 public:
 
-   ~cTimeManager(void);
+   cTimeManager();
+   ~cTimeManager();
 
-   static cTimeManager* GetInstance();
+   inline boost::posix_time::time_duration elapsedTime() { return m_dwElapsedTime; }
+   inline boost::posix_time::time_duration worldTime() { return m_dwWorldTime; }
 
-   inline uint32_t GetElapsedTime() { return m_dwElapsedTime; }
-   inline uint32_t GetWorldTime() { return m_dwWorldTime; }
-   inline uint32_t GetFPS() { return m_dwFps; }
-   inline uint32_t GetTotalFrame() { return m_dwFpsPlus; }
-
-   void Setup();
-   void Update();
+   void setup();
+   void update();
 
 };
 } /* namespace elevatorSim */

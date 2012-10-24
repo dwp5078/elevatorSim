@@ -159,8 +159,8 @@ void ElevatorSimWindow::openScript() {
 void ElevatorSimWindow::buildMenu() {
    Fl_Menu_Item menuitems[] = {
          {"&File", 0, 0, 0, FL_SUBMENU },
-         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
-         { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
+         {"&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
+         {"E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
          {0},
          {"&Help", 0, 0, 0, FL_SUBMENU},
          {"How to use", 0, (Fl_Callback *)menuHelpCB, this},
@@ -190,9 +190,13 @@ const int ElevatorSimWindow::WIDTH = 640;
 const int ElevatorSimWindow::HEIGHT = 480;
 
 /* public methods */
-ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+
+ElevatorSimWindow::ElevatorSimWindow(const cTimeManager& timeManager, const cKeyManager& keyManager, const cCameraManager& cameraManager) : Fl_Window(WIDTH, HEIGHT, TITLE) {
 
    renderWindow = new ElevatorSimRenderWindow(
+         timeManager,
+         keyManager,
+         cameraManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),

@@ -32,6 +32,8 @@
 
 #include "ElevatorSim.hpp"
 #include "cCameraManager.hpp"
+#include "cKeyManager.hpp"
+#include "cTimeManager.hpp"
 #include "cRenderObjs.hpp"
 
 #include <FL/Fl_Window.H>
@@ -86,9 +88,14 @@ public:
 
    /* public instance members */
 
+
    /* public methods */
    ElevatorSimRenderWindow(
+         const cTimeManager& timeManager,
+         const cKeyManager& keyManager,
+         const cCameraManager& cameraManager,
          int X, int Y, int W, int H, const char* Label = 0);
+
    void draw();
 
    inline int getFPS() {

@@ -38,14 +38,7 @@
 #error Unspecified operating system. Use the makefile.
 #endif
 
-/*
- * #include <iostream>
- * #include <boost/thread.hpp>
- * #include <sqlite/sqlite3.h>
- */
-
 #include <GL/glut.h>
-
 #include <cassert>
 #include <cmath>
 #include <cstring>
