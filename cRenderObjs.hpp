@@ -12,22 +12,22 @@ enum OBJ_LIST {
 };
 
 namespace elevatorSim   {
-   class cRenderObjs
-   {
-   public:
-      cRenderObjs(void);
-      ~cRenderObjs(void);
+class cRenderObjs
+{
+public:
+   cRenderObjs(void);
+   ~cRenderObjs(void);
 
-      bool  m_bIsInit;
-      int   m_nNumberOfFloor;
-      int   m_nNumberOfElevator;
+   bool  m_bIsInit;
+   int   m_nNumberOfFloor;
+   int   m_nNumberOfElevator;
 
-      void Init();
-      void InitCube();
-      void InitPlane();
-      void InitBuilding();
-      void InitElevator();
-   };
+   void Init();
+   void InitCube();
+   void InitPlane();
+   void InitBuilding();
+   void InitElevator();
+};
 }
 
 #endif //__CRENDEROBJS_HPP_

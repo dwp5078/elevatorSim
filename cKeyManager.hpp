@@ -5,25 +5,25 @@
 
 namespace elevatorSim { 
 
-   class cKeyManager {
-      const static int MAX_KEY;
+class cKeyManager {
+   const static int MAX_KEY;
 
-   private:
+private:
 
-      cKeyManager();
-      bool* m_bOnceKeyDown;
-      bool* m_bOnceKeyUp;
-      bool* m_bKeyPress;
+   cKeyManager();
+   bool* m_bOnceKeyDown;
+   bool* m_bOnceKeyUp;
+   bool* m_bKeyPress;
 
-   public:
-      static cKeyManager* GetInstance();
+public:
+   static cKeyManager* GetInstance();
 
-      bool onceKeyUp(int key);
-      bool onceKeyDown(int key);
-      bool keyPress(int key);
+   bool onceKeyUp(int key);
+   bool onceKeyDown(int key);
+   bool keyPress(int key);
 
-      ~cKeyManager(void);
-   };
+   ~cKeyManager(void);
+};
 
 } /* namespace elevatorSim */
 

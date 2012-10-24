@@ -1,31 +1,31 @@
 /*
-* Copyright (c) 2012, Joseph Max DeLiso
-* All rights reserved.
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*
-* 1. Redistributions of source code must retain the above copyright notice, this
-*    list of conditions and the following disclaimer.
-* 2. Redistributions in binary form must reproduce the above copyright notice,
-*   this list of conditions and the following disclaimer in the documentation
-*   and/or other materials provided with the distribution.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-* ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-* WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-* ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-* ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-* (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-* SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-* The views and conclusions contained in the software and documentation are those
-* of the authors and should not be interpreted as representing official policies,
-* either expressed or implied, of the FreeBSD Project.
-*/
+ * Copyright (c) 2012, Joseph Max DeLiso
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those
+ * of the authors and should not be interpreted as representing official policies,
+ * either expressed or implied, of the FreeBSD Project.
+ */
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
@@ -41,123 +41,123 @@
 
 namespace elevatorSim {
 
-   /* private methods */
-   int ElevatorSimWindow::handle(int event) {
+/* private methods */
+int ElevatorSimWindow::handle(int event) {
 
-      /* TODO */
+   /* TODO */
 
-      return Fl_Window::handle(event);
+   return Fl_Window::handle(event);
+}
+
+void ElevatorSimWindow::showQuitConfirmDialog() {
+   /* Lazy-allocation of quit dialog widgets */
+   if(!confirmDialog && !yesButton && !noButton) {
+      confirmDialog = new Fl_Window(220, 110, "Are you sure?");
+      yesButton = new Fl_Button(10, 10, 200, 40, "yes");
+      noButton = new Fl_Button(10, 60, 200, 40, "no");
+
+      yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
+      noButton->callback((Fl_Callback*) quitCancelledCB, this);
+
+      confirmDialog->add(yesButton);
+      confirmDialog->add(noButton);
+      confirmDialog->end();
    }
 
-   void ElevatorSimWindow::showQuitConfirmDialog() {
-      /* Lazy-allocation of quit dialog widgets */
-      if(!confirmDialog && !yesButton && !noButton) {
-         confirmDialog = new Fl_Window(220, 110, "Are you sure?");
-         yesButton = new Fl_Button(10, 10, 200, 40, "yes");
-         noButton = new Fl_Button(10, 60, 200, 40, "no");
+   confirmDialog->show();
+}
 
-         yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
-         noButton->callback((Fl_Callback*) quitCancelledCB, this);
+void ElevatorSimWindow::hideQuitConfirmDialog() {
+   if(confirmDialog) {
+      confirmDialog->hide();
+   }
+}
 
-         confirmDialog->add(yesButton);
-         confirmDialog->add(noButton);
-         confirmDialog->end();
-      }
+/* private static methods */
+void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
-      confirmDialog->show();
+   thisWin->showQuitConfirmDialog();
+}
+
+void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
+   /* TODO */
+}
+
+void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+   thisWin->openScript();
+}
+
+void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
+   Fl_Window* helpWin = new Fl_Window(300, 300, "Help");
+   Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
+   Fl_Button* doneButton = new Fl_Button(100, 240, 100, 40, "Done");
+
+   doneButton->callback((Fl_Callback*) dismissHelpCB, helpWin);
+
+   helpWin->add(label);
+   helpWin->add(doneButton);
+   helpWin->end();
+   helpWin->show();
+}
+
+void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
+   ((Fl_Window*)userData)->hide();
+}
+void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
+   /*TODO*/
+}
+
+void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+   /* TODO: this needs to be moved into time manager */
+   static bool paused = true;
+
+   if(paused) {
+      w->label("Resume");
+   } else {
+      w->label("Pause");
    }
 
-   void ElevatorSimWindow::hideQuitConfirmDialog() {
-      if(confirmDialog) {
-         confirmDialog->hide();
-      }
-   }
+   paused = !paused;
+}
 
-   /* private static methods */
-   void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
+   /* TODO */
+}
 
-      thisWin->showQuitConfirmDialog();
-   }
+void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
+   /* TODO */
+}
 
-   void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
-      /* TODO */
-   }
+void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+   thisWin->showQuitConfirmDialog();
+}
 
-   void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-      thisWin->openScript();
-   }
+void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
 
-   void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
-      Fl_Window* helpWin = new Fl_Window(300, 300, "Help");
-      Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
-      Fl_Button* doneButton = new Fl_Button(100, 240, 100, 40, "Done");
+}
 
-      doneButton->callback((Fl_Callback*) dismissHelpCB, helpWin);
+void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
-      helpWin->add(label);
-      helpWin->add(doneButton);
-      helpWin->end();
-      helpWin->show();
-   }
+   thisWin->hideQuitConfirmDialog();
+   thisWin->hide();
+}
 
-   void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
-      ((Fl_Window*)userData)->hide();
-   }
-   void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
-      /*TODO*/
-   }
+void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
-   void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
-      /* TODO: this needs to be moved into time manager */
-      static bool paused = true;
+   thisWin->hideQuitConfirmDialog();
+}
 
-      if(paused) {
-         w->label("Resume");
-      } else {
-         w->label("Pause");
-      }
+void ElevatorSimWindow::openScript() {
+   pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
+}
 
-      paused = !paused;
-   }
-
-   void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
-      /* TODO */
-   }
-
-   void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
-      /* TODO */
-   }
-
-   void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-      thisWin->showQuitConfirmDialog();
-   }
-
-   void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
-
-   }
-
-   void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-
-      thisWin->hideQuitConfirmDialog();
-      thisWin->hide();
-   }
-
-   void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-
-      thisWin->hideQuitConfirmDialog();
-   }
-
-   void ElevatorSimWindow::openScript() {
-      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
-   }
-
-   void ElevatorSimWindow::buildMenu() {
-      Fl_Menu_Item menuitems[] = {
+void ElevatorSimWindow::buildMenu() {
+   Fl_Menu_Item menuitems[] = {
          {"&File", 0, 0, 0, FL_SUBMENU },
          { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
@@ -168,53 +168,53 @@ namespace elevatorSim {
          {0},
          {0}};
 
-         Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
-         menubar->copy(menuitems);
+   Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+   menubar->copy(menuitems);
 
-         add(menubar);
-   }
+   add(menubar);
+}
 
-   void ElevatorSimWindow::buildButtons(){
-      Fl_Button *startButton = new Fl_Button(10, 35, 100, 20, "Begin");
-      Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
-      Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
+void ElevatorSimWindow::buildButtons(){
+   Fl_Button *startButton = new Fl_Button(10, 35, 100, 20, "Begin");
+   Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
+   Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
 
-      startButton->callback((Fl_Callback *)startSimCB, this);
-      pauseButton->callback((Fl_Callback *)pauseSimCB, this);
-      stopButton->callback((Fl_Callback *)stopSimCB, this);
-   }
+   startButton->callback((Fl_Callback *)startSimCB, this);
+   pauseButton->callback((Fl_Callback *)pauseSimCB, this);
+   stopButton->callback((Fl_Callback *)stopSimCB, this);
+}
 
-   /* public static member initializers */
-   const char ElevatorSimWindow::TITLE[] = "elevatorSim";
-   const int ElevatorSimWindow::WIDTH = 640;
-   const int ElevatorSimWindow::HEIGHT = 480;
+/* public static member initializers */
+const char ElevatorSimWindow::TITLE[] = "elevatorSim";
+const int ElevatorSimWindow::WIDTH = 640;
+const int ElevatorSimWindow::HEIGHT = 480;
 
-   /* public methods */
-   ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+/* public methods */
+ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
 
-      renderWindow = new ElevatorSimRenderWindow(
+   renderWindow = new ElevatorSimRenderWindow(
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),
          HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
-      resizable(*renderWindow);
-      buildMenu();
-      buildButtons();
+   resizable(*renderWindow);
+   buildMenu();
+   buildButtons();
 
-      /* add more widgets to main window here */
+   /* add more widgets to main window here */
 
-      end();
+   end();
 
-      callback((Fl_Callback*)windowCloseCB, this);
+   callback((Fl_Callback*)windowCloseCB, this);
 
-      /* add more callbacks to main window here */
+   /* add more callbacks to main window here */
 
-      confirmDialog = NULL;
-      yesButton = NULL;
-      noButton = NULL;
+   confirmDialog = NULL;
+   yesButton = NULL;
+   noButton = NULL;
 
-      /* initialize any other main window member variables here */
-   }
+   /* initialize any other main window member variables here */
+}
 
 } /* namespace elevatorSim */

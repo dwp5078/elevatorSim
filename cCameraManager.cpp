@@ -73,7 +73,7 @@ void cCameraManager::Update()
    if(cKeyManager::GetInstance()->KeyPress('F'))      Roll(rot);
 
    if(cKeyManager::GetInstance()->OnceKeyDown(' ')) ReinitCamera();
-   */
+    */
 }
 
 

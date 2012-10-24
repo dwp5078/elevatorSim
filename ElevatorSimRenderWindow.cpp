@@ -190,7 +190,7 @@ void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y)
 
 ElevatorSimRenderWindow::ElevatorSimRenderWindow(
       int X, int Y, int W, int H, const char* Label) :
-                           Fl_Gl_Window(X, Y, W, H, Label) {
+                                 Fl_Gl_Window(X, Y, W, H, Label) {
 
    spin = 0.0;
    FPS = 38;
