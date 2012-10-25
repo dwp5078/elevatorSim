@@ -200,8 +200,8 @@ namespace elevatorSim {
    Fl_Gl_Window(X, Y, W, H, Label) {
 
       spin = 0.0;
-
       m_bRenderFPS = true;
+      m_Building.Init(20, 5);
 
       Fl::add_timeout(FPS, timerCB, (void*)this);
    }
@@ -220,6 +220,7 @@ namespace elevatorSim {
             elevPos[i] = (float)(rand() % g_nNumberOfFloor);
             elevGoingDown[i] = (rand() % 2 == 1 ? true : false);
          }
+
       }
 
       /* draw */
@@ -239,10 +240,12 @@ namespace elevatorSim {
       glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
 
+      m_Building.Render();
+
       /* Draw building object */
-      glLoadIdentity();
-      glTranslatef(0.0f, -2.0f, 0.0f);
-      glCallList(OBJ_BUILDING);
+      //glLoadIdentity();
+      //glTranslatef(0.0f, -2.0f, 0.0f);
+      //glCallList(OBJ_BUILDING);
 
       /* Draw Elevators; */
       float buildingLeft = -g_nNumberOfElev * ELEV_GAP_WIDTH;

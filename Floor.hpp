@@ -47,7 +47,6 @@ namespace elevatorSim {
 
       /* private static methods */
 
-
       /* private instance members */
       std::vector<Person> occupants;
       bool signalingUp;
@@ -71,6 +70,9 @@ namespace elevatorSim {
       Floor(const Floor & copy);
 
       /* public methods */
+      void Init();
+      void Render();
+      void Update();
 
 
    };

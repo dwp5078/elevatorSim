@@ -73,6 +73,14 @@ enum KEY_PRESS {
    KEY_BACKWARD,
 };
 
+enum OBJ_LIST {
+   OBJ_PLANE = 1,
+   OBJ_CUBE,
+   OBJ_BUILDING,
+   OBJ_ELEVATOR,
+   OBJ_MAX,
+};
+
 const GLfloat light1_ambient[] = { 0.4f, 0.4f, 0.4f, 1.0f };
 const GLfloat light1_diffuse[] = { 0.15f, 0.15f, 0.15f, 1.0f };
 const GLfloat light1_specular[] = { 0.5f, 0.5f, 0.5f, 1.0f };

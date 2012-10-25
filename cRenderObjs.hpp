@@ -3,14 +3,6 @@
 
 #include "ElevatorSim.hpp"
 
-enum OBJ_LIST {
-   OBJ_PLANE = 1,
-   OBJ_CUBE,
-   OBJ_BUILDING,
-   OBJ_ELEVATOR,
-   OBJ_MAX,
-};
-
 namespace elevatorSim   {
    class cRenderObjs
    {

@@ -33,6 +33,7 @@
 #include "ElevatorSim.hpp"
 #include "cCameraManager.hpp"
 #include "cRenderObjs.hpp"
+#include "Building.hpp"
 
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
@@ -52,6 +53,8 @@ namespace elevatorSim {
 
       cRenderObjs    m_renderObjs;
       cCameraManager m_CameraManager;
+      Building       m_Building;
+
 
       //remove later. For test purpose
       float elevPos[g_nNumberOfElev];

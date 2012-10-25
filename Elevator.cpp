@@ -50,4 +50,17 @@ namespace elevatorSim {
          occupants.assign(copy.occupants.begin(), copy.occupants.end());
    }
 
+   void Elevator::Init()
+   {
+   }
+
+   void Elevator::Render()
+   {
+
+   }
+
+   void Elevator::Update()
+   {
+   }
+
 }

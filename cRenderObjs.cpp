@@ -54,7 +54,6 @@ namespace elevatorSim   {
       glBegin(GL_QUADS);
 
       /* Front Face */
-      glColor3f(1.0, 0.0, 0.0); /* red */
       glNormal3f(0.0, 0.0, 1.0);
       glVertex3f(-1.0,  1.0,  1.0);
       glVertex3f( 1.0,  1.0,  1.0);
@@ -62,7 +61,6 @@ namespace elevatorSim   {
       glVertex3f(-1.0, -1.0,  1.0);
 
       /* Back Face */
-      glColor3f(0.0, 1.0, 1.0); /* cyn */
       glNormal3f(0.0, 0.0, -1.0);
       glVertex3f( 1.0,  1.0, -1.0);
       glVertex3f(-1.0,  1.0, -1.0);
@@ -70,7 +68,6 @@ namespace elevatorSim   {
       glVertex3f( 1.0, -1.0, -1.0);
 
       /* Top Face */
-      glColor3f(0.0, 1.0, 0.0); /* grn */
       glNormal3f(0.0, 1.0, 0.0);
       glVertex3f(-1.0,  1.0, -1.0);
       glVertex3f( 1.0,  1.0, -1.0);
@@ -78,7 +75,6 @@ namespace elevatorSim   {
       glVertex3f(-1.0,  1.0,  1.0);
 
       /* Bottom Face */
-      glColor3f(1.0, 0.0, 1.0); /* mag */
       glNormal3f(0.0, -1.0, 0.0);
       glVertex3f( 1.0, -1.0, -1.0);
       glVertex3f(-1.0, -1.0, -1.0);
@@ -86,7 +82,6 @@ namespace elevatorSim   {
       glVertex3f( 1.0, -1.0,  1.0);
 
       /* Right face */
-      glColor3f(0.0, 0.0, 1.0); /* blu */
       glNormal3f(1.0, 0.0, 0.0);
       glVertex3f( 1.0,  1.0,  1.0);
       glVertex3f( 1.0,  1.0, -1.0);
@@ -94,7 +89,6 @@ namespace elevatorSim   {
       glVertex3f( 1.0, -1.0,  1.0);
 
       /* Left Face */
-      glColor3f(1.0, 1.0, 0.0); /* yel */
       glNormal3f(-1.0, 0.0, 0.0);
       glVertex3f(-1.0,  1.0, -1.0);
       glVertex3f(-1.0,  1.0,  1.0);

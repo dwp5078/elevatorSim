@@ -82,6 +82,10 @@ namespace elevatorSim {
       int getCurrentAccel();
       void setCurrentAccel();*/
 
+      void Init();
+      void Render();
+      void Update();
+
    };
 
 } /* namespace elevatorSim */
