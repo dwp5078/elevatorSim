@@ -39,6 +39,7 @@
 #include <GL/glut.h>
 
 #include <ctime>
+#include <sstream>
 
 namespace elevatorSim {
 
@@ -110,29 +111,28 @@ namespace elevatorSim {
          glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
    }
 
-   void ElevatorSimRenderWindow::drawFPS()
-   {
-      const static int renderStringBufferLength = 256;
-      char* renderStringBuffer = (char*) malloc(renderStringBufferLength);
+   void ElevatorSimRenderWindow::drawFPS() {
+      std::stringstream renderStringStream(
+         std::stringstream::in | std::stringstream::out);
+      char stringBuf[256];
 
       glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
-      /* TODO: hide difference between c++11 and msvc++ sprintf_s vs snprintf */
-      sprintf_s(renderStringBuffer,
-         renderStringBufferLength,
-         "Total Frame : %d",
-         timeManager.getTotalFrames());
+      renderStringStream 
+         << "FPS: " 
+         << timeManager.getFPS() 
+         << std::endl;
 
-      drawText(renderStringBuffer, 10.f, 10.f);
+      renderStringStream 
+         << "Total Frame: " 
+         << timeManager.getTotalFrames() 
+         << std::endl;
 
-      sprintf_s(renderStringBuffer,
-         renderStringBufferLength,
-         "FPS : %d",
-         timeManager.getFPS());
+      renderStringStream.getline(stringBuf, 256);      
+      drawText(stringBuf, 10.f, 10.f);
 
-      drawText(renderStringBuffer, 10.f, 20.f);
-
-      free(renderStringBuffer);
+      renderStringStream.getline(stringBuf, 256);      
+      drawText(stringBuf, 10.f, 20.f);
    }
 
    void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y) {
