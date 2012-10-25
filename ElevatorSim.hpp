@@ -34,6 +34,8 @@
 
 #if defined(_ES_WINNT)
 #include <Windows.h>
+#include <gl/GL.h>
+#include <gl/GLU.h>
 #elif defined(_ES_DARWIN) || defined(_ES_UNIX)
 #include <unistd.h>
 #else

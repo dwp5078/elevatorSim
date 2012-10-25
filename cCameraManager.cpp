@@ -1,3 +1,4 @@
+#include "ElevatorSim.hpp"
 #include "cCameraManager.hpp"
 #include "cKeyManager.hpp"
 #include "cTimeManager.hpp"

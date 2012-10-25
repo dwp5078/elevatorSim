@@ -36,6 +36,8 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/names.h>
+#include <GL/glut.h>
+
 #include <ctime>
 
 namespace elevatorSim {
@@ -51,6 +53,8 @@ namespace elevatorSim {
    const GLfloat ElevatorSimRenderWindow::light1_position[4] = { 1.f, 8.f, 2.0f, 0.0f };
    const GLfloat ElevatorSimRenderWindow::light1_direction[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
+   const GLfloat ElevatorSimRenderWindow::M_PI = 3.141592653589f;
+
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
       myWindow->redraw();
@@ -58,8 +62,6 @@ namespace elevatorSim {
    }
 
    int ElevatorSimRenderWindow::handle(int event) {
-      int lastKey = Fl::event_key();
-
       /* for debugging */
       printf("RenderWin: event: %s (%d)\n", fl_eventnames[event], event);
 
@@ -115,14 +117,15 @@ namespace elevatorSim {
 
       glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
-      snprintf(renderStringBuffer,
+      /* TODO: hide difference between c++11 and msvc++ sprintf_s vs snprintf */
+      sprintf_s(renderStringBuffer,
          renderStringBufferLength,
          "Total Frame : %d",
          timeManager.getTotalFrames());
 
       drawText(renderStringBuffer, 10.f, 10.f);
 
-      snprintf(renderStringBuffer,
+      sprintf_s(renderStringBuffer,
          renderStringBufferLength,
          "FPS : %d",
          timeManager.getFPS());

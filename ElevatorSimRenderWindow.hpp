@@ -56,6 +56,8 @@ namespace elevatorSim {
       static const GLfloat light1_position[4];
       static const GLfloat light1_direction[4];
 
+      static const GLfloat M_PI;
+
       /* private instance members */
       float spin;
 
