@@ -47,3 +47,11 @@ int main(int argc, char** argv) {
 
    return(Fl::run());
 }
+
+inline bool isDebugBuild() {
+   #ifndef NDEBUG
+   return true;
+   #else
+   return false;
+   #endif
+}

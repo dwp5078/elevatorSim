@@ -47,4 +47,6 @@
 #include <cmath>
 #include <cstring>
 
+inline bool isDebugBuild();
+
 #endif
