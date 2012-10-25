@@ -32,13 +32,16 @@
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
-int main(int argc, char** argv) {
-   elevatorSim::cTimeManager timeManager;
-   elevatorSim::cKeyManager keyManager;
-   elevatorSim::cCameraManager cameraManager;
+using namespace elevatorSim;
 
-   elevatorSim::ElevatorSimWindow mainWin(timeManager, keyManager, cameraManager);
-   mainWin.show();
+int main(int argc, char** argv) {
+   glutInit(&argc, argv);
+
+   cTimeManager* timeManager = new cTimeManager();
+   cKeyManager* keyManager= new cKeyManager();
+
+   ElevatorSimWindow* mainWin = new ElevatorSimWindow(*timeManager, *keyManager);
+   mainWin -> show();
 
    /* TODO start other threads */
 

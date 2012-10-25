@@ -5,7 +5,7 @@
 
 #include "ElevatorSim.hpp"
 
-namespace elevatorSim { 
+namespace elevatorSim {
 
 class cKeyManager {
 private:
@@ -22,11 +22,13 @@ public:
       keysPressed[key] = true;
    }
 
-   inline bool isDown(int key) {
-      if(keysPressed.find(key) == keysPressed.end()) {
+   inline bool isDown(int key) const {
+      std::map<int, bool>::const_iterator cit = keysPressed.find(key);
+
+      if(cit == keysPressed.end()) {
          return false;
       } else {
-         return keysPressed[key];
+         return cit->second;;
       }
    }
 };
@@ -34,3 +36,4 @@ public:
 } /* namespace elevatorSim */
 
 #endif /* __CKEYMANAGER_H__ */
+

@@ -2,49 +2,53 @@
 #define __CCAMERAMANAGER_H__
 
 #include "ElevatorSim.hpp"
+#include "cKeyManager.hpp"
+#include "cTimeManager.hpp"
 
 namespace elevatorSim {
 
-class cCameraManager {
-private:
-   Vec3f	m_vecCamPos;
-   Vec3f	m_vecCamLookAt;
-   Vec3f	m_vecCamUp;
+   class cCameraManager {
+   private:
+      Vec3f	m_vecCamPos;
+      Vec3f	m_vecCamLookAt;
+      Vec3f	m_vecCamUp;
 
+      float m_fPitchAngle;
+      float m_fYawAngle;
+      float m_fRollAngle;
 
-   float m_fPitchAngle;
-   float m_fYawAngle;
-   float m_fRollAngle;
+      const cKeyManager& keyManager;
+      const cTimeManager& timeManager;
 
+   public:
+      cCameraManager(
+         const cKeyManager& _keyManager,
+         const cTimeManager& _timeManager
+      );
 
-public:
-   cCameraManager(void);
-   ~cCameraManager(void);
+      void Update();
+      void Render();
 
+      void Yaw(float fAngle);
+      void Pitch(float fAngle);
+      void Roll(float fAngle);
 
-   void Update();
-   void Render();
+      void ReinitCamera();
 
-   void Yaw(float fAngle);
-   void Pitch(float fAngle);
-   void Roll(float fAngle);
+      Vec3f GetRight();
 
-   void ReinitCamera();
+      inline Vec3f GetCameraPos() {
+         return m_vecCamPos;
+      }
 
-   Vec3f GetRight();
+      inline Vec3f GetCameraLookAt() {
+         return m_vecCamLookAt;
+      }
 
-   inline Vec3f GetCameraPos() {
-      return m_vecCamPos;
-   }
-
-   inline Vec3f GetCameraLookAt() {
-      return m_vecCamLookAt;
-   }
-
-   inline Vec3f GetCameraUp() {
-      return m_vecCamUp;
-   }
-}; /* cCameraManager */
+      inline Vec3f GetCameraUp() {
+         return m_vecCamUp;
+      }
+   }; /* cCameraManager */
 
 } /* namespace elevatorSim */
 

@@ -14,17 +14,32 @@ class cTimeManager {
    boost::posix_time::time_duration m_dwElapsedTime;
    boost::posix_time::ptime m_dwLimitTime;
 
+   size_t totalFrames;
+   boost::posix_time::time_duration frameLimit;
+
 public:
 
    cTimeManager();
-   ~cTimeManager();
 
-   inline boost::posix_time::time_duration elapsedTime() { return m_dwElapsedTime; }
-   inline boost::posix_time::time_duration worldTime() { return m_dwWorldTime; }
-
-   void setup();
+   void reset();
    void update();
 
+   /* public const inline getters */
+   inline boost::posix_time::time_duration worldTime() const { 
+      return m_dwWorldTime; 
+   }
+
+   inline size_t getFPS() const {
+      return 60; /* TODO */
+   }
+
+   inline size_t getTotalFrames() const {
+      return 1; /* TODO */
+   }
+
+   inline boost::posix_time::time_duration getElapsedTime() const {
+      return m_dwElapsedTime;
+   }
 };
 } /* namespace elevatorSim */
 

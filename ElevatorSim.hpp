@@ -30,6 +30,8 @@
 #ifndef _ELEVATOR_SIM_H
 #define _ELEVATOR_SIM_H
 
+#include "util_vectors.hpp"
+
 #if defined(_ES_WINNT)
 #include <Windows.h>
 #elif defined(_ES_DARWIN) || defined(_ES_UNIX)
@@ -42,7 +44,5 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
-
-#include "util_vectors.hpp"
 
 #endif

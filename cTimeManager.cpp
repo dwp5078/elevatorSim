@@ -5,14 +5,10 @@
 namespace elevatorSim {
 
 cTimeManager::cTimeManager() {
-
+   /* this does nothing yet */
 }
 
-cTimeManager::~cTimeManager() {
-
-}
-
-void cTimeManager::setup() {
+void cTimeManager::reset() {
    m_dwCurrTime = boost::posix_time::second_clock::local_time();
 }
 
