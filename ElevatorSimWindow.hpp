@@ -39,6 +39,8 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
+#include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_Text_Display.H>
 
 namespace elevatorSim {
 
@@ -69,9 +71,17 @@ namespace elevatorSim {
 
       /* private members */
       ElevatorSimRenderWindow* renderWindow;
+
+      /* quit confirmation widgets */
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
+
+      /* help widgets */
+      Fl_Window* helpWin;
+      Fl_Text_Display* helpLabel;
+      Fl_Button* helpDoneButton;
+
       cTimeManager& timeManager;
       cKeyManager& keyManager;
 

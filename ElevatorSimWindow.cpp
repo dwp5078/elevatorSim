@@ -37,7 +37,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
-#include <FL/Fl_Multiline_Output.H>
+#include <FL/Fl_Text_Display.H>
 #include <FL/names.h>
 
 namespace elevatorSim {
@@ -101,20 +101,26 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
-      Fl_Window* helpWin = new Fl_Window(300, 300, "Help");
-      Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
-      Fl_Button* doneButton = new Fl_Button(100, 240, 100, 40, "Done");
+      ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
 
-      doneButton->callback((Fl_Callback*) dismissHelpCB, helpWin);
+      if(!thisWindow->helpWin && !thisWindow->helpLabel && !thisWindow->helpDoneButton) {
+         thisWindow->helpWin = new Fl_Window(300, 300, "Help");
+         thisWindow->helpLabel = new Fl_Text_Display(10,30,280,190,"How to use:");
+         thisWindow->helpDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
 
-      helpWin->add(label);
-      helpWin->add(doneButton);
-      helpWin->end();
-      helpWin->show();
-   }
+         thisWindow->helpDoneButton->callback((Fl_Callback*) dismissHelpCB, userData);
+
+         thisWindow->helpWin->add(thisWindow->helpLabel);
+         thisWindow->helpWin->add(thisWindow->helpDoneButton);
+         thisWindow->helpWin->end();
+      }
+
+      thisWindow->helpWin->show();
+  }
 
    void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
-      ((Fl_Window*)userData)->hide();
+      ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+      thisWindow->helpWin->hide();
    }
 
    void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
@@ -254,6 +260,10 @@ namespace elevatorSim {
       confirmDialog = NULL;
       yesButton = NULL;
       noButton = NULL;
+
+      helpWin = NULL;
+      helpLabel = NULL;
+      helpDoneButton = NULL;
 
       /* initialize any other main window member variables here */
    }
