@@ -7,7 +7,7 @@ as invoking (n)make. For other platforms building is still possible but more wor
 Due to time constraints, an elaborate build system is a low priority item.
 
 Dependencies:
-    boost 1.51.0
+    boost 1.51.0/boost 1.50
     fltk 1.3.0
 
 If attempting builds for platforms which do not include pre-built binaries, either replace the 
@@ -39,3 +39,15 @@ and linking.
 3b. alternately you can run build.bat which will simply invoke the command listed in 3a
 
 if the build succeeds, the resulting statically linked binary will reside in the current directory.
+
+Tier two platforms: x86_64 debian linux
+
+To build on debian linux:
+
+aptitude install libboost1.50-dev-all libfltk1.3-dev libfltk1.3-compat-headers
+cd /path/to/elevatorSim
+make -f makefile.x86_64.linux.gcc4
+
+You can also use the eclipse CDT.
+
+eclipse -> import existing C++ project
