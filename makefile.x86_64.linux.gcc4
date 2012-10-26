@@ -11,7 +11,7 @@ Person.o\
 Building.o\
 Floor.o
 
-CXXFLAGS=-c -std=c++11 -D_ES_UNIX
+CXXFLAGS=-c -std=c++11 -Wall -Wextra -pedantic -D_ES_UNIX
 LDFLAGS=-lglut -lGL -lGLU -lm -lfltk -lfltk_gl -lstdc++
 DBGFLAGS=-g
 
