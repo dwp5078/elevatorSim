@@ -48,6 +48,9 @@
 #include <cmath>
 #include <cstring>
 
-inline bool isDebugBuild();
+/* small utility function prototypes */
+namespace elevatorSim {
+   bool isDebugBuild();
+}
 
 #endif

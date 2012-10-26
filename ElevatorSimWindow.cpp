@@ -46,8 +46,9 @@ namespace elevatorSim {
    int ElevatorSimWindow::handle(int event) {
       int lastKey = Fl::event_key();
 
-      /* for debugging */
-      printf("MainWin: event: %s (%d)\n", fl_eventnames[event], event);
+      if(isDebugBuild()) {
+         printf("MainWin: event: %s (%d)\n", fl_eventnames[event], event);
+      }
 
       if(event == FL_KEYDOWN)  {
          keyManager.down(lastKey);
