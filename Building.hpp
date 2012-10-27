@@ -43,14 +43,14 @@ class Building {
 
 
    /* private static constants */
-
+      unsigned int m_nStore;
+      unsigned int m_nElevator;
 
    /* private static methods */
 
-
-   /* private instance members */
-   std::vector<Floor> floors;
-   std::vector<Elevator> elevators;
+      /* private instance members */
+      std::vector<Floor> m_Floors;
+      std::vector<Elevator> m_Elevators;
 
    /* private methods */
 
@@ -61,6 +61,9 @@ public:
 
 
    /* public instance members */
+      void Init(unsigned int nStore, unsigned int nElevator);
+      void Render();
+      void Update();
 
    /* constructors */
    Building();

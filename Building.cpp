@@ -40,4 +40,30 @@ Building::Building() {
    /* nothing */
 }
 
+   void Building::Init(unsigned int nStore, unsigned int nElevator)
+   {
+      m_nStore = nStore;
+      m_nElevator = nElevator;
+   }
+
+   void Building::Render()
+   {
+      glLoadIdentity();
+      glTranslatef(0.0f, -2.0f, 0.0f);
+      glCallList(OBJ_BUILDING);
+
+      for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].Render();
+      for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].Render();
+   }
+
+   void Building::Update()
+   {
+      for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].Update();
+      for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].Update();
+   }
+
+   /*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
+   floors.assign(floorSetup.begin(), floorSetup.end());
+   elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
+   }*/
 }

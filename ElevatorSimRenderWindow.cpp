@@ -184,8 +184,8 @@ namespace elevatorSim {
    m_CameraManager(_keyManager, _timeManager)  {
 
       spin = 0.0;
-
       m_bRenderFPS = true;
+      m_Building.Init(20, 5);
 
       
       Fl::add_timeout(timeManager.getFPS(), timerCB, (void*)this);
@@ -199,6 +199,7 @@ namespace elevatorSim {
          m_renderObjs.init();
          glInit();
          setViewport();
+
       }
 
       /* draw */
@@ -218,10 +219,12 @@ namespace elevatorSim {
       glEnable(GL_LIGHTING);
       glEnable(GL_LIGHT0);
 
+      m_Building.Render();
+
       /* Draw building object */
-      glLoadIdentity();
-      glTranslatef(0.0f, -2.0f, 0.0f);
-      glCallList(OBJ_BUILDING);
+      //glLoadIdentity();
+      //glTranslatef(0.0f, -2.0f, 0.0f);
+      //glCallList(OBJ_BUILDING);
 
       if(m_bRenderFPS)  drawFPS();
 
