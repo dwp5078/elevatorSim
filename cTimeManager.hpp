@@ -14,7 +14,9 @@ class cTimeManager {
    boost::posix_time::time_duration m_dwLastFrameTime;
    boost::posix_time::ptime m_dwLimitTime;
 
+   size_t FPS;
    size_t totalFrames;
+   size_t secondFrames;
    boost::posix_time::time_duration frameLimit;
 
 public:
@@ -32,11 +34,11 @@ public:
    }
 
    inline size_t getFPS() const {
-      return 60; /* TODO */
+      return FPS; /* TODO */
    }
 
    inline size_t getTotalFrames() const {
-      return 1; /* TODO */
+      return totalFrames;
    }
 
    inline boost::posix_time::time_duration getLastFrameTime() const {
