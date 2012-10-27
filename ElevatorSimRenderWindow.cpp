@@ -35,7 +35,11 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
-#include <time.h>
+#include <FL/names.h>
+#include <GL/glut.h>
+
+#include <ctime>
+#include <sstream>
 
 namespace elevatorSim {
 
@@ -44,13 +48,31 @@ namespace elevatorSim {
    const int ElevatorSimRenderWindow::TOP_MARGIN = 28;
    const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
 
+   const GLfloat ElevatorSimRenderWindow::light1_ambient[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
+   const GLfloat ElevatorSimRenderWindow::light1_diffuse[4] = { 0.15f, 0.15f, 0.15f, 1.0f };
+   const GLfloat ElevatorSimRenderWindow::light1_specular[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+   const GLfloat ElevatorSimRenderWindow::light1_position[4] = { 1.f, 8.f, 2.0f, 0.0f };
+   const GLfloat ElevatorSimRenderWindow::light1_direction[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+   const GLfloat ElevatorSimRenderWindow::M_PI = 3.141592653589f;
+
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
+	  double interval = cTimeManager::redrawInterval.total_seconds() +
+		  0.001 * cTimeManager::redrawInterval.total_milliseconds();
+
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
-
-      myWindow->Update();
       myWindow->redraw();
+	  myWindow->m_CameraManager.Update();
+	  myWindow->timeManager.update();
+      Fl::repeat_timeout(interval, timerCB, userdata);
+   }
 
-      Fl::repeat_timeout(FPS, timerCB, userdata);
+   int ElevatorSimRenderWindow::handle(int event) {
+      if(isDebugBuild()) {
+         printf("RenderWin: event: %s (%d)\n", fl_eventnames[event], event);
+      }
+
+      return Fl_Gl_Window::handle(event);
    }
 
    void ElevatorSimRenderWindow::glInit() {
@@ -75,31 +97,6 @@ namespace elevatorSim {
       glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light1_direction);
    }
 
-   void ElevatorSimRenderWindow::Update()
-   {
-      cTimeManager::GetInstance()->Update();
-
-      if(cKeyManager::GetInstance()->OnceKeyDown('F'))   m_bRenderFPS = !m_bRenderFPS;
-      m_CameraManager.Update();
-
-      //remove this part later (updating position of elevator)
-      for(int i=0; i<g_nNumberOfElev; i++)   {
-         float dist = 0.005f * cTimeManager::GetInstance()->GetElapsedTime();
-         if(elevGoingDown[i]) {
-            elevPos[i] -= dist;
-
-            if(elevPos[i] < 0.9f)   elevGoingDown[i] = false;
-         }
-
-         else  {
-            elevPos[i] += dist;
-
-            float maxHeight = BUILDING_GAP_HEIGHT * g_nNumberOfFloor * 2 - 0.9f;
-            if(elevPos[i] > maxHeight)   elevGoingDown[i] = true;
-         }
-      }
-   }
-
    void ElevatorSimRenderWindow::setViewport() {
       glViewport(0, 0, w(), h());
 
@@ -120,59 +117,45 @@ namespace elevatorSim {
          glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
    }
 
-   void ElevatorSimRenderWindow::drawFPS()
-   {
-      const static int renderStringBufferLength = 256;
-      char* renderStringBuffer = (char*) malloc(renderStringBufferLength);
+   void ElevatorSimRenderWindow::drawFPS() {
+      std::stringstream renderStringStream(
+         std::stringstream::in | std::stringstream::out);
+      char stringBuf[256];
 
       glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
-      sprintf_s(renderStringBuffer, 
-         renderStringBufferLength, 
-         "Total Frame : %d", 
-         cTimeManager::GetInstance()->GetTotalFrame());
+      renderStringStream 
+         << "FPS: " 
+         << timeManager.getFPS() 
+         << std::endl;
 
-      drawText(renderStringBuffer, 10.f, 10.f);
+      renderStringStream 
+         << "Total Frame: " 
+         << timeManager.getTotalFrames() 
+         << std::endl;
 
-      sprintf_s(renderStringBuffer, 
-         renderStringBufferLength, 
-         "FPS : %d", 
-         cTimeManager::GetInstance()->GetFPS());
+      renderStringStream.getline(stringBuf, 256);      
+      drawText(stringBuf, 10.f, 10.f);
 
-      drawText(renderStringBuffer, 10.f, 20.f);
-
-      sprintf_s(renderStringBuffer, 
-         renderStringBufferLength, 
-         "Elapsed Time : %d", 
-         cTimeManager::GetInstance()->GetElapsedTime());
-
-      drawText(renderStringBuffer, 10.f, 30.f);
-
-      sprintf_s(renderStringBuffer, 
-         renderStringBufferLength, 
-         "World Time : %d", 
-         cTimeManager::GetInstance()->GetWorldTime());
-
-      drawText(renderStringBuffer, 10.f, 40.f);
-
-      free(renderStringBuffer);
+      renderStringStream.getline(stringBuf, 256);      
+      drawText(stringBuf, 10.f, 20.f);
    }
 
    void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y) {
       /* enabling prolog */
       glDisable(GL_DEPTH_TEST);
       glPushAttrib(GL_LIGHTING_BIT);
-      glDisable(GL_LIGHTING); 
+      glDisable(GL_LIGHTING);
 
       /* projection push */
-      glMatrixMode(GL_PROJECTION); 
+      glMatrixMode(GL_PROJECTION);
       glPushMatrix();
 
       /* modelview push */
       glLoadIdentity();
       gluOrtho2D(0, w(), 0, h());
       glMatrixMode(GL_MODELVIEW);
-      glPushMatrix(); 
+      glPushMatrix();
 
       glLoadIdentity();
       glRasterPos2f(x, y);
@@ -183,43 +166,46 @@ namespace elevatorSim {
       }
 
       /* modelview pop */
-      glPopMatrix(); 
+      glPopMatrix();
 
       /* projection pop */
       glMatrixMode(GL_PROJECTION);
-      glPopMatrix(); 
+      glPopMatrix();
 
       /* disabling prolog */
       glMatrixMode(GL_MODELVIEW);
       glPopAttrib();
-      glEnable(GL_DEPTH_TEST); 
+      glEnable(GL_DEPTH_TEST);
    }
 
    ElevatorSimRenderWindow::ElevatorSimRenderWindow(
+      const cKeyManager& _keyManager,
+      cTimeManager& _timeManager,
       int X, int Y, int W, int H, const char* Label) :
-   Fl_Gl_Window(X, Y, W, H, Label) {
+   
+   Fl_Gl_Window(X, Y, W, H, Label), 
+   keyManager(_keyManager), 
+   timeManager(_timeManager),
+   m_CameraManager(_keyManager, _timeManager)  {
 
+      double interval = cTimeManager::redrawInterval.total_seconds() +
+		  0.001 * cTimeManager::redrawInterval.total_milliseconds();
       spin = 0.0;
       m_bRenderFPS = true;
       m_Building.Init(20, 5);
 
-      Fl::add_timeout(FPS, timerCB, (void*)this);
+      
+      Fl::add_timeout(interval, timerCB, (void*)this);
+      take_focus();
    }
 
    void ElevatorSimRenderWindow::draw() {
       if(!valid()) {
          /* initialize, this code only gets executed the first time draw() is called */
 
-         m_renderObjs.Init();
+         m_renderObjs.init();
          glInit();
          setViewport();
-
-         /* TODO: move srand somewhere else or scrap it entirely */
-         srand((unsigned)time(NULL));
-         for(int i=0; i<g_nNumberOfElev; i++)   {
-            elevPos[i] = (float)(rand() % g_nNumberOfFloor);
-            elevGoingDown[i] = (rand() % 2 == 1 ? true : false);
-         }
 
       }
 
@@ -247,22 +233,7 @@ namespace elevatorSim {
       //glTranslatef(0.0f, -2.0f, 0.0f);
       //glCallList(OBJ_BUILDING);
 
-      /* Draw Elevators; */
-      float buildingLeft = -g_nNumberOfElev * ELEV_GAP_WIDTH;
-      for(int i=0; i<g_nNumberOfElev; i++)   {
-         float pos = (buildingLeft * 2 + ELEV_GAP_WIDTH*2) / 2;
-
-         glPushMatrix();
-         glTranslatef(pos, elevPos[i], 0.0f);
-         glCallList(OBJ_ELEVATOR);
-
-         glPopMatrix();
-
-         buildingLeft += ELEV_GAP_WIDTH *2;
-      }
-
-
-      if(m_bRenderFPS)  drawFPS();
+	  if(m_bRenderFPS) { drawFPS(); }
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
@@ -271,3 +242,4 @@ namespace elevatorSim {
    }
 
 } /* namespace elevatorSim */
+

@@ -32,11 +32,15 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "cTimeManager.hpp"
+#include "cKeyManager.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
+#include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_Text_Display.H>
 
 namespace elevatorSim {
 
@@ -67,10 +71,19 @@ namespace elevatorSim {
 
       /* private members */
       ElevatorSimRenderWindow* renderWindow;
+
+      /* quit confirmation widgets */
       Fl_Window* confirmDialog;
       Fl_Button* yesButton;
       Fl_Button* noButton;
-      char* pythonScript;
+
+      /* help widgets */
+      Fl_Window* helpWin;
+      Fl_Text_Display* helpLabel;
+      Fl_Button* helpDoneButton;
+
+      cTimeManager& timeManager;
+      cKeyManager& keyManager;
 
    public:
 
@@ -80,9 +93,10 @@ namespace elevatorSim {
       const static char TITLE[];
 
       /* public methods */
-      ElevatorSimWindow();
+      ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager);
    };
 
 } /* namespace elevatorSim */
 
 #endif
+

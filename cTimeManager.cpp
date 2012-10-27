@@ -1,57 +1,24 @@
 #include "cTimeManager.hpp"
 
-#include <ctime>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace elevatorSim {
 
-   cTimeManager::cTimeManager() {
+const boost::posix_time::time_duration cTimeManager::redrawInterval = boost::posix_time::milliseconds(33);
 
-   }
+cTimeManager::cTimeManager() {
+   /* this does nothing yet */
+}
 
-   cTimeManager::~cTimeManager() {
+void cTimeManager::reset() {
+   m_dwCurrTime = boost::posix_time::second_clock::local_time();
+}
 
-   }
-
-   cTimeManager* cTimeManager::GetInstance() {
-      static cTimeManager Instance;
-
-      return &Instance;
-   }
-
-   void cTimeManager::Setup()
-   {
-      m_dwCurrTime = clock();
-      m_dwPrevTime = m_dwCurrTime;
-
-      m_dwWorldTime = 0;
-      m_dwElapsedTime = 0;
-      m_dwFps = 0;
-      m_dwFrame = 0;
-
-      m_dwLimitTime = 0;
-      m_dwFpsPlus = 0;
-   }
-
-   void cTimeManager::Update()
-   {
-      /* TODO: re-implement this using boost::chrono */
-      m_dwPrevTime = m_dwCurrTime;
-      m_dwCurrTime = clock();
-
-      m_dwElapsedTime = m_dwCurrTime - m_dwPrevTime;
-      m_dwWorldTime += m_dwElapsedTime;
-
-      if(m_dwLimitTime < m_dwWorldTime)
-      {
-         m_dwLimitTime = m_dwWorldTime + CLOCKS_PER_SEC;
-         m_dwFps = m_dwFrame;
-         m_dwFpsPlus += m_dwFrame;
-         m_dwFrame = 0;
-      }
-      else
-      {
-         m_dwFrame++;
-      }
-   }
+void cTimeManager::update() {
+   m_dwPrevTime = m_dwCurrTime;
+   m_dwCurrTime = boost::posix_time::second_clock::local_time();
+   m_dwLastFrameTime = m_dwCurrTime - m_dwPrevTime;
+   m_dwWorldTime += m_dwLastFrameTime;
+}
 
 } /* namespace elevatorSim */

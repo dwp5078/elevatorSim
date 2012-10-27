@@ -37,14 +37,26 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
-#include <FL/Fl_Multiline_Output.H>
+#include <FL/Fl_Text_Display.H>
+#include <FL/names.h>
 
 namespace elevatorSim {
 
    /* private methods */
    int ElevatorSimWindow::handle(int event) {
+      int lastKey = Fl::event_key();
 
-      /* TODO */
+      if(isDebugBuild()) {
+         printf("MainWin: event: %s (%d)\n", fl_eventnames[event], event);
+      }
+
+      if(event == FL_KEYDOWN)  {
+         keyManager.down(lastKey);
+         return true;
+      } else if ( event == FL_KEYUP) {
+         keyManager.up(lastKey);
+         return true;
+      }
 
       return Fl_Window::handle(event);
    }
@@ -90,40 +102,60 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
-      Fl_Window* helpWin = new Fl_Window(300, 300, "Help");
-      Fl_Multiline_Output * label= new Fl_Multiline_Output(200,35,0,0,"How to use instructions here");
-      Fl_Button* doneButton = new Fl_Button(100, 240, 100, 40, "Done");
+      ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
 
-      doneButton->callback((Fl_Callback*) dismissHelpCB, helpWin);
+      if(!thisWindow->helpWin && !thisWindow->helpLabel && !thisWindow->helpDoneButton) {
+         thisWindow->helpWin = new Fl_Window(300, 300, "Help");
+         thisWindow->helpLabel = new Fl_Text_Display(10,30,280,190,"How to use:");
+         thisWindow->helpDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
 
-      helpWin->add(label);
-      helpWin->add(doneButton);
-      helpWin->end();
-      helpWin->show();
-   }
+         thisWindow->helpDoneButton->callback((Fl_Callback*) dismissHelpCB, userData);
+
+         thisWindow->helpWin->add(thisWindow->helpLabel);
+         thisWindow->helpWin->add(thisWindow->helpDoneButton);
+         thisWindow->helpWin->end();
+      }
+
+      thisWindow->helpWin->show();
+  }
 
    void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
-      ((Fl_Window*)userData)->hide();
+      ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+      thisWindow->helpWin->hide();
    }
+
    void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
-      /*TODO*/
+      Fl_Button* startButton = (Fl_Button*)w;
+
+      if(startButton->value()) {
+         printf("startSim CB fired\n");
+      }
    }
 
    void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+      Fl_Button* pauseButton = (Fl_Button*)w;
       /* TODO: this needs to be moved into time manager */
       static bool paused = true;
 
-      if(paused) {
-         w->label("Resume");
-      } else {
-         w->label("Pause");
-      }
+      if(pauseButton->value()) {
+         printf("pauseSim CB fired\n");
 
-      paused = !paused;
+         if(paused) {
+            w->label("Resume");
+         } else {
+            w->label("Pause");
+         }
+
+         paused = !paused;
+      }
    }
 
    void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
-      /* TODO */
+      Fl_Button* stopButton = (Fl_Button*)w;
+
+      if(stopButton->value()) {
+         printf("stopSim CB fired\n");
+      }
    }
 
    void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
@@ -136,8 +168,9 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
+      /* no - windows api calls are disallowed
       ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
-         NULL, NULL, SW_SHOWNORMAL);
+      NULL, NULL, SW_SHOWNORMAL);*/
    }
 
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
@@ -154,11 +187,14 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::openScript() {
-      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);
+
+      /*
+      no - wrong storage class
+      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);*/
    }
 
    void ElevatorSimWindow::buildMenu() {
-      Fl_Menu_Item menuitems[] = {
+      static const Fl_Menu_Item menuitems[] = {
          {"&File", 0, 0, 0, FL_SUBMENU },
          { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
@@ -180,6 +216,14 @@ namespace elevatorSim {
       Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
       Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
 
+      startButton ->when( FL_LEFT_MOUSE);
+      pauseButton->when(FL_LEFT_MOUSE);
+      stopButton->when(FL_LEFT_MOUSE);
+
+      startButton->clear_visible_focus();
+      pauseButton->clear_visible_focus();
+      stopButton->clear_visible_focus();
+
       startButton->callback((Fl_Callback *)startSimCB, this);
       pauseButton->callback((Fl_Callback *)pauseSimCB, this);
       stopButton->callback((Fl_Callback *)stopSimCB, this);
@@ -191,9 +235,12 @@ namespace elevatorSim {
    const int ElevatorSimWindow::HEIGHT = 480;
 
    /* public methods */
-   ElevatorSimWindow::ElevatorSimWindow() : Fl_Window(WIDTH, HEIGHT, TITLE) {
+   ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager) : 
+      Fl_Window(WIDTH, HEIGHT, TITLE), timeManager(_timeManager), keyManager(_keyManager) {
 
       renderWindow = new ElevatorSimRenderWindow(
+         keyManager,
+         timeManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),
@@ -215,7 +262,12 @@ namespace elevatorSim {
       yesButton = NULL;
       noButton = NULL;
 
+      helpWin = NULL;
+      helpLabel = NULL;
+      helpDoneButton = NULL;
+
       /* initialize any other main window member variables here */
    }
 
 } /* namespace elevatorSim */
+

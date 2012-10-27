@@ -32,6 +32,8 @@
 
 #include "ElevatorSim.hpp"
 #include "cCameraManager.hpp"
+#include "cTimeManager.hpp"
+#include "cKeyManager.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
 
@@ -48,6 +50,15 @@ namespace elevatorSim {
       /* private static methods */
       static void timerCB(void* userData);
 
+      /* private static constants */
+      static const GLfloat light1_ambient[4];
+      static const GLfloat light1_diffuse[4];
+      static const GLfloat light1_specular[4];
+      static const GLfloat light1_position[4];
+      static const GLfloat light1_direction[4];
+
+      static const GLfloat M_PI;
+
       /* private instance members */
       float spin;
 
@@ -56,14 +67,9 @@ namespace elevatorSim {
       Building       m_Building;
 
 
-      //remove later. For test purpose
-      float elevPos[g_nNumberOfElev];
-      bool elevGoingDown[g_nNumberOfElev];
-
       /* private methods */
-      //void initCube();
+      int handle(int event);
       void glInit();
-      void Update();       //update values every frame
       void setViewport();
       void setPerspective(
          GLdouble fovy,
@@ -73,6 +79,11 @@ namespace elevatorSim {
 
       void drawFPS();
       void drawText(const char * const str, float x, float y);
+
+   protected:
+
+      const cKeyManager& keyManager;
+      cTimeManager& timeManager;
 
    public:
 
@@ -88,6 +99,8 @@ namespace elevatorSim {
 
       /* public methods */
       ElevatorSimRenderWindow(
+         const cKeyManager& _keyManager,
+         cTimeManager& _timeManager,
          int X, int Y, int W, int H, const char* Label = 0);
       void draw();
 
@@ -96,3 +109,4 @@ namespace elevatorSim {
 } /* namespace elevatorSim */
 
 #endif
+
