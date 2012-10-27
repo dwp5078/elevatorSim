@@ -128,7 +128,7 @@ namespace elevatorSim {
       Fl_Button* startButton = (Fl_Button*)w;
 
       if(startButton->value()) {
-         printf("startSim CB fired");
+         printf("startSim CB fired\n");
       }
    }
 
