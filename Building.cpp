@@ -31,15 +31,17 @@
 #include "Building.hpp"
 #include "Floor.hpp"
 #include "Elevator.hpp"
+#include "cRenderObjs.hpp"
 
 #include <vector>
 
 namespace elevatorSim {
-/* constructors */
-Building::Building() {
-   /* nothing */
-}
+   /* constructors */
+   Building::Building() {
+      /* nothing */
+   }
 
+   /* methds */
    void Building::Init(unsigned int nStore, unsigned int nElevator)
    {
       m_nStore = nStore;
@@ -50,7 +52,8 @@ Building::Building() {
    {
       glLoadIdentity();
       glTranslatef(0.0f, -2.0f, 0.0f);
-      glCallList(OBJ_BUILDING);
+      
+      glCallList(cRenderObjs::OBJ_BUILDING);
 
       for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].Render();
       for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].Render();

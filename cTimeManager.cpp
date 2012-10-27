@@ -4,6 +4,8 @@
 
 namespace elevatorSim {
 
+const boost::posix_time::time_duration cTimeManager::redrawInterval = boost::posix_time::milliseconds(33);
+
 cTimeManager::cTimeManager() {
    /* this does nothing yet */
 }
@@ -15,8 +17,8 @@ void cTimeManager::reset() {
 void cTimeManager::update() {
    m_dwPrevTime = m_dwCurrTime;
    m_dwCurrTime = boost::posix_time::second_clock::local_time();
-   m_dwElapsedTime = m_dwCurrTime - m_dwPrevTime;
-   m_dwWorldTime += m_dwElapsedTime;
+   m_dwLastFrameTime = m_dwCurrTime - m_dwPrevTime;
+   m_dwWorldTime += m_dwLastFrameTime;
 }
 
 } /* namespace elevatorSim */

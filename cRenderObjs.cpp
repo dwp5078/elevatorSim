@@ -1,28 +1,33 @@
+#include "ElevatorSim.hpp"
 #include "cRenderObjs.hpp"
 
 namespace elevatorSim   {
-   cRenderObjs::cRenderObjs(void)
+
+   cRenderObjs::cRenderObjs(int _floors, int _elevators, const GLfloat  _buildingGapHeight, const GLfloat _elevGapWidth) :
+   buildingGapHeight(_buildingGapHeight), elevGapWidth(_elevGapWidth)
    {
-      m_bIsInit= false;
-      m_nNumberOfFloor = g_nNumberOfFloor;
-      m_nNumberOfElevator = g_nNumberOfElev;
+      m_bIsInit = false;
+      m_nNumberOfFloor = _floors;
+      m_nNumberOfElevator = _elevators;
    }
 
    cRenderObjs::~cRenderObjs(void)
    {
+   
    }
-   void cRenderObjs::Init()
+   
+   void cRenderObjs::init()
    {
       if(!m_bIsInit) {
          m_bIsInit = true;
-         InitPlane();
-         InitCube();
-         InitBuilding();
-         InitElevator();
+         initPlane();
+         initCube();
+         initBuilding();
+         initElevator();
       }
    }
 
-   void cRenderObjs::InitPlane()
+   void cRenderObjs::initPlane()
    {
       glNewList(OBJ_PLANE, GL_COMPILE);
       glDisable(GL_LIGHTING);
@@ -45,7 +50,7 @@ namespace elevatorSim   {
       glEndList();
    }
 
-   void cRenderObjs::InitCube()
+   void cRenderObjs::initCube()
    {
       glNewList(OBJ_CUBE, GL_COMPILE);
       glEnable(GL_LIGHTING);
@@ -99,12 +104,12 @@ namespace elevatorSim   {
       glEndList();
    }
 
-   void cRenderObjs::InitBuilding()
+   void cRenderObjs::initBuilding()
    {
       glNewList(OBJ_BUILDING, GL_COMPILE);
 
-      float scaleHeight = m_nNumberOfFloor * BUILDING_GAP_HEIGHT;
-      float scaleWidth = m_nNumberOfElevator * ELEV_GAP_WIDTH;
+      float scaleHeight = m_nNumberOfFloor * buildingGapHeight;
+      float scaleWidth = m_nNumberOfElevator * elevGapWidth;
 
       glPushMatrix();
       // Left wall
@@ -155,7 +160,7 @@ namespace elevatorSim   {
       glEndList();
    }
 
-   void cRenderObjs::InitElevator()
+   void cRenderObjs::initElevator()
    {
       glNewList(OBJ_ELEVATOR, GL_COMPILE);
 

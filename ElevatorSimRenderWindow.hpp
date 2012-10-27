@@ -83,7 +83,7 @@ namespace elevatorSim {
    protected:
 
       const cKeyManager& keyManager;
-      const cTimeManager& timeManager;
+      cTimeManager& timeManager;
 
    public:
 
@@ -100,7 +100,7 @@ namespace elevatorSim {
       /* public methods */
       ElevatorSimRenderWindow(
          const cKeyManager& _keyManager,
-         const cTimeManager& _timeManager,
+         cTimeManager& _timeManager,
          int X, int Y, int W, int H, const char* Label = 0);
       void draw();
 

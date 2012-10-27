@@ -57,9 +57,14 @@ namespace elevatorSim {
    const GLfloat ElevatorSimRenderWindow::M_PI = 3.141592653589f;
 
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
+	  double interval = cTimeManager::redrawInterval.total_seconds() +
+		  0.001 * cTimeManager::redrawInterval.total_milliseconds();
+
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
       myWindow->redraw();
-      Fl::repeat_timeout(myWindow->timeManager.getFPS(), timerCB, userdata);
+	  myWindow->m_CameraManager.Update();
+	  myWindow->timeManager.update();
+      Fl::repeat_timeout(interval, timerCB, userdata);
    }
 
    int ElevatorSimRenderWindow::handle(int event) {
@@ -175,7 +180,7 @@ namespace elevatorSim {
 
    ElevatorSimRenderWindow::ElevatorSimRenderWindow(
       const cKeyManager& _keyManager,
-      const cTimeManager& _timeManager,
+      cTimeManager& _timeManager,
       int X, int Y, int W, int H, const char* Label) :
    
    Fl_Gl_Window(X, Y, W, H, Label), 
@@ -183,12 +188,14 @@ namespace elevatorSim {
    timeManager(_timeManager),
    m_CameraManager(_keyManager, _timeManager)  {
 
+      double interval = cTimeManager::redrawInterval.total_seconds() +
+		  0.001 * cTimeManager::redrawInterval.total_milliseconds();
       spin = 0.0;
       m_bRenderFPS = true;
       m_Building.Init(20, 5);
 
       
-      Fl::add_timeout(timeManager.getFPS(), timerCB, (void*)this);
+      Fl::add_timeout(interval, timerCB, (void*)this);
       take_focus();
    }
 
@@ -226,7 +233,7 @@ namespace elevatorSim {
       //glTranslatef(0.0f, -2.0f, 0.0f);
       //glCallList(OBJ_BUILDING);
 
-      if(m_bRenderFPS)  drawFPS();
+	  if(m_bRenderFPS) { drawFPS(); }
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {

@@ -66,11 +66,11 @@ public:
       void Update();
 
    /* constructors */
-   Building();
+      Building();
+      
    /*Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup);*/
 
    /* public methods */
-
 
 };
 

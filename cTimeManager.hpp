@@ -11,13 +11,15 @@ class cTimeManager {
    boost::posix_time::ptime m_dwCurrTime;
 
    boost::posix_time::time_duration m_dwWorldTime;
-   boost::posix_time::time_duration m_dwElapsedTime;
+   boost::posix_time::time_duration m_dwLastFrameTime;
    boost::posix_time::ptime m_dwLimitTime;
 
    size_t totalFrames;
    boost::posix_time::time_duration frameLimit;
 
 public:
+
+   static const boost::posix_time::time_duration redrawInterval;
 
    cTimeManager();
 
@@ -37,10 +39,11 @@ public:
       return 1; /* TODO */
    }
 
-   inline boost::posix_time::time_duration getElapsedTime() const {
-      return m_dwElapsedTime;
+   inline boost::posix_time::time_duration getLastFrameTime() const {
+      return m_dwLastFrameTime;
    }
 };
+
 } /* namespace elevatorSim */
 
 #endif /* __CTIMEMANAGER_H__ */
