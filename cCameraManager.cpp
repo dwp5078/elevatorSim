@@ -28,39 +28,31 @@ namespace elevatorSim {
       Vec3f right = GetRight() * move;
 
       if(cKeyManager::GetInstance()->KeyPress(FL_Page_Up))    {
-         //m_vecCamPos += m_vecCamUp * move;
-         //m_vecCamLookAt += m_vecCamUp * move;
-         m_vecCamPos.SetY(m_vecCamPos.y() + move);
-         m_vecCamLookAt.SetY(m_vecCamLookAt.y() + move);
+         m_vecCamPos.y = m_vecCamPos.y + move;
+         m_vecCamLookAt.y = m_vecCamLookAt.y + move;
       }
 
       if(cKeyManager::GetInstance()->KeyPress(FL_Page_Down))    {
-         //m_vecCamPos -= m_vecCamUp * move;
-         //m_vecCamLookAt -= m_vecCamUp * move;
-         m_vecCamPos.SetY(m_vecCamPos.y() - move);
-         m_vecCamLookAt.SetY(m_vecCamLookAt.y() - move);
+         m_vecCamPos.y = m_vecCamPos.y - move;
+         m_vecCamLookAt.y = m_vecCamLookAt.y - move;
       }
 
       if(cKeyManager::GetInstance()->KeyPress(FL_Right))    {
-         //m_vecCamPos -= right * move;
-         //m_vecCamLookAt -= right * move;
-         m_vecCamPos.SetX(m_vecCamPos.x() + move);
-         m_vecCamLookAt.SetX(m_vecCamLookAt.x() + move);
+         m_vecCamPos.x = m_vecCamPos.x + move;
+         m_vecCamLookAt.x = m_vecCamLookAt.x + move;
       }
 
       if(cKeyManager::GetInstance()->KeyPress(FL_Left))    {
-         //m_vecCamPos += right * move;
-         //m_vecCamLookAt += right * move;
-         m_vecCamPos.SetX(m_vecCamPos.x() - move);
-         m_vecCamLookAt.SetX(m_vecCamLookAt.x() - move);
+         m_vecCamPos.x = m_vecCamPos.x - move;
+         m_vecCamLookAt.x = m_vecCamLookAt.x - move;
       }
 
       if(cKeyManager::GetInstance()->KeyPress(FL_Up))    {
-         m_vecCamPos.SetZ(m_vecCamPos.z() - move);
+         m_vecCamPos.z = m_vecCamPos.z - move;
       }
 
       if(cKeyManager::GetInstance()->KeyPress(FL_Down))    {
-         m_vecCamPos.SetZ(m_vecCamPos.z() + move);
+         m_vecCamPos.z = m_vecCamPos.z + move;
       }
 
       if(cKeyManager::GetInstance()->KeyPress('W'))      Pitch(-rot);
@@ -82,9 +74,9 @@ namespace elevatorSim {
       glRotatef(m_fYawAngle, 0, 1, 0);
       glRotatef(m_fRollAngle, 0, 0, 1);
 
-      gluLookAt(m_vecCamPos.x(), m_vecCamPos.y(), m_vecCamPos.z(),
-         m_vecCamLookAt.x(), m_vecCamLookAt.y(), m_vecCamLookAt.z(),
-         m_vecCamUp.x(), m_vecCamUp.y(), m_vecCamUp.z());
+      gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z,
+         m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z,
+         m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
    }
 
 
