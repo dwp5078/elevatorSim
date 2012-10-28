@@ -35,7 +35,6 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #elif defined(_ES_DARWIN) || defined(_ES_UNIX)
-#undef M_PI
 #include <unistd.h>
 #else
 #error Unspecified operating system. Use the makefile.
