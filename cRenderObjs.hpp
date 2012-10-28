@@ -15,7 +15,7 @@ class cRenderObjs
 
    GLfloat  buildingGapHeight;
    GLfloat  elevGapWidth;
-   
+
 public:
 
    enum OBJ_LIST {
@@ -28,7 +28,7 @@ public:
 
    cRenderObjs();
    ~cRenderObjs(void);
-   
+
    void init();
    void initCube();
    void initPlane();

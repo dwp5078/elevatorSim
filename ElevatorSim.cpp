@@ -49,11 +49,11 @@ int main(int argc, char** argv) {
 }
 
 namespace elevatorSim {
-   bool isDebugBuild() {
-      #ifndef NDEBUG
-      return true;
-      #else
-      return false;
-      #endif
-   }
+bool isDebugBuild() {
+#ifndef NDEBUG
+   return true;
+#else
+   return false;
+#endif
+}
 } /* namespace elevatorSim */

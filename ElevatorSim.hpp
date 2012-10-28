@@ -42,7 +42,7 @@
 #endif
 
 namespace elevatorSim {
-   bool isDebugBuild();
+bool isDebugBuild();
 }
 
 #endif

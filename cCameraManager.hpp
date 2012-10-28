@@ -8,48 +8,48 @@
 
 namespace elevatorSim {
 
-   class cCameraManager {
-   private:
-      Vec3f	m_vecCamPos;
-      Vec3f	m_vecCamLookAt;
-      Vec3f	m_vecCamUp;
+class cCameraManager {
+private:
+   Vec3f	m_vecCamPos;
+   Vec3f	m_vecCamLookAt;
+   Vec3f	m_vecCamUp;
 
-      float m_fPitchAngle;
-      float m_fYawAngle;
-      float m_fRollAngle;
+   float m_fPitchAngle;
+   float m_fYawAngle;
+   float m_fRollAngle;
 
-      const cKeyManager& keyManager;
-      const cTimeManager& timeManager;
+   const cKeyManager& keyManager;
+   const cTimeManager& timeManager;
 
-   public:
-      cCameraManager(
+public:
+   cCameraManager(
          const cKeyManager& _keyManager,
          const cTimeManager& _timeManager
-      );
+   );
 
-      void Update();
-      void Render();
+   void Update();
+   void Render();
 
-      void Yaw(float fAngle);
-      void Pitch(float fAngle);
-      void Roll(float fAngle);
+   void Yaw(float fAngle);
+   void Pitch(float fAngle);
+   void Roll(float fAngle);
 
-      void ReinitCamera();
+   void ReinitCamera();
 
-      Vec3f GetRight();
+   Vec3f GetRight();
 
-      inline Vec3f GetCameraPos() {
-         return m_vecCamPos;
-      }
+   inline Vec3f GetCameraPos() {
+      return m_vecCamPos;
+   }
 
-      inline Vec3f GetCameraLookAt() {
-         return m_vecCamLookAt;
-      }
+   inline Vec3f GetCameraLookAt() {
+      return m_vecCamLookAt;
+   }
 
-      inline Vec3f GetCameraUp() {
-         return m_vecCamUp;
-      }
-   }; /* cCameraManager */
+   inline Vec3f GetCameraUp() {
+      return m_vecCamUp;
+   }
+}; /* cCameraManager */
 
 } /* namespace elevatorSim */
 

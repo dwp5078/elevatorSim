@@ -23,10 +23,10 @@ void cTimeManager::update() {
    m_dwCurrTime = boost::posix_time::second_clock::local_time();
    m_dwLastFrameTime = m_dwCurrTime - m_dwPrevTime;
    m_dwWorldTime += m_dwLastFrameTime;
-   
+
    ++totalFrames;
    ++secondFrames;
-   
+
    if( m_dwCurrTime >= m_dwLimitTime ) {
       FPS = secondFrames;
       secondFrames = 0;

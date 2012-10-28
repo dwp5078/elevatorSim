@@ -8,116 +8,116 @@
 #include <assert.h>
 
 namespace elevatorSim   {
-   static const float MY_PI = 3.141592653589f;
+static const float MY_PI = 3.141592653589f;
 
-   class Vec3f;
-   class Vec4f;
-   class Mat44;
+class Vec3f;
+class Vec4f;
+class Mat44;
 
-   class Vec3f
-   {
-   private:
+class Vec3f
+{
+private:
 
-   public:
+public:
 
-      float x, y, z;
+   float x, y, z;
 
-      Vec3f()  {x = y = z = 0;}
+   Vec3f()  {x = y = z = 0;}
 
-      Vec3f(const Vec3f &v)   {
-         x = v.x;
-         y = v.y;
-         z = v.z;
-      }
+   Vec3f(const Vec3f &v)   {
+      x = v.x;
+      y = v.y;
+      z = v.z;
+   }
 
-      Vec3f(float dx, float dy, float dz) {
-         x = dx;
-         y = dy;
-         z = dz;
-      }
+   Vec3f(float dx, float dy, float dz) {
+      x = dx;
+      y = dy;
+      z = dz;
+   }
 
-      ~Vec3f() {}
+   ~Vec3f() {}
 
-      void Set(float dx, float dy, float dz) {
-         x = dx;
-         y = dy;
-         z = dz;
-      }
+   void Set(float dx, float dy, float dz) {
+      x = dx;
+      y = dy;
+      z = dz;
+   }
 
-      void Set(const Vec3f &v)   {
-         x = v.x;
-         y = v.y;
-         z = v.z;
-      }
+   void Set(const Vec3f &v)   {
+      x = v.x;
+      y = v.y;
+      z = v.z;
+   }
 
-      void Scale(float d)  {
-         x *= d;
-         y *= d;
-         z *= d;
-      }
+   void Scale(float d)  {
+      x *= d;
+      y *= d;
+      z *= d;
+   }
 
-      Vec3f& operator = (const Vec3f &v)  {
-         x = v.x;
-         y = v.y;
-         z = v.z;
-         return *this;
-      }
+   Vec3f& operator = (const Vec3f &v)  {
+      x = v.x;
+      y = v.y;
+      z = v.z;
+      return *this;
+   }
 
-      bool operator == (const Vec3f &v) const   {
-         return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
+   bool operator == (const Vec3f &v) const   {
+      return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
             fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
             fabs(z - v.z) < std::numeric_limits<float>::epsilon( ));
-      }
+   }
 
-      bool operator != (const Vec3f &v) const {
-         return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
+   bool operator != (const Vec3f &v) const {
+      return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
             fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
             fabs(z - v.z) > std::numeric_limits<float>::epsilon( ));
-      }
+   }
 
-      Vec3f& operator += (const Vec3f &v) {
-         x += v.x;
-         y += v.y;
-         z += v.z;
-         return *this;
-      }
+   Vec3f& operator += (const Vec3f &v) {
+      x += v.x;
+      y += v.y;
+      z += v.z;
+      return *this;
+   }
 
-      Vec3f& operator -= (const Vec3f &v) {
-         x -= v.x;
-         y -= v.y;
-         z -= v.z;
-         return *this;
-      }
+   Vec3f& operator -= (const Vec3f &v) {
+      x -= v.x;
+      y -= v.y;
+      z -= v.z;
+      return *this;
+   }
 
-      Vec3f& operator /= (const Vec3f &v) {
-         x /= v.x;
-         y /= v.y;
-         z /= v.z;
-         return *this;
-      }
+   Vec3f& operator /= (const Vec3f &v) {
+      x /= v.x;
+      y /= v.y;
+      z /= v.z;
+      return *this;
+   }
 
-      Vec3f& operator /= (float f) {
-         x /= f;
-         y /= f;
-         z /= f;
-         return *this;
-      }
+   Vec3f& operator /= (float f) {
+      x /= f;
+      y /= f;
+      z /= f;
+      return *this;
+   }
 
-      Vec3f& operator *= (const Vec3f &v) {
-         x *= v.x;
-         y *= v.y;
-         z *= v.z;
-         return *this;
-      }
+   Vec3f& operator *= (const Vec3f &v) {
+      x *= v.x;
+      y *= v.y;
+      z *= v.z;
+      return *this;
+   }
 
-      Vec3f& operator *= (float f) {
-         x *= f;
-         y *= f;
-         z *= f;
-         return *this;
-      }
+   Vec3f& operator *= (float f) {
+      x *= f;
+      y *= f;
+      z *= f;
+      return *this;
+   }
 
-      /*friend void CopyScale(Vec3f &a, const Vec3f &b, float c ) {
+   /*friend void CopyScale(Vec3f &a, const Vec3f &b, float c ) {
       a.x = b.x * c;
       a.y = b.y * c;
       a.z = b.z * c;
@@ -164,312 +164,312 @@ namespace elevatorSim   {
       }
 
 
-   }; //end of Vec3f
+}; //end of Vec3f
 
-   class Vec4f
-   {
-   private:
+class Vec4f
+{
+private:
 
-   public:
-      float x, y, z, w;
+public:
+   float x, y, z, w;
 
-      Vec4f()  {x = y = z = 0;   w = 1;}
+   Vec4f()  {x = y = z = 0;   w = 1;}
 
-      Vec4f(const Vec3f &v)   {
-         x = v.x;      y = v.y;      z = v.z;      w = 1;
-      }
+   Vec4f(const Vec3f &v)   {
+      x = v.x;      y = v.y;      z = v.z;      w = 1;
+   }
 
-      Vec4f(const Vec4f &v)   {
-         x = v.x;      y = v.y;      z = v.z;      w = v.w;
-      }
+   Vec4f(const Vec4f &v)   {
+      x = v.x;      y = v.y;      z = v.z;      w = v.w;
+   }
 
-      Vec4f(float dx, float dy, float dz) {
-         x = dx;      y = dy;      z = dz;      w = 1;
-      }
+   Vec4f(float dx, float dy, float dz) {
+      x = dx;      y = dy;      z = dz;      w = 1;
+   }
 
-      Vec4f(float dx, float dy, float dz, float dw) {
-         x = dx;      y = dy;      z = dz;      w = dw;
-      }
+   Vec4f(float dx, float dy, float dz, float dw) {
+      x = dx;      y = dy;      z = dz;      w = dw;
+   }
 
-      ~Vec4f() {}
+   ~Vec4f() {}
 
-      inline void Set(float dx, float dy, float dz, float dw) {
-         x = dx;      y = dy;      z = dz;      w = dw;
-      }
+   inline void Set(float dx, float dy, float dz, float dw) {
+      x = dx;      y = dy;      z = dz;      w = dw;
+   }
 
-      inline void Set(const Vec3f &v)   {
-         x = v.x;      y = v.y;      z = v.z;      w = 1;
-      }
+   inline void Set(const Vec3f &v)   {
+      x = v.x;      y = v.y;      z = v.z;      w = 1;
+   }
 
-      inline void Set(const Vec4f &v)   {
-         x = v.x;      y = v.y;      z = v.z;      w = v.w;
-      }
+   inline void Set(const Vec4f &v)   {
+      x = v.x;      y = v.y;      z = v.z;      w = v.w;
+   }
 
-      inline void Scale(float d)  {
-         x *= d;     y *= d;      z *= d;      w *= d;
-      }
+   inline void Scale(float d)  {
+      x *= d;     y *= d;      z *= d;      w *= d;
+   }
 
-      inline Vec4f& operator = (const Vec4f &v)  {
-         x = v.x;
-         y = v.y;
-         z = v.z;
-         w = v.w;
-         return *this;
-      }
+   inline Vec4f& operator = (const Vec4f &v)  {
+      x = v.x;
+      y = v.y;
+      z = v.z;
+      w = v.w;
+      return *this;
+   }
 
-      inline bool operator == (const Vec4f &v) const   {
-         return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
+   inline bool operator == (const Vec4f &v) const   {
+      return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
             fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
             fabs(z - v.z) < std::numeric_limits<float>::epsilon( ) &&
             fabs(w - v.w) < std::numeric_limits<float>::epsilon( ));
-      }
+   }
 
-      inline bool operator != (const Vec4f &v) const {
-         return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
+   inline bool operator != (const Vec4f &v) const {
+      return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
             fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
             fabs(z - v.z) > std::numeric_limits<float>::epsilon( ) ||
             fabs(w - v.w) > std::numeric_limits<float>::epsilon( ));
-      }
+   }
 
-      inline Vec4f& operator += (const Vec4f &v) {
-         x += v.x;
-         y += v.y;
-         z += v.z;
-         w += v.w;
-         return *this;
-      }
+   inline Vec4f& operator += (const Vec4f &v) {
+      x += v.x;
+      y += v.y;
+      z += v.z;
+      w += v.w;
+      return *this;
+   }
 
-      inline Vec4f& operator -= (const Vec4f &v) {
-         x -= v.x;
-         y -= v.y;
-         z -= v.z;
-         w -= v.w;
-         return *this;
-      }
+   inline Vec4f& operator -= (const Vec4f &v) {
+      x -= v.x;
+      y -= v.y;
+      z -= v.z;
+      w -= v.w;
+      return *this;
+   }
 
-      inline Vec4f& operator /= (const Vec4f &v) {
-         x /= v.x;
-         y /= v.y;
-         z /= v.z;
-         w /= v.w;
-         return *this;
-      }
+   inline Vec4f& operator /= (const Vec4f &v) {
+      x /= v.x;
+      y /= v.y;
+      z /= v.z;
+      w /= v.w;
+      return *this;
+   }
 
-      inline Vec4f& operator /= (float f) {
-         x /= f;
-         y /= f;
-         z /= f;
-         w /= f;
-         return *this;
-      }
+   inline Vec4f& operator /= (float f) {
+      x /= f;
+      y /= f;
+      z /= f;
+      w /= f;
+      return *this;
+   }
 
-      inline Vec4f& operator *= (const Vec4f &v) {
-         x *= v.x;
-         y *= v.y;
-         z *= v.z;
-         w *= v.w;
-         return *this;
-      }
+   inline Vec4f& operator *= (const Vec4f &v) {
+      x *= v.x;
+      y *= v.y;
+      z *= v.z;
+      w *= v.w;
+      return *this;
+   }
 
-      inline Vec4f& operator *= (float f) {
-         x *= f;
-         y *= f;
-         z *= f;
-         w *= f;
-         return *this;
-      }
+   inline Vec4f& operator *= (float f) {
+      x *= f;
+      y *= f;
+      z *= f;
+      w *= f;
+      return *this;
+   }
 
-      inline friend Vec4f operator+(const Vec4f &v1, const Vec4f &v2) {
-         return Vec4f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
-      }
+   inline friend Vec4f operator+(const Vec4f &v1, const Vec4f &v2) {
+      return Vec4f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+   }
 
-      inline friend Vec4f operator - (const Vec4f &v1, const Vec4f &v2) {
-         return Vec4f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
-      }
+   inline friend Vec4f operator - (const Vec4f &v1, const Vec4f &v2) {
+      return Vec4f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+   }
 
-      inline friend Vec4f operator * (const Vec4f &v1, float f) {
-         return Vec4f(v1.x * f, v1.y * f, v1.z * f, v1.w * f);
-      }
+   inline friend Vec4f operator * (const Vec4f &v1, float f) {
+      return Vec4f(v1.x * f, v1.y * f, v1.z * f, v1.w * f);
+   }
 
-      inline friend Vec4f operator / (const Vec4f &v1, float f) {
-         return Vec4f(v1.x / f, v1.y / f, v1.z / f, v1.w / f);
-      }
+   inline friend Vec4f operator / (const Vec4f &v1, float f) {
+      return Vec4f(v1.x / f, v1.y / f, v1.z / f, v1.w / f);
+   }
 
-      inline float Length() {
-         return (float)sqrt(x * x + y * y + z * z + w * w);
-      }
+   inline float Length() {
+      return (float)sqrt(x * x + y * y + z * z + w * w);
+   }
 
-      inline void Normalize()  {
-         float l = Length();
-         if(l > 0)   {
-            x /= l;
-            y /= l;
-            z /= l;
-            w /= l;
+   inline void Normalize()  {
+      float l = Length();
+      if(l > 0)   {
+         x /= l;
+         y /= l;
+         z /= l;
+         w /= l;
+      }
+   }
+
+   inline float Dot(const Vec4f &v) const {
+      return x * v.x + y * v.y + z * v.z + w * v.w;
+   }
+}; //end of Vec4f
+
+
+class Mat44
+{
+public:
+   float m[4][4];
+
+public:
+   Mat44()  {
+      for(int i=0; i<4; i++)  {
+         for (int j=0; j<4; j++) {
+            //identity matrix;
+            if(i == j)  m[i][j] = 1.0f;
+            else        m[i][j] = 0.0f;
+         }
+      }
+   }
+
+   Mat44(const Mat44 &dm)   {
+      memcpy(m, &dm, sizeof(float)*16);
+   }
+
+   ~Mat44();
+
+   inline friend Mat44 operator + (const Mat44& m1, const Mat44& m2){
+      Mat44 C;
+      for(int i=0; i<4; i++)  {
+         for(int j=0; j<4; j++)  {
+            C.m[i][j] = m1.m[i][j] + m2.m[i][j];
          }
       }
 
-      inline float Dot(const Vec4f &v) const {
-         return x * v.x + y * v.y + z * v.z + w * v.w;
+      return C;
+   }
+
+   inline friend Mat44 operator - (const Mat44& m1, const Mat44& m2){
+      Mat44 C;
+      for(int i=0; i<4; i++)  {
+         for(int j=0; j<4; j++)  {
+            C.m[i][j] = m1.m[i][j] - m2.m[i][j];
+         }
       }
-   }; //end of Vec4f
 
+      return C;
+   }
 
-   class Mat44
+   inline friend Mat44 operator * (const Mat44& A, const Mat44& B){
+      Mat44 C;
+
+      C.m[0][0] = A.m[0][0] * B.m[0][0] + A.m[0][1] * B.m[1][0] + A.m[0][2] * B.m[2][0] + A.m[0][3] * B.m[3][0];
+      C.m[0][1] = A.m[0][0] * B.m[0][1] + A.m[0][1] * B.m[1][1] + A.m[0][2] * B.m[2][1] + A.m[0][3] * B.m[3][1];
+      C.m[0][2] = A.m[0][0] * B.m[0][2] + A.m[0][1] * B.m[1][2] + A.m[0][2] * B.m[2][2] + A.m[0][3] * B.m[3][2];
+      C.m[0][3] = A.m[0][0] * B.m[0][3] + A.m[0][1] * B.m[1][3] + A.m[0][2] * B.m[2][3] + A.m[0][3] * B.m[3][3];
+      C.m[1][0] = A.m[1][0] * B.m[0][0] + A.m[1][1] * B.m[1][0] + A.m[1][2] * B.m[2][0] + A.m[1][3] * B.m[3][0];
+      C.m[1][1] = A.m[1][0] * B.m[0][1] + A.m[1][1] * B.m[1][1] + A.m[1][2] * B.m[2][1] + A.m[1][3] * B.m[3][1];
+      C.m[1][2] = A.m[1][0] * B.m[0][2] + A.m[1][1] * B.m[1][2] + A.m[1][2] * B.m[2][2] + A.m[1][3] * B.m[3][2];
+      C.m[1][3] = A.m[1][0] * B.m[0][3] + A.m[1][1] * B.m[1][3] + A.m[1][2] * B.m[2][3] + A.m[1][3] * B.m[3][3];
+      C.m[2][0] = A.m[2][0] * B.m[0][0] + A.m[2][1] * B.m[1][0] + A.m[2][2] * B.m[2][0] + A.m[2][3] * B.m[3][0];
+      C.m[2][1] = A.m[2][0] * B.m[0][1] + A.m[2][1] * B.m[1][1] + A.m[2][2] * B.m[2][1] + A.m[2][3] * B.m[3][1];
+      C.m[2][2] = A.m[2][0] * B.m[0][2] + A.m[2][1] * B.m[1][2] + A.m[2][2] * B.m[2][2] + A.m[2][3] * B.m[3][2];
+      C.m[2][3] = A.m[2][0] * B.m[0][3] + A.m[2][1] * B.m[1][3] + A.m[2][2] * B.m[2][3] + A.m[2][3] * B.m[3][3];
+      C.m[3][0] = A.m[3][0] * B.m[0][0] + A.m[3][1] * B.m[1][0] + A.m[3][2] * B.m[2][0] + A.m[3][3] * B.m[3][0];
+      C.m[3][1] = A.m[3][0] * B.m[0][1] + A.m[3][1] * B.m[1][1] + A.m[3][2] * B.m[2][1] + A.m[3][3] * B.m[3][1];
+      C.m[3][2] = A.m[3][0] * B.m[0][2] + A.m[3][1] * B.m[1][2] + A.m[3][2] * B.m[2][2] + A.m[3][3] * B.m[3][2];
+      C.m[3][3] = A.m[3][0] * B.m[0][3] + A.m[3][1] * B.m[1][3] + A.m[3][2] * B.m[2][3] + A.m[3][3] * B.m[3][3];
+
+      return C;
+   }
+
+   inline friend Vec4f operator * (const Mat44& A, const Vec4f& v){
+      Vec4f T;
+      T.x = A.m[0][0] * v.x + A.m[0][1]*v.y + A.m[0][2]*v.z + A.m[0][3]*v.w;
+      T.y = A.m[1][0] * v.x + A.m[1][1]*v.y + A.m[1][2]*v.z + A.m[1][3]*v.w;
+      T.z = A.m[2][0] * v.x + A.m[2][1]*v.y + A.m[2][2]*v.z + A.m[2][3]*v.w;
+      T.w = A.m[3][0] * v.x + A.m[3][1]*v.y + A.m[3][2]*v.z + A.m[3][3]*v.w;
+
+      return T;
+   }
+
+   inline friend Vec3f operator * (const Mat44& A, const Vec3f& v){
+      Vec3f v1;
+
+      v1.x = A.m[0][0] * v.x + A.m[0][1]*v.y + A.m[0][2]*v.z;
+      v1.y = A.m[1][0] * v.x + A.m[1][1]*v.y + A.m[1][2]*v.z;
+      v1.z = A.m[2][0] * v.x + A.m[2][1]*v.y + A.m[2][2]*v.z;
+
+      return v1;
+   }
+
+   inline void RotationX(Mat44 &A, float fangle)
    {
-   public:
-      float m[4][4];
-
-   public:
-      Mat44()  {
-         for(int i=0; i<4; i++)  {
-            for (int j=0; j<4; j++) {
-               //identity matrix;
-               if(i == j)  m[i][j] = 1.0f;
-               else        m[i][j] = 0.0f;
-            }
-         }
-      }
-
-      Mat44(const Mat44 &dm)   {
-         memcpy(m, &dm, sizeof(float)*16);
-      }
-
-      ~Mat44();
-
-      inline friend Mat44 operator + (const Mat44& m1, const Mat44& m2){
-         Mat44 C;
-         for(int i=0; i<4; i++)  {
-            for(int j=0; j<4; j++)  {
-               C.m[i][j] = m1.m[i][j] + m2.m[i][j];
-            }
-         }
-
-         return C;
-      }
-
-      inline friend Mat44 operator - (const Mat44& m1, const Mat44& m2){
-         Mat44 C;
-         for(int i=0; i<4; i++)  {
-            for(int j=0; j<4; j++)  {
-               C.m[i][j] = m1.m[i][j] - m2.m[i][j];
-            }
-         }
-
-         return C;
-      }
-
-      inline friend Mat44 operator * (const Mat44& A, const Mat44& B){
-         Mat44 C;
-
-         C.m[0][0] = A.m[0][0] * B.m[0][0] + A.m[0][1] * B.m[1][0] + A.m[0][2] * B.m[2][0] + A.m[0][3] * B.m[3][0];
-         C.m[0][1] = A.m[0][0] * B.m[0][1] + A.m[0][1] * B.m[1][1] + A.m[0][2] * B.m[2][1] + A.m[0][3] * B.m[3][1];
-         C.m[0][2] = A.m[0][0] * B.m[0][2] + A.m[0][1] * B.m[1][2] + A.m[0][2] * B.m[2][2] + A.m[0][3] * B.m[3][2];
-         C.m[0][3] = A.m[0][0] * B.m[0][3] + A.m[0][1] * B.m[1][3] + A.m[0][2] * B.m[2][3] + A.m[0][3] * B.m[3][3];
-         C.m[1][0] = A.m[1][0] * B.m[0][0] + A.m[1][1] * B.m[1][0] + A.m[1][2] * B.m[2][0] + A.m[1][3] * B.m[3][0];
-         C.m[1][1] = A.m[1][0] * B.m[0][1] + A.m[1][1] * B.m[1][1] + A.m[1][2] * B.m[2][1] + A.m[1][3] * B.m[3][1];
-         C.m[1][2] = A.m[1][0] * B.m[0][2] + A.m[1][1] * B.m[1][2] + A.m[1][2] * B.m[2][2] + A.m[1][3] * B.m[3][2];
-         C.m[1][3] = A.m[1][0] * B.m[0][3] + A.m[1][1] * B.m[1][3] + A.m[1][2] * B.m[2][3] + A.m[1][3] * B.m[3][3];
-         C.m[2][0] = A.m[2][0] * B.m[0][0] + A.m[2][1] * B.m[1][0] + A.m[2][2] * B.m[2][0] + A.m[2][3] * B.m[3][0];
-         C.m[2][1] = A.m[2][0] * B.m[0][1] + A.m[2][1] * B.m[1][1] + A.m[2][2] * B.m[2][1] + A.m[2][3] * B.m[3][1];
-         C.m[2][2] = A.m[2][0] * B.m[0][2] + A.m[2][1] * B.m[1][2] + A.m[2][2] * B.m[2][2] + A.m[2][3] * B.m[3][2];
-         C.m[2][3] = A.m[2][0] * B.m[0][3] + A.m[2][1] * B.m[1][3] + A.m[2][2] * B.m[2][3] + A.m[2][3] * B.m[3][3];
-         C.m[3][0] = A.m[3][0] * B.m[0][0] + A.m[3][1] * B.m[1][0] + A.m[3][2] * B.m[2][0] + A.m[3][3] * B.m[3][0];
-         C.m[3][1] = A.m[3][0] * B.m[0][1] + A.m[3][1] * B.m[1][1] + A.m[3][2] * B.m[2][1] + A.m[3][3] * B.m[3][1];
-         C.m[3][2] = A.m[3][0] * B.m[0][2] + A.m[3][1] * B.m[1][2] + A.m[3][2] * B.m[2][2] + A.m[3][3] * B.m[3][2];
-         C.m[3][3] = A.m[3][0] * B.m[0][3] + A.m[3][1] * B.m[1][3] + A.m[3][2] * B.m[2][3] + A.m[3][3] * B.m[3][3];
-
-         return C;
-      }
-
-      inline friend Vec4f operator * (const Mat44& A, const Vec4f& v){
-         Vec4f T;
-         T.x = A.m[0][0] * v.x + A.m[0][1]*v.y + A.m[0][2]*v.z + A.m[0][3]*v.w;
-         T.y = A.m[1][0] * v.x + A.m[1][1]*v.y + A.m[1][2]*v.z + A.m[1][3]*v.w;
-         T.z = A.m[2][0] * v.x + A.m[2][1]*v.y + A.m[2][2]*v.z + A.m[2][3]*v.w;
-         T.w = A.m[3][0] * v.x + A.m[3][1]*v.y + A.m[3][2]*v.z + A.m[3][3]*v.w;
-
-         return T;
-      }
-
-      inline friend Vec3f operator * (const Mat44& A, const Vec3f& v){
-         Vec3f v1;
-
-         v1.x = A.m[0][0] * v.x + A.m[0][1]*v.y + A.m[0][2]*v.z;
-         v1.y = A.m[1][0] * v.x + A.m[1][1]*v.y + A.m[1][2]*v.z;
-         v1.z = A.m[2][0] * v.x + A.m[2][1]*v.y + A.m[2][2]*v.z;
-
-         return v1;
-      }
-
-      inline void RotationX(Mat44 &A, float fangle)
-      {
-         /*
+      /*
          |1  0    0    0|
          |0  cos  sin  0|
          |0 -sin  cos  0|
          |0  0    0    1|*/
 
          A.m[1][1] = cosf(fangle);
-         A.m[1][2] = sinf(fangle);
-         A.m[2][1] = -sinf(fangle);
-         A.m[2][2] = cosf(fangle);
-      }
+      A.m[1][2] = sinf(fangle);
+      A.m[2][1] = -sinf(fangle);
+      A.m[2][2] = cosf(fangle);
+   }
 
-      inline void RotationY(Mat44 &A, float fangle)
-      {
-         /*
+   inline void RotationY(Mat44 &A, float fangle)
+   {
+      /*
          |cos  0 -sin  0|
          |0    1  0    0|
          |sin  0  cos  0|
          |0    0  0    1|*/
 
-         A.m[0][0] = cosf(fangle);
-         A.m[0][2] = -sinf(fangle);
-         A.m[2][0] = sinf(fangle);
-         A.m[2][2] = cosf(fangle);
-      }
+      A.m[0][0] = cosf(fangle);
+      A.m[0][2] = -sinf(fangle);
+      A.m[2][0] = sinf(fangle);
+      A.m[2][2] = cosf(fangle);
+   }
 
-      inline void RotationZ(Mat44 &A, float fangle)
-      {
-         /*
+   inline void RotationZ(Mat44 &A, float fangle)
+   {
+      /*
          |cos  sin 0   0|
          |-sin cos 0   0|
          |0    0   1   0|
          |0    0   0   1|*/
 
-         A.m[0][0] = cosf(fangle);
-         A.m[0][1] = sinf(fangle);
-         A.m[1][0] = -sinf(fangle);
-         A.m[1][1] = cosf(fangle);
-      }
+      A.m[0][0] = cosf(fangle);
+      A.m[0][1] = sinf(fangle);
+      A.m[1][0] = -sinf(fangle);
+      A.m[1][1] = cosf(fangle);
+   }
 
-      inline void RotationVec(Mat44 &A, const Vec3f &v, float fangle)
-      {
-         A.Identity();
-         //v.Normalize();
+   inline void RotationVec(Mat44 &A, const Vec3f &v, float fangle)
+   {
+      A.Identity();
+      //v.Normalize();
 
-         A.m[0][0] = 1.0f + (1.0f-cosf(fangle))*(v.x*v.x-1);
-         A.m[0][1] = -v.z*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.y;
-         A.m[0][2] = v.y*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.z;
-         A.m[1][0] = v.z*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.y;
-         A.m[1][1] = 1.0f+(1.0f-cosf(fangle))*(v.y*v.y-1.0f);
-         A.m[1][2] = -v.x*sinf(fangle)+(1.0f-cosf(fangle))*v.y*v.z;
-         A.m[2][0] = -v.y*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.z;
-         A.m[2][1] = v.x*sinf(fangle)+(1.0f-cosf(fangle))*v.y*v.z;
-         A.m[2][2] = 1.0f+(1.0f-cosf(fangle))*(v.z*v.z-1.0f);
-      }
+      A.m[0][0] = 1.0f + (1.0f-cosf(fangle))*(v.x*v.x-1);
+      A.m[0][1] = -v.z*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.y;
+      A.m[0][2] = v.y*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.z;
+      A.m[1][0] = v.z*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.y;
+      A.m[1][1] = 1.0f+(1.0f-cosf(fangle))*(v.y*v.y-1.0f);
+      A.m[1][2] = -v.x*sinf(fangle)+(1.0f-cosf(fangle))*v.y*v.z;
+      A.m[2][0] = -v.y*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.z;
+      A.m[2][1] = v.x*sinf(fangle)+(1.0f-cosf(fangle))*v.y*v.z;
+      A.m[2][2] = 1.0f+(1.0f-cosf(fangle))*(v.z*v.z-1.0f);
+   }
 
-      inline void Identity()   {
-         for(int i=0; i<4; i++)  {
-            for(int j=0; j<4; j++)  {
-               if(i == j)     m[i][j] = 1.0f;
-               else           m[i][j] = 0.0f;
-            }
+   inline void Identity()   {
+      for(int i=0; i<4; i++)  {
+         for(int j=0; j<4; j++)  {
+            if(i == j)     m[i][j] = 1.0f;
+            else           m[i][j] = 0.0f;
          }
       }
+   }
 
-   };    //end of Mat44
+};    //end of Mat44
 }
 
 

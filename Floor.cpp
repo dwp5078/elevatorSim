@@ -56,17 +56,17 @@ Floor::Floor(const Floor & copy) {
          copy.occupants.end());
 }
 
-   void Floor::Init()
-   {
-   }
+void Floor::Init()
+{
+}
 
-   void Floor::Render()
-   {
-   }
+void Floor::Render()
+{
+}
 
-   void Floor::Update()
-   {
-   }
+void Floor::Update()
+{
+}
 
 } /* namespace elevatorSim */
 

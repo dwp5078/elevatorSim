@@ -70,9 +70,9 @@ public:
    Floor(const Floor & copy);
 
    /* public methods */
-      void Init();
-      void Render();
-      void Update();
+   void Init();
+   void Render();
+   void Update();
 
 
 };
