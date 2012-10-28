@@ -108,7 +108,8 @@ void ElevatorSimRenderWindow::setPerspective(
       GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
    GLdouble xmin, xmax, ymin, ymax;
 
-   ymax = zNear * tan(fovy * M_PI / 360.0);
+   
+   ymax = zNear * tan(fovy * MY_PI / 360.0);
    ymin = -ymax;
    xmin = ymin * aspect;
    xmax = ymax * aspect;
