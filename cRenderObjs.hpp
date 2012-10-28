@@ -3,6 +3,8 @@
 
 #include "ElevatorSim.hpp"
 
+#include <GL/glut.h>
+
 namespace elevatorSim   {
 
 class cRenderObjs

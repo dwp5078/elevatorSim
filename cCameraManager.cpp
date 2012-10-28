@@ -4,6 +4,7 @@
 #include "cTimeManager.hpp"
 
 #include <FL/Enumerations.H>
+#include <GL/glut.h>
 
 namespace elevatorSim {
 
@@ -75,7 +76,6 @@ namespace elevatorSim {
 		glRotatef(m_fPitchAngle, 1, 0, 0);
 		glRotatef(m_fYawAngle, 0, 1, 0);
 		glRotatef(m_fRollAngle, 0, 0, 1);
-
 
 		gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z,
          m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z,

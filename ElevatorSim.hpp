@@ -41,11 +41,6 @@
 #error Unspecified operating system. Use the makefile.
 #endif
 
-#include <GL/glut.h>
-#include <cassert>
-#include <cmath>
-#include <cstring>
-
 namespace elevatorSim {
    bool isDebugBuild();
 }
