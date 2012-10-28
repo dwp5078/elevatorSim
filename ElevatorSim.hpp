@@ -48,8 +48,9 @@
 #include <cmath>
 #include <cstring>
 
-/* small utility function prototypes */
+#include "MVectors.hpp"
 namespace elevatorSim {
+
    bool isDebugBuild();
 }
 

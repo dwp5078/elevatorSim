@@ -3,17 +3,18 @@
 
 namespace elevatorSim   {
 
-   cRenderObjs::cRenderObjs(int _floors, int _elevators, const GLfloat  _buildingGapHeight, const GLfloat _elevGapWidth) :
-   buildingGapHeight(_buildingGapHeight), elevGapWidth(_elevGapWidth)
+   cRenderObjs::cRenderObjs()
    {
       m_bIsInit = false;
-      m_nNumberOfFloor = _floors;
-      m_nNumberOfElevator = _elevators;
+      m_nNumberOfFloor = 20;
+      m_nNumberOfElevator = 5;
+
+      buildingGapHeight = 1.1f;
+      elevGapWidth = 1.7f;
    }
 
    cRenderObjs::~cRenderObjs(void)
    {
-   
    }
    
    void cRenderObjs::init()

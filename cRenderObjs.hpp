@@ -10,8 +10,9 @@ class cRenderObjs
    bool m_bIsInit;
    int m_nNumberOfFloor;
    int m_nNumberOfElevator;
-   const GLfloat  buildingGapHeight;
-   const GLfloat  elevGapWidth;
+
+   GLfloat  buildingGapHeight;
+   GLfloat  elevGapWidth;
    
 public:
 
@@ -23,7 +24,7 @@ public:
       OBJ_MAX,
    };
 
-   cRenderObjs(int _floors = 5, int _elevators = 20, const GLfloat  _buildingGapHeight = 10.0f, const GLfloat  _buildingGapWidth = 10.0f);
+   cRenderObjs();
    ~cRenderObjs(void);
    
    void init();
