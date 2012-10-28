@@ -70,8 +70,8 @@
     <ClInclude Include="ElevatorSimWindow.hpp" />
     <ClInclude Include="Floor.hpp" />
     <ClInclude Include="Location.hpp" />
+    <ClInclude Include="MVectors.hpp" />
     <ClInclude Include="Person.hpp" />
-    <ClInclude Include="util_vectors.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
