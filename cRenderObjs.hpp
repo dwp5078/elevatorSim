@@ -16,12 +16,12 @@ class cRenderObjs
    
 public:
 
-   static enum OBJ_LIST {
+   enum OBJ_LIST {
       OBJ_PLANE = 1,
       OBJ_CUBE,
       OBJ_BUILDING,
       OBJ_ELEVATOR,
-      OBJ_MAX,
+      OBJ_MAX
    };
 
    cRenderObjs();
@@ -37,3 +37,4 @@ public:
 } /* namespace elevatorSim */
 
 #endif //__CRENDEROBJS_HPP_
+

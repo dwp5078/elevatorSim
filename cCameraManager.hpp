@@ -4,6 +4,7 @@
 #include "ElevatorSim.hpp"
 #include "cKeyManager.hpp"
 #include "cTimeManager.hpp"
+#include "MVectors.hpp"
 
 namespace elevatorSim {
 
@@ -53,3 +54,4 @@ namespace elevatorSim {
 } /* namespace elevatorSim */
 
 #endif //__CCAMERAMANAGER_H__
+

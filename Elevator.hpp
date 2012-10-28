@@ -57,7 +57,6 @@ class Elevator : public Location {
    int currentAccel;
    std::vector<Person> occupants;
 
-
    /* private methods */
 
 
@@ -69,8 +68,7 @@ public:
    /* public instance members */
 
    /* constructors */
-   Elevator();
-   Elevator(int mVel, int mAccel, int mOccupants);
+   Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants);
    Elevator(const Elevator & copy);
 
    /* public methods */

@@ -32,15 +32,12 @@
 #include "Elevator.hpp"
 
 namespace elevatorSim {
-/* constructors */
-Elevator::Elevator()
-: maxVel(0), maxAccel(0), maxOccupants(0), currentAccel(0), currentVel(0) {
-   /* nothing */
-}
+Elevator::Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants)
+: maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
+   currentVel = 0;
+   currentAccel = 0;
 
-Elevator::Elevator(const int mVel, int mAccel, int mOccupants)
-: maxVel(mVel), maxAccel(mAccel), maxOccupants(mOccupants), currentAccel(0), currentVel(0) {
-   /* nothing */
+   /* TODO */
 }
 
 Elevator::Elevator(const Elevator & copy)
@@ -50,17 +47,20 @@ Elevator::Elevator(const Elevator & copy)
    occupants.assign(copy.occupants.begin(), copy.occupants.end());
 }
 
-   void Elevator::Init()
-   {
-   }
-
-   void Elevator::Render()
-   {
-
-   }
-
-   void Elevator::Update()
-   {
-   }
+void Elevator::Init()
+{
 
 }
+
+void Elevator::Render()
+{
+
+}
+
+void Elevator::Update()
+{
+
+}
+
+}
+

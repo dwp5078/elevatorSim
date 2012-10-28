@@ -54,17 +54,16 @@ namespace elevatorSim {
    const GLfloat ElevatorSimRenderWindow::light1_position[4] = { 1.f, 8.f, 2.0f, 0.0f };
    const GLfloat ElevatorSimRenderWindow::light1_direction[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-   const GLfloat ElevatorSimRenderWindow::M_PI = 3.141592653589f;
-
    void ElevatorSimRenderWindow::timerCB(void* userdata) {
-	  double interval = cTimeManager::redrawInterval.total_seconds() +
-		  0.001 * cTimeManager::redrawInterval.total_milliseconds();
-
       ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
+
       myWindow->redraw();
-	  myWindow->m_CameraManager.Update();
-	  myWindow->timeManager.update();
-      Fl::repeat_timeout(interval, timerCB, userdata);
+
+      /* TODO: move these updates to the compute thread and unify the method */
+      myWindow->m_CameraManager.Update();
+ 	   myWindow->timeManager.update();
+
+      Fl::repeat_timeout(cTimeManager::redrawInterval, timerCB, userdata);
    }
 
    int ElevatorSimRenderWindow::handle(int event) {
@@ -184,18 +183,15 @@ namespace elevatorSim {
       int X, int Y, int W, int H, const char* Label) :
    
    Fl_Gl_Window(X, Y, W, H, Label), 
+   m_CameraManager(_keyManager, _timeManager),
    keyManager(_keyManager), 
-   timeManager(_timeManager),
-   m_CameraManager(_keyManager, _timeManager)  {
-
-      double interval = cTimeManager::redrawInterval.total_seconds() +
-		  0.001 * cTimeManager::redrawInterval.total_milliseconds();
+   timeManager(_timeManager)
+     {
       spin = 0.0;
       m_bRenderFPS = true;
       m_Building.Init(20, 5);
 
-      
-      Fl::add_timeout(interval, timerCB, (void*)this);
+      Fl::add_timeout(cTimeManager::redrawInterval, timerCB, (void*)this);
       take_focus();
    }
 
@@ -233,11 +229,11 @@ namespace elevatorSim {
       //glTranslatef(0.0f, -2.0f, 0.0f);
       //glCallList(OBJ_BUILDING);
 
-	  if(m_bRenderFPS) { drawFPS(); }
+	   if(m_bRenderFPS) { drawFPS(); }
 
       GLenum err = glGetError();
       if ( err != GL_NO_ERROR ) {
-         fprintf(stderr, "GLGETERROR=%d\n", (int)err);
+         std::cerr << "GLGETERROR= " << (int) err << std::endl;
       }
    }
 

@@ -36,6 +36,7 @@
 #include "cKeyManager.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
+#include "MVectors.hpp"
 
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Gl_Window.H>
@@ -57,15 +58,12 @@ namespace elevatorSim {
       static const GLfloat light1_position[4];
       static const GLfloat light1_direction[4];
 
-      static const GLfloat M_PI;
-
       /* private instance members */
       float spin;
 
       cRenderObjs    m_renderObjs;
       cCameraManager m_CameraManager;
       Building       m_Building;
-
 
       /* private methods */
       int handle(int event);
@@ -102,8 +100,8 @@ namespace elevatorSim {
          const cKeyManager& _keyManager,
          cTimeManager& _timeManager,
          int X, int Y, int W, int H, const char* Label = 0);
-      void draw();
 
+      void draw();
    };
 
 } /* namespace elevatorSim */

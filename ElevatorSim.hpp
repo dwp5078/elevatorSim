@@ -30,8 +30,6 @@
 #ifndef _ELEVATOR_SIM_H
 #define _ELEVATOR_SIM_H
 
-#include "util_vectors.hpp"
-
 #if defined(_ES_WINNT)
 #include <Windows.h>
 #include <gl/GL.h>
@@ -48,9 +46,7 @@
 #include <cmath>
 #include <cstring>
 
-#include "MVectors.hpp"
 namespace elevatorSim {
-
    bool isDebugBuild();
 }
 

@@ -7,11 +7,9 @@
 #include <limits>
 #include <assert.h>
 
-using namespace std;
-
-const float MY_PI = 4.0f * atan(1.0f);
-
 namespace elevatorSim   {
+   static const float MY_PI = 3.141592653589f;
+
    class Vec3f;
    class Vec4f;
    class Mat44;
@@ -21,6 +19,7 @@ namespace elevatorSim   {
    private:
 
    public:
+
       float x, y, z;
 
       Vec3f()  {x = y = z = 0;}
@@ -65,15 +64,15 @@ namespace elevatorSim   {
       }
 
       bool operator == (const Vec3f &v) const   {
-         return ( fabs(x - v.x) < numeric_limits<float>::epsilon( ) &&
-            fabs(y - v.y) < numeric_limits<float>::epsilon( ) &&
-            fabs(z - v.z) < numeric_limits<float>::epsilon( ));
+         return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
+            fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
+            fabs(z - v.z) < std::numeric_limits<float>::epsilon( ));
       }
 
       bool operator != (const Vec3f &v) const {
-         return ( fabs(x - v.x) > numeric_limits<float>::epsilon( ) ||
-            fabs(y - v.y) > numeric_limits<float>::epsilon( ) ||
-            fabs(z - v.z) > numeric_limits<float>::epsilon( ));
+         return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
+            fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
+            fabs(z - v.z) > std::numeric_limits<float>::epsilon( ));
       }
 
       Vec3f& operator += (const Vec3f &v) {
@@ -219,17 +218,17 @@ namespace elevatorSim   {
       }
 
       inline bool operator == (const Vec4f &v) const   {
-         return ( fabs(x - v.x) < numeric_limits<float>::epsilon( ) &&
-            fabs(y - v.y) < numeric_limits<float>::epsilon( ) &&
-            fabs(z - v.z) < numeric_limits<float>::epsilon( ) &&
-            fabs(w - v.w) < numeric_limits<float>::epsilon( ));
+         return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
+            fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
+            fabs(z - v.z) < std::numeric_limits<float>::epsilon( ) &&
+            fabs(w - v.w) < std::numeric_limits<float>::epsilon( ));
       }
 
       inline bool operator != (const Vec4f &v) const {
-         return ( fabs(x - v.x) > numeric_limits<float>::epsilon( ) ||
-            fabs(y - v.y) > numeric_limits<float>::epsilon( ) ||
-            fabs(z - v.z) > numeric_limits<float>::epsilon( ) ||
-            fabs(w - v.w) > numeric_limits<float>::epsilon( ));
+         return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
+            fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
+            fabs(z - v.z) > std::numeric_limits<float>::epsilon( ) ||
+            fabs(w - v.w) > std::numeric_limits<float>::epsilon( ));
       }
 
       inline Vec4f& operator += (const Vec4f &v) {
@@ -411,10 +410,10 @@ namespace elevatorSim   {
          |0 -sin  cos  0|
          |0  0    0    1|*/
 
-         A.m[1][1] = cos(fangle);
-         A.m[1][2] = sin(fangle);
-         A.m[2][1] = -sin(fangle);
-         A.m[2][2] = cos(fangle);
+         A.m[1][1] = cosf(fangle);
+         A.m[1][2] = sinf(fangle);
+         A.m[2][1] = -sinf(fangle);
+         A.m[2][2] = cosf(fangle);
       }
 
       inline void RotationY(Mat44 &A, float fangle)
@@ -425,10 +424,10 @@ namespace elevatorSim   {
          |sin  0  cos  0|
          |0    0  0    1|*/
 
-         A.m[0][0] = cos(fangle);
-         A.m[0][2] = -sin(fangle);
-         A.m[2][0] = sin(fangle);
-         A.m[2][2] = cos(fangle);
+         A.m[0][0] = cosf(fangle);
+         A.m[0][2] = -sinf(fangle);
+         A.m[2][0] = sinf(fangle);
+         A.m[2][2] = cosf(fangle);
       }
 
       inline void RotationZ(Mat44 &A, float fangle)
@@ -439,10 +438,10 @@ namespace elevatorSim   {
          |0    0   1   0|
          |0    0   0   1|*/
 
-         A.m[0][0] = cos(fangle);
-         A.m[0][1] = sin(fangle);
-         A.m[1][0] = -sin(fangle);
-         A.m[1][1] = cos(fangle);
+         A.m[0][0] = cosf(fangle);
+         A.m[0][1] = sinf(fangle);
+         A.m[1][0] = -sinf(fangle);
+         A.m[1][1] = cosf(fangle);
       }
 
       inline void RotationVec(Mat44 &A, const Vec3f &v, float fangle)
@@ -450,15 +449,15 @@ namespace elevatorSim   {
          A.Identity();
          //v.Normalize();
 
-         A.m[0][0] = 1.0f + (1.0f-cos(fangle))*(v.x*v.x-1);
-         A.m[0][1] = -v.z*sin(fangle)+(1.0f-cos(fangle))*v.x*v.y;
-         A.m[0][2] = v.y*sin(fangle)+(1.0f-cos(fangle))*v.x*v.z;
-         A.m[1][0] = v.z*sin(fangle)+(1.0f-cos(fangle))*v.x*v.y;
-         A.m[1][1] = 1.0f+(1.0f-cos(fangle))*(v.y*v.y-1.0f);
-         A.m[1][2] = -v.x*sin(fangle)+(1.0f-cos(fangle))*v.y*v.z;
-         A.m[2][0] = -v.y*sin(fangle)+(1.0f-cos(fangle))*v.x*v.z;
-         A.m[2][1] = v.x*sin(fangle)+(1.0f-cos(fangle))*v.y*v.z;
-         A.m[2][2] = 1.0f+(1.0f-cos(fangle))*(v.z*v.z-1.0f);
+         A.m[0][0] = 1.0f + (1.0f-cosf(fangle))*(v.x*v.x-1);
+         A.m[0][1] = -v.z*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.y;
+         A.m[0][2] = v.y*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.z;
+         A.m[1][0] = v.z*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.y;
+         A.m[1][1] = 1.0f+(1.0f-cosf(fangle))*(v.y*v.y-1.0f);
+         A.m[1][2] = -v.x*sinf(fangle)+(1.0f-cosf(fangle))*v.y*v.z;
+         A.m[2][0] = -v.y*sinf(fangle)+(1.0f-cosf(fangle))*v.x*v.z;
+         A.m[2][1] = v.x*sinf(fangle)+(1.0f-cosf(fangle))*v.y*v.z;
+         A.m[2][2] = 1.0f+(1.0f-cosf(fangle))*(v.z*v.z-1.0f);
       }
 
       inline void Identity()   {

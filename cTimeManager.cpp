@@ -4,7 +4,8 @@
 
 namespace elevatorSim {
 
-const boost::posix_time::time_duration cTimeManager::redrawInterval = boost::posix_time::milliseconds(33);
+
+const double cTimeManager::redrawInterval = 0.23;
 
 cTimeManager::cTimeManager() {
    reset();
@@ -34,3 +35,4 @@ void cTimeManager::update() {
 }
 
 } /* namespace elevatorSim */
+

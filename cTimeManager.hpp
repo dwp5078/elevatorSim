@@ -21,7 +21,7 @@ class cTimeManager {
 
 public:
 
-   static const boost::posix_time::time_duration redrawInterval;
+   static const double redrawInterval;
 
    cTimeManager();
 
@@ -34,7 +34,7 @@ public:
    }
 
    inline size_t getFPS() const {
-      return FPS; /* TODO */
+      return FPS;  
    }
 
    inline size_t getTotalFrames() const {
@@ -49,3 +49,4 @@ public:
 } /* namespace elevatorSim */
 
 #endif /* __CTIMEMANAGER_H__ */
+

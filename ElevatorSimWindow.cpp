@@ -87,21 +87,36 @@ namespace elevatorSim {
 
    /* private static methods */
    void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
-      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+      if(isDebugBuild()) {
+         printf("windowCloseCB fired with widget ptr @%p\n", w);
+      }
 
+      ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
       thisWin->showQuitConfirmDialog();
    }
 
    void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("menuNewCB fired with widget ptr @%p and userData @%p\n", w, userData);
+      }
+
       /* TODO */
    }
 
    void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("menuOpenCB fired with widget ptr @%p\n", w);
+      }
+
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
       thisWin->openScript();
    }
 
    void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("menuHelpCB fired with widget ptr @%p\n", w);
+      }
+
       ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
 
       if(!thisWindow->helpWin && !thisWindow->helpLabel && !thisWindow->helpDoneButton) {
@@ -120,19 +135,35 @@ namespace elevatorSim {
   }
 
    void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("dismissHelpCB fired with widget ptr @%p\n", w);
+      }
+
       ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
       thisWindow->helpWin->hide();
    }
 
    void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("in startSimCB with widget ptr @%p and userData @%p\n", w, userData);
+      }
+
       Fl_Button* startButton = (Fl_Button*)w;
 
       if(startButton->value()) {
-         printf("startSim CB fired\n");
+         if(isDebugBuild() ) {
+            printf("startSim CB fired\n");
+         }
+
+         /* TODO */
       }
    }
 
    void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("in pauseSimCB with widget ptr @%p and userData @%p\n", w, userData);
+      }
+
       Fl_Button* pauseButton = (Fl_Button*)w;
       /* TODO: this needs to be moved into time manager */
       static bool paused = true;
@@ -151,6 +182,10 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("in stopSimCB with widget ptr @%p and userData @%p\n", w, userData);
+      }
+
       Fl_Button* stopButton = (Fl_Button*)w;
 
       if(stopButton->value()) {
@@ -159,21 +194,37 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("menuSaveCB fired with widget ptr @%p and userData @%p\n", w, userData);
+      }
+
       /* TODO */
    }
 
    void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("menuQuitCB fired with widget ptr @%p\n", w);
+      }
+
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
       thisWin->showQuitConfirmDialog();
    }
 
    void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
+      if(isDebugBuild()) {
+         printf("menuAboutCB fired with widget ptr @%p and userData @%p\n", w, userData);
+      }
+
       /* no - windows api calls are disallowed
       ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
       NULL, NULL, SW_SHOWNORMAL);*/
    }
 
    void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
+      if(isDebugBuild()) {
+         printf("quitConfirmedCB fired with button widget ptr @%p\n", yesButton);
+      }
+
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
       thisWin->hideQuitConfirmDialog();
@@ -181,29 +232,44 @@ namespace elevatorSim {
    }
 
    void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
+      if(isDebugBuild()) {
+         printf("quitCancelledCB fired with button widget ptr @%p\n", noButton);
+      }
+
       ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
       thisWin->hideQuitConfirmDialog();
    }
 
    void ElevatorSimWindow::openScript() {
-
-      /*
-      no - wrong storage class
-      pythonScript = fl_file_chooser("Open Python Script", "*.py", "", 0);*/
+      /* fl_file_chooser("Open Python Script", "*.py", "", 0); */
    }
 
    void ElevatorSimWindow::buildMenu() {
+      /*
+       * struct Fl_Menu_Item {
+       *    const char*          text;     // label()
+       *    ulong                shortcut_;
+       *    Fl_Callback*         callback_;
+       *    void*                user_data_;
+       *    int                  flags;
+       *    uchar                labeltype_;
+       *    uchar                labelfont_;
+       *    uchar                labelsize_;
+       *    uchar                labelcolor_;
+       * };
+       */
+
       static const Fl_Menu_Item menuitems[] = {
-         {"&File", 0, 0, 0, FL_SUBMENU },
+         { "&File", 0, 0, 0, FL_SUBMENU },
          { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
          { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
-         {0},
-         {"&Help", 0, 0, 0, FL_SUBMENU},
-         {"How to use", 0, (Fl_Callback *)menuHelpCB, this},
-         {"Website", 0, (Fl_Callback *)menuAboutCB, this},
-         {0},
-         {0}};
+         { 0 },
+         { "&Help", 0, 0, 0, FL_SUBMENU },
+         { "How to use", 0, (Fl_Callback *)menuHelpCB, this },
+         { "Website", 0, (Fl_Callback *)menuAboutCB, this },
+         { 0 },
+         { 0 }};
 
          Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
          menubar->copy(menuitems);
