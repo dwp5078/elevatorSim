@@ -5,7 +5,7 @@
 namespace elevatorSim {
 
 
-const double cTimeManager::redrawInterval = 0.23;
+const double cTimeManager::redrawInterval = 0.001;
 
 cTimeManager::cTimeManager() {
    reset();
