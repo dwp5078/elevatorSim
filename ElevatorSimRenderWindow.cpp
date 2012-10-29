@@ -68,7 +68,7 @@ void ElevatorSimRenderWindow::timerCB(void* userdata) {
 
 int ElevatorSimRenderWindow::handle(int event) {
    if(isDebugBuild()) {
-      printf("RenderWin: event: %s (%d)\n", fl_eventnames[event], event);
+      std::cout << "RenderWin: event: " << fl_eventnames[event] << std::endl;
    }
 
    return Fl_Gl_Window::handle(event);

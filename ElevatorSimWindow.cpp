@@ -47,7 +47,7 @@ int ElevatorSimWindow::handle(int event) {
    int lastKey = Fl::event_key();
 
    if(isDebugBuild()) {
-      printf("MainWin: event: %s (%d)\n", fl_eventnames[event], event);
+      std::cout << "MainWin: event: " << fl_eventnames[event] << std::endl;
    }
 
    if(event == FL_KEYDOWN)  {
@@ -88,7 +88,7 @@ void ElevatorSimWindow::hideQuitConfirmDialog() {
 /* private static methods */
 void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
    if(isDebugBuild()) {
-      printf("windowCloseCB fired with widget ptr @%p\n", w);
+      std::cout << "windowCloseCB fired with widget ptr " << w << std::endl;
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -97,7 +97,8 @@ void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
 
 void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("menuNewCB fired with widget ptr @%p and userData @%p\n", w, userData);
+      std::cout << "menuNewCB fired with widget ptr " << w 
+         << "and userData " << userData << std::endl;
    }
 
    /* TODO */
@@ -105,7 +106,7 @@ void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("menuOpenCB fired with widget ptr @%p\n", w);
+      std::cout << "menuOpenCB fired with widget ptr " << w << std::endl;
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -114,7 +115,7 @@ void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("menuHelpCB fired with widget ptr @%p\n", w);
+      std::cout << "menuHelpCB fired with widget ptr " << w << std::endl;
    }
 
    ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
@@ -136,7 +137,7 @@ void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("dismissHelpCB fired with widget ptr @%p\n", w);
+      std::cout << "dismissHelpCB fired with widget " << w << std::endl;
    }
 
    ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
@@ -145,14 +146,15 @@ void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("in startSimCB with widget ptr @%p and userData @%p\n", w, userData);
+      std::cout << "in startSimCB with widget ptr " << w 
+         << " and userData " << userData << std::endl;
    }
 
    Fl_Button* startButton = (Fl_Button*)w;
 
    if(startButton->value()) {
       if(isDebugBuild() ) {
-         printf("startSim CB fired\n");
+         std::cout << "startSim CB fired" << std::endl;
       }
 
       /* TODO */
@@ -161,15 +163,17 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("in pauseSimCB with widget ptr @%p and userData @%p\n", w, userData);
+      std::cout << "in pauseSimCB with widget ptr " << w 
+         << " and userData " << userData << std::endl;
    }
 
    Fl_Button* pauseButton = (Fl_Button*)w;
+   
    /* TODO: this needs to be moved into time manager */
    static bool paused = true;
 
    if(pauseButton->value()) {
-      printf("pauseSim CB fired\n");
+      std::cout << "pauseSim CB fired" << std::endl;
 
       if(paused) {
          w->label("Resume");
@@ -183,19 +187,21 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("in stopSimCB with widget ptr @%p and userData @%p\n", w, userData);
+      std::cout << "in stopSimCB with widget ptr " << w 
+         << " and userData " << userData << std::endl;
    }
 
    Fl_Button* stopButton = (Fl_Button*)w;
 
    if(stopButton->value()) {
-      printf("stopSim CB fired\n");
+      std::cout << "stopSim CB fired" << std::endl;
    }
 }
 
 void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("menuSaveCB fired with widget ptr @%p and userData @%p\n", w, userData);
+      std::cout << "menuSaveCB fired with widget ptr " << w 
+         << " and userData " << userData << std::endl;
    }
 
    /* TODO */
@@ -203,7 +209,8 @@ void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("menuQuitCB fired with widget ptr @%p\n", w);
+      std::cout << "menuQuitCB fired with widget ptr " << w 
+         << " and userData " << userData << std::endl;
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -212,7 +219,8 @@ void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      printf("menuAboutCB fired with widget ptr @%p and userData @%p\n", w, userData);
+      std::cout << "menuAboutCB fired with widget ptr " << w 
+         << " and userData " << userData << std::endl;
    }
 
    /* no - windows api calls are disallowed
@@ -222,7 +230,8 @@ void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
    if(isDebugBuild()) {
-      printf("quitConfirmedCB fired with button widget ptr @%p\n", yesButton);
+      std::cout << "quitConfirmedCB fired with widget ptr " << yesButton 
+         << " and userData " << userData << std::endl;
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -233,11 +242,11 @@ void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
 
 void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
    if(isDebugBuild()) {
-      printf("quitCancelledCB fired with button widget ptr @%p\n", noButton);
+      std::cout << "quitCancelledCB fired with widget ptr " << noButton 
+         << " and userData " << userData << std::endl;
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-
    thisWin->hideQuitConfirmDialog();
 }
 
