@@ -121,7 +121,12 @@ void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
    ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
 
    if(!thisWindow->helpWin && !thisWindow->helpLabel && !thisWindow->helpDoneButton) {
-      thisWindow->helpWin = new Fl_Window(300, 300, "Help");
+      thisWindow->helpWin = new Fl_Window(
+         thisWindow->x_root() + 15, 
+         thisWindow->y_root() + 15, 
+         300, 
+         300, 
+         "Help");
       thisWindow->helpLabel = new Fl_Text_Display(10,30,280,190,"How to use:");
       thisWindow->helpDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
 
