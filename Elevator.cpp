@@ -40,11 +40,14 @@ Elevator::Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupan
    /* TODO */
 }
 
-Elevator::Elevator(const Elevator & copy)
-: maxVel(copy.maxVel), maxAccel(copy.maxAccel), maxOccupants(copy.maxOccupants) {
-   currentVel = copy.currentVel;
-   currentAccel = copy.currentAccel;
-   occupants.assign(copy.occupants.begin(), copy.occupants.end());
+Elevator::Elevator(const Elevator & copy) : 
+   Location(),
+   maxVel(copy.maxVel), 
+   maxAccel(copy.maxAccel), 
+   maxOccupants(copy.maxOccupants) {
+      currentVel = copy.currentVel;
+      currentAccel = copy.currentAccel;
+      occupants.assign(copy.occupants.begin(), copy.occupants.end());
 }
 
 void Elevator::Init()

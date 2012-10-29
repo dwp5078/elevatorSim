@@ -46,7 +46,7 @@ Floor::Floor(bool hasUpper, bool hasLower) {
    hasLowerFloor = hasLower;
 }
 
-Floor::Floor(const Floor & copy) {
+Floor::Floor(const Floor & copy) : Location() {
    signalingUp = copy.signalingUp;
    signalingDown = copy.signalingDown;
    hasUpperFloor = copy.hasUpperFloor;
