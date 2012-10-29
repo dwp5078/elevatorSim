@@ -64,10 +64,10 @@ int ElevatorSimWindow::handle(int event) {
 void ElevatorSimWindow::showQuitConfirmDialog() {
    /* Lazy-allocation of quit dialog widgets */
    if(!confirmDialog && !yesButton && !noButton) {
-      confirmDialog = new Fl_Window(220, 110, "Are you sure?");
+      confirmDialog = new Fl_Window(x_root() + 15, y_root() + 15, 220, 110, "Are you sure?");
       yesButton = new Fl_Button(10, 10, 200, 40, "yes");
       noButton = new Fl_Button(10, 60, 200, 40, "no");
-
+      
       yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
       noButton->callback((Fl_Callback*) quitCancelledCB, this);
 
