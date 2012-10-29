@@ -31,6 +31,7 @@
 #define _ELEVATOR_SIM_H
 
 #if defined(_ES_WINNT)
+#pragma warning(disable: 4244; disable: 4512)
 #include <Windows.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>

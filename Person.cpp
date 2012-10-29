@@ -27,6 +27,7 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
+#include "ElevatorSim.hpp"
 #include "Person.hpp"
 #include "Location.hpp"
 

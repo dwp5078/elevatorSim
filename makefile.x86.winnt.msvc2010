@@ -19,7 +19,7 @@ Floor.obj
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W3 /EHsc /c /D_ES_WINNT /Iinc
+CXXFLAGS=/W4 /EHsc /c /D_ES_WINNT /Iinc
 
 DEBUGFLAGS=/Z7 /Gm- /MDd
 

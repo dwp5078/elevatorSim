@@ -30,11 +30,11 @@
 #ifndef _ELEVATOR_H
 #define _ELEVATOR_H
 
-#include <vector>
-
+#include "ElevatorSim.hpp"
 #include "Location.hpp"
 #include "Person.hpp"
 
+#include <vector>
 
 namespace elevatorSim {
 
