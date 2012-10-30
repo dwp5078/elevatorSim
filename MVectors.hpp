@@ -335,7 +335,7 @@ public:
       memcpy(m, &dm, sizeof(float)*16);
    }
 
-   ~Mat44();
+   ~Mat44() {}
 
    inline friend Mat44 operator + (const Mat44& m1, const Mat44& m2){
       Mat44 C;
@@ -402,7 +402,7 @@ public:
       return v1;
    }
 
-   inline void RotationX(Mat44 &A, float fangle)
+   inline static void RotationX(Mat44 &A, float fangle)
    {
       /*
          |1  0    0    0|
@@ -416,7 +416,7 @@ public:
       A.m[2][2] = cosf(fangle);
    }
 
-   inline void RotationY(Mat44 &A, float fangle)
+   inline static void RotationY(Mat44 &A, float fangle)
    {
       /*
          |cos  0 -sin  0|
@@ -430,7 +430,7 @@ public:
       A.m[2][2] = cosf(fangle);
    }
 
-   inline void RotationZ(Mat44 &A, float fangle)
+   inline static void RotationZ(Mat44 &A, float fangle)
    {
       /*
          |cos  sin 0   0|
@@ -444,9 +444,11 @@ public:
       A.m[1][1] = cosf(fangle);
    }
 
-   inline void RotationVec(Mat44 &A, const Vec3f &v, float fangle)
+   inline static void RotationVec(Mat44 &A, const Vec3f &vt, float fangle)
    {
       A.Identity();
+      Vec3f v = vt;
+      v.Normalize();
       //v.Normalize();
 
       A.m[0][0] = 1.0f + (1.0f-cosf(fangle))*(v.x*v.x-1);
