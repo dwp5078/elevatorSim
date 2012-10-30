@@ -45,7 +45,11 @@ int main(int argc, char** argv) {
 
    /* TODO start other threads */
 
-   return(Fl::run());
+   Fl::run();
+
+   delete mainWin;
+   delete keyManager;
+   delete timeManager;
 }
 
 namespace elevatorSim {
