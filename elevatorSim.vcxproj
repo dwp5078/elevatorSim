@@ -50,6 +50,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="cCameraManager.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cRenderObjs.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="Elevator.cpp" />
     <ClCompile Include="ElevatorSim.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="Building.hpp" />
     <ClInclude Include="cCameraManager.hpp" />
     <ClInclude Include="cKeyManager.hpp" />
+    <ClInclude Include="cRenderObjs.hpp" />
     <ClInclude Include="cTimeManager.hpp" />
     <ClInclude Include="Elevator.hpp" />
     <ClInclude Include="ElevatorSim.hpp" />
