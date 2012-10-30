@@ -88,9 +88,10 @@ class ElevatorSimWindow : public Fl_Window {
 public:
 
    /* public static members */
-   const static int WIDTH;
-   const static int HEIGHT;
-   const static char TITLE[];
+   const static int WINDOW_WIDTH;
+   const static int WINDOW_HEIGHT;
+   const static char WINDOW_TITLE[];
+   const static int MENUBAR_HEIGHT;
 
    /* public methods */
    ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager);

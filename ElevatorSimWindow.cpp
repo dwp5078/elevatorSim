@@ -285,7 +285,7 @@ void ElevatorSimWindow::buildMenu() {
          { 0 },
          { 0 }};
 
-   Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), 25);
+   Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), MENUBAR_HEIGHT);
    menubar->copy(menuitems);
 
    add(menubar);
@@ -310,21 +310,22 @@ void ElevatorSimWindow::buildButtons(){
 }
 
 /* public static member initializers */
-const char ElevatorSimWindow::TITLE[] = "elevatorSim";
-const int ElevatorSimWindow::WIDTH = 640;
-const int ElevatorSimWindow::HEIGHT = 480;
+const char ElevatorSimWindow::WINDOW_TITLE[] = "elevatorSim";
+const int ElevatorSimWindow::WINDOW_WIDTH = 640;
+const int ElevatorSimWindow::WINDOW_HEIGHT = 480;
+const int ElevatorSimWindow::MENUBAR_HEIGHT = 25;
 
 /* public methods */
 ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager) :
-            Fl_Window(WIDTH, HEIGHT, TITLE), timeManager(_timeManager), keyManager(_keyManager) {
+            Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE), timeManager(_timeManager), keyManager(_keyManager) {
 
    renderWindow = new ElevatorSimRenderWindow(
          keyManager,
          timeManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
-         WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),
-         HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
+         WINDOW_WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN + ElevatorSimRenderWindow::RIGHT_MARGIN),
+         WINDOW_HEIGHT - (ElevatorSimRenderWindow::TOP_MARGIN + ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
    resizable(*renderWindow);
    buildMenu();
