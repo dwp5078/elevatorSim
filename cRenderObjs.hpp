@@ -13,11 +13,11 @@ class cRenderObjs
    int m_nNumberOfFloor;
    int m_nNumberOfElevator;
 
-   GLfloat  buildingGapHeight;
-   GLfloat  elevGapWidth;
-
 public:
 
+   static const GLfloat BUILDING_GAP_HEIGHT;
+   static const GLfloat ELEV_GAP_WIDTH;
+   
    enum OBJ_LIST {
       OBJ_PLANE = 1,
       OBJ_CUBE,

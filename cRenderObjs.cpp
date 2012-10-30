@@ -3,14 +3,14 @@
 
 namespace elevatorSim   {
 
+const GLfloat cRenderObjs::BUILDING_GAP_HEIGHT = 1.1f;
+const GLfloat cRenderObjs::ELEV_GAP_WIDTH = 1.7f;
+
 cRenderObjs::cRenderObjs()
 {
    m_bIsInit = false;
    m_nNumberOfFloor = 20;
    m_nNumberOfElevator = 5;
-
-   buildingGapHeight = 1.1f;
-   elevGapWidth = 1.7f;
 }
 
 void cRenderObjs::init()
@@ -105,8 +105,8 @@ void cRenderObjs::initBuilding()
 {
    glNewList(OBJ_BUILDING, GL_COMPILE);
 
-   float scaleHeight = m_nNumberOfFloor * buildingGapHeight;
-   float scaleWidth = m_nNumberOfElevator * elevGapWidth;
+   float scaleHeight = m_nNumberOfFloor * BUILDING_GAP_HEIGHT;
+   float scaleWidth = m_nNumberOfElevator * ELEV_GAP_WIDTH;
 
    glPushMatrix();
    // Left wall
