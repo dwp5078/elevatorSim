@@ -61,38 +61,17 @@ int ElevatorSimWindow::handle(int event) {
    return Fl_Window::handle(event);
 }
 
-void ElevatorSimWindow::showQuitConfirmDialog() {
-   /* Lazy-allocation of quit dialog widgets */
-   if(!confirmDialog && !yesButton && !noButton) {
-      confirmDialog = new Fl_Window(x_root() + 15, y_root() + 15, 220, 110, "Are you sure?");
-      yesButton = new Fl_Button(10, 10, 200, 40, "yes");
-      noButton = new Fl_Button(10, 60, 200, 40, "no");
-      
-      yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
-      noButton->callback((Fl_Callback*) quitCancelledCB, this);
-
-      confirmDialog->add(yesButton);
-      confirmDialog->add(noButton);
-      confirmDialog->end();
-   }
-
-   confirmDialog->show();
-}
-
-void ElevatorSimWindow::hideQuitConfirmDialog() {
-   if(confirmDialog) {
-      confirmDialog->hide();
-   }
-}
 
 /* private static methods */
 void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
+
    if(isDebugBuild()) {
       std::cout << "windowCloseCB fired with widget ptr " << w << std::endl;
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-   thisWin->showQuitConfirmDialog();
+   thisWin->confirmDialog->hotspot(15, 15);
+   thisWin->confirmDialog->show();
 }
 
 void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
@@ -106,11 +85,9 @@ void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuOpenCB fired with widget ptr " << w << std::endl;
+      std::cout << "menuNewCB fired with widget ptr " << w 
+         << "and userData " << userData << std::endl;
    }
-
-   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-   thisWin->openScript();
 }
 
 void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
@@ -119,24 +96,7 @@ void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
    }
 
    ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
-
-   if(!thisWindow->helpWin && !thisWindow->helpLabel && !thisWindow->helpDoneButton) {
-      thisWindow->helpWin = new Fl_Window(
-         thisWindow->x_root() + 15, 
-         thisWindow->y_root() + 15, 
-         300, 
-         300, 
-         "Help");
-      thisWindow->helpLabel = new Fl_Text_Display(10,30,280,190,"How to use:");
-      thisWindow->helpDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
-
-      thisWindow->helpDoneButton->callback((Fl_Callback*) dismissHelpCB, userData);
-
-      thisWindow->helpWin->add(thisWindow->helpLabel);
-      thisWindow->helpWin->add(thisWindow->helpDoneButton);
-      thisWindow->helpWin->end();
-   }
-
+   thisWindow->helpWin->hotspot(15, 15);
    thisWindow->helpWin->show();
 }
 
@@ -219,7 +179,8 @@ void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-   thisWin->showQuitConfirmDialog();
+   thisWin->confirmDialog->hotspot(15, 15);
+   thisWin->confirmDialog->show();
 }
 
 void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
@@ -227,10 +188,6 @@ void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
       std::cout << "menuAboutCB fired with widget ptr " << w 
          << " and userData " << userData << std::endl;
    }
-
-   /* no - windows api calls are disallowed
-      ShellExecute(NULL, "open", "https://github.com/maxdeliso/elevatorSim",
-      NULL, NULL, SW_SHOWNORMAL);*/
 }
 
 void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
@@ -241,7 +198,7 @@ void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
-   thisWin->hideQuitConfirmDialog();
+   thisWin->confirmDialog->hide();
    thisWin->hide();
 }
 
@@ -252,11 +209,7 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-   thisWin->hideQuitConfirmDialog();
-}
-
-void ElevatorSimWindow::openScript() {
-   /* fl_file_chooser("Open Python Script", "*.py", "", 0); */
+   thisWin->confirmDialog->hide();
 }
 
 void ElevatorSimWindow::buildMenu() {
@@ -309,6 +262,32 @@ void ElevatorSimWindow::buildButtons(){
    stopButton->callback((Fl_Callback *)stopSimCB, this);
 }
 
+void ElevatorSimWindow::buildDialogs() {
+   /* Help Dialog */
+   helpWin = new Fl_Window(300, 300, "Help");
+
+   helpLabel = new Fl_Text_Display(10,30,280,190,"How to use:");
+   helpDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
+
+   helpDoneButton->callback((Fl_Callback*) dismissHelpCB, this);
+
+   helpWin->add(helpLabel);
+   helpWin->add(helpDoneButton);
+   helpWin->end();
+
+   /* Confirmation dialog */
+   confirmDialog = new Fl_Window(220, 110, "Are you sure?");
+   yesButton = new Fl_Button(10, 10, 200, 40, "yes");
+   noButton = new Fl_Button(10, 60, 200, 40, "no");
+      
+   yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
+   noButton->callback((Fl_Callback*) quitCancelledCB, this);
+
+   confirmDialog->add(yesButton);
+   confirmDialog->add(noButton);
+   confirmDialog->end();
+}
+
 /* public static member initializers */
 const char ElevatorSimWindow::WINDOW_TITLE[] = "elevatorSim";
 const int ElevatorSimWindow::WINDOW_WIDTH = 640;
@@ -335,19 +314,18 @@ ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _k
 
    end();
 
+   buildDialogs();
+
    callback((Fl_Callback*)windowCloseCB, this);
 
    /* add more callbacks to main window here */
 
-   confirmDialog = NULL;
-   yesButton = NULL;
-   noButton = NULL;
-
-   helpWin = NULL;
-   helpLabel = NULL;
-   helpDoneButton = NULL;
-
    /* initialize any other main window member variables here */
+}
+
+ElevatorSimWindow::~ElevatorSimWindow() {
+   delete confirmDialog;
+   delete helpWin;
 }
 
 } /* namespace elevatorSim */

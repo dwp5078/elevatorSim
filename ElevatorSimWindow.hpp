@@ -48,11 +48,9 @@ class ElevatorSimWindow : public Fl_Window {
 
    /* private methods */
    int handle(int event);
-   void showQuitConfirmDialog();
-   void hideQuitConfirmDialog();
    void buildMenu();
    void buildButtons();
-   void openScript();
+   void buildDialogs();
 
    /* private static methods */
    static void windowCloseCB(Fl_Window* w, void* userData);
@@ -95,6 +93,8 @@ public:
 
    /* public methods */
    ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager);
+   ~ElevatorSimWindow();
+
 };
 
 } /* namespace elevatorSim */
