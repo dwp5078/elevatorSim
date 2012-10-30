@@ -13,10 +13,6 @@ cRenderObjs::cRenderObjs()
    elevGapWidth = 1.7f;
 }
 
-cRenderObjs::~cRenderObjs(void)
-{
-}
-
 void cRenderObjs::init()
 {
    if(!m_bIsInit) {

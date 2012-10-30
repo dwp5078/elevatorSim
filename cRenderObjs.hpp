@@ -27,7 +27,6 @@ public:
    };
 
    cRenderObjs();
-   ~cRenderObjs(void);
 
    void init();
    void initCube();
