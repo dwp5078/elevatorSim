@@ -61,61 +61,59 @@ void Building::render()
    glLoadIdentity();
    glTranslatef(0.0f, -2.0f, 0.0f);
 
+   /* Left wall */
    glPushMatrix();
-   // Left wall
    glTranslatef(-scaleWidth, scaleHeight, 0.f);
    glScalef(0.1f, scaleHeight, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   // Right wall
+   /* Right wall */
    glPushMatrix();
    glTranslatef(scaleWidth, scaleHeight, 0.f);
    glScalef(0.1f, scaleHeight, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   // Back wall
+   /* Back wall */
    glPushMatrix();
    glTranslatef(0, scaleHeight, -2.0f);
    glScalef(scaleWidth, scaleHeight, 0.1f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   // Top wall
+   /* Top wall */
    glPushMatrix();
    glTranslatef(0, scaleHeight*2, 0.0f);
    glScalef(scaleWidth, 0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   // Draw each floor
+   /* Draw each floor */
    for(unsigned int i=0; i<m_nStory-1; i++)
    {
+      /* FIXME: reconsider the relationship between eachHeight and the floor's yVal */
       float eachHeight = scaleHeight * 2 / m_nStory;
+
       glPushMatrix();
       glTranslatef(0.0f, eachHeight * (i+1), 0.f);
       glScalef(scaleWidth, 0.1f, 2.0f);
-      glCallList(cRenderObjs::OBJ_CUBE);
+
+      m_Floors[i].render();
+
       glPopMatrix();
    }
 
-   // Render land
+   /* TODO: draw each elevator */
+   for(unsigned int i = 0; i < m_nElevator; i++) {
+      m_Elevators[i].render();
+   }
+
+   /* Render land */
    glPushMatrix();
    glScalef(10.0f, 10.0f, 10.0f);
    glCallList(cRenderObjs::OBJ_PLANE);
    glPopMatrix();
-   
-
-   /* does nothing yet */
-   for(unsigned int i = 0; i < m_nStory; i++) {
-      m_Floors[i].render();
-   }
-
-   /* does nothing yet */
-   for(unsigned int i = 0; i < m_nElevator; i++) {
-      m_Elevators[i].render();
-   }
 }
 
 void Building::update()

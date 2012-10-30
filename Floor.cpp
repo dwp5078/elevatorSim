@@ -29,6 +29,9 @@
 
 #include "ElevatorSim.hpp"
 #include "Floor.hpp"
+#include "cRenderObjs.hpp"
+
+#include <GL/glut.h>
 
 namespace elevatorSim { 
 /* constructors */
@@ -62,7 +65,7 @@ void Floor::init() {
 }
 
 void Floor::render() {
-
+   glCallList(cRenderObjs::OBJ_CUBE);
 }
 
 void Floor::update() {
