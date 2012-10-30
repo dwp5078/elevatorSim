@@ -40,7 +40,6 @@ void cRenderObjs::initPlane()
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
 
-
    glEndList();
 }
 

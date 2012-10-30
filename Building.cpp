@@ -33,13 +33,19 @@
 #include "Elevator.hpp"
 #include "cRenderObjs.hpp"
 
-#include <vector>
-
 namespace elevatorSim {
 /* constructors */
 Building::Building(unsigned int nStory, unsigned int nElevator) {
    m_nStory = nStory;
    m_nElevator = nElevator;
+
+   m_Floors = new Floor[m_nStory];
+   m_Elevators = new Elevator[m_nElevator];
+}
+
+Building::~Building() {
+   delete [] m_Floors;
+   delete [] m_Elevators;
 }
 
 /* public methods inherited from SimulationTerminal*/
@@ -102,29 +108,25 @@ void Building::render()
    
 
    /* does nothing yet */
-   for(unsigned int i = 0; i < m_Floors.size(); i++) {
+   for(unsigned int i = 0; i < m_nStory; i++) {
       m_Floors[i].render();
    }
 
    /* does nothing yet */
-   for(unsigned int i = 0; i < m_Elevators.size(); i++) {
+   for(unsigned int i = 0; i < m_nElevator; i++) {
       m_Elevators[i].render();
    }
 }
 
 void Building::update()
 {
-   for(unsigned int i = 0; i < m_Floors.size(); i++) {
+   for(unsigned int i = 0; i < m_nStory; i++) {
       m_Floors[i].update();
    }
 
-   for(unsigned int i = 0; i < m_Elevators.size(); i++) {
+   for(unsigned int i = 0; i < m_nElevator; i++) {
       m_Elevators[i].update();
    }
 }
 
-/*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
-   floors.assign(floorSetup.begin(), floorSetup.end());
-   elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
-   }*/
-}
+} /* namepsace elevatorSim */

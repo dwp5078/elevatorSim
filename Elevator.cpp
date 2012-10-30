@@ -32,6 +32,11 @@
 #include "Elevator.hpp"
 
 namespace elevatorSim {
+
+Elevator::Elevator() : maxVel(0), maxAccel(0), maxOccupants(0) {
+
+}
+
 Elevator::Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants)
 : maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
    currentVel = 0;

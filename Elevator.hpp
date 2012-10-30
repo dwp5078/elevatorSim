@@ -68,6 +68,7 @@ public:
    /* public instance members */
 
    /* constructors */
+   Elevator();
    Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants);
    Elevator(const Elevator & copy);
 

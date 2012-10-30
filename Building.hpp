@@ -49,8 +49,8 @@ class Building : public SimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   std::vector<Floor> m_Floors;
-   std::vector<Elevator> m_Elevators;
+   Floor* m_Floors;
+   Elevator* m_Elevators;
 
    /* private methods */
 
@@ -58,9 +58,9 @@ public:
 
    /* public static constants */
 
-
    /* constructors */
    Building(unsigned int nStory = 20, unsigned int nElevator = 5);
+   ~Building();
 
    /* public methods inherited from SimulationTerminal */
    void init();
