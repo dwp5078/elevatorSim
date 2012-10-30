@@ -43,7 +43,7 @@ class Building : public SimulationTerminal {
    /* friends */
 
    /* private static constants */
-   unsigned int m_nStore;
+   unsigned int m_nStory;
    unsigned int m_nElevator;
 
    /* private static methods */
@@ -60,7 +60,7 @@ public:
 
 
    /* constructors */
-   Building(unsigned int nStore = 20, unsigned int nElevator = 5);
+   Building(unsigned int nStory = 20, unsigned int nElevator = 5);
 
    /* public methods inherited from SimulationTerminal */
    void init();

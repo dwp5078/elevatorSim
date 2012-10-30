@@ -37,8 +37,8 @@
 
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int nStore, unsigned int nElevator) {
-   m_nStore = nStore;
+Building::Building(unsigned int nStory, unsigned int nElevator) {
+   m_nStory = nStory;
    m_nElevator = nElevator;
 }
 
