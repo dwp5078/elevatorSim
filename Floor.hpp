@@ -34,16 +34,15 @@
 
 #include "Location.hpp"
 #include "Person.hpp"
+#include "SimulationTerminal.hpp"
 
 namespace elevatorSim { 
 
-class Floor : public Location {
+class Floor : public Location, public SimulationTerminal {
 
    /* friends */
 
-
    /* private static constants */
-
 
    /* private static methods */
 
@@ -56,11 +55,9 @@ class Floor : public Location {
 
    /* private methods */
 
-
 public:
 
    /* public static constants */
-
 
    /* public instance members */
 
@@ -69,11 +66,10 @@ public:
    Floor(bool hasUpper, bool hasLower);
    Floor(const Floor & copy);
 
-   /* public methods */
-   void Init();
-   void Render();
-   void Update();
-
+   /* public methods inherited from SimulationTerminal*/
+   void init();
+   void render();
+   void update();
 
 };
 

@@ -190,7 +190,7 @@ ElevatorSimRenderWindow::ElevatorSimRenderWindow(
 {
    spin = 0.0;
    m_bRenderFPS = true;
-   m_Building.Init(20, 5);
+
 
    Fl::add_timeout(cTimeManager::redrawInterval, timerCB, (void*)this);
    take_focus();
@@ -223,7 +223,7 @@ void ElevatorSimRenderWindow::draw() {
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
 
-   m_Building.Render();
+   m_Building.render();
 
    /* Draw building object */
    //glLoadIdentity();

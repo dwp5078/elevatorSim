@@ -50,19 +50,19 @@ Elevator::Elevator(const Elevator & copy) :
       occupants.assign(copy.occupants.begin(), copy.occupants.end());
 }
 
-void Elevator::Init()
+void Elevator::init()
 {
-
+   /* TODO */
 }
 
-void Elevator::Render()
+void Elevator::render()
 {
-
+   /* TODO */
 }
 
-void Elevator::Update()
+void Elevator::update()
 {
-
+   /* TODO */
 }
 
 }

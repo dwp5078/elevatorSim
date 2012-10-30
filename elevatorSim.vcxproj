@@ -72,6 +72,7 @@
     <ClInclude Include="Location.hpp" />
     <ClInclude Include="MVectors.hpp" />
     <ClInclude Include="Person.hpp" />
+    <ClInclude Include="SimulationTerminal.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

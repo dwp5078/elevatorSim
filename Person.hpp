@@ -31,10 +31,11 @@
 #define _PERSON_H
 
 #include "Location.hpp"
+#include "SimulationTerminal.hpp"
 
 namespace elevatorSim {
 
-class Person {
+class Person : public SimulationTerminal {
 
    /* friends */
 
@@ -58,7 +59,6 @@ class Person {
 
    /* private methods */
 
-
 public:
 
    /* public static constants */
@@ -81,6 +81,11 @@ public:
 
    enum PRIORITY getPriority();
    void setPriority(enum PRIORITY newPriority);
+
+   /* public methods inherited from SimulationTerminal*/
+   void init();
+   void render();
+   void update();
 
 };
 

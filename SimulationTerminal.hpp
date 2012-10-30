@@ -27,45 +27,17 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#include "ElevatorSim.hpp"
-#include "Building.hpp"
-#include "Floor.hpp"
-#include "Elevator.hpp"
-#include "cRenderObjs.hpp"
-
-#include <vector>
+#ifndef _SIMULATION_TERMINAL_H
+#define _SIMULATION_TERMINAL_H
 
 namespace elevatorSim {
-/* constructors */
-Building::Building(unsigned int nStore, unsigned int nElevator) {
-   m_nStore = nStore;
-   m_nElevator = nElevator;
-}
 
-/* public methods inherited from SimulationTerminal*/
-void Building::init() {
+struct SimulationTerminal {
+   virtual void init() = 0;
+   virtual void render() = 0;
+   virtual void update() = 0;
+};
 
-}
+} /* namespace elevatorSim */
 
-void Building::render()
-{
-   glLoadIdentity();
-   glTranslatef(0.0f, -2.0f, 0.0f);
-
-   glCallList(cRenderObjs::OBJ_BUILDING);
-
-   for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].render();
-   for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].render();
-}
-
-void Building::update()
-{
-   for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].update();
-   for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].update();
-}
-
-/*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
-   floors.assign(floorSetup.begin(), floorSetup.end());
-   elevators.assign(elevatorSetup.begin(), elevatorSetup.end());
-   }*/
-}
+#endif /* _SIMULATION_TERMINAL_H */

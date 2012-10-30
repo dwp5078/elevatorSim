@@ -68,4 +68,16 @@ void Person::setDestination(Location newLoc) {
    destination = newLoc;
 }
 
+void Person::init() {
+   /* TODO */
+}
+
+void Person::render() {
+   /* TODO */
+}
+
+void Person::update() {
+   /* TODO */
+}
+
 } /* namespace ElevatorSim */

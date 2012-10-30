@@ -34,13 +34,13 @@
 
 #include "Floor.hpp"
 #include "Elevator.hpp"
+#include "SimulationTerminal.hpp"
 
 namespace elevatorSim{
 
-class Building {
+class Building : public SimulationTerminal {
 
    /* friends */
-
 
    /* private static constants */
    unsigned int m_nStore;
@@ -54,23 +54,18 @@ class Building {
 
    /* private methods */
 
-
 public:
 
    /* public static constants */
 
 
-   /* public instance members */
-   void Init(unsigned int nStore, unsigned int nElevator);
-   void Render();
-   void Update();
-
    /* constructors */
-   Building();
+   Building(unsigned int nStore = 20, unsigned int nElevator = 5);
 
-   /*Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup);*/
-
-   /* public methods */
+   /* public methods inherited from SimulationTerminal */
+   void init();
+   void render();
+   void update();
 
 };
 

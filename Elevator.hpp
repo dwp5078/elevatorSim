@@ -33,12 +33,13 @@
 #include "ElevatorSim.hpp"
 #include "Location.hpp"
 #include "Person.hpp"
+#include "SimulationTerminal.hpp"
 
 #include <vector>
 
 namespace elevatorSim {
 
-class Elevator : public Location {
+class Elevator : public Location, public SimulationTerminal {
 
    /* friends */
 
@@ -58,7 +59,6 @@ class Elevator : public Location {
    std::vector<Person> occupants;
 
    /* private methods */
-
 
 public:
 
@@ -80,9 +80,10 @@ public:
       int getCurrentAccel();
       void setCurrentAccel();*/
 
-   void Init();
-   void Render();
-   void Update();
+   /* public methods inherited from SimulationTerminal*/
+   void init();
+   void render();
+   void update();
 
 };
 
