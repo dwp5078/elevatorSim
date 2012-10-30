@@ -36,17 +36,17 @@
 namespace elevatorSim { 
 /* constructors */
 Floor::Floor() {
-   signalingUp = false;
-   signalingDown = false;
-   hasUpperFloor = false;
-   hasLowerFloor = false;
+   Floor(0, false, false);
 }
 
-Floor::Floor(bool hasUpper, bool hasLower) {
+Floor::Floor(int _yVal, bool _hasUpperFloor, bool _hasLowerFloor) {
+   yVal = _yVal;
+
+   hasUpperFloor = _hasUpperFloor;
+   hasLowerFloor = _hasLowerFloor;
+
    signalingUp = false;
    signalingDown = false;
-   hasUpperFloor = hasUpper;
-   hasLowerFloor = hasLower;
 }
 
 Floor::Floor(const Floor & copy) : Location() {

@@ -41,11 +41,17 @@ class Location {
    /* private static methods */
 
    /* private instance members */
-   int yVal;
+
 
    /* private methods */
 
+protected:
+
+   /* protected instance members */
+   int yVal;
+
 public:
+
 
    /* public static constants */
 

@@ -50,7 +50,11 @@ Building::~Building() {
 
 /* public methods inherited from SimulationTerminal*/
 void Building::init() {
+   for(unsigned int i=0; i<m_nStory-1; i++) {
+      m_Floors[i] = Floor(0, i != m_nStory-1, i != 0 );
+   }
 
+   /* TOOD: intialize each elevator */
 }
 
 void Building::render()
