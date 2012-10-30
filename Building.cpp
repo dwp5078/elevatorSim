@@ -54,14 +54,24 @@ void Building::render()
 
    glCallList(cRenderObjs::OBJ_BUILDING);
 
-   for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].render();
-   for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].render();
+   for(unsigned int i = 0; i < m_Floors.size(); i++) {
+      m_Floors[i].render();
+   }
+
+   for(unsigned int i = 0; i < m_Elevators.size(); i++) {
+      m_Elevators[i].render();
+   }
 }
 
 void Building::update()
 {
-   for(unsigned int i = 0; i < m_Floors.size(); i++)   m_Floors[i].update();
-   for(unsigned int i = 0; i < m_Elevators.size(); i++)   m_Elevators[i].update();
+   for(unsigned int i = 0; i < m_Floors.size(); i++) {
+      m_Floors[i].update();
+   }
+
+   for(unsigned int i = 0; i < m_Elevators.size(); i++) {
+      m_Elevators[i].update();
+   }
 }
 
 /*Building::Building(const std::vector<Floor> & floorSetup, const std::vector<Elevator> & elevatorSetup) {
