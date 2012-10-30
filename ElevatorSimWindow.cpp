@@ -277,11 +277,11 @@ void ElevatorSimWindow::buildMenu() {
    static const Fl_Menu_Item menuitems[] = {
          { "&File", 0, 0, 0, FL_SUBMENU },
          { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
-         { "E&xit", FL_COMMAND + 'q', (Fl_Callback *)menuQuitCB, this },
+         { "E&xit", FL_COMMAND + 'x', (Fl_Callback *)menuQuitCB, this },
          { 0 },
          { "&Help", 0, 0, 0, FL_SUBMENU },
          { "How to use", 0, (Fl_Callback *)menuHelpCB, this },
-         { "Website", 0, (Fl_Callback *)menuAboutCB, this },
+         { "About", 0, (Fl_Callback *)menuAboutCB, this },
          { 0 },
          { 0 }};
 
