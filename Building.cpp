@@ -49,15 +49,64 @@ void Building::init() {
 
 void Building::render()
 {
+   const GLfloat scaleHeight = m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT;
+   const GLfloat scaleWidth = m_nElevator * cRenderObjs::ELEV_GAP_WIDTH;
+
    glLoadIdentity();
    glTranslatef(0.0f, -2.0f, 0.0f);
 
-   glCallList(cRenderObjs::OBJ_BUILDING);
+   glPushMatrix();
+   // Left wall
+   glTranslatef(-scaleWidth, scaleHeight, 0.f);
+   glScalef(0.1f, scaleHeight, 2.0f);
+   glCallList(cRenderObjs::OBJ_CUBE);
+   glPopMatrix();
 
+   // Right wall
+   glPushMatrix();
+   glTranslatef(scaleWidth, scaleHeight, 0.f);
+   glScalef(0.1f, scaleHeight, 2.0f);
+   glCallList(cRenderObjs::OBJ_CUBE);
+   glPopMatrix();
+
+   // Back wall
+   glPushMatrix();
+   glTranslatef(0, scaleHeight, -2.0f);
+   glScalef(scaleWidth, scaleHeight, 0.1f);
+   glCallList(cRenderObjs::OBJ_CUBE);
+   glPopMatrix();
+
+   // Top wall
+   glPushMatrix();
+   glTranslatef(0, scaleHeight*2, 0.0f);
+   glScalef(scaleWidth, 0.1f, 2.0f);
+   glCallList(cRenderObjs::OBJ_CUBE);
+   glPopMatrix();
+
+   // Draw each floor
+   for(unsigned int i=0; i<m_nStory-1; i++)
+   {
+      float eachHeight = scaleHeight * 2 / m_nStory;
+      glPushMatrix();
+      glTranslatef(0.0f, eachHeight * (i+1), 0.f);
+      glScalef(scaleWidth, 0.1f, 2.0f);
+      glCallList(cRenderObjs::OBJ_CUBE);
+      glPopMatrix();
+   }
+
+   // Render land
+   glPushMatrix();
+   glScalef(10.0f, 10.0f, 10.0f);
+   glCallList(cRenderObjs::OBJ_PLANE);
+   glPopMatrix();
+   
+
+   /* does nothing yet */
    for(unsigned int i = 0; i < m_Floors.size(); i++) {
       m_Floors[i].render();
    }
 
+   /* does nothing yet */
    for(unsigned int i = 0; i < m_Elevators.size(); i++) {
       m_Elevators[i].render();
    }

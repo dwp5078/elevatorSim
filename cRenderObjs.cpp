@@ -9,8 +9,6 @@ const GLfloat cRenderObjs::ELEV_GAP_WIDTH = 1.7f;
 cRenderObjs::cRenderObjs()
 {
    m_bIsInit = false;
-   m_nNumberOfFloor = 20;
-   m_nNumberOfElevator = 5;
 }
 
 void cRenderObjs::init()
@@ -19,7 +17,6 @@ void cRenderObjs::init()
       m_bIsInit = true;
       initPlane();
       initCube();
-      initBuilding();
       initElevator();
    }
 }
@@ -97,62 +94,6 @@ void cRenderObjs::initCube()
    glVertex3f(-1.0, -1.0,  1.0);
    glVertex3f(-1.0, -1.0, -1.0);
    glEnd();
-
-   glEndList();
-}
-
-void cRenderObjs::initBuilding()
-{
-   glNewList(OBJ_BUILDING, GL_COMPILE);
-
-   float scaleHeight = m_nNumberOfFloor * BUILDING_GAP_HEIGHT;
-   float scaleWidth = m_nNumberOfElevator * ELEV_GAP_WIDTH;
-
-   glPushMatrix();
-   // Left wall
-   glTranslatef(-scaleWidth, scaleHeight, 0.f);
-   glScalef(0.1f, scaleHeight, 2.0f);
-   glCallList(OBJ_CUBE);
-   glPopMatrix();
-
-   // Right wall
-   glPushMatrix();
-   glTranslatef(scaleWidth, scaleHeight, 0.f);
-   glScalef(0.1f, scaleHeight, 2.0f);
-   glCallList(OBJ_CUBE);
-   glPopMatrix();
-
-   // Back wall
-   glPushMatrix();
-   glTranslatef(0, scaleHeight, -2.0f);
-   glScalef(scaleWidth, scaleHeight, 0.1f);
-   glCallList(OBJ_CUBE);
-   glPopMatrix();
-
-   // Top wall
-   glPushMatrix();
-   glTranslatef(0, scaleHeight*2, 0.0f);
-   glScalef(scaleWidth, 0.1f, 2.0f);
-   glCallList(OBJ_CUBE);
-   glPopMatrix();
-
-   // Draw each floor
-
-   for(int i=0; i<m_nNumberOfFloor-1; i++)
-   {
-      float eachHeight = scaleHeight * 2 / m_nNumberOfFloor;
-      glPushMatrix();
-      glTranslatef(0.0f, eachHeight * (i+1), 0.f);
-      glScalef(scaleWidth, 0.1f, 2.0f);
-      glCallList(OBJ_CUBE);
-      glPopMatrix();
-   }
-
-   // Render land
-   glPushMatrix();
-   glScalef(10.0f, 10.0f, 10.0f);
-   glCallList(OBJ_PLANE);
-   glPopMatrix();
 
    glEndList();
 }
