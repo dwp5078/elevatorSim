@@ -27,7 +27,6 @@ void cCameraManager::Update()
    float move = MOVE;
    float rot = ROT;
 
-
    Vec3f right = GetRight() * move;
 
    if(keyManager.isDown(FL_Page_Up)) {
@@ -58,16 +57,33 @@ void cCameraManager::Update()
       m_vecCamPos.z = m_vecCamPos.z + move;
    }
 
-   if(keyManager.isDown('W')) Pitch(-rot);
-   if(keyManager.isDown('S')) Pitch(rot);
+   if(keyManager.isDown('w')) {
+      Pitch(-rot);
+   }
 
-   if(keyManager.isDown('A')) Yaw(-rot);
-   if(keyManager.isDown('D')) Yaw(rot);
+   if(keyManager.isDown('s')) {
+      Pitch(rot);
+   }
 
-   if(keyManager.isDown('R')) Roll(-rot);
-   if(keyManager.isDown('F')) Roll(rot);
+   if(keyManager.isDown('a')) {
+      Yaw(-rot);
+   }
 
-   if(keyManager.isDown(' ')) ReinitCamera();
+   if(keyManager.isDown('d')) { 
+      Yaw(rot);
+   }
+
+   if(keyManager.isDown('r')) {
+      Roll(-rot);
+   }
+
+   if(keyManager.isDown('f')) {
+      Roll(rot);
+   }
+
+   if(keyManager.isDown(' ')) {
+      ReinitCamera();
+   }
 }
 
 
@@ -103,7 +119,6 @@ void cCameraManager::ReinitCamera()
    m_vecCamLookAt.Set(0.f, 0.f, 0.f);
    m_vecCamUp.Set(0.0f, 1.0f, 0.0f);
 
-
    Vec3f lookingVec = m_vecCamPos - m_vecCamLookAt;
    Vec3f right = GetRight();
    Vec3f::Cross3(m_vecCamUp, right, lookingVec);
@@ -123,5 +138,6 @@ Vec3f cCameraManager::GetRight()
 
    return right;
 }
+
 } /* namespace elevatorSim */
 
