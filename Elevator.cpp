@@ -33,21 +33,19 @@
 
 namespace elevatorSim {
 
-Elevator::Elevator() : maxVel(0), maxAccel(0), maxOccupants(0) {
-   yVal = 0;
-}
+const int Elevator::DEFAULT_MAX_VEL = 5;
+const int Elevator::DEFAULT_MAX_ACCEL = 3;
+const int Elevator::DEFAULT_MAX_OCCUPANTS = 12; 
 
-Elevator::Elevator(int _yVal) : maxVel(0), maxAccel(0), maxOccupants(0)  {
+Elevator::Elevator(
+   int _yVal, 
+   const int _maxVel, 
+   const int _maxAccel, 
+   const int _maxOccupants)
+ : maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
    yVal = _yVal;
-}
-
-Elevator::Elevator(int _yVal, const int _maxVel, const int _maxAccel, const int _maxOccupants)
-: maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
-   yVal = _yVal;
-
    currentVel = 0;
    currentAccel = 0;
-
 }
 
 Elevator::Elevator(const Elevator & copy) : 
@@ -64,7 +62,7 @@ const Elevator& Elevator::operator=( const Elevator& crval ) {
    return *(Elevator *)(new Elevator(crval));
 }
 
-void Elevator::init()
+void Elevator::init() 
 {
    /* TODO */
 }

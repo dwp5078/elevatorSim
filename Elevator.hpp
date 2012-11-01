@@ -64,14 +64,18 @@ class Elevator : public Location, public SimulationTerminal {
 public:
 
    /* public static constants */
-
+   static const int DEFAULT_MAX_VEL;
+   static const int DEFAULT_MAX_ACCEL;
+   static const int DEFAULT_MAX_OCCUPANTS; 
 
    /* public instance members */
 
    /* constructors */
-   Elevator();
-   Elevator(int _yVal);
-   Elevator(int _yVal, const int _maxVel, const int _maxAccel, const int _maxOccupants);
+   Elevator(
+      int _yVal = 0, 
+      const int _maxVel = DEFAULT_MAX_VEL, 
+      const int _maxAccel = DEFAULT_MAX_ACCEL, 
+      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
    Elevator(const Elevator & copy);
 
    /* public methods */
