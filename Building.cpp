@@ -60,48 +60,48 @@ void Building::init() {
 
 void Building::render()
 {
-   const GLfloat scaleHeight = m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT;
-   const GLfloat scaleWidth = m_nElevator * cRenderObjs::ELEV_GAP_WIDTH;
+   const GLfloat gfxScaleHeight = m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT;
+   const GLfloat gfxScaleWidth = m_nElevator * cRenderObjs::ELEV_GAP_WIDTH;
 
    glLoadIdentity();
    glTranslatef(0.0f, -2.0f, 0.0f);
 
    /* Left wall */
    glPushMatrix();
-   glTranslatef(-scaleWidth, scaleHeight, 0.f);
-   glScalef(0.1f, scaleHeight, 2.0f);
+   glTranslatef(-gfxScaleWidth, gfxScaleHeight, 0.f);
+   glScalef(0.1f, gfxScaleHeight, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* Right wall */
    glPushMatrix();
-   glTranslatef(scaleWidth, scaleHeight, 0.f);
-   glScalef(0.1f, scaleHeight, 2.0f);
+   glTranslatef(gfxScaleWidth, gfxScaleHeight, 0.f);
+   glScalef(0.1f, gfxScaleHeight, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* Back wall */
    glPushMatrix();
-   glTranslatef(0, scaleHeight, -2.0f);
-   glScalef(scaleWidth, scaleHeight, 0.1f);
+   glTranslatef(0, gfxScaleHeight, -2.0f);
+   glScalef(gfxScaleWidth, gfxScaleHeight, 0.1f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* Top wall */
    glPushMatrix();
-   glTranslatef(0, scaleHeight*2, 0.0f);
-   glScalef(scaleWidth, 0.1f, 2.0f);
+   glTranslatef(0, gfxScaleHeight*2, 0.0f);
+   glScalef(gfxScaleWidth, 0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* FIXME: reconsider the relationship between eachHeight and the floor's yVal */
-   float eachHeight = scaleHeight * 2 / m_nStory;
+   float eachHeight = gfxScaleHeight * 2 / m_nStory;
 
    /* Draw each floor */
    for(unsigned int i=0; i<m_nStory-1; i++) {
       glPushMatrix();
       glTranslatef(0.0f, eachHeight * (i+1), 0.f);
-      glScalef(scaleWidth, 0.1f, 2.0f);
+      glScalef(gfxScaleWidth, 0.1f, 2.0f);
 
       m_Floors[i].render();
 
