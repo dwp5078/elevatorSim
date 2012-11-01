@@ -40,7 +40,8 @@ namespace elevatorSim {
 Building::Building(unsigned int nStory, unsigned int nElevator) :
    gfxScaleHeight(nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(nElevator * cRenderObjs::ELEV_GAP_WIDTH),
-   gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ) {
+   gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ),
+   gfxEachElevWidth(2 * gfxScaleWidth / nElevator) {
       m_nStory = nStory;
       m_nElevator = nElevator;
 
@@ -94,9 +95,8 @@ void Building::render() {
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-
    /* Draw each floor */
-   for(unsigned int i=0; i<m_nStory-1; i++) {
+   for(unsigned int i=0; i < m_nStory - 1; i++) {
       glPushMatrix();
       glTranslatef(0.0f, gfxEachFloorHeight * (i+1), 0.f);
       glScalef(gfxScaleWidth, 0.1f, 2.0f);
@@ -106,14 +106,26 @@ void Building::render() {
       glPopMatrix();
    }
 
-   /* TODO: draw each elevator */
-   for(unsigned int i = 0; i < m_nElevator; i++) {
-      m_Elevators[i].render();
+   /* Draw each elevator */
+   for(unsigned int i=0; i < m_nElevator; i++) {
+      glPushMatrix();
+      glTranslatef(
+         -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i, 
+         1.0f, 
+         0.0f);
+
+      /*
+       * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight] 
+       */
+
+      m_Elevators[i].render(); 
+      glPopMatrix();
+
    }
 
    /* Render land */
    glPushMatrix();
-   glScalef(10.0f, 10.0f, 10.0f);
+   glScalef(10.0f, 10.0f, 10.0f); /* FIXME: this needs to scale past 5 elevators */
    glCallList(cRenderObjs::OBJ_PLANE);
    glPopMatrix();
 }

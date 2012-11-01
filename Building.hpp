@@ -63,9 +63,10 @@ public:
    const GLfloat gfxScaleHeight;
    const GLfloat gfxScaleWidth;
    const GLfloat gfxEachFloorHeight;
+   const GLfloat gfxEachElevWidth;
 
    /* constructors */
-   Building(unsigned int nStory = 20, unsigned int nElevator = 5);
+   Building(unsigned int nStory = 10, unsigned int nElevator = 2);
    ~Building();
 
    /* public methods inherited from SimulationTerminal */
