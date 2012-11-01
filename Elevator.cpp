@@ -48,7 +48,6 @@ Elevator::Elevator(int _yVal, const int _maxVel, const int _maxAccel, const int 
    currentVel = 0;
    currentAccel = 0;
 
-   /* TODO */
 }
 
 Elevator::Elevator(const Elevator & copy) : 
@@ -59,6 +58,10 @@ Elevator::Elevator(const Elevator & copy) :
       currentVel = copy.currentVel;
       currentAccel = copy.currentAccel;
       occupants.assign(copy.occupants.begin(), copy.occupants.end());
+}
+
+const Elevator& Elevator::operator=( const Elevator& crval ) {
+   return *(Elevator *)(new Elevator(crval));
 }
 
 void Elevator::init()
@@ -75,5 +78,5 @@ void Elevator::update()
    /* TODO */
 }
 
-}
+} /* namespace elevatorSim */
 

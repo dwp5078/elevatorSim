@@ -75,6 +75,7 @@ public:
    Elevator(const Elevator & copy);
 
    /* public methods */
+   const Elevator& operator=( const Elevator& crval );
 
    /* inherited from SimulationTerminal */
    void init();
