@@ -51,9 +51,10 @@ Building::~Building() {
 /* public methods inherited from SimulationTerminal*/
 void Building::init() {
    for(unsigned int i=0; i<m_nStory-1; i++) {
+      /* FIXME: initialize floors with a meaningful yVal */
       m_Floors[i] = Floor(0, i != m_nStory-1, i != 0 );
    }
-
+   
    /* TOOD: intialize each elevator */
 }
 
@@ -93,12 +94,11 @@ void Building::render()
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   /* Draw each floor */
-   for(unsigned int i=0; i<m_nStory-1; i++)
-   {
-      /* FIXME: reconsider the relationship between eachHeight and the floor's yVal */
-      float eachHeight = scaleHeight * 2 / m_nStory;
+   /* FIXME: reconsider the relationship between eachHeight and the floor's yVal */
+   float eachHeight = scaleHeight * 2 / m_nStory;
 
+   /* Draw each floor */
+   for(unsigned int i=0; i<m_nStory-1; i++) {
       glPushMatrix();
       glTranslatef(0.0f, eachHeight * (i+1), 0.f);
       glScalef(scaleWidth, 0.1f, 2.0f);
