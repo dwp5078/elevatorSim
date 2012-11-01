@@ -60,9 +60,8 @@ void Elevator::init()
    /* TODO */
 }
 
-void Elevator::render()
-{
-   /* TODO */
+void Elevator::render() {
+   glCallList(cRenderObjs::OBJ_ELEVATOR);
 }
 
 void Elevator::update()

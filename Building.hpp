@@ -30,11 +30,12 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-#include <vector>
 
 #include "Floor.hpp"
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"
+
+#include <GL/glut.h>
 
 namespace elevatorSim{
 
@@ -58,8 +59,14 @@ public:
 
    /* public static constants */
 
+   /* public instanced constants */
+   const GLfloat gfxScaleHeight;
+   const GLfloat gfxScaleWidth;
+   const GLfloat gfxEachFloorHeight;
+   const GLfloat gfxEachElevWidth;
+
    /* constructors */
-   Building(unsigned int nStory = 20, unsigned int nElevator = 5);
+   Building(unsigned int nStory = 10, unsigned int nElevator = 2);
    ~Building();
 
    /* public methods inherited from SimulationTerminal */

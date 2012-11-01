@@ -224,12 +224,6 @@ void ElevatorSimRenderWindow::draw() {
    glEnable(GL_LIGHT0);
 
    m_Building.render();
-
-   /* Draw building object */
-   //glLoadIdentity();
-   //glTranslatef(0.0f, -2.0f, 0.0f);
-   //glCallList(OBJ_BUILDING);
-
    if(m_bRenderFPS) { drawFPS(); }
 
    GLenum err = glGetError();

@@ -34,6 +34,7 @@
 #include "Location.hpp"
 #include "Person.hpp"
 #include "SimulationTerminal.hpp"
+#include "cRenderObjs.hpp"
 
 #include <vector>
 

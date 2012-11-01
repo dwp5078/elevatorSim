@@ -38,6 +38,7 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Text_Display.H>
+#include <FL/Enumerations.H>
 #include <FL/names.h>
 
 namespace elevatorSim {
@@ -51,6 +52,11 @@ int ElevatorSimWindow::handle(int event) {
    }
 
    if(event == FL_KEYDOWN)  {
+      if(lastKey == FL_Escape) {
+         confirmDialog->hotspot(15, 15);
+         confirmDialog->show();
+      }
+
       keyManager.down(lastKey);
       return true;
    } else if ( event == FL_KEYUP) {

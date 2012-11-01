@@ -30,11 +30,11 @@
 #ifndef _FLOOR_H
 #define _FLOOR_H
 
-#include <vector>
-
 #include "Location.hpp"
 #include "Person.hpp"
 #include "SimulationTerminal.hpp"
+
+#include <vector>
 
 namespace elevatorSim { 
 
@@ -58,6 +58,7 @@ class Floor : public Location, public SimulationTerminal {
 public:
 
    /* public static constants */
+   static const int YVALS_PER_FLOOR;
 
    /* public instance members */
 
