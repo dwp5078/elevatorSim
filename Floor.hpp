@@ -58,6 +58,7 @@ class Floor : public Location, public SimulationTerminal {
 public:
 
    /* public static constants */
+   static const int YVALS_PER_FLOOR;
 
    /* public instance members */
 

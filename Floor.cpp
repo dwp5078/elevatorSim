@@ -34,6 +34,10 @@
 #include <GL/glut.h>
 
 namespace elevatorSim { 
+
+/* public static constants */
+const int Floor::YVALS_PER_FLOOR = 1000;
+
 /* constructors */
 Floor::Floor() {
    Floor(0, false, false);
