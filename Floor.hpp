@@ -30,11 +30,11 @@
 #ifndef _FLOOR_H
 #define _FLOOR_H
 
-#include <vector>
-
 #include "Location.hpp"
 #include "Person.hpp"
 #include "SimulationTerminal.hpp"
+
+#include <vector>
 
 namespace elevatorSim { 
 

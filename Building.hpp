@@ -30,11 +30,12 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-#include <GL/glut.h>
 
 #include "Floor.hpp"
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"
+
+#include <GL/glut.h>
 
 namespace elevatorSim{
 
