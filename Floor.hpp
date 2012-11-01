@@ -63,8 +63,7 @@ public:
    /* public instance members */
 
    /* constructors */
-   Floor();
-   Floor(int _yVal, bool _hasUpperFloor, bool _hasLowerFloor);
+   Floor(int _yVal = 0, bool _hasUpperFloor = false, bool _hasLowerFloor = false);
    Floor(const Floor & copy);
 
    /* public methods inherited from SimulationTerminal*/

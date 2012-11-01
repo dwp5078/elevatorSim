@@ -41,7 +41,7 @@ Building::Building(unsigned int nStory, unsigned int nElevator) :
    gfxScaleHeight(nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ),
-   gfxEachElevWidth(2 * gfxScaleWidth / nElevator) {
+   gfxEachElevWidth(gfxScaleWidth * 2 / nElevator) {
       m_nStory = nStory;
       m_nElevator = nElevator;
 
@@ -54,13 +54,16 @@ Building::~Building() {
    delete [] m_Elevators;
 }
 
-/* public methods inherited from SimulationTerminal*/
+/* public methods inherited from SimulationTerminal */
+
 void Building::init() {
-   for(unsigned int i=0; i<m_nStory-1; i++) {
+   for(unsigned int i=0; i < m_nStory ; ++i) {
       m_Floors[i] = Floor(i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
    }
    
-   /* TOOD: intialize each elevator */
+   for(unsigned int i=0; i < m_nElevator ; ++i ) {
+      m_Elevators[i] = Elevator(0);
+   }
 }
 
 void Building::render() {

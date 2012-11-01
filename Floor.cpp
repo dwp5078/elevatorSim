@@ -39,10 +39,6 @@ namespace elevatorSim {
 const int Floor::YVALS_PER_FLOOR = 1000;
 
 /* constructors */
-Floor::Floor() {
-   Floor(0, false, false);
-}
-
 Floor::Floor(int _yVal, bool _hasUpperFloor, bool _hasLowerFloor) {
    yVal = _yVal;
 
