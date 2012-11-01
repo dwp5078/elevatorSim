@@ -50,6 +50,8 @@ int main(int argc, char** argv) {
    delete mainWin;
    delete keyManager;
    delete timeManager;
+
+   return 0;
 }
 
 namespace elevatorSim {
