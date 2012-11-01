@@ -30,7 +30,7 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-#include <vector>
+#include <GL/glut.h>
 
 #include "Floor.hpp"
 #include "Elevator.hpp"
@@ -57,6 +57,11 @@ class Building : public SimulationTerminal {
 public:
 
    /* public static constants */
+
+   /* public instanced constants */
+   const GLfloat gfxScaleHeight;
+   const GLfloat gfxScaleWidth;
+   const GLfloat gfxEachFloorHeight;
 
    /* constructors */
    Building(unsigned int nStory = 20, unsigned int nElevator = 5);

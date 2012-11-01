@@ -33,14 +33,19 @@
 #include "Elevator.hpp"
 #include "cRenderObjs.hpp"
 
+#include <GL/glut.h>
+
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int nStory, unsigned int nElevator) {
-   m_nStory = nStory;
-   m_nElevator = nElevator;
+Building::Building(unsigned int nStory, unsigned int nElevator) :
+   gfxScaleHeight(nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
+   gfxScaleWidth(nElevator * cRenderObjs::ELEV_GAP_WIDTH),
+   gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ) {
+      m_nStory = nStory;
+      m_nElevator = nElevator;
 
-   m_Floors = new Floor[m_nStory];
-   m_Elevators = new Elevator[m_nElevator];
+      m_Floors = new Floor[m_nStory];
+      m_Elevators = new Elevator[m_nElevator];
 }
 
 Building::~Building() {
@@ -57,11 +62,7 @@ void Building::init() {
    /* TOOD: intialize each elevator */
 }
 
-void Building::render()
-{
-   const GLfloat gfxScaleHeight = m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT;
-   const GLfloat gfxScaleWidth = m_nElevator * cRenderObjs::ELEV_GAP_WIDTH;
-
+void Building::render() {
    glLoadIdentity();
    glTranslatef(0.0f, -2.0f, 0.0f);
 
@@ -93,13 +94,11 @@ void Building::render()
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   /* FIXME: reconsider the relationship between eachHeight and the floor's yVal */
-   float eachHeight = gfxScaleHeight * 2 / m_nStory;
 
    /* Draw each floor */
    for(unsigned int i=0; i<m_nStory-1; i++) {
       glPushMatrix();
-      glTranslatef(0.0f, eachHeight * (i+1), 0.f);
+      glTranslatef(0.0f, gfxEachFloorHeight * (i+1), 0.f);
       glScalef(gfxScaleWidth, 0.1f, 2.0f);
 
       m_Floors[i].render();
