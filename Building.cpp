@@ -51,8 +51,7 @@ Building::~Building() {
 /* public methods inherited from SimulationTerminal*/
 void Building::init() {
    for(unsigned int i=0; i<m_nStory-1; i++) {
-      /* FIXME: initialize floors with a meaningful yVal */
-      m_Floors[i] = Floor(0, i != m_nStory-1, i != 0 );
+      m_Floors[i] = Floor(i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
    }
    
    /* TOOD: intialize each elevator */
