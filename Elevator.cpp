@@ -34,11 +34,17 @@
 namespace elevatorSim {
 
 Elevator::Elevator() : maxVel(0), maxAccel(0), maxOccupants(0) {
-
+   yVal = 0;
 }
 
-Elevator::Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants)
+Elevator::Elevator(int _yVal) : maxVel(0), maxAccel(0), maxOccupants(0)  {
+   yVal = _yVal;
+}
+
+Elevator::Elevator(int _yVal, const int _maxVel, const int _maxAccel, const int _maxOccupants)
 : maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
+   yVal = _yVal;
+
    currentVel = 0;
    currentAccel = 0;
 

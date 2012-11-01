@@ -30,7 +30,6 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-
 #include "Floor.hpp"
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"

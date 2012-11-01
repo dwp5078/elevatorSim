@@ -70,19 +70,13 @@ public:
 
    /* constructors */
    Elevator();
-   Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants);
+   Elevator(int _yVal);
+   Elevator(int _yVal, const int _maxVel, const int _maxAccel, const int _maxOccupants);
    Elevator(const Elevator & copy);
 
    /* public methods */
-   /*int getMaxVel();
-      int getMaxAccel();
-      int getMaxOccupants();
-      int getCurrentVel();
-      void setCurrentVel(int newVel);
-      int getCurrentAccel();
-      void setCurrentAccel();*/
 
-   /* public methods inherited from SimulationTerminal*/
+   /* inherited from SimulationTerminal */
    void init();
    void render();
    void update();
