@@ -5,6 +5,8 @@ namespace elevatorSim   {
 
 const GLfloat cRenderObjs::BUILDING_GAP_HEIGHT = 1.1f;
 const GLfloat cRenderObjs::ELEV_GAP_WIDTH = 1.7f;
+const GLfloat cRenderObjs::GFX_ELEV_SCALE_HEIGHT = 1.0f;
+const GLfloat cRenderObjs::GFX_ELEV_SCALE_WIDTH = 0.75f;
 
 cRenderObjs::cRenderObjs()
 {
@@ -101,41 +103,38 @@ void cRenderObjs::initElevator()
 {
    glNewList(OBJ_ELEVATOR, GL_COMPILE);
 
-   float scaleHeight = 1.0f;
-   float scaleWidth = 0.75f;
-
    glPushMatrix();
    // Left wall of Elevator
-   glTranslatef(-scaleWidth, 0, 0.f);
-   glScalef(0.05f, scaleHeight, 1.0f);
+   glTranslatef(-GFX_ELEV_SCALE_WIDTH, 0, 0.f);
+   glScalef(0.05f, GFX_ELEV_SCALE_HEIGHT, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
    // Right wall of Elevator
    glPushMatrix();
-   glTranslatef(scaleWidth, 0, 0.f);
-   glScalef(0.05f, scaleHeight, 1.0f);
+   glTranslatef(GFX_ELEV_SCALE_WIDTH, 0, 0.f);
+   glScalef(0.05f, GFX_ELEV_SCALE_HEIGHT, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
    // Back wall of Elevator
    glPushMatrix();
    glTranslatef(0, 0, -1.0f);
-   glScalef(scaleWidth, scaleHeight, 0.05f);
+   glScalef(GFX_ELEV_SCALE_WIDTH, GFX_ELEV_SCALE_HEIGHT, 0.05f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
    // Top wall of Elevator
    glPushMatrix();
-   glTranslatef(0, scaleHeight, 0.0f);
-   glScalef(scaleWidth, 0.05f, 1.0f);
+   glTranslatef(0, GFX_ELEV_SCALE_HEIGHT, 0.0f);
+   glScalef(GFX_ELEV_SCALE_WIDTH, 0.05f, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
    // Bottom wall of Elevator
    glPushMatrix();
-   glTranslatef(0, -scaleHeight, 0.0f);
-   glScalef(scaleWidth, 0.05f, 1.0f);
+   glTranslatef(0, -GFX_ELEV_SCALE_HEIGHT, 0.0f);
+   glScalef(GFX_ELEV_SCALE_WIDTH, 0.05f, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
