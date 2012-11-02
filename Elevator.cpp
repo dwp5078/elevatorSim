@@ -50,7 +50,7 @@ Elevator::Elevator(
 
    yVal = _yVal;
    currentVel = 0;
-   currentAccel = maxAccel;
+   currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
 
    if(isDebugBuild()) {
       std::cout << "constructed elevator with owner building @" << &owner << std::endl;
@@ -59,6 +59,19 @@ Elevator::Elevator(
 
 Elevator::~Elevator() {
 
+}
+
+bool Elevator::canStopAtNextFloor() {
+   assert(currentAccel != 0);
+   
+   /* TODO: implement this.
+    *
+    * This function should check the acceleration and velocity and position and return true
+    * if the elevator can stop at the floor it's headed towards. If the elevator is not
+    * accelerating, the function throws a breakpoint.
+    */ 
+
+   return false;
 }
 
 void Elevator::init() {

@@ -86,7 +86,8 @@ public:
    ~Elevator();
 
    /* public methods */
-
+   bool canStopAtNextFloor();
+   
    /* inherited from SimulationTerminal */
    void init();
    void render();
