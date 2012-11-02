@@ -58,13 +58,13 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       }
 }
 
-Building::Building(const Building& buildingCopy) :
-   m_nStory(buildingCopy.m_nStory),
-   m_nElevator(buildingCopy.m_nElevator),
-   gfxScaleHeight(buildingCopy.m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
-   gfxScaleWidth(buildingCopy.m_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
-   gfxEachFloorHeight(gfxScaleHeight * 2 / buildingCopy.m_nStory ),
-   gfxEachElevWidth(gfxScaleWidth * 2 / buildingCopy.m_nElevator) {
+Building::Building(const Building& buildingCopySrc) :
+   m_nStory(buildingCopySrc.m_nStory),
+   m_nElevator(buildingCopySrc.m_nElevator),
+   gfxScaleHeight(buildingCopySrc.gfxScaleHeight),
+   gfxScaleWidth(buildingCopySrc.gfxScaleWidth),
+   gfxEachFloorHeight(buildingCopySrc.gfxEachFloorHeight),
+   gfxEachElevWidth(buildingCopySrc.gfxEachElevWidth) {
 
       if(isDebugBuild()) {
          std::cout << "in copy constructor for building @" << this << std::endl;
