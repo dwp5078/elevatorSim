@@ -76,12 +76,21 @@ public:
    void render();
    void update();
    
+   /* inline const accessors */
    inline const unsigned int getStories() const {
       return m_nStory;
    }
    
    inline const unsigned int getElevators() const {
       return m_nElevator;
+   }
+   
+   inline const unsigned int getMaxElevHeight() const {
+      return m_nStory * Floor::YVALS_PER_FLOOR;
+   }
+   
+   inline const unsigned int getMinElevHeight() const {
+      return 0;
    }
 };
 

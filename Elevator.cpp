@@ -70,6 +70,7 @@ void Elevator::render() {
 
 void Elevator::update() {
    
+   
 }
 
 } /* namespace elevatorSim */
