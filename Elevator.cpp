@@ -30,6 +30,7 @@
 #include <vector>
 
 #include "Elevator.hpp"
+#include "SimulationTerminal.hpp"
 
 namespace elevatorSim {
 
@@ -41,29 +42,18 @@ Elevator::Elevator(
    int _yVal, 
    const int _maxVel, 
    const int _maxAccel, 
-   const int _maxOccupants)
- : maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
+   const int _maxOccupants) : maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
+
    yVal = _yVal;
    currentVel = 0;
    currentAccel = 0;
 }
 
-Elevator::Elevator(const Elevator & copy) : 
-   Location(),
-   maxVel(copy.maxVel), 
-   maxAccel(copy.maxAccel), 
-   maxOccupants(copy.maxOccupants) {
-      currentVel = copy.currentVel;
-      currentAccel = copy.currentAccel;
-      occupants.assign(copy.occupants.begin(), copy.occupants.end());
+Elevator::~Elevator() {
+
 }
 
-const Elevator& Elevator::operator=( const Elevator& crval ) {
-   return *(Elevator *)(new Elevator(crval));
-}
-
-void Elevator::init() 
-{
+void Elevator::init() {
    /* TODO */
 }
 
@@ -71,8 +61,7 @@ void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
 }
 
-void Elevator::update()
-{
+void Elevator::update() {
    /* TODO */
 }
 

@@ -65,6 +65,7 @@ public:
    /* constructors */
    Floor(int _yVal = 0, bool _hasUpperFloor = false, bool _hasLowerFloor = false);
    Floor(const Floor & copy);
+   ~Floor();
 
    /* public methods inherited from SimulationTerminal*/
    void init();

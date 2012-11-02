@@ -49,8 +49,8 @@ class Building : public SimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   Floor* m_Floors;
-   Elevator* m_Elevators;
+   Floor** m_Floors;
+   Elevator** m_Elevators;
 
    /* private methods */
 

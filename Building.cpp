@@ -42,14 +42,30 @@ Building::Building(unsigned int nStory, unsigned int nElevator) :
    gfxScaleWidth(nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ),
    gfxEachElevWidth(gfxScaleWidth * 2 / nElevator) {
+
       m_nStory = nStory;
       m_nElevator = nElevator;
+      m_Floors = new Floor * [m_nStory];
+      m_Elevators = new Elevator * [m_nElevator];
 
-      m_Floors = new Floor[m_nStory];
-      m_Elevators = new Elevator[m_nElevator];
+      for(unsigned int i=0; i < m_nStory ; ++i) {
+            m_Floors[i] = new Floor(i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+      }
+
+      for(unsigned int i=0; i < m_nElevator ; ++i ) {
+            m_Elevators[i] = new Elevator(0);
+      }
 }
 
 Building::~Building() {
+   for(unsigned int i=0; i < m_nStory ; ++i) {
+      delete m_Floors[i];
+   }
+
+   for(unsigned int i=0; i < m_nElevator ; ++i ) {
+      delete m_Elevators[i];
+   }
+
    delete [] m_Floors;
    delete [] m_Elevators;
 }
@@ -58,11 +74,11 @@ Building::~Building() {
 
 void Building::init() {
    for(unsigned int i=0; i < m_nStory ; ++i) {
-      m_Floors[i] = Floor(i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+      m_Floors[i]->init();
    }
    
    for(unsigned int i=0; i < m_nElevator ; ++i ) {
-      m_Elevators[i] = Elevator(0);
+      m_Elevators[i]->init();
    }
 }
 
@@ -104,7 +120,7 @@ void Building::render() {
       glTranslatef(0.0f, gfxEachFloorHeight * (i+1), 0.f);
       glScalef(gfxScaleWidth, 0.1f, 2.0f);
 
-      m_Floors[i].render();
+      m_Floors[i]->render();
 
       glPopMatrix();
    }
@@ -121,7 +137,7 @@ void Building::render() {
        * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight] 
        */
 
-      m_Elevators[i].render(); 
+      m_Elevators[i]->render();
       glPopMatrix();
 
    }
@@ -136,11 +152,11 @@ void Building::render() {
 void Building::update()
 {
    for(unsigned int i = 0; i < m_nStory; i++) {
-      m_Floors[i].update();
+      m_Floors[i]->update();
    }
 
    for(unsigned int i = 0; i < m_nElevator; i++) {
-      m_Elevators[i].update();
+      m_Elevators[i]->update();
    }
 }
 

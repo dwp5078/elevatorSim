@@ -60,6 +60,10 @@ Floor::Floor(const Floor & copy) : Location() {
          copy.occupants.end());
 }
 
+Floor::~Floor() {
+
+}
+
 void Floor::init() {
 
 }

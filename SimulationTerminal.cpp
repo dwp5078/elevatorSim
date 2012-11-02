@@ -27,69 +27,11 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _PERSON_H
-#define _PERSON_H
-
-#include "Location.hpp"
+#include "ElevatorSim.hpp"
 #include "SimulationTerminal.hpp"
 
 namespace elevatorSim {
+   SimulationTerminal::~SimulationTerminal() {
 
-class Person : public SimulationTerminal {
-
-   /* friends */
-
-   /* (this person has no friends, trololoo) */
-
-   /* private static constants */
-   enum PRIORITY {
-      UNKNOWN,
-      NORMAL,
-      HIGH,
-      EMERGENCY
-   };
-
-   /* private static methods */
-
-
-   /* private instance members */
-   Location current;
-   Location destination;
-   enum PRIORITY priority;
-
-   /* private methods */
-
-public:
-
-   /* public static constants */
-
-
-   /* public instance members */
-
-   /* constructors */
-   Person(
-         Location startLoc, 
-         Location dest, 
-         enum PRIORITY p=UNKNOWN);
-   ~Person();
-   
-   /* public methods */
-   Location getCurrent();
-   void setCurrent(Location newLoc);
-
-   Location getDestination();
-   void setDestination(Location newLoc);
-
-   enum PRIORITY getPriority();
-   void setPriority(enum PRIORITY newPriority);
-
-   /* public methods inherited from SimulationTerminal*/
-   void init();
-   void render();
-   void update();
-
-};
-
-} /* namespace elevatorSim */
-
-#endif /* _PERSON_H */
+   }
+} /* namespace ElevatorSim */

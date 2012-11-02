@@ -76,10 +76,9 @@ public:
       const int _maxVel = DEFAULT_MAX_VEL, 
       const int _maxAccel = DEFAULT_MAX_ACCEL, 
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
-   Elevator(const Elevator & copy);
+   ~Elevator();
 
    /* public methods */
-   const Elevator& operator=( const Elevator& crval );
 
    /* inherited from SimulationTerminal */
    void init();
