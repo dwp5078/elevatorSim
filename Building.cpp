@@ -34,7 +34,9 @@
 #include "cRenderObjs.hpp"
 
 #include <GL/glut.h>
+
 #include <iostream>
+#include <cassert>
 
 namespace elevatorSim {
 /* constructors */
@@ -147,9 +149,11 @@ void Building::render() {
       glPushMatrix();
       glTranslatef(
          -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i, 
-         1.0f, 
+         /* this is in the logical coordinate system, so we divide it by YVALS_PER_FLOOR */     
+         1.0f + (GLfloat)m_Elevators[i]->getYVal() / Floor::YVALS_PER_FLOOR * gfxEachFloorHeight, 
          0.0f);
 
+      
       /*
        * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight] 
        */
@@ -176,5 +180,13 @@ void Building::update()
       m_Elevators[i]->update();
    }
 }
-
+   
+const int Building::getMaxElevHeight() const {
+   return (m_nStory - 1) * Floor::YVALS_PER_FLOOR;
+}
+   
+const int Building::getMinElevHeight() const {
+   return 0;
+}
+   
 } /* namepsace elevatorSim */

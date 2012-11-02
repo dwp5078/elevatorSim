@@ -62,6 +62,7 @@ void ElevatorSimRenderWindow::timerCB(void* userdata) {
    /* TODO: move these updates to the compute thread and unify the method */
    myWindow->m_CameraManager.Update();
    myWindow->timeManager.update();
+   myWindow->m_Building.update();
 
    Fl::repeat_timeout(cTimeManager::redrawInterval, timerCB, userdata);
 }
@@ -107,7 +108,6 @@ void ElevatorSimRenderWindow::setViewport() {
 void ElevatorSimRenderWindow::setPerspective(
       GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
    GLdouble xmin, xmax, ymin, ymax;
-
    
    ymax = zNear * tan(fovy * MY_PI / 360.0);
    ymin = -ymax;

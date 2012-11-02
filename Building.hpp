@@ -30,6 +30,7 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
+#include "ElevatorSim.hpp"
 #include "Floor.hpp"
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"
@@ -85,13 +86,8 @@ public:
       return m_nElevator;
    }
    
-   inline const unsigned int getMaxElevHeight() const {
-      return m_nStory * Floor::YVALS_PER_FLOOR;
-   }
-   
-   inline const unsigned int getMinElevHeight() const {
-      return 0;
-   }
+   const int getMaxElevHeight() const;
+   const int getMinElevHeight() const;
 };
 
 } /* namespace elevatorSim */

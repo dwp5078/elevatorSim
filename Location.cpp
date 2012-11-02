@@ -45,13 +45,8 @@ Location::Location(const Location & copy) {
    yVal = copy.yVal;
 }
 
-/* getters and setters */
-int Location::getYVal() {
+int Location::getYVal() const {
    return yVal;
-}
-
-void Location::setYVal(int newYVal) {
-   yVal = newYVal;
 }
 
 } /* namespace elevatorSim */

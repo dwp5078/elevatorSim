@@ -33,6 +33,7 @@
 
 #include <vector>
 #include <iostream>
+#include <cassert>
 
 namespace elevatorSim {
 
@@ -49,7 +50,7 @@ Elevator::Elevator(
 
    yVal = _yVal;
    currentVel = 0;
-   currentAccel = 0;
+   currentAccel = maxAccel;
 
    if(isDebugBuild()) {
       std::cout << "constructed elevator with owner building @" << &owner << std::endl;
@@ -69,8 +70,31 @@ void Elevator::render() {
 }
 
 void Elevator::update() {
+   /* ensure that accel is either -maxAccel, +maxAccel, or 0 */
+   assert(currentAccel == -maxAccel || currentAccel == maxAccel || currentAccel == 0  );
    
+   /* if current accel is positive... */
+   if(currentAccel > 0) { 
+      /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
+      currentVel = (currentVel + currentAccel < maxVel ) ? ( currentVel + currentAccel ) : ( maxVel );
+   /* otherwise if current accel is negative... */
+   } else if(currentAccel < 0) {
+      /* replace current vel with current vel + accel, unless it's less than the minimum vel */
+      currentVel = (currentVel + currentAccel > -maxVel ) ? ( currentVel + currentAccel ) : ( -maxVel );
+   }
    
+   /* if current vel is positive */
+   if(currentVel > 0) {
+      /* replace current yVal with yVal plus current vel, unless it's greater than the maximum yVal */
+      yVal = (yVal + currentVel < owner.getMaxElevHeight()) ? ( yVal + currentVel ) : ( owner.getMaxElevHeight() );
+   /* otherwise if current vel is negative */
+   } else if (currentVel < 0) {
+      /* replace current yVal with yVal + current vel, unless it's less than the minimum yVal */
+      yVal = (yVal + currentVel > owner.getMinElevHeight()) ? ( yVal + currentVel ) : ( owner.getMinElevHeight() );
+   }
+   
+   assert( owner.getMinElevHeight() <= yVal && yVal <= owner.getMaxElevHeight() );
+   assert( -maxVel <= currentVel && currentVel <= maxVel );
 }
 
 } /* namespace elevatorSim */

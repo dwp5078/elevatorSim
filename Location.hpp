@@ -63,8 +63,7 @@ public:
    Location(const Location & copy);
 
    /* public methods */
-   int getYVal();
-   void setYVal(int newYVal);
+   int getYVal() const;
 
 };
 
