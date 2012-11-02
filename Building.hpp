@@ -45,8 +45,8 @@ class Building : public SimulationTerminal {
    /* friends */
 
    /* private static constants */
-   unsigned int m_nStory;
-   unsigned int m_nElevator;
+   const unsigned int m_nStory;
+   const unsigned int m_nElevator;
 
    /* private static methods */
 
@@ -67,7 +67,7 @@ public:
    const GLfloat gfxEachElevWidth;
 
    /* constructors */
-   Building(unsigned int nStory = 10, unsigned int nElevator = 2);
+   Building(unsigned int _nStory = 10, unsigned int _nElevator = 2);
    Building(const Building& buildingCopy);
    ~Building();
 
@@ -75,6 +75,8 @@ public:
    void init();
    void render();
    void update();
+   
+   
 
 };
 

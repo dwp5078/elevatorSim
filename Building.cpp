@@ -38,27 +38,29 @@
 
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int nStory, unsigned int nElevator) :
-   gfxScaleHeight(nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
-   gfxScaleWidth(nElevator * cRenderObjs::ELEV_GAP_WIDTH),
-   gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ),
-   gfxEachElevWidth(gfxScaleWidth * 2 / nElevator) {
+Building::Building(unsigned int _nStory, unsigned int _nElevator) :
+   m_nStory(_nStory),
+   m_nElevator(_nElevator),
+   gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
+   gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
+   gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
+   gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator) {
 
-      m_nStory = nStory;
-      m_nElevator = nElevator;
       m_Floors = new Floor * [m_nStory];
       m_Elevators = new Elevator * [m_nElevator];
 
       for(unsigned int i=0; i < m_nStory ; ++i) {
-            m_Floors[i] = new Floor(*this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+         m_Floors[i] = new Floor(*this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
-            m_Elevators[i] = new Elevator(*this, 0);
+         m_Elevators[i] = new Elevator(*this, 0);
       }
 }
 
 Building::Building(const Building& buildingCopy) :
+   m_nStory(buildingCopy.m_nStory),
+   m_nElevator(buildingCopy.m_nElevator),
    gfxScaleHeight(buildingCopy.m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(buildingCopy.m_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / buildingCopy.m_nStory ),
