@@ -35,10 +35,15 @@
 #include "Person.hpp"
 #include "SimulationTerminal.hpp"
 #include "cRenderObjs.hpp"
+#include "Building.hpp"
 
 #include <vector>
 
 namespace elevatorSim {
+
+class Location;
+class Building;
+struct SimulationTerminal;
 
 class Elevator : public Location, public SimulationTerminal {
 
@@ -52,6 +57,7 @@ class Elevator : public Location, public SimulationTerminal {
 
 
    /* private instance members */
+   const Building& owner;
    const int maxVel;
    const int maxAccel;
    const int maxOccupants;
@@ -72,6 +78,7 @@ public:
 
    /* constructors */
    Elevator(
+      const Building& _owner,
       int _yVal = 0, 
       const int _maxVel = DEFAULT_MAX_VEL, 
       const int _maxAccel = DEFAULT_MAX_ACCEL, 

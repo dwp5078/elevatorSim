@@ -27,10 +27,12 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#include <vector>
-
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"
+#include "Building.hpp"
+
+#include <vector>
+#include <iostream>
 
 namespace elevatorSim {
 
@@ -39,14 +41,19 @@ const int Elevator::DEFAULT_MAX_ACCEL = 3;
 const int Elevator::DEFAULT_MAX_OCCUPANTS = 12; 
 
 Elevator::Elevator(
+   const Building& _owner,
    int _yVal, 
    const int _maxVel, 
    const int _maxAccel, 
-   const int _maxOccupants) : maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
+   const int _maxOccupants) : owner(_owner), maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
 
    yVal = _yVal;
    currentVel = 0;
    currentAccel = 0;
+
+   if(isDebugBuild()) {
+      std::cout << "constructed elevator with owner building @" << &owner << std::endl;
+   }
 }
 
 Elevator::~Elevator() {

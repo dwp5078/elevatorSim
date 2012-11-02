@@ -37,6 +37,8 @@
 #include <GL/glut.h>
 
 namespace elevatorSim{
+class Floor;
+class Elevator;
 
 class Building : public SimulationTerminal {
 
@@ -66,6 +68,7 @@ public:
 
    /* constructors */
    Building(unsigned int nStory = 10, unsigned int nElevator = 2);
+   Building(const Building& buildingCopy);
    ~Building();
 
    /* public methods inherited from SimulationTerminal */

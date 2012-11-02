@@ -34,6 +34,7 @@
 #include "cRenderObjs.hpp"
 
 #include <GL/glut.h>
+#include <iostream>
 
 namespace elevatorSim {
 /* constructors */
@@ -49,13 +50,27 @@ Building::Building(unsigned int nStory, unsigned int nElevator) :
       m_Elevators = new Elevator * [m_nElevator];
 
       for(unsigned int i=0; i < m_nStory ; ++i) {
-            m_Floors[i] = new Floor(i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+            m_Floors[i] = new Floor(*this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
-            m_Elevators[i] = new Elevator(0);
+            m_Elevators[i] = new Elevator(*this, 0);
       }
 }
+
+Building::Building(const Building& buildingCopy) :
+   gfxScaleHeight(buildingCopy.m_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
+   gfxScaleWidth(buildingCopy.m_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
+   gfxEachFloorHeight(gfxScaleHeight * 2 / buildingCopy.m_nStory ),
+   gfxEachElevWidth(gfxScaleWidth * 2 / buildingCopy.m_nElevator) {
+
+      if(isDebugBuild()) {
+         std::cout << "in copy constructor for building @" << this << std::endl;
+      }
+
+      /* TODO: finish this */
+}
+
 
 Building::~Building() {
    for(unsigned int i=0; i < m_nStory ; ++i) {
