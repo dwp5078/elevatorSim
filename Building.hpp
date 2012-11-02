@@ -76,8 +76,13 @@ public:
    void render();
    void update();
    
+   inline const unsigned int getStories() const {
+      return m_nStory;
+   }
    
-
+   inline const unsigned int getElevators() const {
+      return m_nElevator;
+   }
 };
 
 } /* namespace elevatorSim */

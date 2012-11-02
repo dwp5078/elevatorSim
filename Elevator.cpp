@@ -69,7 +69,7 @@ void Elevator::render() {
 }
 
 void Elevator::update() {
-   /* TODO */
+   
 }
 
 } /* namespace elevatorSim */
