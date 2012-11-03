@@ -21,7 +21,9 @@ public:
    enum OBJ_LIST {
       OBJ_PLANE = 1,
       OBJ_CUBE,
+      OBJ_SPHERE,
       OBJ_ELEVATOR,
+      OBJ_HUMAN,
       OBJ_MAX
    };
 
@@ -29,8 +31,10 @@ public:
 
    void init();
    void initCube();
+   void initSphere();
    void initPlane();
    void initElevator();
+   void initHuman();
 };
 
 } /* namespace elevatorSim */

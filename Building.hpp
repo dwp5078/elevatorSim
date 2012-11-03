@@ -68,7 +68,7 @@ public:
    const GLfloat gfxEachElevWidth;
 
    /* constructors */
-   Building(unsigned int _nStory = 10, unsigned int _nElevator = 2);
+   Building(unsigned int _nStory = 20, unsigned int _nElevator = 5);
    Building(const Building& buildingCopy);
    ~Building();
 

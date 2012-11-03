@@ -34,11 +34,12 @@
 #include <vector>
 #include <iostream>
 #include <cassert>
+#include <time.h>
 
 namespace elevatorSim {
 
-const int Elevator::DEFAULT_MAX_VEL = 5;
-const int Elevator::DEFAULT_MAX_ACCEL = 3;
+const int Elevator::DEFAULT_MAX_VEL = 25; //5
+const int Elevator::DEFAULT_MAX_ACCEL = 1;  //3
 const int Elevator::DEFAULT_MAX_OCCUPANTS = 12; 
 
 Elevator::Elevator(
@@ -51,10 +52,16 @@ Elevator::Elevator(
    yVal = _yVal;
    currentVel = 0;
    currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
+   
+
+   ///////////////////Test - Soohoon
+   destFloor = -1;
 
    if(isDebugBuild()) {
       std::cout << "constructed elevator with owner building @" << &owner << std::endl;
    }
+
+   srand((unsigned)time(0));
 }
 
 Elevator::~Elevator() {
@@ -80,12 +87,52 @@ void Elevator::init() {
 
 void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
+   glCallList(cRenderObjs::OBJ_HUMAN);
 }
 
 void Elevator::update() {
    /* ensure that accel is either -maxAccel, +maxAccel, or 0 */
    assert(currentAccel == -maxAccel || currentAccel == maxAccel || currentAccel == 0  );
    
+   ///////////////////Test - Soohoon
+   generateRandomDest();
+   int finalPos = destFloor * Floor::YVALS_PER_FLOOR;
+   int diff = abs(finalPos - yVal);
+
+   if(diff <= Floor::YVALS_PER_FLOOR / 2)  {  //decelerate
+      if(currentAccel > 0) { 
+         /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
+         currentVel = (currentVel - 1 > 0 ) ? ( currentVel - 1 ) : ( 5 );
+         /* otherwise if current accel is negative... */
+      } else if(currentAccel < 0) {
+         /* replace current vel with current vel + accel, unless it's less than the minimum vel */
+         currentVel = (currentVel + 1 < 0 ) ? ( currentVel + 1 ) : ( -5 );
+      }
+
+      /* if current vel is positive */
+      if(currentVel > 0) {
+         /* replace current yVal with yVal plus current vel, unless it's greater than the maximum yVal */
+         yVal = (yVal + currentVel < finalPos) ? ( yVal + currentVel ) : ( finalPos );
+         /* otherwise if current vel is negative */
+      } else if (currentVel < 0) {
+         /* replace current yVal with yVal + current vel, unless it's less than the minimum yVal */
+         yVal = (yVal + currentVel > finalPos) ? ( yVal + currentVel ) : ( finalPos );
+      }
+
+      if(yVal == finalPos)  {
+         static int temp = 0;
+         temp++;
+         if(temp == 200)   {
+            temp = 0;
+            destFloor = -1;
+            generateRandomDest();
+            
+         }
+      }
+   }
+
+
+   else  {
    /* if current accel is positive... */
    if(currentAccel > 0) { 
       /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
@@ -105,9 +152,27 @@ void Elevator::update() {
       /* replace current yVal with yVal + current vel, unless it's less than the minimum yVal */
       yVal = (yVal + currentVel > owner.getMinElevHeight()) ? ( yVal + currentVel ) : ( owner.getMinElevHeight() );
    }
+   }
    
    assert( owner.getMinElevHeight() <= yVal && yVal <= owner.getMaxElevHeight() );
    assert( -maxVel <= currentVel && currentVel <= maxVel );
+}
+
+///////////////////Test - Soohoon
+void Elevator::generateRandomDest()
+{
+   if(destFloor != -1)  return;
+
+   destFloor = rand() % owner.getStories();
+
+   if(yVal < destFloor * Floor::YVALS_PER_FLOOR)   {
+      currentAccel = maxAccel;
+   }
+   else  {
+      currentAccel = -maxAccel;
+   }
+
+   currentVel = 0;
 }
 
 } /* namespace elevatorSim */

@@ -213,6 +213,7 @@ void ElevatorSimRenderWindow::draw() {
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
 
+
    /* TODO: make these constants somewhere */
    gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
@@ -225,6 +226,9 @@ void ElevatorSimRenderWindow::draw() {
 
    m_Building.render();
    if(m_bRenderFPS) { drawFPS(); }
+
+   //glTranslatef(0.f, 3.f, 3.f);
+   //glCallList(cRenderObjs::OBJ_HUMAN);
 
    GLenum err = glGetError();
    if ( err != GL_NO_ERROR ) {

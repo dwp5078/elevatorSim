@@ -77,7 +77,20 @@ void Floor::init() {
 }
 
 void Floor::render() {
+   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   GLfloat shi = 0.5f;
+   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, shi);
+	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+
    glCallList(cRenderObjs::OBJ_CUBE);
+
+   
 }
 
 void Floor::update() {
