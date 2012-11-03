@@ -30,6 +30,7 @@
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "ElevatorSimWelcomeWindow.hpp"
 
 #include <FL/Fl.H>
 #include <FL/gl.h>
@@ -294,6 +295,20 @@ void ElevatorSimWindow::buildDialogs() {
    confirmDialog->end();
 }
 
+void ElevatorSimWindow::buildWelcomeWin()
+{
+	welcomeWin = new ElevatorSimWelcomeWindow(ElevatorSimWelcomeWindow::WINDOW_WIDTH,ElevatorSimWelcomeWindow::WINDOW_HEIGHT,ElevatorSimWelcomeWindow::WINDOW_TITLE);
+	
+	if(welcomeWin->firstRun)//if first run
+	{
+		welcomeWin->show();
+	}
+	else//if not first run
+	{
+		
+	}
+}
+
 /* public static member initializers */
 const char ElevatorSimWindow::WINDOW_TITLE[] = "elevatorSim";
 const int ElevatorSimWindow::WINDOW_WIDTH = 640;
@@ -304,7 +319,7 @@ const int ElevatorSimWindow::MENUBAR_HEIGHT = 25;
 ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager) :
             Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE), timeManager(_timeManager), keyManager(_keyManager) {
 
-   renderWindow = new ElevatorSimRenderWindow(
+renderWindow = new ElevatorSimRenderWindow(
          keyManager,
          timeManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
@@ -327,11 +342,14 @@ ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _k
    /* add more callbacks to main window here */
 
    /* initialize any other main window member variables here */
+   	
+   buildWelcomeWin();
 }
 
 ElevatorSimWindow::~ElevatorSimWindow() {
    delete confirmDialog;
    delete helpWin;
+   delete welcomeWin;
 }
 
 } /* namespace elevatorSim */
