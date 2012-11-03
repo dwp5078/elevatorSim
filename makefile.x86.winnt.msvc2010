@@ -20,7 +20,7 @@ SimulationTerminal.obj
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W4 /WX /EHsc /c /D_ES_WINNT /Iinc
+CXXFLAGS=/W4 /WX /EHac /c /D_ES_WINNT /Iinc
 
 DEBUGFLAGS=/Z7 /Gm- /MDd
 
@@ -69,11 +69,16 @@ RELEASE_COOKEDDEPS=\
 "fltkpng.lib"\
 "fltkzlib.lib"
 
+UNIT_TEST_OBJS=\
+UnitTests.obj
+
+UNIT_TEST_OUT=elevatorSimTests.exe
+
 OUT=elevatorSim.exe
 MAPFILE=elevatorSim.map
 PDBFILE=elevatorSim.pdb
 
-elevatorSim: $(OBJS) makefile.x86.winnt.msvc2010
+elevatorSim: $(OBJS) unitTests makefile.x86.winnt.msvc2010
 	cl\
 $(OBJS)\
 $(DEBUGFLAGS)\
@@ -85,10 +90,22 @@ $(DRIVERFLAGS)\
 $(LINKFLAGS)\
 $(SYSDEPS)\
 $(DEBUG_COOKEDDEPS)
-	@echo + success
+	@echo + main binary success
 
 .cpp.obj:
 	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
+
+unitTests: $(UNIT_TEST_OBJS)
+	cl\
+$(UNIT_TEST_OBJS)\
+$(DEBUGFLAGS)\
+$(DRIVERFLAGS)\
+/Fe$(UNIT_TEST_OUT)\
+/link\
+$(LINKFLAGS)\
+$(SYSDEPS)\
+$(DEBUG_COOKEDDEPS)
+	@echo + unit test success
 
 clean:
 	@erase /f /q $(OBJS) $(OUT) $(MAPFILE) $(PDBFILE)

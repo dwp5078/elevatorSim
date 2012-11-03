@@ -28,38 +28,16 @@
  */
 
 #include "ElevatorSim.hpp"
-#include "ElevatorSimWindow.hpp"
-#include "cTimeManager.hpp"
-#include "cKeyManager.hpp"
+ 
+#include <boost/test/included/unit_test.hpp> 
 
 using namespace elevatorSim;
 
-int main(int argc, char** argv) {
-   glutInit(&argc, argv);
-
-   cTimeManager* timeManager = new cTimeManager();
-   cKeyManager* keyManager= new cKeyManager();
-
-   ElevatorSimWindow* mainWin = new ElevatorSimWindow(*timeManager, *keyManager);
-   mainWin -> show();
-
-   /* TODO start other threads */
-
-   Fl::run();
-
-   delete mainWin;
-   delete keyManager;
-   delete timeManager;
-
-   return 0;
+boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] ) {
+   (void)argc;
+   (void)argv;
+   
+   return NULL;
 }
 
-namespace elevatorSim {
-bool isDebugBuild() {
-#ifndef NDEBUG
-   return true;
-#else
-   return false;
-#endif
-}
-} /* namespace elevatorSim */
+
