@@ -4,8 +4,9 @@
 ## os:       winnt
 ## compiler: msvc2010
 
-OBJS=ElevatorSim.obj\
-ElevatorSimWindow.obj\
+CLIENT_OBJ=ElevatorSim.obj
+
+SIM_OBJS=ElevatorSimWindow.obj\
 ElevatorSimRenderWindow.obj\
 cRenderObjs.obj\
 cTimeManager.obj\
@@ -17,6 +18,12 @@ Person.obj\
 Building.obj\
 Floor.obj\
 SimulationTerminal.obj
+
+UNIT_TEST_OBJS=\
+UnitTests.obj\
+ElevatorUnitTests.obj
+
+OBJS=$(CLIENT_OBJ) $(SIM_OBJS)
 
 DRIVERFLAGS=/errorreport:none /nologo
 
@@ -69,11 +76,7 @@ RELEASE_COOKEDDEPS=\
 "fltkpng.lib"\
 "fltkzlib.lib"
 
-UNIT_TEST_OBJS=\
-UnitTests.obj
-
 UNIT_TEST_OUT=elevatorSimTests.exe
-
 OUT=elevatorSim.exe
 MAPFILE=elevatorSim.map
 PDBFILE=elevatorSim.pdb
@@ -95,9 +98,10 @@ $(DEBUG_COOKEDDEPS)
 .cpp.obj:
 	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
 
-unitTests: $(UNIT_TEST_OBJS)
+unitTests: $(UNIT_TEST_OBJS) $(SIM_OBJS)
 	cl\
 $(UNIT_TEST_OBJS)\
+$(SIM_OBJS)\
 $(DEBUGFLAGS)\
 $(DRIVERFLAGS)\
 /Fe$(UNIT_TEST_OUT)\
@@ -108,5 +112,5 @@ $(DEBUG_COOKEDDEPS)
 	@echo + unit test success
 
 clean:
-	@erase /f /q $(OBJS) $(OUT) $(MAPFILE) $(PDBFILE)
+	@erase /f /q $(OBJS) $(OUT) $(UNIT_TEST_OBJS) $(MAPFILE) $(PDBFILE)
 	@echo + clean

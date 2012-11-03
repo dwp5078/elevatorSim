@@ -6,10 +6,10 @@
  * modification, are permitted provided that the following conditions are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice, this
- * list of conditions and the following disclaimer.
+ *    list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -27,36 +27,27 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#include "ElevatorSim.hpp"
+#include "Elevator.hpp"
+#include "Building.hpp"
 
-#include <boost/test/included/unit_test.hpp> 
-#include <boost/test/detail/log_level.hpp>
-#include <iostream>
+#include <boost/test/unit_test.hpp>
+#include <boost/test/detail/unit_test_parameters.hpp>
 #include <fstream>
 
-static const char UNIT_TEST_LOGFILE_NAME[] = "ElevatorSimUnitTests.log";
+using namespace elevatorSim;
 
-struct ElevatorSimUnitTestConfig {
-    ElevatorSimUnitTestConfig() : test_log( UNIT_TEST_LOGFILE_NAME )  { 
-       boost::unit_test::unit_test_log.set_stream( test_log ); 
-       boost::unit_test::unit_test_log.set_threshold_level( boost::unit_test::log_successful_tests );
+BOOST_AUTO_TEST_SUITE( elevator_tests )
 
-    }
-    ~ElevatorSimUnitTestConfig() { 
-       boost::unit_test::unit_test_log.set_stream( std::cout ); 
-    }
-
-    std::ofstream test_log;
-};
-
-boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] ) {
-   (void)argc;
-   (void)argv;
+BOOST_AUTO_TEST_CASE( elevator_initialization_test ) {
+   const unsigned int testStoryCount = 10;
+   const unsigned int testElevCount = 1;
    
-   return NULL;
+   Building testBuilding(testStoryCount, testElevCount);
+   
+   BOOST_REQUIRE_EQUAL( testBuilding.getStories(), testStoryCount );
+   BOOST_REQUIRE_EQUAL( testBuilding.getElevators(), testElevCount );
+   
+   /* TODO: write more elevator specific tests */
 }
 
-BOOST_GLOBAL_FIXTURE( ElevatorSimUnitTestConfig );
-
-
-
+BOOST_AUTO_TEST_SUITE_END()

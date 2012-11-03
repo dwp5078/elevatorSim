@@ -42,7 +42,15 @@
 #endif
 
 namespace elevatorSim {
-bool isDebugBuild();
+
+inline bool isDebugBuild() {
+#ifndef NDEBUG
+   return true;
+#else
+   return false;
+#endif
+}
+
 }
 
 #endif

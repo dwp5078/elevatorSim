@@ -53,13 +53,3 @@ int main(int argc, char** argv) {
 
    return 0;
 }
-
-namespace elevatorSim {
-bool isDebugBuild() {
-#ifndef NDEBUG
-   return true;
-#else
-   return false;
-#endif
-}
-} /* namespace elevatorSim */
