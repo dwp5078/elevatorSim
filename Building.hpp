@@ -30,7 +30,7 @@
 #ifndef _BUILDING_H
 #define _BUILDING_H
 
-
+#include "ElevatorSim.hpp"
 #include "Floor.hpp"
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"
@@ -38,20 +38,22 @@
 #include <GL/glut.h>
 
 namespace elevatorSim{
+class Floor;
+class Elevator;
 
 class Building : public SimulationTerminal {
 
    /* friends */
 
    /* private static constants */
-   unsigned int m_nStory;
-   unsigned int m_nElevator;
+   const unsigned int m_nStory;
+   const unsigned int m_nElevator;
 
    /* private static methods */
 
    /* private instance members */
-   Floor* m_Floors;
-   Elevator* m_Elevators;
+   Floor** m_Floors;
+   Elevator** m_Elevators;
 
    /* private methods */
 
@@ -66,14 +68,26 @@ public:
    const GLfloat gfxEachElevWidth;
 
    /* constructors */
-   Building(unsigned int nStory = 10, unsigned int nElevator = 2);
+   Building(unsigned int _nStory = 10, unsigned int _nElevator = 2);
+   Building(const Building& buildingCopy);
    ~Building();
 
    /* public methods inherited from SimulationTerminal */
    void init();
    void render();
    void update();
-
+   
+   /* inline const accessors */
+   inline unsigned int getStories() const {
+      return m_nStory;
+   }
+   
+   inline unsigned int getElevators() const {
+      return m_nElevator;
+   }
+   
+   int getMaxElevHeight() const;
+   int getMinElevHeight() const;
 };
 
 } /* namespace elevatorSim */

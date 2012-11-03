@@ -27,36 +27,54 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#include <vector>
-
 #include "Elevator.hpp"
+#include "SimulationTerminal.hpp"
+#include "Building.hpp"
+
+#include <vector>
+#include <iostream>
+#include <cassert>
 
 namespace elevatorSim {
 
-Elevator::Elevator() : maxVel(0), maxAccel(0), maxOccupants(0) {
+const int Elevator::DEFAULT_MAX_VEL = 5;
+const int Elevator::DEFAULT_MAX_ACCEL = 3;
+const int Elevator::DEFAULT_MAX_OCCUPANTS = 12; 
 
-}
+Elevator::Elevator(
+   const Building& _owner,
+   int _yVal, 
+   const int _maxVel, 
+   const int _maxAccel, 
+   const int _maxOccupants) : owner(_owner), maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
 
-Elevator::Elevator(const int _maxVel, const int _maxAccel, const int _maxOccupants)
-: maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants) {
+   yVal = _yVal;
    currentVel = 0;
-   currentAccel = 0;
+   currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
 
-   /* TODO */
+   if(isDebugBuild()) {
+      std::cout << "constructed elevator with owner building @" << &owner << std::endl;
+   }
 }
 
-Elevator::Elevator(const Elevator & copy) : 
-   Location(),
-   maxVel(copy.maxVel), 
-   maxAccel(copy.maxAccel), 
-   maxOccupants(copy.maxOccupants) {
-      currentVel = copy.currentVel;
-      currentAccel = copy.currentAccel;
-      occupants.assign(copy.occupants.begin(), copy.occupants.end());
+Elevator::~Elevator() {
+
 }
 
-void Elevator::init()
-{
+bool Elevator::canStopAtNextFloor() {
+   assert(currentAccel != 0);
+   
+   /* TODO: implement this.
+    *
+    * This function should check the acceleration and velocity and position and return true
+    * if the elevator can stop at the floor it's headed towards. If the elevator is not
+    * accelerating, the function throws a breakpoint.
+    */ 
+
+   return false;
+}
+
+void Elevator::init() {
    /* TODO */
 }
 
@@ -64,10 +82,33 @@ void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
 }
 
-void Elevator::update()
-{
-   /* TODO */
+void Elevator::update() {
+   /* ensure that accel is either -maxAccel, +maxAccel, or 0 */
+   assert(currentAccel == -maxAccel || currentAccel == maxAccel || currentAccel == 0  );
+   
+   /* if current accel is positive... */
+   if(currentAccel > 0) { 
+      /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
+      currentVel = (currentVel + currentAccel < maxVel ) ? ( currentVel + currentAccel ) : ( maxVel );
+   /* otherwise if current accel is negative... */
+   } else if(currentAccel < 0) {
+      /* replace current vel with current vel + accel, unless it's less than the minimum vel */
+      currentVel = (currentVel + currentAccel > -maxVel ) ? ( currentVel + currentAccel ) : ( -maxVel );
+   }
+   
+   /* if current vel is positive */
+   if(currentVel > 0) {
+      /* replace current yVal with yVal plus current vel, unless it's greater than the maximum yVal */
+      yVal = (yVal + currentVel < owner.getMaxElevHeight()) ? ( yVal + currentVel ) : ( owner.getMaxElevHeight() );
+   /* otherwise if current vel is negative */
+   } else if (currentVel < 0) {
+      /* replace current yVal with yVal + current vel, unless it's less than the minimum yVal */
+      yVal = (yVal + currentVel > owner.getMinElevHeight()) ? ( yVal + currentVel ) : ( owner.getMinElevHeight() );
+   }
+   
+   assert( owner.getMinElevHeight() <= yVal && yVal <= owner.getMaxElevHeight() );
+   assert( -maxVel <= currentVel && currentVel <= maxVel );
 }
 
-}
+} /* namespace elevatorSim */
 

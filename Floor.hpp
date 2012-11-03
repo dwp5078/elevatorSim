@@ -30,13 +30,16 @@
 #ifndef _FLOOR_H
 #define _FLOOR_H
 
+#include "ElevatorSim.hpp"
 #include "Location.hpp"
 #include "Person.hpp"
 #include "SimulationTerminal.hpp"
+#include "Building.hpp"
 
 #include <vector>
 
 namespace elevatorSim { 
+class Building;
 
 class Floor : public Location, public SimulationTerminal {
 
@@ -47,6 +50,7 @@ class Floor : public Location, public SimulationTerminal {
    /* private static methods */
 
    /* private instance members */
+   const Building& owner;
    std::vector<Person> occupants;
    bool signalingUp;
    bool signalingDown;
@@ -63,9 +67,14 @@ public:
    /* public instance members */
 
    /* constructors */
-   Floor();
-   Floor(int _yVal, bool _hasUpperFloor, bool _hasLowerFloor);
+   Floor(
+      const Building& _owner, 
+      int _yVal = 0, 
+      bool _hasUpperFloor = false, 
+      bool _hasLowerFloor = false);
+      
    Floor(const Floor & copy);
+   ~Floor();
 
    /* public methods inherited from SimulationTerminal*/
    void init();

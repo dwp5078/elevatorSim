@@ -36,6 +36,16 @@ struct SimulationTerminal {
    virtual void init() = 0;
    virtual void render() = 0;
    virtual void update() = 0;
+
+   /*
+    * NOTE: The dtor below is declared pure virtual but also defined in 
+    * the corresponding cpp file. It is pure virtual so that invocations
+    * of delete on derived classes will get their own destructors invoked.
+    * Even though it is pure virtual, it still must be defined because it
+    * is implicitly invoked by all dtors of derived types. 
+    */
+
+   virtual ~SimulationTerminal() = 0; 
 };
 
 } /* namespace elevatorSim */

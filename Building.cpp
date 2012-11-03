@@ -35,32 +35,70 @@
 
 #include <GL/glut.h>
 
+#include <iostream>
+#include <cassert>
+
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int nStory, unsigned int nElevator) :
-   gfxScaleHeight(nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
-   gfxScaleWidth(nElevator * cRenderObjs::ELEV_GAP_WIDTH),
-   gfxEachFloorHeight(gfxScaleHeight * 2 / nStory ),
-   gfxEachElevWidth(2 * gfxScaleWidth / nElevator) {
-      m_nStory = nStory;
-      m_nElevator = nElevator;
+Building::Building(unsigned int _nStory, unsigned int _nElevator) :
+   m_nStory(_nStory),
+   m_nElevator(_nElevator),
+   gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
+   gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
+   gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
+   gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator) {
 
-      m_Floors = new Floor[m_nStory];
-      m_Elevators = new Elevator[m_nElevator];
+      m_Floors = new Floor * [m_nStory];
+      m_Elevators = new Elevator * [m_nElevator];
+
+      for(unsigned int i=0; i < m_nStory ; ++i) {
+         m_Floors[i] = new Floor(*this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+      }
+
+      for(unsigned int i=0; i < m_nElevator ; ++i ) {
+         m_Elevators[i] = new Elevator(*this, 0);
+      }
 }
 
+Building::Building(const Building& buildingCopySrc) :
+   m_nStory(buildingCopySrc.m_nStory),
+   m_nElevator(buildingCopySrc.m_nElevator),
+   gfxScaleHeight(buildingCopySrc.gfxScaleHeight),
+   gfxScaleWidth(buildingCopySrc.gfxScaleWidth),
+   gfxEachFloorHeight(buildingCopySrc.gfxEachFloorHeight),
+   gfxEachElevWidth(buildingCopySrc.gfxEachElevWidth) {
+
+      if(isDebugBuild()) {
+         std::cout << "in copy constructor for building @" << this << std::endl;
+      }
+
+      /* TODO: finish this */
+}
+
+
 Building::~Building() {
+   for(unsigned int i=0; i < m_nStory ; ++i) {
+      delete m_Floors[i];
+   }
+
+   for(unsigned int i=0; i < m_nElevator ; ++i ) {
+      delete m_Elevators[i];
+   }
+
    delete [] m_Floors;
    delete [] m_Elevators;
 }
 
-/* public methods inherited from SimulationTerminal*/
+/* public methods inherited from SimulationTerminal */
+
 void Building::init() {
-   for(unsigned int i=0; i<m_nStory-1; i++) {
-      m_Floors[i] = Floor(i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+   for(unsigned int i=0; i < m_nStory ; ++i) {
+      m_Floors[i]->init();
    }
    
-   /* TOOD: intialize each elevator */
+   for(unsigned int i=0; i < m_nElevator ; ++i ) {
+      m_Elevators[i]->init();
+   }
 }
 
 void Building::render() {
@@ -101,7 +139,7 @@ void Building::render() {
       glTranslatef(0.0f, gfxEachFloorHeight * (i+1), 0.f);
       glScalef(gfxScaleWidth, 0.1f, 2.0f);
 
-      m_Floors[i].render();
+      m_Floors[i]->render();
 
       glPopMatrix();
    }
@@ -111,14 +149,16 @@ void Building::render() {
       glPushMatrix();
       glTranslatef(
          -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i, 
-         1.0f, 
+         /* this is in the logical coordinate system, so we divide it by YVALS_PER_FLOOR */     
+         1.0f + (GLfloat)m_Elevators[i]->getYVal() / Floor::YVALS_PER_FLOOR * gfxEachFloorHeight, 
          0.0f);
 
+      
       /*
        * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight] 
        */
 
-      m_Elevators[i].render(); 
+      m_Elevators[i]->render();
       glPopMatrix();
 
    }
@@ -133,12 +173,20 @@ void Building::render() {
 void Building::update()
 {
    for(unsigned int i = 0; i < m_nStory; i++) {
-      m_Floors[i].update();
+      m_Floors[i]->update();
    }
 
    for(unsigned int i = 0; i < m_nElevator; i++) {
-      m_Elevators[i].update();
+      m_Elevators[i]->update();
    }
 }
-
+   
+int Building::getMaxElevHeight() const {
+   return (m_nStory - 1) * Floor::YVALS_PER_FLOOR;
+}
+   
+int Building::getMinElevHeight() const {
+   return 0;
+}
+   
 } /* namepsace elevatorSim */

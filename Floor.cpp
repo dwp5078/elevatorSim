@@ -30,8 +30,10 @@
 #include "ElevatorSim.hpp"
 #include "Floor.hpp"
 #include "cRenderObjs.hpp"
+#include "Building.hpp"
 
 #include <GL/glut.h>
+#include <iostream>
 
 namespace elevatorSim { 
 
@@ -39,21 +41,23 @@ namespace elevatorSim {
 const int Floor::YVALS_PER_FLOOR = 1000;
 
 /* constructors */
-Floor::Floor() {
-   Floor(0, false, false);
+Floor::Floor(
+   const Building& _owner, 
+   int _yVal, 
+   bool _hasUpperFloor, 
+   bool _hasLowerFloor) : Location(_yVal), owner(_owner) {
+      hasUpperFloor = _hasUpperFloor;
+      hasLowerFloor = _hasLowerFloor;
+
+      signalingUp = false;
+      signalingDown = false;
+
+   if(isDebugBuild()) {
+      std::cout << "constructed floor with owner building @" << &owner << std::endl;
+   }
 }
 
-Floor::Floor(int _yVal, bool _hasUpperFloor, bool _hasLowerFloor) {
-   yVal = _yVal;
-
-   hasUpperFloor = _hasUpperFloor;
-   hasLowerFloor = _hasLowerFloor;
-
-   signalingUp = false;
-   signalingDown = false;
-}
-
-Floor::Floor(const Floor & copy) : Location() {
+Floor::Floor(const Floor & copy) : Location(copy.yVal), owner(copy.owner) {
    signalingUp = copy.signalingUp;
    signalingDown = copy.signalingDown;
    hasUpperFloor = copy.hasUpperFloor;
@@ -62,6 +66,10 @@ Floor::Floor(const Floor & copy) : Location() {
    occupants.assign(
          copy.occupants.begin(), 
          copy.occupants.end());
+}
+
+Floor::~Floor() {
+
 }
 
 void Floor::init() {

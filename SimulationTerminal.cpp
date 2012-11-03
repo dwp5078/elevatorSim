@@ -27,74 +27,11 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _ELEVATOR_H
-#define _ELEVATOR_H
-
 #include "ElevatorSim.hpp"
-#include "Location.hpp"
-#include "Person.hpp"
 #include "SimulationTerminal.hpp"
-#include "cRenderObjs.hpp"
-#include "Building.hpp"
-
-#include <vector>
 
 namespace elevatorSim {
+   SimulationTerminal::~SimulationTerminal() {
 
-class Location;
-class Building;
-struct SimulationTerminal;
-
-class Elevator : public Location, public SimulationTerminal {
-
-   /* friends */
-
-
-   /* private static constants */
-
-
-   /* private static methods */
-
-
-   /* private instance members */
-   const Building& owner;
-   const int maxVel;
-   const int maxAccel;
-   const int maxOccupants;
-   int currentVel;
-   int currentAccel;
-   std::vector<Person> occupants;
-
-   /* private methods */
-
-public:
-
-   /* public static constants */
-   static const int DEFAULT_MAX_VEL;
-   static const int DEFAULT_MAX_ACCEL;
-   static const int DEFAULT_MAX_OCCUPANTS; 
-
-   /* public instance members */
-
-   /* constructors */
-   Elevator(
-      const Building& _owner,
-      int _yVal = 0, 
-      const int _maxVel = DEFAULT_MAX_VEL, 
-      const int _maxAccel = DEFAULT_MAX_ACCEL, 
-      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
-   ~Elevator();
-
-   /* public methods */
-   bool canStopAtNextFloor();
-   
-   /* inherited from SimulationTerminal */
-   void init();
-   void render();
-   void update();
-
-};
-
-} /* namespace elevatorSim */
-
-#endif
+   }
+} /* namespace ElevatorSim */

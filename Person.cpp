@@ -43,6 +43,10 @@ Person::Person(
    destination = dest;
 }
 
+Person::~Person() {
+
+}
+
 /* getters and setters */
 enum Person::PRIORITY Person::getPriority() {
    return priority;

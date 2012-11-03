@@ -15,7 +15,8 @@ Elevator.obj\
 Location.obj\
 Person.obj\
 Building.obj\
-Floor.obj
+Floor.obj\
+SimulationTerminal.obj
 
 DRIVERFLAGS=/errorreport:none /nologo
 

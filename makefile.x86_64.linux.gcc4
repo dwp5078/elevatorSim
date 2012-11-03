@@ -9,7 +9,8 @@ Elevator.o\
 Location.o\
 Person.o\
 Building.o\
-Floor.o
+Floor.o\
+SimulationTerminal.o
 
 CXXFLAGS=-c -std=c++11 -Wall -Wextra -Werror -pedantic -Wno-padded -Wno-missing-field-initializers -D_ES_UNIX
 LDFLAGS=-lglut -lGL -lGLU -lm -lfltk -lfltk_gl -lstdc++

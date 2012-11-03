@@ -71,7 +71,8 @@ public:
          Location startLoc, 
          Location dest, 
          enum PRIORITY p=UNKNOWN);
-
+   ~Person();
+   
    /* public methods */
    Location getCurrent();
    void setCurrent(Location newLoc);
