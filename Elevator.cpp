@@ -70,6 +70,60 @@ bool Elevator::canStopAtNextFloor() {
     * if the elevator can stop at the floor it's headed towards. If the elevator is not
     * accelerating, the function throws a breakpoint.
     */ 
+	int nextFloor = 0;//next floor
+	float nexfloorHeight = 0;//height of next floor 
+	float floor_elev_distance;//the distance between the elevator and next floor
+	float acc_time = 0;//acceleration time
+    float distance_needed = 0;//the distance needed by elevator to stop
+	
+	if(currentAccel < 0)//if the acceleration < 0
+	{
+		if (currentVel > 0)//if the elevator is going up, and acceleration < 0,the elevator will stop somewhere
+		{
+			nextFloor = int(Location::yVal / Floor::YVALS_PER_FLOOR) + 2;//get the next floor
+			nexfloorHeight = (nextFloor - 1) * Floor::YVALS_PER_FLOOR;//floor distance;
+			floor_elev_distance = nexfloorHeight - Location::yVal;
+			acc_time = -currentVel / currentAccel;//caculate how much time the elevator need to stop,V = V0+at, V=0;V0=VE
+			distance_needed = currentVel * acc_time + (1 / 2) * currentAccel * (acc_time * acc_time);
+
+			if (abs(distance_needed) <= abs(nexfloorHeight - Location::yVal))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}               
+		}
+		else//if the elevator is going down
+		{
+			return false;//if the elevator going down and acceleration < 0,the elevator will NOT stop
+		}
+	}
+	else// if the acceleration > 0
+	{
+		if (currentVel < 0)//if the elevator is going down, and acceleration > 0,the elevator will stop somewhere
+		{
+			nextFloor = int(Location::yVal / Floor::YVALS_PER_FLOOR) + 1;//get the next floor
+			nexfloorHeight = (nextFloor - 1) * Floor::YVALS_PER_FLOOR;//floor distance;
+			floor_elev_distance = nexfloorHeight - Location::yVal;
+			acc_time = -currentVel / currentAccel;//caculate how much time the elevator need to stop,V = V0+at, V=0;V0=VE
+			distance_needed = currentVel * acc_time + (1 / 2) * currentAccel * (acc_time * acc_time);
+
+			if (abs(distance_needed) <= abs(nexfloorHeight - Location::yVal))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}               
+		}
+		else//if the elevator is going up
+		{
+			return false;//if the elevator going up and acceleration > 0,the elevator will NOT stop
+		}
+	}
 
    return false;
 }

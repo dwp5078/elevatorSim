@@ -36,6 +36,7 @@
 #include "SimulationTerminal.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
+#include <math.h>
 
 #include <vector>
 
