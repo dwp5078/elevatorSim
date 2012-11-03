@@ -93,8 +93,11 @@ $(DRIVERFLAGS)\
 $(LINKFLAGS)\
 $(SYSDEPS)\
 $(DEBUG_COOKEDDEPS)
-	@echo + main binary success
-
+	@echo + main binary build success
+   @echo + running unit tests
+   $(UNIT_TEST_OUT)
+   @echo + success
+   
 .cpp.obj:
 	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
 
@@ -109,7 +112,7 @@ $(DRIVERFLAGS)\
 $(LINKFLAGS)\
 $(SYSDEPS)\
 $(DEBUG_COOKEDDEPS)
-	@echo + unit test success
+	@echo + unit test build success
 
 clean:
 	@erase /f /q $(OBJS) $(OUT) $(UNIT_TEST_OBJS) $(MAPFILE) $(PDBFILE)
