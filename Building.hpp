@@ -78,16 +78,16 @@ public:
    void update();
    
    /* inline const accessors */
-   inline const unsigned int getStories() const {
+   inline unsigned int getStories() const {
       return m_nStory;
    }
    
-   inline const unsigned int getElevators() const {
+   inline unsigned int getElevators() const {
       return m_nElevator;
    }
    
-   const int getMaxElevHeight() const;
-   const int getMinElevHeight() const;
+   int getMaxElevHeight() const;
+   int getMinElevHeight() const;
 };
 
 } /* namespace elevatorSim */

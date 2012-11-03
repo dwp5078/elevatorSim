@@ -45,9 +45,7 @@ Floor::Floor(
    const Building& _owner, 
    int _yVal, 
    bool _hasUpperFloor, 
-   bool _hasLowerFloor) : owner(_owner) {
-      yVal = _yVal;
-
+   bool _hasLowerFloor) : Location(_yVal), owner(_owner) {
       hasUpperFloor = _hasUpperFloor;
       hasLowerFloor = _hasLowerFloor;
 
@@ -59,7 +57,7 @@ Floor::Floor(
    }
 }
 
-Floor::Floor(const Floor & copy) : owner(copy.owner), Location()  {
+Floor::Floor(const Floor & copy) : Location(copy.yVal), owner(copy.owner) {
    signalingUp = copy.signalingUp;
    signalingDown = copy.signalingDown;
    hasUpperFloor = copy.hasUpperFloor;

@@ -181,11 +181,11 @@ void Building::update()
    }
 }
    
-const int Building::getMaxElevHeight() const {
+int Building::getMaxElevHeight() const {
    return (m_nStory - 1) * Floor::YVALS_PER_FLOOR;
 }
    
-const int Building::getMinElevHeight() const {
+int Building::getMinElevHeight() const {
    return 0;
 }
    
