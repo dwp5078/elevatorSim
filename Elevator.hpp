@@ -63,6 +63,7 @@ class Elevator : public Location, public SimulationTerminal {
    const int maxOccupants;
    int currentVel;
    int currentAccel;
+   int destFloor;
    std::vector<Person> occupants;
 
    /* private methods */
@@ -92,6 +93,7 @@ public:
    void init();
    void render();
    void update();
+   void generateRandomDest();
 
 };
 

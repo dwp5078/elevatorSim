@@ -29,30 +29,36 @@
 
 #include "ElevatorSim.hpp"
 
-#include <boost/test/included/unit_test.hpp> 
+#include <boost/test/included/unit_test.hpp>
 #include <boost/test/detail/log_level.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 #include <iostream>
 #include <fstream>
 
 static const char UNIT_TEST_LOGFILE_NAME[] = "ElevatorSimUnitTests.log";
 
 struct ElevatorSimUnitTestConfig {
-    ElevatorSimUnitTestConfig() : test_log( UNIT_TEST_LOGFILE_NAME )  { 
-       boost::unit_test::unit_test_log.set_stream( test_log ); 
-       boost::unit_test::unit_test_log.set_threshold_level( boost::unit_test::log_successful_tests );
+   ElevatorSimUnitTestConfig() : test_log( UNIT_TEST_LOGFILE_NAME, std::ios_base::out | std::ios_base::app ) {
+      boost::posix_time::ptime date_time = boost::posix_time::microsec_clock::universal_time();
 
-    }
-    ~ElevatorSimUnitTestConfig() { 
-       boost::unit_test::unit_test_log.set_stream( std::cout ); 
-    }
+      test_log << std::endl << "starting test run at " << date_time << std::endl;
 
-    std::ofstream test_log;
+      boost::unit_test::unit_test_log.set_stream( test_log );
+      boost::unit_test::unit_test_log.set_threshold_level( boost::unit_test::log_successful_tests );
+   }
+
+   ~ElevatorSimUnitTestConfig() {
+      boost::unit_test::unit_test_log.set_stream( std::cout );
+   }
+
+   std::ofstream test_log;
 };
 
 boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] ) {
    (void)argc;
    (void)argv;
-   
+
    return NULL;
 }
 

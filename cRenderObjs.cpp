@@ -19,7 +19,9 @@ void cRenderObjs::init()
       m_bIsInit = true;
       initPlane();
       initCube();
+      initSphere();
       initElevator();
+      initHuman();
    }
 }
 
@@ -99,9 +101,46 @@ void cRenderObjs::initCube()
    glEndList();
 }
 
+void cRenderObjs::initSphere()
+{
+   glNewList(OBJ_SPHERE, GL_COMPILE);
+
+   //glEnable(GL_MATERIAL);
+
+   //GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   //GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+   //GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   //GLfloat shi = 0.5f;
+   //GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   //glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+	//glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+	//glMaterialf(GL_FRONT, GL_SHININESS, shi);
+	//glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glutSolidSphere(0.4, 50, 25);
+
+
+   //GLfloat zero[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, zero);
+
+   //glDisable(GL_MATERIAL);
+   glEndList();
+}
+
 void cRenderObjs::initElevator()
 {
    glNewList(OBJ_ELEVATOR, GL_COMPILE);
+
+   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   GLfloat dif[4] = {0.2f, 0.8f, 0.2f, 1.0f};
+   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   GLfloat shi = 0.3f;
+   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, shi);
+	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    glPushMatrix();
    // Left wall of Elevator
@@ -135,6 +174,65 @@ void cRenderObjs::initElevator()
    glPushMatrix();
    glTranslatef(0, -GFX_ELEV_SCALE_HEIGHT, 0.0f);
    glScalef(GFX_ELEV_SCALE_WIDTH, 0.05f, 1.0f);
+   glCallList(OBJ_CUBE);
+   glPopMatrix();
+
+   glEndList();
+}
+
+void cRenderObjs::initHuman()
+{
+   glNewList(OBJ_HUMAN, GL_COMPILE);
+
+   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   GLfloat dif[4] = {0.2f, 0.2f, 0.8f, 1.0f};
+   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   GLfloat shi = 0.5f;
+   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+	glMaterialf(GL_FRONT, GL_SHININESS, shi);
+	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+
+   glScalef(0.4f, 0.4f, 0.4f);
+   
+   glPushMatrix();
+   glTranslatef(0.f, 1.5f, 0.f);
+   glCallList(OBJ_SPHERE);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(0.0f, 0.3f, 0.0f);
+   glScalef(0.55f, 0.75f, 0.2f);
+   glCallList(OBJ_CUBE);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(0.33f, -1.3f, 0.0f);
+   glScalef(0.22f, 0.85f, 0.2f);
+   glCallList(OBJ_CUBE);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(-0.33f, -1.3f, 0.0f);
+   glScalef(0.22f, 0.85f, 0.2f);
+   glCallList(OBJ_CUBE);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(-.73f, 0.33f, 0.0f);
+   glRotatef(-25, 0.0f, 0.0f, 1.0f);
+   glScalef(0.17f, 0.7f, 0.17f);
+   
+   glCallList(OBJ_CUBE);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(.73f, 0.33f, 0.0f);
+   glRotatef(25, 0.0f, 0.0f, 1.0f);
+   glScalef(0.17f, 0.7f, 0.17f);
+   
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
