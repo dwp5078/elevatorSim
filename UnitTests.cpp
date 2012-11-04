@@ -56,7 +56,7 @@ boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] ) {
    return NULL;
 }
 
-BOOST_GLOBAL_FIXTURE( ElevatorSimUnitTestConfig );
+BOOST_GLOBAL_FIXTURE( ElevatorSimUnitTestConfig )
 
 
 

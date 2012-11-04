@@ -1,5 +1,4 @@
-OBJS=ElevatorSim.o\
-ElevatorSimWindow.o\
+OBJS=ElevatorSimWindow.o\
 ElevatorSimRenderWindow.o\
 cRenderObjs.o\
 cTimeManager.o\
@@ -12,6 +11,11 @@ Building.o\
 Floor.o\
 SimulationTerminal.o
 
+CLIENT_OBJ=ElevatorSim.o
+
+UNIT_TEST_OBJS=UnitTests.o\
+ElevatorUnitTests.o
+
 CXXFLAGS=-c -std=c++11 -Wall -Wextra -Werror -pedantic -Wno-padded -Wno-missing-field-initializers -D_ES_UNIX
 LDFLAGS=-lglut -lGL -lGLU -lm -lfltk -lfltk_gl -lstdc++
 DBGFLAGS=-g
@@ -19,11 +23,15 @@ DBGFLAGS=-g
 CC=cc
 RM=rm
 OUT=elevatorSim
+UNIT_TEST_OUT=elevatorSimUnitTests
 
 all: elevatorSim
 
-elevatorSim: $(OBJS)
-	$(CC) $(OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
+elevatorSim: $(OBJS) unitTests $(CLIENT_OBJ)
+	$(CC) $(OBJS) $(CLIENT_OBJ) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
+
+unitTests: $(OBJS) $(UNIT_TEST_OBJS)
+	$(CC) $(OBJS) $(UNIT_TEST_OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(UNIT_TEST_OUT)
 
 .cpp.o:
 	$(CC) $(DBGFLAGS) $(CXXFLAGS) $<
