@@ -38,4 +38,4 @@ unitTests: $(OBJS) $(UNIT_TEST_OBJS)
 	$(CC) $(DBGFLAGS) $(CXXFLAGS) $<
 
 clean:
-	$(RM) -f $(OBJS) $(OUT)
+	$(RM) -f $(OBJS) $(CLIENT_OBJ) $(UNIT_TEST_OBJS) $(OUT) $(UNIT_TEST_OUT)
