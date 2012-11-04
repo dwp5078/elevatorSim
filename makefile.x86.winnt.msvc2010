@@ -94,9 +94,9 @@ $(LINKFLAGS)\
 $(SYSDEPS)\
 $(DEBUG_COOKEDDEPS)
 	@echo + main binary build success
-   @echo + running unit tests
-   $(UNIT_TEST_OUT)
-   @echo + success
+	@echo + running unit tests
+	$(UNIT_TEST_OUT)
+	@echo + success
    
 .cpp.obj:
 	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
