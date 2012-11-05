@@ -40,19 +40,18 @@ namespace elevatorSim {
 
 const int Elevator::DEFAULT_MAX_VEL = 25; //5
 const int Elevator::DEFAULT_MAX_ACCEL = 1;  //3
-const int Elevator::DEFAULT_MAX_OCCUPANTS = 12; 
+const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
 
 Elevator::Elevator(
    const Building& _owner,
-   int _yVal, 
-   const int _maxVel, 
-   const int _maxAccel, 
+   int _yVal,
+   const int _maxVel,
+   const int _maxAccel,
    const int _maxOccupants) : owner(_owner), maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
 
    yVal = _yVal;
    currentVel = 0;
    currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
-   
 
    ///////////////////Test - Soohoon
    destFloor = -1;
@@ -60,8 +59,6 @@ Elevator::Elevator(
    if(isDebugBuild()) {
       std::cout << "constructed elevator with owner building @" << &owner << std::endl;
    }
-
-   srand((unsigned)time(0));
 }
 
 Elevator::~Elevator() {
@@ -70,13 +67,13 @@ Elevator::~Elevator() {
 
 bool Elevator::canStopAtNextFloor() {
    assert(currentAccel != 0);
-   
+
    /* TODO: implement this.
     *
     * This function should check the acceleration and velocity and position and return true
     * if the elevator can stop at the floor it's headed towards. If the elevator is not
     * accelerating, the function throws a breakpoint.
-    */ 
+    */
 
    return false;
 }
@@ -93,14 +90,16 @@ void Elevator::render() {
 void Elevator::update() {
    /* ensure that accel is either -maxAccel, +maxAccel, or 0 */
    assert(currentAccel == -maxAccel || currentAccel == maxAccel || currentAccel == 0  );
-   
-   ///////////////////Test - Soohoon
+
+   ///////////////////Test Block Start-  Soohoon
    generateRandomDest();
    int finalPos = destFloor * Floor::YVALS_PER_FLOOR;
    int diff = abs(finalPos - yVal);
 
    if(diff <= Floor::YVALS_PER_FLOOR / 2)  {  //decelerate
-      if(currentAccel > 0) { 
+   ///////////////////Test Block End
+
+      if(currentAccel > 0) {
          /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
          currentVel = (currentVel - 1 > 0 ) ? ( currentVel - 1 ) : ( 5 );
          /* otherwise if current accel is negative... */
@@ -119,6 +118,7 @@ void Elevator::update() {
          yVal = (yVal + currentVel > finalPos) ? ( yVal + currentVel ) : ( finalPos );
       }
 
+   //////////////////Test Block Start
       if(yVal == finalPos)  {
          static int temp = 0;
          temp++;
@@ -126,15 +126,15 @@ void Elevator::update() {
             temp = 0;
             destFloor = -1;
             generateRandomDest();
-            
+
          }
       }
-   }
+   } else  {
+   ///////////////////Test Block End
 
 
-   else  {
    /* if current accel is positive... */
-   if(currentAccel > 0) { 
+   if(currentAccel > 0) {
       /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
       currentVel = (currentVel + currentAccel < maxVel ) ? ( currentVel + currentAccel ) : ( maxVel );
    /* otherwise if current accel is negative... */
@@ -142,7 +142,7 @@ void Elevator::update() {
       /* replace current vel with current vel + accel, unless it's less than the minimum vel */
       currentVel = (currentVel + currentAccel > -maxVel ) ? ( currentVel + currentAccel ) : ( -maxVel );
    }
-   
+
    /* if current vel is positive */
    if(currentVel > 0) {
       /* replace current yVal with yVal plus current vel, unless it's greater than the maximum yVal */
@@ -152,13 +152,16 @@ void Elevator::update() {
       /* replace current yVal with yVal + current vel, unless it's less than the minimum yVal */
       yVal = (yVal + currentVel > owner.getMinElevHeight()) ? ( yVal + currentVel ) : ( owner.getMinElevHeight() );
    }
+
+   ////////////////Test Block Start
    }
-   
+   ////////////////Test Block End
+
    assert( owner.getMinElevHeight() <= yVal && yVal <= owner.getMaxElevHeight() );
    assert( -maxVel <= currentVel && currentVel <= maxVel );
 }
 
-///////////////////Test - Soohoon
+///////////////////Test Function - Soohoon
 void Elevator::generateRandomDest()
 {
    if(destFloor != -1)  return;

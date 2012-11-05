@@ -36,6 +36,7 @@ using namespace elevatorSim;
 
 int main(int argc, char** argv) {
    glutInit(&argc, argv);
+   srand(time(0)); /* TODO: use Boost.Random */
 
    cTimeManager* timeManager = new cTimeManager();
    cKeyManager* keyManager= new cKeyManager();

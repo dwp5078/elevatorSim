@@ -37,7 +37,6 @@
 
 #include <iostream>
 #include <cassert>
-#include <time.h>
 
 namespace elevatorSim {
 /* constructors */
@@ -59,8 +58,6 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
          m_Elevators[i] = new Elevator(*this, 0);
       }
-
-      srand((unsigned)time(0));
 }
 
 Building::Building(const Building& buildingCopySrc) :
@@ -98,7 +95,7 @@ void Building::init() {
    for(unsigned int i=0; i < m_nStory ; ++i) {
       m_Floors[i]->init();
    }
-   
+
    for(unsigned int i=0; i < m_nElevator ; ++i ) {
       m_Elevators[i]->init();
    }
@@ -148,7 +145,7 @@ void Building::render() {
    glTranslatef(0.0f - queueScale, gfxScaleHeight*2, 0.0f);
    glScalef(gfxScaleWidth + queueScale, 0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
-   glPopMatrix();   
+   glPopMatrix();
 
    /* Draw each floor */
    for(unsigned int i=0; i < m_nStory - 1; i++) {
@@ -173,14 +170,14 @@ void Building::render() {
    for(unsigned int i=0; i < m_nElevator; i++) {
       glPushMatrix();
       glTranslatef(
-         -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i, 
-         /* this is in the logical coordinate system, so we divide it by YVALS_PER_FLOOR */     
-         1.0f + (GLfloat)m_Elevators[i]->getYVal() / Floor::YVALS_PER_FLOOR * gfxEachFloorHeight, 
+         -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i,
+         /* this is in the logical coordinate system, so we divide it by YVALS_PER_FLOOR */
+         1.0f + (GLfloat)m_Elevators[i]->getYVal() / Floor::YVALS_PER_FLOOR * gfxEachFloorHeight,
          0.0f);
 
-      
+
       /*
-       * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight] 
+       * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight]
        */
 
       m_Elevators[i]->render();
@@ -190,7 +187,7 @@ void Building::render() {
 
    /* Render land */
    glPushMatrix();
-   glScalef(4.0f + (m_nElevator * 2.0f), 0.0f, 10.0f); /* FIXME: this needs to scale past 5 elevators */
+   glScalef(4.0f + (m_nElevator * 2.0f), 0.0f, 10.0f);
    glCallList(cRenderObjs::OBJ_PLANE);
    glPopMatrix();
 }
@@ -205,13 +202,13 @@ void Building::update()
       m_Elevators[i]->update();
    }
 }
-   
+
 int Building::getMaxElevHeight() const {
    return (m_nStory - 1) * Floor::YVALS_PER_FLOOR;
 }
-   
+
 int Building::getMinElevHeight() const {
    return 0;
 }
-   
+
 } /* namepsace elevatorSim */
