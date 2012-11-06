@@ -64,6 +64,7 @@ class Elevator : public Location, public SimulationTerminal {
    int currentVel;
    int currentAccel;
    int destFloor;
+   bool* floorsSignaled;
    std::vector<Person> occupants;
 
    /* private methods */
@@ -77,7 +78,7 @@ public:
 
    /* public instance members */
 
-   /* constructors */
+   /* constructors & destructors */
    Elevator(
       const Building& _owner,
       int _yVal = 0, 

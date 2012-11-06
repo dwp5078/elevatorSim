@@ -53,6 +53,8 @@ Elevator::Elevator(
    currentVel = 0;
    currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
 
+   floorsSignaled = new bool[owner.getStories()];
+   
    ///////////////////Test - Soohoon
    destFloor = -1;
 
@@ -62,7 +64,11 @@ Elevator::Elevator(
 }
 
 Elevator::~Elevator() {
+   delete [] floorsSignaled;
 
+   if(isDebugBuild()) {
+      std::cout << "destructing delevator @" << this << std::endl;
+   }
 }
 
 bool Elevator::canStopAtNextFloor() {
