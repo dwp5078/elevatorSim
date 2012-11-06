@@ -36,6 +36,7 @@
 #include "SimulationTerminal.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include <vector>
 
@@ -60,10 +61,12 @@ class Elevator : public Location, public SimulationTerminal {
    const Building& owner;
    const int maxVel;
    const int maxAccel;
+   const int maxDecel;
    const int maxOccupants;
    int currentVel;
    int currentAccel;
    int destFloor;
+   boost::posix_time::ptime waitingTime;
    std::vector<Person> occupants;
 
    /* private methods */
@@ -73,6 +76,7 @@ public:
    /* public static constants */
    static const int DEFAULT_MAX_VEL;
    static const int DEFAULT_MAX_ACCEL;
+   static const int DEFAULT_MAX_DECEL;
    static const int DEFAULT_MAX_OCCUPANTS; 
 
    /* public instance members */
@@ -83,6 +87,7 @@ public:
       int _yVal = 0, 
       const int _maxVel = DEFAULT_MAX_VEL, 
       const int _maxAccel = DEFAULT_MAX_ACCEL, 
+	  const int _maxDecel = DEFAULT_MAX_DECEL,
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
    ~Elevator();
 
