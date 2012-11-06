@@ -7,7 +7,7 @@
 ## (but it did work, once). last working 11/5.
 
 CC=clang
-CXXFLAGS=-c -g -D_ES_DARWIN -Iinc
+CXXFLAGS=-c -g -Werror -Weverything -D_ES_DARWIN -Iinc 
 
 OUT=elevatorSim
 LDFLAGS=-lstdc++ -lSystem

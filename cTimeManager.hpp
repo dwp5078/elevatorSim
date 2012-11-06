@@ -1,6 +1,7 @@
 #ifndef __CTIMEMANAGER_H__
 #define __CTIMEMANAGER_H__
 
+#include "ElevatorSim.hpp"
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace elevatorSim {

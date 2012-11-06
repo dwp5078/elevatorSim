@@ -36,6 +36,17 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #elif defined(_ES_DARWIN)
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wconditional-uninitialized"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#pragma clang diagnostic ignored "-Wpadded"
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma clang diagnostic ignored "-Wshift-sign-overflow"
+#pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic ignored "-Wundef"
+#pragma clang diagnostic ignored "-Wlong-long"
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
 #include <unistd.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
