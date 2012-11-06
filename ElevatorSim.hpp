@@ -57,7 +57,6 @@
 #endif
 
 namespace elevatorSim {
-
 inline bool isDebugBuild() {
 #ifndef NDEBUG
    return true;
@@ -65,7 +64,6 @@ inline bool isDebugBuild() {
    return false;
 #endif
 }
-
 }
 
 #endif

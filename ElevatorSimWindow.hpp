@@ -81,12 +81,15 @@ class ElevatorSimWindow : public Fl_Window {
    Fl_Text_Display* helpLabel;
    Fl_Button* helpDoneButton;
 
+   /* simulations state references */
    cTimeManager& timeManager;
    cKeyManager& keyManager;
 
+   /* left pane widgets */
    Fl_Button *startButton;
    Fl_Button *pauseButton;
    Fl_Button *stopButton;
+
 public:
 
    /* public static members */
