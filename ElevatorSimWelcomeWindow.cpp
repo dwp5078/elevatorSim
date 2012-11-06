@@ -111,8 +111,8 @@ void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* w, void* userData)
 void ElevatorSimWelcomeWindow::buildDialogs()
 {
    /*Welcome Lable*/
-	WelcomeLabel = new Fl_Text_Display(10,30,280,190,"Welcome to\nElevatorSimulation Program!");
-	add(WelcomeLabel);
+	//WelcomeLabel = new Fl_Text_Display(10,30,280,190,"Welcome to\nElevatorSimulation Program!");
+	//add(WelcomeLabel);
 	/* Confirmation dialog */
    confirmDialog = new Fl_Window(350, 160, "");
    Wel_Label = new Fl_Box(10,10,330,50,"This Welcome window will not be showed again.\nClose it?");//new Fl_Text_Display(10,10,200,50,"");//"This Welcome window will not be showed again.\r\nContinue?");
