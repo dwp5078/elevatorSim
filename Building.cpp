@@ -48,6 +48,11 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
    gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
    gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator) {
 
+      if(isDebugBuild()) {
+         std::cout << "in Building(" << _nStory << ", " << _nElevator 
+            << ") with address @" << this << std::endl; 
+      }
+
       m_Floors = new Floor * [m_nStory];
       m_Elevators = new Elevator * [m_nElevator];
 
@@ -57,6 +62,10 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
          m_Elevators[i] = new Elevator(*this, 0);
+      }
+
+      if(isDebugBuild()) {
+         std::cout << "finished constructing Building @" << this << std::endl; 
       }
 }
 
@@ -72,11 +81,15 @@ Building::Building(const Building& buildingCopySrc) :
          std::cout << "in copy constructor for building @" << this << std::endl;
       }
 
-      /* TODO: finish this */
+      assert(false); /* FIXME: write the rest of this */
 }
 
 
 Building::~Building() {
+   if(isDebugBuild()) {
+      std::cout << "destroying building @" << this << std::endl;
+   }
+
    for(unsigned int i=0; i < m_nStory ; ++i) {
       delete m_Floors[i];
    }
@@ -90,7 +103,6 @@ Building::~Building() {
 }
 
 /* public methods inherited from SimulationTerminal */
-
 void Building::init() {
    for(unsigned int i=0; i < m_nStory ; ++i) {
       m_Floors[i]->init();
@@ -105,18 +117,20 @@ void Building::render() {
    glLoadIdentity();
    glTranslatef(0.0f, -2.0f, 0.0f);
 
-   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-   GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-   GLfloat shi = 0.5f;
-   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   /* TODO: move these values into Building as members */
+   static GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   static GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+   static GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   static GLfloat shi = 0.5f;
+   static GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
 	glMaterialf(GL_FRONT, GL_SHININESS, shi);
 	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
-   //adding waiting queue
+   /* adding waiting queue */
    float queueScale = 2.f;
 
    /* Left wall */
@@ -156,14 +170,15 @@ void Building::render() {
       m_Floors[i]->render();
 
       glPopMatrix();
+   }
 
-      //testing purpose
+   /* Draw each floor person indicator */
+   /* TODO: move this into Floor::render */
+   for(unsigned int i=0; i < m_nStory ; i++) {
       glPushMatrix();
-      //int people = rand() % 12;
-      glTranslatef(-gfxScaleWidth-2.0f, gfxEachFloorHeight * (i+1) + 1.0f, 0.0f);
+      glTranslatef(-gfxScaleWidth-2.0f, gfxEachFloorHeight * i + 1.0f, 0.0f);
       glCallList(cRenderObjs::OBJ_HUMAN);
       glPopMatrix();
-      //end of testing
    }
 
    /* Draw each elevator */
@@ -174,7 +189,6 @@ void Building::render() {
          /* this is in the logical coordinate system, so we divide it by YVALS_PER_FLOOR */
          1.0f + (GLfloat)m_Elevators[i]->getYVal() / Floor::YVALS_PER_FLOOR * gfxEachFloorHeight,
          0.0f);
-
 
       /*
        * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight]
