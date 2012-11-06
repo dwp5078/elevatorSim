@@ -37,6 +37,7 @@
     <NMakeOutput>elevatorSim.exe</NMakeOutput>
     <NMakeCleanCommandLine>erase /f /q elevatorSim.exe elevatorSim.map elevatorSim.pdb </NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>C:\Users\yoy5144\Downloads\elevatorSim\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>

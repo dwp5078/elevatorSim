@@ -32,6 +32,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "ElevatorSimWelcomeWindow.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
@@ -51,6 +52,7 @@ class ElevatorSimWindow : public Fl_Window {
    void buildMenu();
    void buildButtons();
    void buildDialogs();
+   void buildWelcomeWin();
 
    /* private static methods */
    static void windowCloseCB(Fl_Window* w, void* userData);
@@ -70,6 +72,7 @@ class ElevatorSimWindow : public Fl_Window {
 
    /* private members */
    ElevatorSimRenderWindow* renderWindow;
+   ElevatorSimWelcomeWindow* welcomeWin;
 
    /* quit confirmation widgets */
    Fl_Window* confirmDialog;

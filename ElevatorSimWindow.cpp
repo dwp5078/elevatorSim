@@ -30,6 +30,7 @@
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
+#include "ElevatorSimWelcomeWindow.hpp"
 
 #include <FL/Fl.H>
 #include <FL/gl.h>
@@ -211,6 +212,7 @@ void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
    thisWin->confirmDialog->hide();
+   thisWin->welcomeWin->hide();
    thisWin->hide();
 }
 
@@ -342,6 +344,17 @@ void ElevatorSimWindow::buildDialogs() {
    confirmDialog->end();
 }
 
+void ElevatorSimWindow::buildWelcomeWin()
+{
+	welcomeWin = new ElevatorSimWelcomeWindow();
+	
+	if(welcomeWin->isFirstRun()) {
+		welcomeWin->show();
+	} else {
+
+   }
+}
+
 /* public static member initializers */
 const char ElevatorSimWindow::WINDOW_TITLE[] = "elevatorSim";
 const int ElevatorSimWindow::WINDOW_WIDTH = 640;
@@ -376,6 +389,7 @@ ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _k
       end();
 
       buildDialogs();
+      buildWelcomeWin();
 
       callback((Fl_Callback*)windowCloseCB, this);
 
@@ -387,6 +401,7 @@ ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _k
 ElevatorSimWindow::~ElevatorSimWindow() {
    delete confirmDialog;
    delete helpWin;
+   delete welcomeWin;
 }
 
 } /* namespace elevatorSim */

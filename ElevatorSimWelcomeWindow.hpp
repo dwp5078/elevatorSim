@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,78 +27,57 @@
  * either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _ELEVATOR_H
-#define _ELEVATOR_H
+#ifndef _ELEVATOR_SIM_WELCOME_WINDOW_H
+#define _ELEVATOR_SIM_WELCOME_WINDOW_H
 
 #include "ElevatorSim.hpp"
-#include "Location.hpp"
-#include "Person.hpp"
-#include "SimulationTerminal.hpp"
-#include "cRenderObjs.hpp"
-#include "Building.hpp"
-#include <math.h>
+#include "cTimeManager.hpp"
+#include "cKeyManager.hpp"
 
-#include <vector>
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_Menu_Bar.H>
+#include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_Text_Display.H>
 
-namespace elevatorSim {
+namespace elevatorSim
+{
+	class ElevatorSimWelcomeWindow : public Fl_Window {
+		private:
+			/* private methods */
+		   void buildDialogs();
 
-class Location;
-class Building;
-struct SimulationTerminal;
+		   /* private static methods */
+		   static void windowCloseCB(Fl_Window* win, void* userData);
+		   static void quitConfirmedCB(Fl_Button* OK_Button, void* data);
+		   static void quitCancelledCB(Fl_Button* Cancel_Button, void* data);
 
-class Elevator : public Location, public SimulationTerminal {
+		   /* private members */
+		   bool firstRun;
 
-   /* friends */
+		   /* quit confirmation widgets */
+		   Fl_Window* confirmDialog;
+		   Fl_Box* Wel_Label;
+		   Fl_Button* OK_Button;
+		   Fl_Button* Cancel_Button;
 
+		public:
 
-   /* private static constants */
+		   /* public static members */
+		   const static int WINDOW_WIDTH;
+		   const static int WINDOW_HEIGHT;
+		   const static char WINDOW_TITLE[];
 
+         const inline bool isFirstRun() const {
+            return firstRun;
+         }
 
-   /* private static methods */
-
-
-   /* private instance members */
-   const Building& owner;
-   const int maxVel;
-   const int maxAccel;
-   const int maxOccupants;
-   int currentVel;
-   int currentAccel;
-   int destFloor;
-   bool* floorsSignaled;
-   std::vector<Person> occupants;
-
-   /* private methods */
-
-public:
-
-   /* public static constants */
-   static const int DEFAULT_MAX_VEL;
-   static const int DEFAULT_MAX_ACCEL;
-   static const int DEFAULT_MAX_OCCUPANTS; 
-
-   /* public instance members */
-
-   /* constructors & destructors */
-   Elevator(
-      const Building& _owner,
-      int _yVal = 0, 
-      const int _maxVel = DEFAULT_MAX_VEL, 
-      const int _maxAccel = DEFAULT_MAX_ACCEL, 
-      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
-   ~Elevator();
-
-   /* public methods */
-   bool canStopAtNextFloor();
-   
-   /* inherited from SimulationTerminal */
-   void init();
-   void render();
-   void update();
-   void generateRandomDest();
-
-};
+		   ElevatorSimWelcomeWindow();
+		   ~ElevatorSimWelcomeWindow();
+	};
 
 } /* namespace elevatorSim */
 
 #endif
+

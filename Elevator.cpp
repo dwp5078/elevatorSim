@@ -31,6 +31,7 @@
 #include "SimulationTerminal.hpp"
 #include "Building.hpp"
 
+#include <boost\math\special_functions.hpp>
 #include <vector>
 #include <iostream>
 #include <cassert>
@@ -54,7 +55,7 @@ Elevator::Elevator(
    currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
 
    floorsSignaled = new bool[owner.getStories()];
-   
+
    ///////////////////Test - Soohoon
    destFloor = -1;
 
@@ -72,16 +73,62 @@ Elevator::~Elevator() {
 }
 
 bool Elevator::canStopAtNextFloor() {
-   assert(currentAccel != 0);
-
-   /* TODO: implement this.
-    *
-    * This function should check the acceleration and velocity and position and return true
+   /*
+    * This function checks the acceleration and velocity and position and returns true
     * if the elevator can stop at the floor it's headed towards. If the elevator is not
-    * accelerating, the function throws a breakpoint.
+    * accelerating, the function returns false.
     */
 
-   return false;
+   int nextFloor = 0;        /* next floor */
+   int nextfloorHeight = 0;  /* height of next floor */
+   int floor_elev_distance;  /* the distance between the elevator and next floor */
+   int acc_time = 0;         /* acceleration time */
+   int distance_needed = 0;  /* the distance needed by elevator to stop */
+
+   if(currentAccel < 0) {
+      if (currentVel > 0) {  /* if the elevator is going up, and acceleration < 0,the elevator will stop somewhere */
+
+         nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
+         nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
+         floor_elev_distance = nextfloorHeight - yVal;
+
+         /* calculate how much time the elevator needs to stop, V = V0 + at, V = 0; V0 = VE */
+         acc_time = boost::math::iround(-currentVel / currentAccel);
+
+         /* calculate distance needed, X = v * t * a * t^2 / 2 */
+         distance_needed = boost::math::iround(currentVel * acc_time + currentAccel * (acc_time * acc_time)/2);
+
+         if (distance_needed <= (nextfloorHeight - yVal)) {
+            return true;
+         } else {
+            return false;
+         }
+      } else { 
+         return false; /* if the elevator is going down or staying still and acceleration < 0, the elevator will NEVER stop */
+      }
+   } else if(currentAccel > 0) {
+      if (currentVel < 0) {     /* if the elevator is going down, and acceleration > 0, the elevator will stop somewhere */
+         nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
+         nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
+         floor_elev_distance = nextfloorHeight - Location::yVal;
+
+         /* calculate how much time the elevator needs to stop, V = V0 + at, V = 0; V0 = VE */
+         acc_time = boost::math::iround(-currentVel / currentAccel);
+
+         /* calculate distance needed, X = v * t * a * t^2 / 2 */
+         distance_needed = boost::math::iround(currentVel * acc_time + currentAccel * (acc_time * acc_time)/2);
+
+         if (distance_needed <= (nextfloorHeight - yVal)) {
+            return true;
+         } else {
+            return false;
+         }
+      } else {
+         return false;            /*if the elevator is going up or staying still and acceleration > 0,the elevator will NEVER stop */
+      }
+   } else { /* currentAccel == 0 */
+      return false;
+   }
 }
 
 void Elevator::init() {
@@ -174,10 +221,9 @@ void Elevator::generateRandomDest()
 
    destFloor = rand() % owner.getStories();
 
-   if(yVal < destFloor * Floor::YVALS_PER_FLOOR)   {
+   if(yVal < destFloor * Floor::YVALS_PER_FLOOR) {
       currentAccel = maxAccel;
-   }
-   else  {
+   } else {
       currentAccel = -maxAccel;
    }
 
