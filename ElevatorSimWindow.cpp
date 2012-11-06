@@ -126,9 +126,11 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
    if(startButton->value()) {
       if(isDebugBuild() ) {
          std::cout << "startSim CB fired" << std::endl;
+	     toggleButtons(userData);
       }
 
       /* TODO */
+
    }
 }
 
@@ -148,8 +150,10 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
       if(paused) {
          w->label("Resume");
+		 
       } else {
          w->label("Pause");
+
       }
 
       paused = !paused;
@@ -166,6 +170,7 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
 
    if(stopButton->value()) {
       std::cout << "stopSim CB fired" << std::endl;
+         toggleButtons(userData);
    }
 }
 
@@ -251,9 +256,9 @@ void ElevatorSimWindow::buildMenu() {
 }
 
 void ElevatorSimWindow::buildButtons(){
-   Fl_Button *startButton = new Fl_Button(10, 35, 100, 20, "Begin");
-   Fl_Button *pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
-   Fl_Button *stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
+   startButton = new Fl_Button(10, 35, 100, 20, "Begin");
+   pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
+   stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
 
    startButton ->when( FL_LEFT_MOUSE);
    pauseButton->when(FL_LEFT_MOUSE);
@@ -266,6 +271,26 @@ void ElevatorSimWindow::buildButtons(){
    startButton->callback((Fl_Callback *)startSimCB, this);
    pauseButton->callback((Fl_Callback *)pauseSimCB, this);
    stopButton->callback((Fl_Callback *)stopSimCB, this);
+
+   stopButton->hide();
+   pauseButton->hide();
+}
+
+void ElevatorSimWindow::toggleButtons(void* userData){
+	static bool toggle = true;
+	static ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+    
+	if(toggle){
+		thisWin->startButton->hide();
+		thisWin->stopButton->show();
+		thisWin->pauseButton->show();
+	}
+	else{
+		thisWin->stopButton->hide();
+		thisWin->pauseButton->hide();
+		thisWin->startButton->show();
+	}
+	toggle=!toggle;
 }
 
 void ElevatorSimWindow::buildDialogs() {
