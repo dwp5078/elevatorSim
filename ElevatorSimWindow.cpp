@@ -126,7 +126,7 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
    if(startButton->value()) {
       if(isDebugBuild() ) {
          std::cout << "startSim CB fired" << std::endl;
-	     toggleButtons(userData);
+         toggleButtons((ElevatorSimWindow*) userData);
       }
 
       /* TODO */
@@ -150,7 +150,7 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
       if(paused) {
          w->label("Resume");
-		 
+       
       } else {
          w->label("Pause");
 
@@ -170,7 +170,7 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
 
    if(stopButton->value()) {
       std::cout << "stopSim CB fired" << std::endl;
-         toggleButtons(userData);
+         toggleButtons((ElevatorSimWindow*) userData);
    }
 }
 
@@ -272,25 +272,47 @@ void ElevatorSimWindow::buildButtons(){
    pauseButton->callback((Fl_Callback *)pauseSimCB, this);
    stopButton->callback((Fl_Callback *)stopSimCB, this);
 
-   stopButton->hide();
-   pauseButton->hide();
+   startButton->activate();
+   stopButton->deactivate();
+   pauseButton->deactivate();
+
+   assert(
+      (startButton->active() && !stopButton->active() && !pauseButton->active()) ||
+      (!startButton->active() && stopButton->active() && pauseButton->active()));
 }
 
-void ElevatorSimWindow::toggleButtons(void* userData){
-	static bool toggle = true;
-	static ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-    
-	if(toggle){
-		thisWin->startButton->hide();
-		thisWin->stopButton->show();
-		thisWin->pauseButton->show();
-	}
-	else{
-		thisWin->stopButton->hide();
-		thisWin->pauseButton->hide();
-		thisWin->startButton->show();
-	}
-	toggle=!toggle;
+void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
+   static bool toggle = true; /* TODO: store this value somewhere else */ 
+
+   assert(
+      (thisWin->startButton->active() && 
+      !thisWin->stopButton->active() && 
+      !thisWin->pauseButton->active()) 
+      ||
+      (!thisWin->startButton->active() && 
+      thisWin->stopButton->active() && 
+      thisWin->pauseButton->active()));
+
+   if(toggle){
+      thisWin->startButton->deactivate();
+      thisWin->stopButton->activate();
+      thisWin->pauseButton->activate();
+   } else {
+      thisWin->stopButton->deactivate();
+      thisWin->pauseButton->deactivate();
+      thisWin->startButton->activate();
+   }
+
+   assert(
+      (thisWin->startButton->active() && 
+      !thisWin->stopButton->active() && 
+      !thisWin->pauseButton->active()) 
+      ||
+      (!thisWin->startButton->active() && 
+      thisWin->stopButton->active() && 
+      thisWin->pauseButton->active()));
+
+   toggle =! toggle;
 }
 
 void ElevatorSimWindow::buildDialogs() {

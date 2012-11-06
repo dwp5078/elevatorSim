@@ -66,7 +66,7 @@ class ElevatorSimWindow : public Fl_Window {
    static void quitConfirmedCB(Fl_Button* yesButton, void* data);
    static void quitCancelledCB(Fl_Button* noButton, void* data);
    static void dismissHelpCB(Fl_Widget* w, void* userData);
-   static void toggleButtons(void* userData);
+   static void toggleButtons(ElevatorSimWindow* userData);
 
    /* private members */
    ElevatorSimRenderWindow* renderWindow;
