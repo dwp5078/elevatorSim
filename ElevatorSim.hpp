@@ -35,7 +35,12 @@
 #include <Windows.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
-#elif defined(_ES_DARWIN) || defined(_ES_UNIX)
+#elif defined(_ES_DARWIN)
+#include <unistd.h>
+#include <OpenGL/gl.h>  
+#include <OpenGL/glu.h>  
+//#include <GLUT/glut.h>
+#elif defined(_ES_UNIX)
 #include <unistd.h>
 #else
 #error Unspecified operating system. Use the makefile.
