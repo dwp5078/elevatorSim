@@ -4,7 +4,7 @@
 ## os:       darwin
 ## compiler: clang3x
 ## NOTE: this platform is not directly supported and so this makefile probably won't work without some tinkering
-## (but it did work, once)
+## (but it did work, once). last working 11/5.
 
 CC=clang
 CXXFLAGS=-c -g -D_ES_DARWIN -Iinc
@@ -38,7 +38,7 @@ ElevatorUnitTests.o
 OBJS=$(SIM_OBJS) $(CLIENT_OBJ)
 
 elevatorSim: $(OBJS)
-	$(CC) $(OBJS)  $(LDFLAGS) $(FRAMEWORKS_LDFLAGS) $(COOKED_DEPS_LDFLAGS) -o $(OUT)
+	$(CC) $(OBJS) $(LDFLAGS) $(FRAMEWORKS_LDFLAGS) $(COOKED_DEPS_LDFLAGS) -o $(OUT)
 	@echo +success
 
 .cpp.o:
@@ -46,5 +46,3 @@ elevatorSim: $(OBJS)
     
 clean:
 	rm -f $(OBJS)
-
-

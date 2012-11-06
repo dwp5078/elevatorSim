@@ -37,9 +37,8 @@
 #include <gl/GLU.h>
 #elif defined(_ES_DARWIN)
 #include <unistd.h>
-#include <OpenGL/gl.h>  
-#include <OpenGL/glu.h>  
-//#include <GLUT/glut.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 #elif defined(_ES_UNIX)
 #include <unistd.h>
 #else
