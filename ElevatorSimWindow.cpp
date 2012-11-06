@@ -130,7 +130,18 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
       }
 
       /* TODO */
+      /*beginWin = new Fl_Window(300, 300, "Start Simulation");
 
+      beginLabel[0] = new Fl_Text_Display(10,30,280,190,"Max Elevator:");
+      beginLabel[1] = new Fl_Text_Display(50,70,280,190,"Max Floor:");
+      beginDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
+
+      //helpDoneButton->callback((Fl_Callback*) dismissHelpCB, this);
+
+      beginWin->add(beginLabel[0]);
+      beginWin->add(beginLabel[1]);
+      beginWin->add(beginDoneButton);
+      beginWin->end();*/
    }
 }
 
