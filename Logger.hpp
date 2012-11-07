@@ -54,7 +54,8 @@ namespace elevatorSim{
       enum LOG_LEVEL {
          LOG_INFO,
          LOG_WARNING,
-         LOG_ERROR
+         LOG_ERROR,
+         _LOG_LEVEL_MAX
       };
 
       enum LOG_SUBSYSTEM {
@@ -62,11 +63,13 @@ namespace elevatorSim{
          SUB_MEMORY,
          SUB_ELEVATOR_LOGIC,
          SUB_RENDER,
-         SUB_FLTK
+         SUB_FLTK,
+         _SUB_MAX
       };
 
       static const char * const LOG_SUBSYSTEM_NAMES[];
-      
+      static enum LOG_LEVEL * LOG_OUTPUT_LEVELS;
+
       static Logger& acquire();
       static void release();
 

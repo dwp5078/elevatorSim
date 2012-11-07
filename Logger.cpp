@@ -52,6 +52,8 @@ namespace elevatorSim {
       "FLTK"
    };
 
+   enum Logger::LOG_LEVEL * Logger::LOG_OUTPUT_LEVELS = NULL;
+
    Logger::Logger() {
       std::cout << "LOGGER_CREATED" << std::endl;
    }
@@ -65,6 +67,12 @@ namespace elevatorSim {
          loggerInstance = new Logger();
          logFile = new std::ofstream( 
             logFileName, std::ios_base::out | std::ios_base::app);
+         LOG_OUTPUT_LEVELS = new Logger::LOG_LEVEL[_SUB_MAX];
+
+         /* initialize log levels to >= WARNING */
+         for( int i = 0; i < _SUB_MAX; ++i ) {
+            LOG_OUTPUT_LEVELS[i] = LOG_WARNING;
+         }
       }
 
       return *loggerInstance;
@@ -75,6 +83,7 @@ namespace elevatorSim {
 
       logFile->close();
 
+      delete [] LOG_OUTPUT_LEVELS;
       delete loggerInstance;
       delete logFile;
 
@@ -89,23 +98,24 @@ namespace elevatorSim {
       const int line,
       const char* const function,
       const char* const message ) {
+         if( level >= LOG_OUTPUT_LEVELS[system] ) {
+            char logMsgBuffer[1024];
 
-         char logMsgBuffer[1024];
+            std::stringstream dbgStream;
+            std::ostream& conOstream
+               = (level != LOG_ERROR ) ? ( std::cout ) : ( std::cerr );
 
-         std::stringstream dbgStream;
-         std::ostream& conOstream 
-            = (level != LOG_ERROR ) ? ( std::cout ) : ( std::cerr );
+            dbgStream << "sub " <<  LOG_SUBSYSTEM_NAMES[system] << " in "
+               << file << " @ line "
+               << line << " in func "
+               << function << " : "
+               << message << std::endl;
 
-         dbgStream << "sub " <<  LOG_SUBSYSTEM_NAMES[system] << " in "
-            << file << " @ line " 
-            << line << " in func "
-            << function << " : " 
-            << message << std::endl;
+            dbgStream.getline(logMsgBuffer, 1024);
 
-         dbgStream.getline(logMsgBuffer, 1024);
-
-         conOstream << logMsgBuffer;
-         *logFile << logMsgBuffer;
+            conOstream << logMsgBuffer << std::endl;
+            *logFile << logMsgBuffer << std::endl;
+         }
    }
 
 } /* namepsace elevatorSim */

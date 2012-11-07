@@ -39,16 +39,14 @@ int main(int argc, char** argv) {
    glutInit(&argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
 
-   
-
    Logger::acquire();
 
    LOG_MSG(Logger::LOG_INFO, Logger::SUB_GENERAL, "test");
 
    cTimeManager* timeManager = new cTimeManager();
    cKeyManager* keyManager= new cKeyManager();
-
    ElevatorSimWindow* mainWin = new ElevatorSimWindow(*timeManager, *keyManager);
+
    mainWin -> show();
 
    /* TODO start other threads */
