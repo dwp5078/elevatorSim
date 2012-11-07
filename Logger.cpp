@@ -35,6 +35,7 @@
 #include <string>
 #include <fstream>
 #include <map>
+#include <sstream>
 
 namespace elevatorSim {
 
@@ -42,14 +43,6 @@ namespace elevatorSim {
 
    char Logger::logFileName[] = "elevatorSim.log";
    std::ofstream* Logger::logFile = NULL;
-
-   enum LOG_SUBSYSTEM {
-      SUB_GENERAL,
-      SUB_MEMORY,
-      SUB_ELEVATOR_LOGIC,
-      SUB_RENDER,
-      SUB_FLTK
-   };
 
    const char * const Logger::LOG_SUBSYSTEM_NAMES[] = {
       "General", 
@@ -93,12 +86,23 @@ namespace elevatorSim {
       const int line,
       const char* const function,
       const char* const message ) {
-         (void) level;
-         (void) system;
-         (void) file;
-         (void) line;
-         (void) function;
-         (void) message;
+
+         char logMsgBuffer[1024];
+
+         std::stringstream dbgStream;
+         std::ostream& conOstream 
+            = (level != LOG_ERROR ) ? ( std::cout ) : ( std::cerr );
+
+         dbgStream << "sub " <<  LOG_SUBSYSTEM_NAMES[system] << " in "
+            << file << " @ line " 
+            << line << " in func "
+            << function << " : " 
+            << message << std::endl;
+
+         dbgStream.getline(logMsgBuffer, 1024);
+
+         conOstream << logMsgBuffer;
+         *logFile << logMsgBuffer;
    }
 
 } /* namepsace elevatorSim */
