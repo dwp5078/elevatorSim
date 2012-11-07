@@ -69,7 +69,9 @@ Floor::Floor(const Floor & copy) : Location(copy.yVal), owner(copy.owner) {
 }
 
 Floor::~Floor() {
-
+   if(isDebugBuild()) {
+      std::cout << "destructing floor @" << this << std::endl;
+   }
 }
 
 void Floor::init() {
