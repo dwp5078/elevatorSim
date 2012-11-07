@@ -77,6 +77,9 @@ namespace elevatorSim {
 
       delete loggerInstance;
       delete logFile;
+
+      loggerInstance = NULL;
+      logFile = NULL;
    }
 
    void Logger::_logMessage( 
