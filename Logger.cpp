@@ -33,6 +33,7 @@
 #include <iostream>
 #include <cassert>
 #include <string>
+#include <fstream>
 #include <map>
 
 namespace elevatorSim {
@@ -40,6 +41,7 @@ namespace elevatorSim {
    Logger* Logger::loggerInstance = NULL;
 
    char Logger::logFileName[] = "elevatorSim.log";
+   std::ofstream* Logger::logFile = NULL;
 
    enum LOG_SUBSYSTEM {
       SUB_GENERAL,
@@ -66,15 +68,22 @@ namespace elevatorSim {
    }
 
    Logger& Logger::acquire() {
-      return 
-         ( * ( loggerInstance = 
-         ( loggerInstance == NULL ) ? 
-         ( new Logger() ) : ( loggerInstance ) ) );
+      if( loggerInstance == NULL ) {
+         loggerInstance = new Logger();
+         logFile = new std::ofstream( 
+            logFileName, std::ios_base::out | std::ios_base::app);
+      }
+
+      return *loggerInstance;
    }
 
    void Logger::release() {
-      assert(loggerInstance != NULL);
+      assert(loggerInstance != NULL && logFile != NULL);
+
+      logFile->close();
+
       delete loggerInstance;
+      delete logFile;
    }
 
    void Logger::_logMessage( 

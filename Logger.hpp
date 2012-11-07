@@ -34,6 +34,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 #include <map>
 
 namespace elevatorSim{
@@ -44,6 +45,7 @@ namespace elevatorSim{
       ~Logger();
 
       static Logger* loggerInstance;
+      static std::ofstream* logFile;
 
    public:
 
@@ -64,7 +66,7 @@ namespace elevatorSim{
       };
 
       static const char * const LOG_SUBSYSTEM_NAMES[];
-
+      
       static Logger& acquire();
       static void release();
 
