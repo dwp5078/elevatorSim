@@ -31,6 +31,7 @@
 #include "ElevatorSimWindow.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
+#include "Logger.hpp"
 
 using namespace elevatorSim;
 
@@ -38,6 +39,7 @@ int main(int argc, char** argv) {
    glutInit(&argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
 
+   Logger::acquire();
    cTimeManager* timeManager = new cTimeManager();
    cKeyManager* keyManager= new cKeyManager();
 
@@ -51,6 +53,7 @@ int main(int argc, char** argv) {
    delete mainWin;
    delete keyManager;
    delete timeManager;
+   Logger::release();
 
    return 0;
 }

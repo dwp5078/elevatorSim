@@ -44,7 +44,7 @@ class Logger {
 public:
 
    static Logger& acquire();
-   void release();
+   static void release();
 
 };
 

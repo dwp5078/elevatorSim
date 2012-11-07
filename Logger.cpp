@@ -47,9 +47,9 @@ Logger::~Logger() {
 
 Logger& Logger::acquire() {
    return 
-      (*(loggerInstance = 
-         (loggerInstance == NULL ) ? 
-         ( new Logger() ) : ( loggerInstance )));
+      ( * ( loggerInstance = 
+         ( loggerInstance == NULL ) ? 
+         ( new Logger() ) : ( loggerInstance ) ) );
 }
 
 void Logger::release() {
