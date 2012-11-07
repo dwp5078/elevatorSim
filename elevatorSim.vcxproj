@@ -62,6 +62,7 @@
     <ClCompile Include="ElevatorUnitTests.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Location.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="SimulationTerminal.cpp" />
     <ClCompile Include="UnitTests.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="ElevatorSimWindow.hpp" />
     <ClInclude Include="Floor.hpp" />
     <ClInclude Include="Location.hpp" />
+    <ClInclude Include="Logger.hpp" />
     <ClInclude Include="MVectors.hpp" />
     <ClInclude Include="Person.hpp" />
     <ClInclude Include="SimulationTerminal.hpp" />
