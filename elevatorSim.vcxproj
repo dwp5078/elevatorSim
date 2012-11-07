@@ -35,9 +35,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
     <NMakeOutput>elevatorSim.exe</NMakeOutput>
-    <NMakeCleanCommandLine>erase /f /q elevatorSim.exe elevatorSim.map elevatorSim.pdb </NMakeCleanCommandLine>
+    <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>C:\Users\yoy5144\Downloads\elevatorSim\inc;$(IncludePath)</IncludePath>
+    <NMakeReBuildCommandLine>clean.bat &amp;&amp; build.bat</NMakeReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>build.bat</NMakeBuildCommandLine>
@@ -56,10 +57,14 @@
     <ClCompile Include="Elevator.cpp" />
     <ClCompile Include="ElevatorSim.cpp" />
     <ClCompile Include="ElevatorSimRenderWindow.cpp" />
+    <ClCompile Include="ElevatorSimWelcomeWindow.cpp" />
     <ClCompile Include="ElevatorSimWindow.cpp" />
+    <ClCompile Include="ElevatorUnitTests.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="Person.cpp" />
+    <ClCompile Include="SimulationTerminal.cpp" />
+    <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Building.hpp" />
@@ -70,12 +75,16 @@
     <ClInclude Include="Elevator.hpp" />
     <ClInclude Include="ElevatorSim.hpp" />
     <ClInclude Include="ElevatorSimRenderWindow.hpp" />
+    <ClInclude Include="ElevatorSimWelcomeWindow.hpp" />
     <ClInclude Include="ElevatorSimWindow.hpp" />
     <ClInclude Include="Floor.hpp" />
     <ClInclude Include="Location.hpp" />
     <ClInclude Include="MVectors.hpp" />
     <ClInclude Include="Person.hpp" />
     <ClInclude Include="SimulationTerminal.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile.x86.winnt.msvc2010" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
