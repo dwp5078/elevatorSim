@@ -53,6 +53,7 @@
 #pragma clang diagnostic ignored "-Wlong-long"
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 #pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
 #include <unistd.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>

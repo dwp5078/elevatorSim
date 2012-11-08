@@ -14,7 +14,7 @@ LDFLAGS=-lstdc++ -lSystem
 FRAMEWORKS_LDFLAGS=-framework AppKit -framework Quartz -framework OpenGL -framework GLUT -framework AGL
 COOKED_DEPS_LDFLAGS=-Ldeps/x86_64.darwin.clang3x/fltk -Ldeps/x86_64.darwin.clang3x/boost\
 -lfltk -lfltk_forms -lfltk_gl -lfltk_images -lfltk_jpeg -lfltk_png\
--lboost_iostreams -lboost_system -lboost_thread -lboost_chrono
+-lboost_iostreams -lboost_system -lboost_thread -lboost_chrono -lboost_program_options
 
 CLIENT_OBJ=ElevatorSim.o
 

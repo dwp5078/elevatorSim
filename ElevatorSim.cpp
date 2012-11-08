@@ -34,18 +34,24 @@
 #include "Logger.hpp"
 
 #include <boost/thread.hpp>
+#include <boost/program_options.hpp>
+#include <iostream>
+#include <iterator>
+#include <string>
 
 using namespace elevatorSim;
 
 void compute();
+void parseArgs(int argc, char** argv);
 
 int main(int argc, char** argv) {
    glutInit(&argc, argv);
-   srand(time(0)); /* TODO: use Boost.Random */
-
+   
    Logger::acquire();
-
    LOG_INFO(Logger::SUB_GENERAL, "logger starting up");
+   
+   parseArgs(argc, argv);
+   srand(time(0)); /* TODO: use Boost.Random */
 
    cTimeManager* timeManager = new cTimeManager();
    cKeyManager* keyManager= new cKeyManager();
@@ -62,7 +68,6 @@ int main(int argc, char** argv) {
    delete timeManager;
 
    LOG_INFO(Logger::SUB_GENERAL, "logger shutting down");
-
    Logger::release();
 
    return 0;
@@ -70,4 +75,33 @@ int main(int argc, char** argv) {
 
 void compute() {
    /* TODO: move this into a different file and implement it*/
+}
+
+void parseArgs(int argc, char** argv) {
+   using namespace boost::program_options;
+	
+   try {
+      options_description desc("Allowed options");
+      desc.add_options()
+         ("help", "produce help message")
+         ("verbose", "verbose flag");
+
+      variables_map vm;        
+      store(parse_command_line(argc, argv, desc), vm);
+      notify(vm);    
+
+      if (vm.count("help")) {
+         std::cout << desc << std::endl;
+         return;
+      }
+
+      if (vm.count("verbose")) {
+         std::cout << "TODO: set verbose" << std::endl; 
+      }    
+   } catch(std::exception& e) {
+      std::cerr << "error: " << e.what() << std::endl;
+      return;
+   } catch(...) {
+      std::cerr << "Exception of unknown type" << std::endl;
+   }
 }
