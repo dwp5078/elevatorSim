@@ -34,6 +34,7 @@
 
 #include <GL/glut.h>
 #include <iostream>
+#include <sstream>
 
 namespace elevatorSim { 
 
@@ -53,7 +54,9 @@ Floor::Floor(
       signalingDown = false;
 
    if(isDebugBuild()) {
-      std::cout << "constructed floor with owner building @" << &owner << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "constructed floor with owner building @" << &owner << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 }
 
@@ -70,7 +73,9 @@ Floor::Floor(const Floor & copy) : Location(copy.yVal), owner(copy.owner) {
 
 Floor::~Floor() {
    if(isDebugBuild()) {
-      std::cout << "destructing floor @" << this << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "destructing floor @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 }
 
