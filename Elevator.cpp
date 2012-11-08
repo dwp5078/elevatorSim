@@ -30,6 +30,7 @@
 #include "Elevator.hpp"
 #include "SimulationTerminal.hpp"
 #include "Building.hpp"
+#include "cTimeManager.hpp"
 
 #include <boost/math/special_functions/round.hpp>
 #include <vector>
@@ -40,8 +41,9 @@
 
 namespace elevatorSim {
 
-const int Elevator::DEFAULT_MAX_VEL = 25; //5
-const int Elevator::DEFAULT_MAX_ACCEL = 1;  //3
+const int Elevator::DEFAULT_MAX_VEL = 130; //5
+const int Elevator::DEFAULT_MAX_ACCEL = 3;  //3
+const int Elevator::DEFAULT_MAX_DECEL = 2;  //3
 const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
 
 Elevator::Elevator(
@@ -49,7 +51,8 @@ Elevator::Elevator(
    int _yVal,
    const int _maxVel,
    const int _maxAccel,
-   const int _maxOccupants) : owner(_owner), maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
+   const int _maxDecel,
+   const int _maxOccupants) : owner(_owner), maxVel(_maxVel), maxAccel(_maxAccel), maxDecel(_maxDecel), maxOccupants(_maxOccupants)  {
 
    yVal = _yVal;
    currentVel = 0;
@@ -155,16 +158,16 @@ void Elevator::update() {
    int finalPos = destFloor * Floor::YVALS_PER_FLOOR;
    int diff = abs(finalPos - yVal);
 
-   if(diff <= Floor::YVALS_PER_FLOOR / 2)  {  //decelerate
+   if(diff <= Floor::YVALS_PER_FLOOR)  {  //decelerate
    ///////////////////Test Block End
 
       if(currentAccel > 0) {
          /* replace current vel with current vel + accel, unless it's greater than the maximum vel*/
-         currentVel = (currentVel - 1 > 0 ) ? ( currentVel - 1 ) : ( 5 );
+         currentVel = (currentVel - maxDecel > 40 ) ? ( currentVel - maxDecel ) : ( 40 );
          /* otherwise if current accel is negative... */
       } else if(currentAccel < 0) {
          /* replace current vel with current vel + accel, unless it's less than the minimum vel */
-         currentVel = (currentVel + 1 < 0 ) ? ( currentVel + 1 ) : ( -5 );
+         currentVel = (currentVel + maxDecel < -40 ) ? ( currentVel + maxDecel ) : ( -40 );
       }
 
       /* if current vel is positive */
@@ -178,10 +181,21 @@ void Elevator::update() {
       }
 
    //////////////////Test Block Start
-      if(yVal == finalPos)  {
+      /*if(yVal == finalPos)  {
+         if(waitingTime == 0)	{
+			 waitingTime = cTimeManager::worldTime();
+		 }
+         if(waitingTime + 1500 <= cTimeManager::worldTime() )   {
+			 waitingTime = 0;
+            destFloor = -1;
+            generateRandomDest();
+
+         }
+      }*/
+	  if(yVal == finalPos) {
          static int temp = 0;
          temp++;
-         if(temp == 200)   {
+         if(temp == 200) {
             temp = 0;
             destFloor = -1;
             generateRandomDest();
