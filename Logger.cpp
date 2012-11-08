@@ -72,9 +72,7 @@ namespace elevatorSim {
          LOG_OUTPUT_LEVELS = new Logger::LOG_LEVEL[_SUB_MAX];
 
          /* initialize log levels to >= WARNING */
-         for( int i = 0; i < _SUB_MAX; ++i ) {
-            LOG_OUTPUT_LEVELS[i] = LOG_WARNING;
-         }
+         loggerInstance->setAllSubsystems(LOG_WARNING);
       }
 
       return *loggerInstance;
@@ -120,6 +118,14 @@ namespace elevatorSim {
             conOstream << logMsgBuffer << std::endl;
             *logFile << logMsgBuffer << std::endl;
          }
+   }
+   
+   void Logger::setAllSubsystems(LOG_LEVEL level) {
+      assert(level != _SUB_MAX);
+      
+      for( int i = 0; i < _SUB_MAX; ++i ) {
+         LOG_OUTPUT_LEVELS[i] = level;
+      }
    }
 
 } /* namepsace elevatorSim */

@@ -96,7 +96,7 @@ void parseArgs(int argc, char** argv) {
       }
 
       if (vm.count("verbose")) {
-         std::cout << "TODO: set verbose" << std::endl; 
+         Logger::acquire().setAllSubsystems(Logger::LOG_INFO);
       }    
    } catch(std::exception& e) {
       std::cerr << "error: " << e.what() << std::endl;
