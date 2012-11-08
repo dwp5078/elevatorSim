@@ -77,6 +77,7 @@ class ElevatorSimRenderWindow : public Fl_Gl_Window {
 
    void drawFPS();
    void drawText(const char * const str, float x, float y);
+   void mouseClicked(int x, int y);
 
 protected:
 

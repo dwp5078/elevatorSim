@@ -69,6 +69,12 @@ int ElevatorSimWindow::handle(int event) {
    } else if ( event == FL_KEYUP) {
       keyManager.up(lastKey);
       return true;
+   } else if ( event == FL_PUSH) {
+      //if(Fl::event_button() == 
+
+      //Fl::
+      renderWindow->mouseClicked(Fl::event_x(), Fl::event_y());
+      
    }
 
    handleInParent: return Fl_Window::handle(event);

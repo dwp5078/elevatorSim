@@ -206,7 +206,6 @@ void ElevatorSimRenderWindow::draw() {
       m_renderObjs.init();
       glInit();
       setViewport();
-
    }
 
    /* draw */
@@ -230,15 +229,17 @@ void ElevatorSimRenderWindow::draw() {
    m_Building.render();
    if(m_bRenderFPS) { drawFPS(); }
 
-   //glTranslatef(0.f, 3.f, 3.f);
-   //glCallList(cRenderObjs::OBJ_HUMAN);
-
    GLenum err = glGetError();
    if ( err != GL_NO_ERROR ) {
       std::stringstream dbgSS;
       dbgSS << "GLGETERROR= " << (int) err << std::endl;
       LOG_ERROR( Logger::SUB_RENDER, sstreamToBuffer(dbgSS) );
    }
+}
+
+void ElevatorSimRenderWindow::mouseClicked(int x, int y)
+{
+   printf("%d, %d\n", x, y);
 }
 
 } /* namespace elevatorSim */
