@@ -69,7 +69,7 @@ namespace elevatorSim
 		   const static int WINDOW_HEIGHT;
 		   const static char WINDOW_TITLE[];
 
-         const inline bool isFirstRun() const {
+         inline bool isFirstRun() const {
             return firstRun;
          }
 

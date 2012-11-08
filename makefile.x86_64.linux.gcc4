@@ -1,5 +1,6 @@
 OBJS=ElevatorSimWindow.o\
 ElevatorSimRenderWindow.o\
+ElevatorSimWelcomeWindow.o\
 cRenderObjs.o\
 cTimeManager.o\
 cKeyManager.o\

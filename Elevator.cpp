@@ -31,11 +31,12 @@
 #include "SimulationTerminal.hpp"
 #include "Building.hpp"
 
-#include <boost\math\special_functions.hpp>
+#include <boost/math/special_functions/round.hpp>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <cassert>
-#include <time.h>
+#include <ctime>
 
 namespace elevatorSim {
 
@@ -60,7 +61,9 @@ Elevator::Elevator(
    destFloor = -1;
 
    if(isDebugBuild()) {
-      std::cout << "constructed elevator with owner building @" << &owner << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "constructed elevator with owner building @" << &owner << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 }
 
@@ -68,7 +71,9 @@ Elevator::~Elevator() {
    delete [] floorsSignaled;
 
    if(isDebugBuild()) {
-      std::cout << "destructing delevator @" << this << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "destructing delevator @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 }
 
@@ -81,7 +86,8 @@ bool Elevator::canStopAtNextFloor() {
 
    int nextFloor = 0;        /* next floor */
    int nextfloorHeight = 0;  /* height of next floor */
-   int floor_elev_distance;  /* the distance between the elevator and next floor */
+   /* unused */ /* int floor_elev_distance; */
+   /* the distance between the elevator and next floor */
    int acc_time = 0;         /* acceleration time */
    int distance_needed = 0;  /* the distance needed by elevator to stop */
 
@@ -90,7 +96,7 @@ bool Elevator::canStopAtNextFloor() {
 
          nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
          nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
-         floor_elev_distance = nextfloorHeight - yVal;
+         /* unused */ /* floor_elev_distance = nextfloorHeight - yVal; */
 
          /* calculate how much time the elevator needs to stop, V = V0 + at, V = 0; V0 = VE */
          acc_time = boost::math::iround(-currentVel / currentAccel);
@@ -110,7 +116,7 @@ bool Elevator::canStopAtNextFloor() {
       if (currentVel < 0) {     /* if the elevator is going down, and acceleration > 0, the elevator will stop somewhere */
          nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
          nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
-         floor_elev_distance = nextfloorHeight - Location::yVal;
+         /* unused */ /* floor_elev_distance = nextfloorHeight - Location::yVal; */
 
          /* calculate how much time the elevator needs to stop, V = V0 + at, V = 0; V0 = VE */
          acc_time = boost::math::iround(-currentVel / currentAccel);

@@ -30,6 +30,11 @@
 #ifndef _ELEVATOR_SIM_H
 #define _ELEVATOR_SIM_H
 
+#include "Logger.hpp"
+
+#include <sstream>
+#include <string>
+
 #if defined(_ES_WINNT)
 #pragma warning(disable: 4244; disable: 4512; disable: 4211)
 #include <Windows.h>
@@ -47,6 +52,7 @@
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wlong-long"
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
 #include <unistd.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
@@ -64,6 +70,14 @@ inline bool isDebugBuild() {
    return false;
 #endif
 }
-}
 
-#endif
+inline std::string sstreamToBuffer( std::stringstream& ss ) {
+   char* logBuffer = new char[Logger::LOG_MSG_LEN_MAX];
+   ss.getline(logBuffer, Logger::LOG_MSG_LEN_MAX);
+   std::string logString((const char*) logBuffer);
+   delete [] logBuffer;
+   return logString;
+} 
+} /* namespace elevatorSim */
+
+#endif /* _ELEVATOR_SIM_H */

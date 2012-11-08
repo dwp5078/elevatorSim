@@ -31,6 +31,7 @@
 #include "ElevatorSimRenderWindow.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
+#include "Logger.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -69,7 +70,9 @@ void ElevatorSimRenderWindow::timerCB(void* userdata) {
 
 int ElevatorSimRenderWindow::handle(int event) {
    if(isDebugBuild()) {
-      std::cout << "RenderWin: event: " << fl_eventnames[event] << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "RenderWin: event: " << fl_eventnames[event] << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer( dbgSS ) );
    }
 
    return Fl_Gl_Window::handle(event);
@@ -232,7 +235,9 @@ void ElevatorSimRenderWindow::draw() {
 
    GLenum err = glGetError();
    if ( err != GL_NO_ERROR ) {
-      std::cerr << "GLGETERROR= " << (int) err << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "GLGETERROR= " << (int) err << std::endl;
+      LOG_ERROR( Logger::SUB_RENDER, sstreamToBuffer(dbgSS) );
    }
 }
 

@@ -20,6 +20,7 @@ CLIENT_OBJ=ElevatorSim.o
 
 SIM_OBJS=ElevatorSimWindow.o\
 ElevatorSimRenderWindow.o\
+ElevatorSimWelcomeWindow.o\
 cRenderObjs.o\
 cTimeManager.o\
 cKeyManager.o\
@@ -29,7 +30,8 @@ Location.o\
 Person.o\
 Building.o\
 Floor.o\
-SimulationTerminal.o
+SimulationTerminal.o\
+Logger.o
 
 UNIT_TEST_OBJS=\
 UnitTests.o\

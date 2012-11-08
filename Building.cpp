@@ -32,10 +32,12 @@
 #include "Floor.hpp"
 #include "Elevator.hpp"
 #include "cRenderObjs.hpp"
+#include "Logger.hpp"
 
 #include <GL/glut.h>
 
 #include <iostream>
+#include <sstream>
 #include <cassert>
 
 namespace elevatorSim {
@@ -49,8 +51,10 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
    gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator) {
 
       if(isDebugBuild()) {
-         std::cout << "in Building(" << _nStory << ", " << _nElevator 
-            << ") with address @" << this << std::endl; 
+         std::stringstream dbgSS;
+         dbgSS << "in Building(" << _nStory << ", " << _nElevator
+            << ") with address @" << this << std::endl;
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
       }
 
       m_Floors = new Floor * [m_nStory];
@@ -65,7 +69,9 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       }
 
       if(isDebugBuild()) {
-         std::cout << "finished constructing Building @" << this << std::endl; 
+         std::stringstream dbgSS;
+         dbgSS << "finished constructing building @" << this << std::endl;
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
       }
 }
 
@@ -77,17 +83,15 @@ Building::Building(const Building& buildingCopySrc) :
    gfxEachFloorHeight(buildingCopySrc.gfxEachFloorHeight),
    gfxEachElevWidth(buildingCopySrc.gfxEachElevWidth) {
 
-      if(isDebugBuild()) {
-         std::cout << "in copy constructor for building @" << this << std::endl;
-      }
-
       assert(false); /* FIXME: write the rest of this */
 }
 
 
 Building::~Building() {
    if(isDebugBuild()) {
-      std::cout << "destroying building @" << this << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "destroying building @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 
    for(unsigned int i=0; i < m_nStory ; ++i) {
