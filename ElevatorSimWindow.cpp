@@ -31,7 +31,9 @@
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
+#include "Logger.hpp"
 
+#include <sstream>
 #include <FL/Fl.H>
 #include <FL/gl.h>
 #include <FL/Fl_Window.H>
@@ -49,7 +51,9 @@ int ElevatorSimWindow::handle(int event) {
    int lastKey = Fl::event_key();
 
    if(isDebugBuild()) {
-      std::cout << "MainWin: event: " << fl_eventnames[event] << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "MainWin: event: " << fl_eventnames[event] << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    if(event == FL_KEYDOWN)  {
@@ -73,9 +77,10 @@ int ElevatorSimWindow::handle(int event) {
 
 /* private static methods */
 void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
-
    if(isDebugBuild()) {
-      std::cout << "windowCloseCB fired with widget ptr " << w << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "windowCloseCB fired with widget ptr " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -85,8 +90,10 @@ void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
 
 void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuNewCB fired with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "menuNewCB fired with widget ptr " << w
          << "and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    /* TODO */
@@ -94,14 +101,18 @@ void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuNewCB fired with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "menuNewCB fired with widget ptr " << w
          << "and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 }
 
 void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuHelpCB fired with widget ptr " << w << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "menuHelpCB fired with widget ptr " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
@@ -111,7 +122,9 @@ void ElevatorSimWindow::menuHelpCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "dismissHelpCB fired with widget " << w << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "dismissHelpCB fired with widget " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
@@ -120,7 +133,8 @@ void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "in startSimCB with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "in startSimCB with widget ptr " << w
          << " and userData " << userData << std::endl;
    }
 
@@ -128,7 +142,8 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
 
    if(startButton->value()) {
       if(isDebugBuild() ) {
-         std::cout << "startSim CB fired" << std::endl;
+         std::stringstream dbgSS;
+         dbgSS << "startSim CB fired" << std::endl;
       }
 
       toggleButtons((ElevatorSimWindow*) userData);
@@ -138,17 +153,23 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "in pauseSimCB with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "in pauseSimCB with widget ptr " << w
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    Fl_Button* pauseButton = (Fl_Button*)w;
-   
+
    /* TODO: this needs to be moved into time manager */
    static bool paused = true;
 
    if(pauseButton->value()) {
-      std::cout << "pauseSim CB fired" << std::endl;
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "pauseSimCB fired " << std::endl;
+         LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+      }
 
       if(paused) {
          w->label("Resume");
@@ -163,14 +184,20 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "in stopSimCB with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "in stopSimCB with widget ptr " << w
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    Fl_Button* stopButton = (Fl_Button*)w;
 
    if(stopButton->value()) {
-      std::cout << "stopSim CB fired" << std::endl;
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "stopSimCB fired " << std::endl;
+         LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+      }
 
       toggleButtons((ElevatorSimWindow*) userData);
    }
@@ -178,8 +205,10 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuSaveCB fired with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "menuSaveCB fired with widget ptr " << w
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    /* TODO: display save dialog */
@@ -187,8 +216,10 @@ void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuQuitCB fired with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "menuQuitCB fired with widget ptr " << w
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -198,15 +229,19 @@ void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
 
 void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "menuAboutCB fired with widget ptr " << w 
+      std::stringstream dbgSS;
+      dbgSS << "menuAboutCB fired with widget ptr " << w
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 }
 
 void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "quitConfirmedCB fired with widget ptr " << yesButton 
+      std::stringstream dbgSS;
+      dbgSS << "quitConfirmedCB fired with widget ptr " << yesButton
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -218,8 +253,10 @@ void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
 
 void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
    if(isDebugBuild()) {
-      std::cout << "quitCancelledCB fired with widget ptr " << noButton 
+      std::stringstream dbgSS;
+      dbgSS << "quitCancelledCB fired with widget ptr " << noButton
          << " and userData " << userData << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
    ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
@@ -285,15 +322,15 @@ void ElevatorSimWindow::buildButtons(){
 }
 
 void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
-   static bool toggle = true; /* TODO: store this value in the simulation state */ 
+   static bool toggle = true; /* TODO: store this value in the simulation state */
 
    assert(
-      (thisWin->startButton->active() && 
-      !thisWin->stopButton->active() && 
-      !thisWin->pauseButton->active()) 
+      (thisWin->startButton->active() &&
+      !thisWin->stopButton->active() &&
+      !thisWin->pauseButton->active())
       ||
-      (!thisWin->startButton->active() && 
-      thisWin->stopButton->active() && 
+      (!thisWin->startButton->active() &&
+      thisWin->stopButton->active() &&
       thisWin->pauseButton->active()));
 
    if(toggle){
@@ -307,12 +344,12 @@ void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
    }
 
    assert(
-      (thisWin->startButton->active() && 
-      !thisWin->stopButton->active() && 
-      !thisWin->pauseButton->active()) 
+      (thisWin->startButton->active() &&
+      !thisWin->stopButton->active() &&
+      !thisWin->pauseButton->active())
       ||
-      (!thisWin->startButton->active() && 
-      thisWin->stopButton->active() && 
+      (!thisWin->startButton->active() &&
+      thisWin->stopButton->active() &&
       thisWin->pauseButton->active()));
 
    toggle = !toggle;
@@ -335,7 +372,7 @@ void ElevatorSimWindow::buildDialogs() {
    confirmDialog = new Fl_Window(220, 110, "Are you sure?");
    yesButton = new Fl_Button(10, 10, 200, 40, "yes");
    noButton = new Fl_Button(10, 60, 200, 40, "no");
-      
+
    yesButton->callback((Fl_Callback*) quitConfirmedCB, this);
    noButton->callback((Fl_Callback*) quitCancelledCB, this);
 
@@ -347,7 +384,7 @@ void ElevatorSimWindow::buildDialogs() {
 void ElevatorSimWindow::buildWelcomeWin()
 {
 	welcomeWin = new ElevatorSimWelcomeWindow();
-	
+
 	if(welcomeWin->isFirstRun()) {
 		welcomeWin->show();
 	} else {
@@ -363,21 +400,21 @@ const int ElevatorSimWindow::MENUBAR_HEIGHT = 25;
 
 /* public methods */
 ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager) :
-   Fl_Window(WINDOW_WIDTH, 
-   WINDOW_HEIGHT, 
-   WINDOW_TITLE), 
-   timeManager(_timeManager), 
+   Fl_Window(WINDOW_WIDTH,
+   WINDOW_HEIGHT,
+   WINDOW_TITLE),
+   timeManager(_timeManager),
    keyManager(_keyManager) {
       renderWindow = new ElevatorSimRenderWindow(
          keyManager,
          timeManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
-         WINDOW_WIDTH - 
-            (ElevatorSimRenderWindow::LEFT_MARGIN + 
+         WINDOW_WIDTH -
+            (ElevatorSimRenderWindow::LEFT_MARGIN +
             ElevatorSimRenderWindow::RIGHT_MARGIN),
-         WINDOW_HEIGHT - 
-            (ElevatorSimRenderWindow::TOP_MARGIN + 
+         WINDOW_HEIGHT -
+            (ElevatorSimRenderWindow::TOP_MARGIN +
             ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
       resizable(*renderWindow);
