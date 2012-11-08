@@ -117,5 +117,5 @@ $(DEBUG_COOKEDDEPS)
 	@echo + unit test build success
 
 clean:
-	@erase /f /q $(OBJS) $(OUT) $(UNIT_TEST_OBJS) $(MAPFILE) $(PDBFILE)
+	@erase /f /q $(OBJS) $(OUT) $(UNIT_TEST_OUT) $(UNIT_TEST_OBJS) $(MAPFILE) $(PDBFILE)
 	@echo + clean
