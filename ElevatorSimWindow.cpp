@@ -152,7 +152,7 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
          dbgSS << "startSim CB fired" << std::endl;
       }
 
-      beginLabel[0] = new Fl_Text_Display(10,30,280,190,"Max Elevator:");
+      /*beginLabel[0] = new Fl_Text_Display(10,30,280,190,"Max Elevator:");
       beginLabel[1] = new Fl_Text_Display(50,70,280,190,"Max Floor:");
       beginDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
 
