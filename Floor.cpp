@@ -57,7 +57,8 @@ Floor::Floor(
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
-      dbgSS << "constructed floor with owner building @" << &owner << std::endl;
+      dbgSS << "constructed floor with owner building @" 
+         << &owner << std::endl;
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 }
@@ -69,8 +70,8 @@ Floor::Floor(const Floor & copy) : Location(copy.yVal), owner(copy.owner) {
    hasLowerFloor = copy.hasLowerFloor;
 
    occupants.assign(
-         copy.occupants.begin(), 
-         copy.occupants.end());
+      copy.occupants.begin(), 
+      copy.occupants.end());
 }
 
 Floor::~Floor() {
@@ -92,10 +93,10 @@ void Floor::render() {
    GLfloat shi = 0.5f;
    GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-	glMaterialf(GL_FRONT, GL_SHININESS, shi);
-	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+   glMaterialf(GL_FRONT, GL_SHININESS, shi);
+   glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    glCallList(cRenderObjs::OBJ_CUBE);
 
@@ -107,4 +108,3 @@ void Floor::update() {
 }
 
 } /* namespace elevatorSim */
-

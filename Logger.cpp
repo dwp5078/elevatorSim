@@ -123,7 +123,7 @@ namespace elevatorSim {
    }
    
    void Logger::setAllSubsystems(LOG_LEVEL level) {
-      assert(level != _SUB_MAX);
+      assert(level != _LOG_LEVEL_MAX);
       
       for( int i = 0; i < _SUB_MAX; ++i ) {
          LOG_OUTPUT_LEVELS[i] = level;
@@ -131,4 +131,3 @@ namespace elevatorSim {
    }
 
 } /* namepsace elevatorSim */
-

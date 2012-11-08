@@ -67,4 +67,3 @@ public:
 } /* namespace elevatorSim */
 
 #endif /* __CKEYMANAGER_H__ */
-

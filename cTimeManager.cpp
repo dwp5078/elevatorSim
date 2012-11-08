@@ -66,4 +66,3 @@ void cTimeManager::update() {
 }
 
 } /* namespace elevatorSim */
-

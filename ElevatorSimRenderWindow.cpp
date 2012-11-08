@@ -51,11 +51,16 @@ const int ElevatorSimRenderWindow::RIGHT_MARGIN = 8;
 const int ElevatorSimRenderWindow::TOP_MARGIN = 28;
 const int ElevatorSimRenderWindow::BOTTOM_MARGIN = 8;
 
-const GLfloat ElevatorSimRenderWindow::light1_ambient[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
-const GLfloat ElevatorSimRenderWindow::light1_diffuse[4] = { 0.15f, 0.15f, 0.15f, 1.0f };
-const GLfloat ElevatorSimRenderWindow::light1_specular[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
-const GLfloat ElevatorSimRenderWindow::light1_position[4] = { 1.f, 8.f, 2.0f, 0.0f };
-const GLfloat ElevatorSimRenderWindow::light1_direction[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+const GLfloat ElevatorSimRenderWindow::light1_ambient[4] = 
+   { 0.4f, 0.4f, 0.4f, 1.0f };
+const GLfloat ElevatorSimRenderWindow::light1_diffuse[4] = 
+   { 0.15f, 0.15f, 0.15f, 1.0f };
+const GLfloat ElevatorSimRenderWindow::light1_specular[4] = 
+   { 0.5f, 0.5f, 0.5f, 1.0f };
+const GLfloat ElevatorSimRenderWindow::light1_position[4] = 
+   { 1.f, 8.f, 2.0f, 0.0f };
+const GLfloat ElevatorSimRenderWindow::light1_direction[4] = 
+   { 0.0f, 0.0f, 0.0f, 0.0f };
 
 void ElevatorSimRenderWindow::timerCB(void* userdata) {
    ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
@@ -146,7 +151,8 @@ void ElevatorSimRenderWindow::drawFPS() {
    drawText(stringBuf, 10.f, 20.f);
 }
 
-void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y) {
+void ElevatorSimRenderWindow::drawText(
+   const char * const str, float x, float y) {
    /* enabling prolog */
    glDisable(GL_DEPTH_TEST);
    glPushAttrib(GL_LIGHTING_BIT);
@@ -203,7 +209,7 @@ ElevatorSimRenderWindow::ElevatorSimRenderWindow(
 
 void ElevatorSimRenderWindow::draw() {
    if(!valid()) {
-      /* initialize, this code only gets executed the first time draw() is called */
+      /* init, this code only gets executed the first time draw() is called */
 
       m_renderObjs.init();
       glInit();
@@ -244,4 +250,3 @@ void ElevatorSimRenderWindow::draw() {
 }
 
 } /* namespace elevatorSim */
-

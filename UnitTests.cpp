@@ -41,14 +41,23 @@
 static const char UNIT_TEST_LOGFILE_NAME[] = "ElevatorSimUnitTests.log";
 
 struct ElevatorSimUnitTestConfig {
-   ElevatorSimUnitTestConfig() : test_log( UNIT_TEST_LOGFILE_NAME, std::ios_base::out | std::ios_base::app ) {
-      boost::posix_time::ptime date_time = boost::posix_time::microsec_clock::universal_time();
+   ElevatorSimUnitTestConfig() : 
+      test_log( 
+         UNIT_TEST_LOGFILE_NAME, 
+         std::ios_base::out | std::ios_base::app ) {
+            boost::posix_time::ptime date_time = 
+               boost::posix_time::microsec_clock::universal_time();
 
-      test_log << std::endl << "starting test run at " << date_time << std::endl;
+            test_log 
+               << std::endl 
+               << "starting test run at " 
+               << date_time 
+               << std::endl;
 
-      boost::unit_test::unit_test_log.set_stream( test_log );
-      boost::unit_test::unit_test_log.set_threshold_level( boost::unit_test::log_successful_tests );
-   }
+            boost::unit_test::unit_test_log.set_stream( test_log );
+            boost::unit_test::unit_test_log.set_threshold_level( 
+               boost::unit_test::log_successful_tests );
+         }
 
    ~ElevatorSimUnitTestConfig() {
       boost::unit_test::unit_test_log.set_stream( std::cout );
@@ -65,6 +74,3 @@ boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] ) {
 }
 
 BOOST_GLOBAL_FIXTURE( ElevatorSimUnitTestConfig )
-
-
-

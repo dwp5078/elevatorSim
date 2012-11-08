@@ -85,4 +85,3 @@ public:
 } /* namespace elevatorSim */
 
 #endif //__CCAMERAMANAGER_H__
-

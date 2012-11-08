@@ -52,7 +52,8 @@ const int ElevatorSimWelcomeWindow::WINDOW_HEIGHT = 200;
 void ElevatorSimWelcomeWindow::buildDialogs()
 {
    confirmDialog = new Fl_Window(350, 160, "");
-   Wel_Label = new Fl_Box(10,10,330,50,"This Welcome window will not be shown again.\nClose it?"); 
+   Wel_Label = new Fl_Box(10,10,330,50,
+      "This Welcome window will not be shown again.\nClose it?"); 
    OK_Button = new Fl_Button(100, 70, 150, 40, "OK");
    Cancel_Button = new Fl_Button(100, 110, 150, 40, "Cancel");
       
@@ -65,7 +66,8 @@ void ElevatorSimWelcomeWindow::buildDialogs()
    confirmDialog->end();
 }
 
-void ElevatorSimWelcomeWindow::quitConfirmedCB(Fl_Button* OK_Button, void* userData) 
+void ElevatorSimWelcomeWindow::quitConfirmedCB(
+   Fl_Button* OK_Button, void* userData) 
 {
    (void) OK_Button;
 
@@ -75,7 +77,8 @@ void ElevatorSimWelcomeWindow::quitConfirmedCB(Fl_Button* OK_Button, void* userD
    thisWin->hide();
 }
 
-void ElevatorSimWelcomeWindow::quitCancelledCB(Fl_Button* Cancel_Button, void* userData) 
+void ElevatorSimWelcomeWindow::quitCancelledCB(
+   Fl_Button* Cancel_Button, void* userData) 
 {
    (void) Cancel_Button;
 
@@ -110,4 +113,3 @@ ElevatorSimWelcomeWindow::~ElevatorSimWelcomeWindow() {
 }
 
 } /* namespace elevatorSim */
-

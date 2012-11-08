@@ -297,7 +297,7 @@ void ElevatorSimWindow::buildMenu() {
    add(menubar);
 }
 
-void ElevatorSimWindow::buildButtons(){
+void ElevatorSimWindow::buildButtons() {
    startButton = new Fl_Button(10, 35, 100, 20, "Begin");
    pauseButton = new Fl_Button(10, 65, 100, 20, "Pause");
    stopButton = new Fl_Button(10, 95, 100, 20, "Stop");
@@ -319,18 +319,21 @@ void ElevatorSimWindow::buildButtons(){
    pauseButton->deactivate();
 
    assert(
-      (startButton->active() && !stopButton->active() && !pauseButton->active()) ||
-      (!startButton->active() && stopButton->active() && pauseButton->active()));
+      (startButton->active() && 
+      !stopButton->active() && 
+      !pauseButton->active()) ||
+      (!startButton->active() && 
+      stopButton->active() && 
+      pauseButton->active()));
 }
 
 void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
-   static bool toggle = true; /* TODO: store this value in the simulation state */
+   static bool toggle = true; /* TODO: store in the simulation state */
 
    assert(
       (thisWin->startButton->active() &&
       !thisWin->stopButton->active() &&
-      !thisWin->pauseButton->active())
-      ||
+      !thisWin->pauseButton->active()) ||
       (!thisWin->startButton->active() &&
       thisWin->stopButton->active() &&
       thisWin->pauseButton->active()));
@@ -348,8 +351,7 @@ void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
    assert(
       (thisWin->startButton->active() &&
       !thisWin->stopButton->active() &&
-      !thisWin->pauseButton->active())
-      ||
+      !thisWin->pauseButton->active()) ||
       (!thisWin->startButton->active() &&
       thisWin->stopButton->active() &&
       thisWin->pauseButton->active()));
@@ -383,8 +385,7 @@ void ElevatorSimWindow::buildDialogs() {
    confirmDialog->end();
 }
 
-void ElevatorSimWindow::buildWelcomeWin()
-{
+void ElevatorSimWindow::buildWelcomeWin() {
 	welcomeWin = new ElevatorSimWelcomeWindow();
 
 	if(welcomeWin->isFirstRun()) {
@@ -401,7 +402,8 @@ const int ElevatorSimWindow::WINDOW_HEIGHT = 480;
 const int ElevatorSimWindow::MENUBAR_HEIGHT = 25;
 
 /* public methods */
-ElevatorSimWindow::ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager) :
+ElevatorSimWindow::ElevatorSimWindow(
+   cTimeManager& _timeManager, cKeyManager& _keyManager) :
    Fl_Window(WINDOW_WIDTH,
    WINDOW_HEIGHT,
    WINDOW_TITLE),
@@ -444,4 +446,3 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 }
 
 } /* namespace elevatorSim */
-

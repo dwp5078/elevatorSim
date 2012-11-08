@@ -57,7 +57,8 @@ int main(int argc, char** argv) {
 
    cTimeManager* timeManager = new cTimeManager();
    cKeyManager* keyManager= new cKeyManager();
-   ElevatorSimWindow* mainWin = new ElevatorSimWindow(*timeManager, *keyManager);
+   ElevatorSimWindow* mainWin = 
+      new ElevatorSimWindow(*timeManager, *keyManager);
 
    mainWin -> show();
 

@@ -63,7 +63,8 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       m_Elevators = new Elevator * [m_nElevator];
 
       for(unsigned int i=0; i < m_nStory ; ++i) {
-         m_Floors[i] = new Floor(*this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+         m_Floors[i] = new Floor(
+            *this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
@@ -192,12 +193,17 @@ void Building::render() {
       glPushMatrix();
       glTranslatef(
          -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i,
-         /* this is in the logical coordinate system, so we divide it by YVALS_PER_FLOOR */
-         1.0f + (GLfloat)m_Elevators[i]->getYVal() / Floor::YVALS_PER_FLOOR * gfxEachFloorHeight,
+         /* this is in the logical coordinate system, 
+          * so we divide it by YVALS_PER_FLOOR */
+         1.0f + 
+         (GLfloat)m_Elevators[i]->getYVal() / 
+         Floor::YVALS_PER_FLOOR * 
+         gfxEachFloorHeight,
          0.0f);
 
       /*
-       * elev height is on interval [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight]
+       * elev height is on interval 
+       * [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight]
        */
 
       m_Elevators[i]->render();

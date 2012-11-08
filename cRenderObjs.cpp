@@ -136,25 +136,30 @@ void cRenderObjs::initSphere()
 {
    glNewList(OBJ_SPHERE, GL_COMPILE);
 
-   //glEnable(GL_MATERIAL);
-
-   //GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-   //GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-   //GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-   //GLfloat shi = 0.5f;
-   //GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-   //glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	//glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	//glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-	//glMaterialf(GL_FRONT, GL_SHININESS, shi);
-	//glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   /* 
+    * glEnable(GL_MATERIAL);
+    *
+    * GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+    * GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+    * GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+    * GLfloat shi = 0.5f;
+    * GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+    * glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+    * glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+    * glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+    * glMaterialf(GL_FRONT, GL_SHININESS, shi);
+    * glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+    */
+    
    glutSolidSphere(0.4, 50, 25);
 
 
-   //GLfloat zero[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	//glMaterialfv(GL_FRONT, GL_DIFFUSE, zero);
-
-   //glDisable(GL_MATERIAL);
+   /*
+    * GLfloat zero[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    * glMaterialfv(GL_FRONT, GL_DIFFUSE, zero);
+    *
+    * glDisable(GL_MATERIAL);
+    */
    glEndList();
 }
 
@@ -168,10 +173,10 @@ void cRenderObjs::initElevator()
    GLfloat shi = 0.3f;
    GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-	glMaterialf(GL_FRONT, GL_SHININESS, shi);
-	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+   glMaterialf(GL_FRONT, GL_SHININESS, shi);
+   glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    glPushMatrix();
    // Left wall of Elevator
@@ -221,10 +226,10 @@ void cRenderObjs::initHuman()
    GLfloat shi = 0.5f;
    GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-	glMaterialf(GL_FRONT, GL_SHININESS, shi);
-	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+   glMaterialf(GL_FRONT, GL_SHININESS, shi);
+   glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    glScalef(0.4f, 0.4f, 0.4f);
    
@@ -270,4 +275,3 @@ void cRenderObjs::initHuman()
    glEndList();
 }
 }
-

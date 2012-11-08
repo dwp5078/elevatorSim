@@ -98,6 +98,4 @@ namespace elevatorSim{
 #define LOG_ERROR(SYSTEM, MSG) Logger::acquire()._logMessage\
    ( Logger::LOG_ERROR, SYSTEM, __FILE__, __LINE__, __FUNCTION__, MSG )
 
-
 #endif /* _LOGGER_H */
-

@@ -171,4 +171,3 @@ Vec3f cCameraManager::GetRight()
 }
 
 } /* namespace elevatorSim */
-
