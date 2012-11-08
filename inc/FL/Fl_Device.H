@@ -25,6 +25,10 @@
 #ifndef Fl_Device_H
 #define Fl_Device_H
 
+#ifdef _WIN32
+#pragma warning(disable: 4100; disable: 4081);
+#endif
+
 #include <FL/x.H>
 #include <FL/Fl_Plugin.H>
 #include <FL/Fl_Image.H>
