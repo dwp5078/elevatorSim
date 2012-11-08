@@ -52,6 +52,7 @@
 #pragma clang diagnostic ignored "-Wundef"
 #pragma clang diagnostic ignored "-Wlong-long"
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
 #include <unistd.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
