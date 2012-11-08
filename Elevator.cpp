@@ -34,6 +34,7 @@
 #include <boost/math/special_functions/round.hpp>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <cassert>
 #include <ctime>
 
@@ -60,7 +61,9 @@ Elevator::Elevator(
    destFloor = -1;
 
    if(isDebugBuild()) {
-      std::cout << "constructed elevator with owner building @" << &owner << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "constructed elevator with owner building @" << &owner << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 }
 
@@ -68,7 +71,9 @@ Elevator::~Elevator() {
    delete [] floorsSignaled;
 
    if(isDebugBuild()) {
-      std::cout << "destructing delevator @" << this << std::endl;
+      std::stringstream dbgSS;
+      dbgSS << "destructing delevator @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 }
 
