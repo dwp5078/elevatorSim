@@ -66,4 +66,4 @@ inline bool isDebugBuild() {
 }
 }
 
-#endif
+#endif /* _ELEVATOR_SIM_H */

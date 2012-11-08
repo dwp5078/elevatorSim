@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 
    Logger::acquire();
 
-   LOG_MSG(Logger::LOG_INFO, Logger::SUB_GENERAL, "test");
+   LOG_INFO(Logger::SUB_GENERAL, "logger starting up");
 
    cTimeManager* timeManager = new cTimeManager();
    cKeyManager* keyManager= new cKeyManager();
@@ -56,6 +56,9 @@ int main(int argc, char** argv) {
    delete mainWin;
    delete keyManager;
    delete timeManager;
+
+   LOG_INFO(Logger::SUB_GENERAL, "logger shutting down");
+
    Logger::release();
 
    return 0;

@@ -33,6 +33,7 @@
 #include <iostream>
 #include <cassert>
 #include <string>
+#include <cstring>
 #include <fstream>
 #include <map>
 #include <sstream>
@@ -43,6 +44,7 @@ namespace elevatorSim {
 
    char Logger::logFileName[] = "elevatorSim.log";
    std::ofstream* Logger::logFile = NULL;
+   const int Logger::LOG_MSG_LEN_MAX = 1024;
 
    const char * const Logger::LOG_SUBSYSTEM_NAMES[] = {
       "General", 
@@ -97,9 +99,11 @@ namespace elevatorSim {
       const char* const file,
       const int line,
       const char* const function,
-      const char* const message ) {
+      const std::string& message ) {
          if( level >= LOG_OUTPUT_LEVELS[system] ) {
-            char logMsgBuffer[1024];
+            char logMsgBuffer[LOG_MSG_LEN_MAX];
+
+            memset(logMsgBuffer, '\0', LOG_MSG_LEN_MAX);
 
             std::stringstream dbgStream;
             std::ostream& conOstream
@@ -111,7 +115,7 @@ namespace elevatorSim {
                << function << " : "
                << message << std::endl;
 
-            dbgStream.getline(logMsgBuffer, 1024);
+            dbgStream.getline(logMsgBuffer, LOG_MSG_LEN_MAX);
 
             conOstream << logMsgBuffer << std::endl;
             *logFile << logMsgBuffer << std::endl;

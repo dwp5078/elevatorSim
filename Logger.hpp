@@ -69,7 +69,8 @@ namespace elevatorSim{
 
       static const char * const LOG_SUBSYSTEM_NAMES[];
       static enum LOG_LEVEL * LOG_OUTPUT_LEVELS;
-
+      static const int LOG_MSG_LEN_MAX;
+      
       static Logger& acquire();
       static void release();
 
@@ -79,13 +80,20 @@ namespace elevatorSim{
          const char* const file,
          const int line,
          const char* const function,
-         const char* const message );
+         const std::string& message );
    };
 
 } /* namespace elevatorSim */
 
-#define LOG_MSG(LEVEL, SYSTEM, MSG) Logger::acquire()._logMessage\
-( LEVEL, SYSTEM, __FILE__, __LINE__, __FUNCTION__, MSG )
+#define LOG_INFO(SYSTEM, MSG) Logger::acquire()._logMessage\
+   ( Logger::LOG_INFO, SYSTEM, __FILE__, __LINE__, __FUNCTION__, MSG )
+
+#define LOG_WARNING(SYSTEM, MSG) Logger::acquire()._logMessage\
+   ( Logger::LOG_WARNING, SYSTEM, __FILE__, __LINE__, __FUNCTION__, MSG )
+
+#define LOG_ERROR(SYSTEM, MSG) Logger::acquire()._logMessage\
+   ( Logger::LOG_ERROR, SYSTEM, __FILE__, __LINE__, __FUNCTION__, MSG )
+
 
 #endif /* _LOGGER_H */
 
