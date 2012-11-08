@@ -33,7 +33,11 @@
 #include "cKeyManager.hpp"
 #include "Logger.hpp"
 
+#include <boost/thread.hpp>
+
 using namespace elevatorSim;
+
+void compute();
 
 int main(int argc, char** argv) {
    glutInit(&argc, argv);
@@ -49,10 +53,10 @@ int main(int argc, char** argv) {
 
    mainWin -> show();
 
-   /* TODO start other threads */
-
+   boost::thread computeThread(compute);   
    Fl::run();
-
+   computeThread.join();
+   
    delete mainWin;
    delete keyManager;
    delete timeManager;
@@ -62,4 +66,8 @@ int main(int argc, char** argv) {
    Logger::release();
 
    return 0;
+}
+
+void compute() {
+   /* TODO: move this into a different file and implement it*/
 }
