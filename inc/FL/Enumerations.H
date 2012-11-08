@@ -1,24 +1,15 @@
 //
-// "$Id: Enumerations.H 8710 2011-05-21 21:55:59Z manolo $"
+// "$Id: Enumerations.H 9707 2012-11-06 21:13:54Z matt $"
 //
 // Enumerations for the Fast Light Tool Kit (FLTK).
 //
-// Copyright 1998-2011 by Bill Spitzak and others.
+// Copyright 1998-2012 by Bill Spitzak and others.
 //
-// This library is free software; you can redistribute it and/or
-// modify it under the terms of the GNU Library General Public
-// License as published by the Free Software Foundation; either
-// version 2 of the License, or (at your option) any later version.
+// This library is free software. Distribution and use rights are outlined in
+// the file "COPYING" which should have been included with this file.  If this
+// file is missing or damaged, see the license at:
 //
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-// Library General Public License for more details.
-//
-// You should have received a copy of the GNU Library General Public
-// License along with this library; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-// USA.
+//     http://www.fltk.org/COPYING.php
 //
 // Please report all bugs and problems on the following page:
 //
@@ -31,6 +22,12 @@
 
 #ifndef Fl_Enumerations_H
 #define Fl_Enumerations_H
+
+/* Uncomment the following FLTK_ABI_VERSION line to enable ABI breaking fixes
+ * in the current patch release of FLTK. ** Use for static builds only! **
+ * For more info on this macro, see: http://fltk.org/cmp.php#FLTK_ABI_VERSION
+ */
+//#define FLTK_ABI_VERSION 10301
 
 #  include "Fl_Export.H"
 #  include "fl_types.h"
@@ -62,7 +59,7 @@
 
    FLTK remains binary compatible between patches.
  */
-#define FL_PATCH_VERSION	0
+#define FL_PATCH_VERSION	1
 
 /**
     The FLTK version number as a \em double.
@@ -292,7 +289,14 @@ enum Fl_Event {	// events
       If the widget returns 1, it will receive the data in the immediately 
       following FL_PASTE event.
    */
-  FL_DND_RELEASE	= 23
+  FL_DND_RELEASE	= 23,
+  /** The screen configuration (number, positions) was changed.
+   Use Fl::add_handler() to be notified of this event.
+   */
+  FL_SCREEN_CONFIGURATION_CHANGED = 24,
+  /** The fullscreen state of the window has changed
+   */
+   FL_FULLSCREEN         = 25
 };
 
 /** \name When Conditions */
@@ -333,6 +337,7 @@ enum Fl_When { // Fl_Widget::when():
 #define FL_Button	0xfee8	///< A mouse button; use Fl_Button + n for mouse button n.
 #define FL_BackSpace	0xff08	///< The backspace key.
 #define FL_Tab		0xff09	///< The tab key.
+#define FL_Iso_Key	0xff0c  ///< The additional key of ISO keyboards.
 #define FL_Enter	0xff0d	///< The enter key. 
 #define FL_Pause	0xff13	///< The pause key.
 #define FL_Scroll_Lock	0xff14	///< The scroll lock key.
@@ -955,5 +960,5 @@ enum Fl_Damage {
 #endif
 
 //
-// End of "$Id: Enumerations.H 8710 2011-05-21 21:55:59Z manolo $".
+// End of "$Id: Enumerations.H 9707 2012-11-06 21:13:54Z matt $".
 //

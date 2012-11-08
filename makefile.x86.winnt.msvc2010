@@ -28,7 +28,7 @@ OBJS=$(CLIENT_OBJ) $(SIM_OBJS)
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W4 /WX /EHac /c /D_ES_WINNT /Iinc
+CXXFLAGS=/W4 /EHac /c /D_ES_WINNT /Iinc
 
 DEBUGFLAGS=/Z7 /Gm- /MDd
 
