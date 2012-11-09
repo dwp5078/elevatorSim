@@ -5,27 +5,27 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain the above copyright notice, 
+ * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * The views and conclusions contained in the software and documentation are 
- * those of the authors and should not be interpreted as representing official 
+ * The views and conclusions contained in the software and documentation are
+ * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
@@ -53,10 +53,10 @@ void ElevatorSimWelcomeWindow::buildDialogs()
 {
    confirmDialog = new Fl_Window(350, 160, "");
    Wel_Label = new Fl_Box(10,10,330,50,
-      "This Welcome window will not be shown again.\nClose it?"); 
+      "This Welcome window will not be shown again.\nClose it?");
    OK_Button = new Fl_Button(100, 70, 150, 40, "OK");
    Cancel_Button = new Fl_Button(100, 110, 150, 40, "Cancel");
-      
+
    OK_Button->callback((Fl_Callback*) quitConfirmedCB, this);
    Cancel_Button->callback((Fl_Callback*) quitCancelledCB, this);
 
@@ -67,7 +67,7 @@ void ElevatorSimWelcomeWindow::buildDialogs()
 }
 
 void ElevatorSimWelcomeWindow::quitConfirmedCB(
-   Fl_Button* OK_Button, void* userData) 
+   Fl_Button* OK_Button, void* userData)
 {
    (void) OK_Button;
 
@@ -78,7 +78,7 @@ void ElevatorSimWelcomeWindow::quitConfirmedCB(
 }
 
 void ElevatorSimWelcomeWindow::quitCancelledCB(
-   Fl_Button* Cancel_Button, void* userData) 
+   Fl_Button* Cancel_Button, void* userData)
 {
    (void) Cancel_Button;
 
@@ -86,7 +86,7 @@ void ElevatorSimWelcomeWindow::quitCancelledCB(
    thisWin->confirmDialog->hide();
 }
 
-void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData) 
+void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData)
 {
    (void) win;
 

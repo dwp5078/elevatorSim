@@ -35,7 +35,7 @@
 #include "ElevatorSim.hpp"
 #include "Location.hpp"
 #include "Person.hpp"
-#include "SimulationTerminal.hpp"
+#include "ISimulationTerminal.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
 
@@ -47,7 +47,7 @@ class Location;
 class Building;
 struct SimulationTerminal;
 
-class Elevator : public Location, public SimulationTerminal {
+class Elevator : public Location, public ISimulationTerminal {
 
    /* friends */
 

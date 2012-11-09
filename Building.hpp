@@ -35,7 +35,7 @@
 #include "ElevatorSim.hpp"
 #include "Floor.hpp"
 #include "Elevator.hpp"
-#include "SimulationTerminal.hpp"
+#include "ISimulationTerminal.hpp"
 
 #include <GL/glut.h>
 
@@ -43,7 +43,7 @@ namespace elevatorSim{
 class Floor;
 class Elevator;
 
-class Building : public SimulationTerminal {
+class Building : public ISimulationTerminal {
 
    /* friends */
 
@@ -74,7 +74,7 @@ public:
    Building(const Building& buildingCopy);
    ~Building();
 
-   /* public methods inherited from SimulationTerminal */
+   /* public methods inherited from ISimulationTerminal */
    void init();
    void render();
    void update();

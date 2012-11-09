@@ -5,27 +5,27 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain the above copyright notice, 
+ * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * The views and conclusions contained in the software and documentation are 
- * those of the authors and should not be interpreted as representing official 
+ * The views and conclusions contained in the software and documentation are
+ * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
@@ -136,7 +136,7 @@ void cRenderObjs::initSphere()
 {
    glNewList(OBJ_SPHERE, GL_COMPILE);
 
-   /* 
+   /*
     * glEnable(GL_MATERIAL);
     *
     * GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
@@ -150,7 +150,7 @@ void cRenderObjs::initSphere()
     * glMaterialf(GL_FRONT, GL_SHININESS, shi);
     * glMaterialfv(GL_FRONT, GL_EMISSION, emi);
     */
-    
+
    glutSolidSphere(0.4, 50, 25);
 
 
@@ -232,7 +232,7 @@ void cRenderObjs::initHuman()
    glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    glScalef(0.4f, 0.4f, 0.4f);
-   
+
    glPushMatrix();
    glTranslatef(0.f, 1.5f, 0.f);
    glCallList(OBJ_SPHERE);
@@ -260,7 +260,7 @@ void cRenderObjs::initHuman()
    glTranslatef(-.73f, 0.33f, 0.0f);
    glRotatef(-25, 0.0f, 0.0f, 1.0f);
    glScalef(0.17f, 0.7f, 0.17f);
-   
+
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
@@ -268,7 +268,7 @@ void cRenderObjs::initHuman()
    glTranslatef(.73f, 0.33f, 0.0f);
    glRotatef(25, 0.0f, 0.0f, 1.0f);
    glScalef(0.17f, 0.7f, 0.17f);
-   
+
    glCallList(OBJ_CUBE);
    glPopMatrix();
 

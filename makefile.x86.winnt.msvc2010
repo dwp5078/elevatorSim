@@ -18,7 +18,7 @@ Location.obj\
 Person.obj\
 Building.obj\
 Floor.obj\
-SimulationTerminal.obj\
+ISimulationTerminal.obj\
 Logger.obj
 
 UNIT_TEST_OBJS=\

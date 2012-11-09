@@ -30,7 +30,7 @@
  */
 
 #include "Elevator.hpp"
-#include "SimulationTerminal.hpp"
+#include "ISimulationTerminal.hpp"
 #include "Building.hpp"
 
 #include <boost/math/special_functions/round.hpp>

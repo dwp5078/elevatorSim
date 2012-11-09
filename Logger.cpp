@@ -5,30 +5,30 @@
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
- * 1. Redistributions of source code must retain the above copyright notice, 
+ * 1. Redistributions of source code must retain the above copyright notice,
  * this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * The views and conclusions contained in the software and documentation are 
- * those of the authors and should not be interpreted as representing official 
+ * The views and conclusions contained in the software and documentation are
+ * those of the authors and should not be interpreted as representing official
  * policies, either expressed or implied, of the FreeBSD Project.
  */
- 
+
 #include "ElevatorSim.hpp"
 #include "Logger.hpp"
 
@@ -49,7 +49,7 @@ namespace elevatorSim {
    const int Logger::LOG_MSG_LEN_MAX = 1024;
 
    const char * const Logger::LOG_SUBSYSTEM_NAMES[] = {
-      "General", 
+      "General",
       "Memory",
       "Elevator Logic",
       "Render",
@@ -69,7 +69,7 @@ namespace elevatorSim {
    Logger& Logger::acquire() {
       if( loggerInstance == NULL ) {
          loggerInstance = new Logger();
-         logFile = new std::ofstream( 
+         logFile = new std::ofstream(
             logFileName, std::ios_base::out | std::ios_base::app);
          LOG_OUTPUT_LEVELS = new Logger::LOG_LEVEL[_SUB_MAX];
 
@@ -93,9 +93,9 @@ namespace elevatorSim {
       logFile = NULL;
    }
 
-   void Logger::_logMessage( 
-      LOG_LEVEL level, 
-      LOG_SUBSYSTEM system, 
+   void Logger::_logMessage(
+      LOG_LEVEL level,
+      LOG_SUBSYSTEM system,
       const char* const file,
       const int line,
       const char* const function,
@@ -121,10 +121,10 @@ namespace elevatorSim {
             *logFile << logMsgBuffer << std::endl;
          }
    }
-   
+
    void Logger::setAllSubsystems(LOG_LEVEL level) {
       assert(level != _LOG_LEVEL_MAX);
-      
+
       for( int i = 0; i < _SUB_MAX; ++i ) {
          LOG_OUTPUT_LEVELS[i] = level;
       }

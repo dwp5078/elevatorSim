@@ -35,7 +35,7 @@
 #include "ElevatorSim.hpp"
 #include "Location.hpp"
 #include "Person.hpp"
-#include "SimulationTerminal.hpp"
+#include "ISimulationTerminal.hpp"
 #include "Building.hpp"
 
 #include <vector>
@@ -43,7 +43,7 @@
 namespace elevatorSim {
 class Building;
 
-class Floor : public Location, public SimulationTerminal {
+class Floor : public Location, public ISimulationTerminal {
 
    /* friends */
 
@@ -78,7 +78,7 @@ public:
    Floor(const Floor & copy);
    ~Floor();
 
-   /* public methods inherited from SimulationTerminal*/
+   /* public methods inherited from ISimulationTerminal*/
    void init();
    void render();
    void update();
