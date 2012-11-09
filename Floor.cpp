@@ -33,6 +33,7 @@
 #include "Floor.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
+#include "SimulationState.hpp"
 
 #include <GL/glut.h>
 #include <iostream>
@@ -45,22 +46,21 @@ const int Floor::YVALS_PER_FLOOR = 1000;
 
 /* constructors */
 Floor::Floor(
-   const Building& _owner,
    int _yVal,
    bool _hasUpperFloor,
-   bool _hasLowerFloor) : Location(_yVal), owner(_owner) {
-      hasUpperFloor = _hasUpperFloor;
-      hasLowerFloor = _hasLowerFloor;
+   bool _hasLowerFloor) : 
+      Location(_yVal), 
+      hasUpperFloor(_hasUpperFloor),
+      hasLowerFloor(_hasLowerFloor) {
 
       signalingUp = false;
       signalingDown = false;
 
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "constructed floor with owner building @"
-         << &owner << std::endl;
-      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
-   }
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "constructed floor @" << this << std::endl;
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+      }
 }
 
 Floor::~Floor() {

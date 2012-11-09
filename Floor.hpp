@@ -55,19 +55,17 @@ class Floor : public Location, public ISimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   const Building& owner;
    std::vector<Person> occupants;
    bool signalingUp;
    bool signalingDown;
-   bool hasUpperFloor;
-   bool hasLowerFloor;
+   const bool hasUpperFloor;
+   const bool hasLowerFloor;
 
    /* private methods */
 
    /* constructors */
    Floor(
-      const Building& _owner,
-      int _yVal = 0,
+      int _yVal,
       bool _hasUpperFloor = false,
       bool _hasLowerFloor = false);
 

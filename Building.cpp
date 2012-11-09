@@ -64,7 +64,7 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
 
       for(unsigned int i=0; i < m_nStory ; ++i) {
          m_Floors[i] = new Floor(
-            *this, i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+            i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
