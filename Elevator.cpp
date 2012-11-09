@@ -29,6 +29,7 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
+#include "ElevatorSim.hpp"
 #include "Elevator.hpp"
 #include "ISimulationTerminal.hpp"
 #include "Building.hpp"

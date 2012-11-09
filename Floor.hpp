@@ -41,11 +41,14 @@
 #include <vector>
 
 namespace elevatorSim {
+
 class Building;
+class Person;
 
 class Floor : public Location, public ISimulationTerminal {
 
    /* friends */
+   friend class Building;
 
    /* private static constants */
 
@@ -61,13 +64,6 @@ class Floor : public Location, public ISimulationTerminal {
 
    /* private methods */
 
-public:
-
-   /* public static constants */
-   static const int YVALS_PER_FLOOR;
-
-   /* public instance members */
-
    /* constructors */
    Floor(
       const Building& _owner,
@@ -75,7 +71,13 @@ public:
       bool _hasUpperFloor = false,
       bool _hasLowerFloor = false);
 
-   Floor(const Floor & copy);
+public:
+
+   /* public static constants */
+   static const int YVALS_PER_FLOOR;
+
+   /* public instance members */
+
    ~Floor();
 
    /* public methods inherited from ISimulationTerminal*/

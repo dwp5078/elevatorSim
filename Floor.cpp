@@ -63,17 +63,6 @@ Floor::Floor(
    }
 }
 
-Floor::Floor(const Floor & copy) : Location(copy.yVal), owner(copy.owner) {
-   signalingUp = copy.signalingUp;
-   signalingDown = copy.signalingDown;
-   hasUpperFloor = copy.hasUpperFloor;
-   hasLowerFloor = copy.hasLowerFloor;
-
-   occupants.assign(
-      copy.occupants.begin(),
-      copy.occupants.end());
-}
-
 Floor::~Floor() {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -92,6 +81,7 @@ void Floor::render() {
    GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
    GLfloat shi = 0.5f;
    GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
    glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
    glMaterialfv(GL_FRONT, GL_SPECULAR, spe);

@@ -71,7 +71,6 @@ public:
 
    /* constructors */
    Building(unsigned int _nStory = 20, unsigned int _nElevator = 5);
-   Building(const Building& buildingCopy);
    ~Building();
 
    /* public methods inherited from ISimulationTerminal */

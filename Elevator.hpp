@@ -45,18 +45,18 @@ namespace elevatorSim {
 
 class Location;
 class Building;
+class Person;
 struct SimulationTerminal;
 
 class Elevator : public Location, public ISimulationTerminal {
 
    /* friends */
-
+   friend class Building;
 
    /* private static constants */
 
 
    /* private static methods */
-
 
    /* private instance members */
    const Building& owner;
@@ -71,6 +71,14 @@ class Elevator : public Location, public ISimulationTerminal {
 
    /* private methods */
 
+   /* constructor */
+   Elevator(
+      const Building& _owner,
+      int _yVal = 0,
+      const int _maxVel = DEFAULT_MAX_VEL,
+      const int _maxAccel = DEFAULT_MAX_ACCEL,
+      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
+
 public:
 
    /* public static constants */
@@ -80,13 +88,7 @@ public:
 
    /* public instance members */
 
-   /* constructors & destructors */
-   Elevator(
-      const Building& _owner,
-      int _yVal = 0,
-      const int _maxVel = DEFAULT_MAX_VEL,
-      const int _maxAccel = DEFAULT_MAX_ACCEL,
-      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
+   /* destructor */
    ~Elevator();
 
    /* public methods */

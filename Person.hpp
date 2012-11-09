@@ -33,13 +33,21 @@
 #define _PERSON_H
 
 #include "Location.hpp"
+#include "Building.hpp"
+#include "Elevator.hpp"
 #include "ISimulationTerminal.hpp"
 
 namespace elevatorSim {
 
+class Building;
+class Elevator;
+
 class Person : public ISimulationTerminal {
 
    /* friends */
+   friend class Building;
+   friend class Floor;
+   friend class Elevator;
 
    /* (this person has no friends, trololoo) */
 
@@ -53,7 +61,6 @@ class Person : public ISimulationTerminal {
 
    /* private static methods */
 
-
    /* private instance members */
    Location current;
    Location destination;
@@ -61,18 +68,18 @@ class Person : public ISimulationTerminal {
 
    /* private methods */
 
-public:
-
-   /* public static constants */
-
-
-   /* public instance members */
-
    /* constructors */
    Person(
          Location startLoc,
          Location dest,
          enum PRIORITY p=UNKNOWN);
+
+public:
+
+   /* public static constants */
+
+   /* public instance members */
+
    ~Person();
 
    /* public methods */

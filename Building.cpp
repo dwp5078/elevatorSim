@@ -78,18 +78,6 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       }
 }
 
-Building::Building(const Building& buildingCopySrc) :
-   m_nStory(buildingCopySrc.m_nStory),
-   m_nElevator(buildingCopySrc.m_nElevator),
-   gfxScaleHeight(buildingCopySrc.gfxScaleHeight),
-   gfxScaleWidth(buildingCopySrc.gfxScaleWidth),
-   gfxEachFloorHeight(buildingCopySrc.gfxEachFloorHeight),
-   gfxEachElevWidth(buildingCopySrc.gfxEachElevWidth) {
-
-      assert(false); /* FIXME: write the rest of this */
-}
-
-
 Building::~Building() {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
