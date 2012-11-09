@@ -34,6 +34,7 @@
 #include "SimulationState.hpp"
 #include "Logger.hpp"
 
+#include <boost/version.hpp>
 #include <boost/thread.hpp>
 #include <boost/program_options.hpp>
 #include <iostream>
@@ -51,6 +52,12 @@ int main(int argc, char** argv) {
    Logger::acquire();
    LOG_INFO(Logger::SUB_GENERAL, "logger starting up");
 
+   /* output version info of libraries */
+   std::cout << "built with: " << std::endl
+      << "boost v" << BOOST_LIB_VERSION << std::endl
+      << "fltk v" << FL_MAJOR_VERSION << "_" 
+      << FL_MINOR_VERSION << FL_PATCH_VERSION << std::endl;
+   
    parseArgs(argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
 
