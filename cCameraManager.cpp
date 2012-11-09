@@ -33,6 +33,7 @@
 #include "cCameraManager.hpp"
 #include "cKeyManager.hpp"
 #include "cTimeManager.hpp"
+#include "SimulationState.hpp"
 
 #include <FL/Enumerations.H>
 #include <GL/glut.h>
@@ -42,11 +43,7 @@ namespace elevatorSim {
 const float MOVE = 0.37f;
 const float ROT = 0.1f;
 
-cCameraManager::cCameraManager(
-      const cKeyManager& _keyManager,
-      const cTimeManager& _timeManager) :
-			            keyManager(_keyManager),
-			            timeManager(_timeManager) {
+cCameraManager::cCameraManager() {
    ReinitCamera();
 }
 
@@ -59,6 +56,7 @@ void cCameraManager::Update()
    float rot = ROT;
 
    Vec3f right = GetRight() * move;
+   cKeyManager& keyManager = SimulationState::acquire().getKeyManager();
 
    if(keyManager.isDown(FL_Page_Up)) {
       m_vecCamPos.y = m_vecCamPos.y + move;

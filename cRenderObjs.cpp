@@ -39,9 +39,10 @@ const GLfloat cRenderObjs::ELEV_GAP_WIDTH = 1.7f;
 const GLfloat cRenderObjs::GFX_ELEV_SCALE_HEIGHT = 1.0f;
 const GLfloat cRenderObjs::GFX_ELEV_SCALE_WIDTH = 0.75f;
 
-cRenderObjs::cRenderObjs()
-{
-   m_bIsInit = false;
+bool cRenderObjs::m_bIsInit = false;
+
+cRenderObjs::cRenderObjs() {
+
 }
 
 void cRenderObjs::init()
@@ -274,4 +275,5 @@ void cRenderObjs::initHuman()
 
    glEndList();
 }
-}
+
+} /* namespace elevatorSim */

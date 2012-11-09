@@ -36,11 +36,14 @@
 
 #include <GL/glut.h>
 
-namespace elevatorSim   {
+namespace elevatorSim {
 
-class cRenderObjs
-{
-   bool m_bIsInit;
+class cRenderObjs {
+   friend class SimulationState;
+
+   static bool m_bIsInit;
+
+   cRenderObjs();
 
 public:
 
@@ -57,8 +60,6 @@ public:
       OBJ_HUMAN,
       OBJ_MAX
    };
-
-   cRenderObjs();
 
    void init();
    void initCube();

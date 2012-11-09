@@ -86,10 +86,6 @@ class ElevatorSimWindow : public Fl_Window {
    Fl_Text_Display* helpLabel;
    Fl_Button* helpDoneButton;
 
-   /* simulations state references */
-   cTimeManager& timeManager;
-   cKeyManager& keyManager;
-
    /* left pane widgets */
    Fl_Button *startButton;
    Fl_Button *pauseButton;
@@ -104,7 +100,7 @@ public:
    const static int MENUBAR_HEIGHT;
 
    /* public methods */
-   ElevatorSimWindow(cTimeManager& _timeManager, cKeyManager& _keyManager);
+   ElevatorSimWindow();
    ~ElevatorSimWindow();
 
 };

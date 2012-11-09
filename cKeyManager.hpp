@@ -32,16 +32,19 @@
 #ifndef __CKEYMANAGER_H__
 #define __CKEYMANAGER_H__
 
-#include <map>
-
 #include "ElevatorSim.hpp"
+#include "SimulationState.hpp"
+
+#include <map>
 
 namespace elevatorSim {
 
 class cKeyManager {
-private:
+   friend class SimulationState;
 
    std::map<int, bool> keysPressed;
+
+   cKeyManager();
 
 public:
 

@@ -29,79 +29,65 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _ELEVATOR_SIM_RENDER_WINDOW_H
-#define _ELEVATOR_SIM_RENDER_WINDOW_H
+#ifndef _SIMULATION_STATE_H_
+#define _SIMULATION_STATE_H_
 
 #include "ElevatorSim.hpp"
-#include "cCameraManager.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 #include "cRenderObjs.hpp"
+#include "cCameraManager.hpp"
 #include "Building.hpp"
-#include "MVectors.hpp"
 
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Gl_Window.H>
+#include <cassert>
 
 namespace elevatorSim {
 
-class ElevatorSimRenderWindow : public Fl_Gl_Window {
+class cTimeManager;
+class cKeyManager;
+class cRenderObjs;
+class cCameraManager;
 
-   /* friends */
-   friend class ElevatorSimWindow;
+class SimulationState {
 
-   /* private static methods */
-   static void timerCB(void* userData);
+   static SimulationState* simulationState;
 
-   /* private static constants */
-   static const GLfloat light1_ambient[4];
-   static const GLfloat light1_diffuse[4];
-   static const GLfloat light1_specular[4];
-   static const GLfloat light1_position[4];
-   static const GLfloat light1_direction[4];
+   cTimeManager* timeManager;
+   cKeyManager* keyManager;
+   cRenderObjs* renderObjs;
+   cCameraManager* cameraManager;
 
-   /* private instance members */
-   float spin;
+   Building* building;
 
-   /*
-   cRenderObjs    m_renderObjs;
-   cCameraManager m_CameraManager;
-   Building       m_Building;
-   */
-
-   /* private methods */
-   int handle(int event);
-   void glInit();
-   void setViewport();
-   void setPerspective(
-         GLdouble fovy,
-         GLdouble aspect,
-         GLdouble zNear,
-         GLdouble zFar);
-
-   void drawFPS();
-   void drawText(const char * const str, float x, float y);
-
+   SimulationState();
+   ~SimulationState();
 
 public:
 
-   /* public static constants */
-   static const int LEFT_MARGIN;
-   static const int RIGHT_MARGIN;
-   static const int TOP_MARGIN;
-   static const int BOTTOM_MARGIN;
+   static SimulationState& acquire();
+   static void release();
 
-   bool m_bRenderFPS;
+   inline cKeyManager& getKeyManager() {
+      return *keyManager;
+   }
 
-   /* public instance members */
+   inline cTimeManager& getTimeManager() {
+      return *timeManager;
+   }
 
-   /* public methods */
-   ElevatorSimRenderWindow(
-      int X, int Y, int W, int H, const char* Label = 0);
+   inline cCameraManager& getCameraManager() {
+      return *cameraManager;
+   }
 
-   void draw();
+   inline Building& getBuilding() {
+      return *building;
+   }
+
+   void initRenderObjs() {
+      renderObjs->init();
+   }
 };
 
 } /* namespace elevatorSim */
 
-#endif
+#endif /* _SIMULATION_STATE_H */

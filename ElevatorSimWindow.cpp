@@ -33,6 +33,7 @@
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
+#include "SimulationState.hpp"
 #include "Logger.hpp"
 
 #include <sstream>
@@ -65,11 +66,12 @@ int ElevatorSimWindow::handle(int event) {
 
          goto handleInParent;
       } else {
-         keyManager.down(lastKey);
+
+         SimulationState::acquire().getKeyManager().down(lastKey);
          return true;
       }
    } else if ( event == FL_KEYUP) {
-      keyManager.up(lastKey);
+      SimulationState::acquire().getKeyManager().up(lastKey);
       return true;
    }
 
@@ -268,7 +270,7 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
 void ElevatorSimWindow::buildMenu() {
    /*
     * struct Fl_Menu_Item {
-    *    const char*          text;     // label()
+    *    const char*          label;
     *    ulong                shortcut_;
     *    Fl_Callback*         callback_;
     *    void*                user_data_;
@@ -402,16 +404,9 @@ const int ElevatorSimWindow::WINDOW_HEIGHT = 480;
 const int ElevatorSimWindow::MENUBAR_HEIGHT = 25;
 
 /* public methods */
-ElevatorSimWindow::ElevatorSimWindow(
-   cTimeManager& _timeManager, cKeyManager& _keyManager) :
-   Fl_Window(WINDOW_WIDTH,
-   WINDOW_HEIGHT,
-   WINDOW_TITLE),
-   timeManager(_timeManager),
-   keyManager(_keyManager) {
+ElevatorSimWindow::ElevatorSimWindow() :
+   Fl_Window(WINDOW_WIDTH,  WINDOW_HEIGHT, WINDOW_TITLE) {
       renderWindow = new ElevatorSimRenderWindow(
-         keyManager,
-         timeManager,
          ElevatorSimRenderWindow::LEFT_MARGIN,
          ElevatorSimRenderWindow::TOP_MARGIN,
          WINDOW_WIDTH -

@@ -19,7 +19,8 @@ Person.obj\
 Building.obj\
 Floor.obj\
 ISimulationTerminal.obj\
-Logger.obj
+Logger.obj\
+SimulationState.obj
 
 UNIT_TEST_OBJS=\
 UnitTests.obj\

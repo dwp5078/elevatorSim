@@ -31,7 +31,12 @@
 
 #include "ElevatorSim.hpp"
 #include "cKeyManager.hpp"
+#include "Logger.hpp"
 
 namespace elevatorSim {
+
+cKeyManager::cKeyManager() {
+
+}
 
 } /* namespace elevatorSim */

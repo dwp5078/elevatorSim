@@ -31,8 +31,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
-#include "cTimeManager.hpp"
-#include "cKeyManager.hpp"
+#include "SimulationState.hpp"
 #include "Logger.hpp"
 
 #include <boost/thread.hpp>
@@ -55,11 +54,9 @@ int main(int argc, char** argv) {
    parseArgs(argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
 
-   cTimeManager* timeManager = new cTimeManager();
-   cKeyManager* keyManager= new cKeyManager();
-   ElevatorSimWindow* mainWin =
-      new ElevatorSimWindow(*timeManager, *keyManager);
+   SimulationState::acquire();
 
+   ElevatorSimWindow* mainWin = new ElevatorSimWindow();
    mainWin -> show();
 
    boost::thread computeThread(compute);
@@ -67,12 +64,11 @@ int main(int argc, char** argv) {
    computeThread.join();
 
    delete mainWin;
-   delete keyManager;
-   delete timeManager;
 
    LOG_INFO(Logger::SUB_GENERAL, "logger shutting down");
-   Logger::release();
 
+   SimulationState::release();
+   Logger::release();
    return 0;
 }
 

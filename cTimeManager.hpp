@@ -33,11 +33,14 @@
 #define __CTIMEMANAGER_H__
 
 #include "ElevatorSim.hpp"
+#include "SimulationState.hpp"
+
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace elevatorSim {
 
 class cTimeManager {
+   friend class SimulationState;
 
    boost::posix_time::ptime m_dwPrevTime;
    boost::posix_time::ptime m_dwCurrTime;
@@ -51,11 +54,12 @@ class cTimeManager {
    size_t secondFrames;
    boost::posix_time::time_duration frameLimit;
 
+   cTimeManager();
+
 public:
 
    static const double redrawInterval;
 
-   cTimeManager();
 
    void reset();
    void update();

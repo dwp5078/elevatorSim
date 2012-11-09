@@ -36,11 +36,13 @@
 #include "cKeyManager.hpp"
 #include "cTimeManager.hpp"
 #include "MVectors.hpp"
+#include "SimulationState.hpp"
 
 namespace elevatorSim {
 
 class cCameraManager {
-private:
+   friend class SimulationState;
+
    Vec3f m_vecCamPos;
    Vec3f m_vecCamLookAt;
    Vec3f m_vecCamUp;
@@ -49,14 +51,14 @@ private:
    float m_fYawAngle;
    float m_fRollAngle;
 
+   /*
    const cKeyManager& keyManager;
    const cTimeManager& timeManager;
+   */
+
+   cCameraManager();
 
 public:
-   cCameraManager(
-         const cKeyManager& _keyManager,
-         const cTimeManager& _timeManager
-   );
 
    void Update();
    void Render();
