@@ -48,29 +48,28 @@ const int Elevator::DEFAULT_MAX_ACCEL = 1;  //3
 const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
 
 Elevator::Elevator(
-   const Building& _owner,
    int _yVal,
+   const int _numFloors,
    const int _maxVel,
    const int _maxAccel,
    const int _maxOccupants) :
-   owner(_owner),
+   numFloors(_numFloors), 
    maxVel(_maxVel),
    maxAccel(_maxAccel),
-   maxOccupants(_maxOccupants)  {
+   maxOccupants(_maxOccupants) { 
 
    yVal = _yVal;
    currentVel = 0;
    currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
-
-   floorsSignaled = new bool[owner.getStories()];
+   
+   floorsSignaled = new bool[numFloors];
 
    ///////////////////Test - Soohoon
    destFloor = -1;
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
-      dbgSS << "constructed elevator with owner building @"
-         << &owner << std::endl;
+      dbgSS << "constructed elevator @" << this << std::endl;
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 }
@@ -167,6 +166,9 @@ void Elevator::update() {
    assert(currentAccel == -maxAccel ||
       currentAccel == maxAccel || currentAccel == 0  );
 
+   const int minElevHeight = SimulationState::acquire().getBuilding().getMinElevHeight();
+   const int maxElevHeight = SimulationState::acquire().getBuilding().getMaxElevHeight();
+
    ///////////////////Test Block Start-  Soohoon
    generateRandomDest();
    int finalPos = destFloor * Floor::YVALS_PER_FLOOR;
@@ -233,23 +235,21 @@ void Elevator::update() {
    if(currentVel > 0) {
       /* replace current yVal with yVal plus current vel
        * unless it's greater than the maximum yVal */
-      yVal = (yVal + currentVel < owner.getMaxElevHeight()) ?
-         ( yVal + currentVel ) : ( owner.getMaxElevHeight() );
+      yVal = (yVal + currentVel < maxElevHeight) ?
+         ( yVal + currentVel ) : ( maxElevHeight );
    /* otherwise if current vel is negative */
    } else if (currentVel < 0) {
       /* replace current yVal with yVal + current vel
        * unless it's less than the minimum yVal */
-      yVal = (yVal + currentVel > owner.getMinElevHeight()) ?
-         ( yVal + currentVel ) : ( owner.getMinElevHeight() );
+      yVal = (yVal + currentVel > minElevHeight) ?
+         ( yVal + currentVel ) : ( minElevHeight );
    }
 
    ////////////////Test Block Start
    }
    ////////////////Test Block End
 
-   assert(
-      owner.getMinElevHeight() <= yVal &&
-      yVal <= owner.getMaxElevHeight() );
+   assert( minElevHeight <= yVal && yVal <= maxElevHeight );
    assert( -maxVel <= currentVel && currentVel <= maxVel );
 }
 
@@ -258,7 +258,7 @@ void Elevator::generateRandomDest()
 {
    if(destFloor != -1)  return;
 
-   destFloor = rand() % owner.getStories();
+   destFloor = rand() % SimulationState::acquire().getBuilding().getStories();
 
    if(yVal < destFloor * Floor::YVALS_PER_FLOOR) {
       currentAccel = maxAccel;

@@ -47,6 +47,7 @@ class cTimeManager;
 class cKeyManager;
 class cRenderObjs;
 class cCameraManager;
+class Building;
 
 class SimulationState {
 

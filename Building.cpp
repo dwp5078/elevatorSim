@@ -68,7 +68,7 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
-         m_Elevators[i] = new Elevator(*this, 0);
+         m_Elevators[i] = new Elevator(0, _nStory);
       }
 
       if(isDebugBuild()) {

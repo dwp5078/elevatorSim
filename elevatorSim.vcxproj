@@ -37,7 +37,7 @@
     <NMakeOutput>elevatorSim.exe</NMakeOutput>
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <IncludePath>C:\Users\yoy5144\Downloads\elevatorSim\inc;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(IncludePath)</IncludePath>
     <NMakeReBuildCommandLine>clean.bat &amp;&amp; build.bat</NMakeReBuildCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

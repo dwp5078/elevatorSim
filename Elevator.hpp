@@ -38,6 +38,7 @@
 #include "ISimulationTerminal.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
+#include "SimulationState.hpp"
 
 #include <vector>
 
@@ -55,14 +56,14 @@ class Elevator : public Location, public ISimulationTerminal {
 
    /* private static constants */
 
-
    /* private static methods */
 
    /* private instance members */
-   const Building& owner;
    const int maxVel;
    const int maxAccel;
    const int maxOccupants;
+   const int numFloors;
+
    int currentVel;
    int currentAccel;
    int destFloor;
@@ -73,11 +74,11 @@ class Elevator : public Location, public ISimulationTerminal {
 
    /* constructor */
    Elevator(
-      const Building& _owner,
-      int _yVal = 0,
+      int _yVal,
+      const int _numFloors,
       const int _maxVel = DEFAULT_MAX_VEL,
       const int _maxAccel = DEFAULT_MAX_ACCEL,
-      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
+      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS); 
 
 public:
 
