@@ -59,8 +59,10 @@ int main(int argc, char** argv) {
    std::cout << "built with: " << std::endl
       << "boost v" << BOOST_LIB_VERSION << std::endl
       << "fltk v" << FL_MAJOR_VERSION << "_" 
-      << FL_MINOR_VERSION << FL_PATCH_VERSION << std::endl;
+      << FL_MINOR_VERSION << FL_PATCH_VERSION << std::endl
+      << "python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION << std::endl;
    
+
    parseArgs(argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
 
