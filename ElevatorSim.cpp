@@ -29,6 +29,7 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
+
 #include "ElevatorSim.hpp"
 #include "ElevatorSimWindow.hpp"
 #include "SimulationState.hpp"
@@ -50,6 +51,8 @@ int main(int argc, char** argv) {
    glutInit(&argc, argv);
 
    Logger::acquire();
+   Py_Initialize();
+
    LOG_INFO(Logger::SUB_GENERAL, "logger starting up");
 
    /* output version info of libraries */
@@ -76,6 +79,8 @@ int main(int argc, char** argv) {
 
    SimulationState::release();
    Logger::release();
+   Py_Finalize();
+
    return 0;
 }
 

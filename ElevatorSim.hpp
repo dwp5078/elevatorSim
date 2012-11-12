@@ -37,6 +37,8 @@
 #include <sstream>
 #include <string>
 
+#include <Python.h>
+
 #if defined(_ES_WINNT)
 #pragma warning(disable: 4244; disable: 4512; disable: 4211; disable: 4913)
 #include <Windows.h>
