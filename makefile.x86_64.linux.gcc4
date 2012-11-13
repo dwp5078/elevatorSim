@@ -32,17 +32,19 @@ RM=rm
 OUT=elevatorSim
 UNIT_TEST_OUT=elevatorSimUnitTests
 
+.PHONY: clean
+
 all: elevatorSim
 
 elevatorSim: $(OBJS) unitTests $(CLIENT_OBJ)
-	$(CC) $(OBJS) $(CLIENT_OBJ) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
-	./$(UNIT_TEST_OUT)
+	@$(CC) $(OBJS) $(CLIENT_OBJ) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
+	@./$(UNIT_TEST_OUT)
 
 unitTests: $(OBJS) $(UNIT_TEST_OBJS)
-	$(CC) $(OBJS) $(UNIT_TEST_OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(UNIT_TEST_OUT)
+	@$(CC) $(OBJS) $(UNIT_TEST_OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(UNIT_TEST_OUT)
 
 .cpp.o:
-	$(CC) $(DBGFLAGS) $(CXXFLAGS) $<
+	@$(CC) $(DBGFLAGS) $(CXXFLAGS) $< && echo CC $<
 
 clean:
-	$(RM) -f $(OBJS) $(CLIENT_OBJ) $(UNIT_TEST_OBJS) $(OUT) $(UNIT_TEST_OUT)
+	@$(RM) -f $(OBJS) $(CLIENT_OBJ) $(UNIT_TEST_OBJS) $(OUT) $(UNIT_TEST_OUT)
