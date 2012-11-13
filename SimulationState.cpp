@@ -43,7 +43,7 @@ namespace elevatorSim   {
 
 SimulationState* SimulationState::simulationState = NULL;
 
-SimulationState::SimulationState() {
+SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING) {
    timeManager = new cTimeManager();
    keyManager = new cKeyManager();
    renderObjs = new cRenderObjs();
@@ -76,7 +76,7 @@ void SimulationState::release() {
 }
 
 void SimulationState::init() {
-
+   cState = SIMULATION_RUNNING;
 }
 
 void SimulationState::update() {

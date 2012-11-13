@@ -75,6 +75,7 @@ int main(int argc, char** argv) {
 
    boost::thread computeThread(compute);
    Fl::run();
+   SimulationState::acquire().notifyKill();
    computeThread.join();
 
    delete mainWin;
@@ -91,8 +92,12 @@ int main(int argc, char** argv) {
 void compute() {
    /* TODO: move this into a different file */
    static boost::chrono::milliseconds waitDuration(50); /* TODO: make this a const */
-
-   boost::this_thread::sleep_for(waitDuration);
+   SimulationState& simState = SimulationState::acquire();
+   
+   while( simState.getState() != SimulationState::SIMULATION_KILLED ) {
+      simState.update();
+      boost::this_thread::sleep_for(waitDuration);
+   }
 }
 
 void parseArgs(int argc, char** argv) {

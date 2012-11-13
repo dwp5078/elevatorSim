@@ -66,7 +66,6 @@ int ElevatorSimWindow::handle(int event) {
 
          goto handleInParent;
       } else {
-
          SimulationState::acquire().getKeyManager().down(lastKey);
          return true;
       }

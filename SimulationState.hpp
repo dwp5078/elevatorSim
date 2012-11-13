@@ -50,19 +50,6 @@ class cCameraManager;
 class Building;
 
 class SimulationState : public IStateObject {
-
-   static SimulationState* simulationState;
-
-   cTimeManager* timeManager;
-   cKeyManager* keyManager;
-   cRenderObjs* renderObjs;
-   cCameraManager* cameraManager;
-
-   Building* building;
-
-   SimulationState();
-   ~SimulationState();
-
 public:
 
    enum StateKind {
@@ -97,6 +84,31 @@ public:
 
    void init();
    void update();
+
+   /* TODO: something more elaborate and safe here */
+   inline void notifyKill() {
+      cState = SIMULATION_KILLED;
+   }
+
+   inline enum StateKind getState() const {
+      return cState;
+   }
+
+private:
+   
+   static SimulationState* simulationState;
+
+   StateKind cState;
+   cTimeManager* timeManager;
+   cKeyManager* keyManager;
+   cRenderObjs* renderObjs;
+   cCameraManager* cameraManager;
+
+   Building* building;
+
+   SimulationState();
+   ~SimulationState();
+
 };
 
 } /* namespace elevatorSim */
