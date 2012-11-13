@@ -65,6 +65,13 @@ class SimulationState : public IStateObject {
 
 public:
 
+   enum StateKind {
+      SIMULATION_STARTING,
+      SIMULATION_RUNNING,
+      SIMULATION_PAUSED,
+      SIMULATION_KILLED
+   };
+
    static SimulationState& acquire();
    static void release();
 
