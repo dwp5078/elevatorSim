@@ -88,16 +88,13 @@ void SimulationState::update() {
 
    /* lambdas are sexy */
 
-   bigAssStateMutex.lock();
+   bigAssStateMutex.lock(); /* massive mutexes are not */
 
    std::for_each(
       stateObjects.begin(),
       stateObjects.end(),
       [] (IStateObject * stateObj) { 
-   
-         /* TODO: acquire a lock and call update */
-         (void) stateObj;
-
+         stateObj -> update();
    });
 
    bigAssStateMutex.unlock();

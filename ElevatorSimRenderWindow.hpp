@@ -63,12 +63,6 @@ class ElevatorSimRenderWindow : public Fl_Gl_Window {
    /* private instance members */
    float spin;
 
-   /*
-   cRenderObjs    m_renderObjs;
-   cCameraManager m_CameraManager;
-   Building       m_Building;
-   */
-
    /* private methods */
    int handle(int event);
    void glInit();
@@ -79,9 +73,8 @@ class ElevatorSimRenderWindow : public Fl_Gl_Window {
          GLdouble zNear,
          GLdouble zFar);
 
-   void drawFPS();
+   void drawFPS(int fps, int totalFrames);
    void drawText(const char * const str, float x, float y);
-
 
 public:
 

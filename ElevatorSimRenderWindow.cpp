@@ -65,14 +65,7 @@ const GLfloat ElevatorSimRenderWindow::light1_direction[4] =
 
 void ElevatorSimRenderWindow::timerCB(void* userdata) {
    ElevatorSimRenderWindow* myWindow = (ElevatorSimRenderWindow*)userdata;
-
    myWindow->redraw();
-
-   /* TODO: move these updates to the compute thread and unify the method */
-   SimulationState::acquire().getCameraManager().update();
-   SimulationState::acquire().getTimeManager().update();
-   SimulationState::acquire().getBuilding().update();
-
    Fl::repeat_timeout(cTimeManager::redrawInterval, timerCB, userdata);
 }
 
@@ -128,7 +121,7 @@ void ElevatorSimRenderWindow::setPerspective(
    glFrustum(xmin, xmax, ymin, ymax, zNear, zFar);
 }
 
-void ElevatorSimRenderWindow::drawFPS() {
+void ElevatorSimRenderWindow::drawFPS(int fps, int totalFrames) {
    std::stringstream renderStringStream(
          std::stringstream::in | std::stringstream::out);
    char stringBuf[256];
@@ -136,15 +129,11 @@ void ElevatorSimRenderWindow::drawFPS() {
    glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
    renderStringStream
-   << "FPS: "
-   << SimulationState::acquire().getTimeManager().getFPS()
-   << std::endl;
+   << "FPS: " << fps << std::endl;
 
    renderStringStream
-   << "Total Frame: "
-   << SimulationState::acquire().getTimeManager().getTotalFrames()
-   << std::endl;
-
+   << "Total Frame: " << totalFrames   << std::endl;
+   
    renderStringStream.getline(stringBuf, 256);
    drawText(stringBuf, 10.f, 10.f);
 
@@ -203,10 +192,15 @@ ElevatorSimRenderWindow::ElevatorSimRenderWindow(
 }
 
 void ElevatorSimRenderWindow::draw() {
+   SimulationState& simState = SimulationState::acquire();
+
    if(!valid()) {
       /* init, this code only gets executed the first time draw() is called */
 
-      SimulationState::acquire().initRenderObjs();
+      simState.lockBASM(); /* CRITICAL SECTION START */
+      simState.initRenderObjs();
+      simState.unlockBASM(); /* CRITICAL SECTION STOP */
+
       glInit();
       setViewport();
    }
@@ -221,15 +215,21 @@ void ElevatorSimRenderWindow::draw() {
    /* TODO: make these constants somewhere */
    gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-   SimulationState::acquire().getCameraManager().render();
+   simState.lockBASM(); /* CRITICAL SECTION START */
+   simState.getCameraManager().render();
 
    glMatrixMode(GL_MODELVIEW);
-
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
 
-   SimulationState::acquire().getBuilding().render();
-   if(m_bRenderFPS) { drawFPS(); }
+   simState.getBuilding().render();
+
+   int curFPS = simState.getTimeManager().getFPS();
+   int curTotalFrames = simState.getTimeManager().getTotalFrames();
+   
+   simState.unlockBASM(); /* CRITICAL SECTION STOP */
+
+   if(m_bRenderFPS) { drawFPS(curFPS, curTotalFrames); }
 
    /* glTranslatef(0.f, 3.f, 3.f);
     * glCallList(cRenderObjs::OBJ_HUMAN); */

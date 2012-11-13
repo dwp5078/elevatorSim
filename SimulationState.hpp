@@ -96,6 +96,14 @@ public:
       return cState;
    }
 
+   inline void lockBASM() {
+      bigAssStateMutex.lock();
+   }
+
+   inline void unlockBASM() {
+      bigAssStateMutex.unlock();
+   }
+
 private:
    
    static SimulationState* simulationState;
