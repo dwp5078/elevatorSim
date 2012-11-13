@@ -30,11 +30,10 @@
  */
 
 #include "ElevatorSim.hpp"
-#include "ISimulationTerminal.hpp"
 #include "IStateObject.hpp"
 
 namespace elevatorSim {
-   ISimulationTerminal::~ISimulationTerminal() {
+   IStateObject::~IStateObject() {
 
    }
 } /* namespace ElevatorSim */

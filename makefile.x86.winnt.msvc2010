@@ -20,7 +20,8 @@ Building.obj\
 Floor.obj\
 ISimulationTerminal.obj\
 Logger.obj\
-SimulationState.obj
+SimulationState.obj\
+IStateObject.obj
 
 UNIT_TEST_OBJS=\
 UnitTests.obj\

@@ -32,11 +32,12 @@
 #ifndef _I_SIMULATION_TERMINAL_H
 #define _I_SIMULATION_TERMINAL_H
 
+#include "ISimulationTerminal.hpp"
+#include "IStateObject.hpp"
+
 namespace elevatorSim {
 
-struct ISimulationTerminal {
-   virtual void init() = 0;
-   virtual void render() = 0;
+struct ISimulationTerminal : public IStateObject {
    virtual void update() = 0;
 
    /*
