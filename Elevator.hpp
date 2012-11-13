@@ -41,6 +41,7 @@
 #include "SimulationState.hpp"
 
 #include <vector>
+#include <utility>
 
 namespace elevatorSim {
 
@@ -69,6 +70,7 @@ class Elevator : public Location, public ISimulationTerminal {
    int destFloor;
    bool* floorsSignaled;
    std::vector<Person> occupants;
+   std::vector<std::pair<int, int>> scheduledAccels;
 
    /* private methods */
 
@@ -94,6 +96,7 @@ public:
 
    /* public methods */
    bool canStopAtNextFloor();
+   void goToFloor(int floor);
 
    /* inherited from SimulationTerminal */
    void init();

@@ -152,6 +152,18 @@ bool Elevator::canStopAtNextFloor() {
    }
 }
 
+void Elevator::goToFloor(int floor) {
+   (void) floor;
+   (void) scheduledAccels;
+
+   int timeVal = 0;
+   int accelVel = 0;
+
+   /* TODO: compute some time, acceleration pairs and append them each to scheduledAccels */
+
+   scheduledAccels.push_back( std::pair<int, int> (timeVal, accelVel) );
+}
+
 void Elevator::init() {
    /* TODO */
 }
