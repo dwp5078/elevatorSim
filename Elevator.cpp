@@ -153,6 +153,8 @@ bool Elevator::canStopAtNextFloor() {
 }
 
 void Elevator::goToFloor(int floor) {
+   assert(floor >= 0 && floor < numFloors);
+
    (void) floor;
    (void) scheduledAccels;
 
