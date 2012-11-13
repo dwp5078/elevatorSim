@@ -37,6 +37,8 @@
 
 #include <boost/version.hpp>
 #include <boost/thread.hpp>
+#include <boost/chrono.hpp>
+
 #include <boost/program_options.hpp>
 #include <iostream>
 #include <iterator>
@@ -87,7 +89,10 @@ int main(int argc, char** argv) {
 }
 
 void compute() {
-   /* TODO: move this into a different file and implement it*/
+   /* TODO: move this into a different file */
+   static boost::chrono::milliseconds waitDuration(50); /* TODO: make this a const */
+
+   boost::this_thread::sleep_for(waitDuration);
 }
 
 void parseArgs(int argc, char** argv) {
