@@ -37,6 +37,8 @@
 #include "cCameraManager.hpp"
 #include "Building.hpp"
 
+#include <set>
+#include <functional>
 #include <cassert>
 
 namespace elevatorSim   {
@@ -44,12 +46,12 @@ namespace elevatorSim   {
 SimulationState* SimulationState::simulationState = NULL;
 
 SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING) {
-   timeManager = new cTimeManager();
-   keyManager = new cKeyManager();
-   renderObjs = new cRenderObjs();
-   cameraManager = new cCameraManager();
+   stateObjects.insert((timeManager = new cTimeManager()));
+   stateObjects.insert((keyManager = new cKeyManager()));
+   stateObjects.insert((cameraManager = new cCameraManager()));
+   stateObjects.insert((building = new Building()));
 
-   building = new Building();
+   renderObjs = new cRenderObjs();
 }
 
 SimulationState::~SimulationState() {
@@ -77,10 +79,23 @@ void SimulationState::release() {
 
 void SimulationState::init() {
    cState = SIMULATION_RUNNING;
+
+   /* TODO */
 }
 
 void SimulationState::update() {
 
+   /* lambdas are sexy */
+
+   std::for_each(
+      stateObjects.begin(),
+      stateObjects.end(),
+      [] (IStateObject * stateObj) { 
+   
+         /* TODO: acquire a lock and call update */
+         (void) stateObj;
+
+   });
 }
 
 } /* namespace elevatorSim */

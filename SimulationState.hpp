@@ -40,6 +40,7 @@
 #include "Building.hpp"
 
 #include <cassert>
+#include <set>
 
 namespace elevatorSim {
 
@@ -97,6 +98,8 @@ public:
 private:
    
    static SimulationState* simulationState;
+
+   std::set<IStateObject*> stateObjects;
 
    StateKind cState;
    cTimeManager* timeManager;
