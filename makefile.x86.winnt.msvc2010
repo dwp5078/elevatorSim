@@ -18,8 +18,10 @@ Location.obj\
 Person.obj\
 Building.obj\
 Floor.obj\
-SimulationTerminal.obj\
-Logger.obj
+ISimulationTerminal.obj\
+Logger.obj\
+SimulationState.obj\
+IStateObject.obj
 
 UNIT_TEST_OBJS=\
 UnitTests.obj\
@@ -29,7 +31,7 @@ OBJS=$(CLIENT_OBJ) $(SIM_OBJS)
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W4 /WX /EHac /c /D_ES_WINNT /Iinc
+CXXFLAGS=/W4 /WX /EHac /c /D_ES_WINNT /Iinc /Iinc\Python
 
 DEBUGFLAGS=/Z7 /Gm- /MDd
 
@@ -38,6 +40,7 @@ RELEASEFLAGS=/0x /DNDEBUG
 LINKFLAGS=/subsystem:windows\
 /libpath:deps\x86.winnt.msvc10\boost\
 /libpath:deps\x86.winnt.msvc10\fltk\
+/libpath:deps\x86.winnt.msvc10\python\
 /nodefaultlib:"libcd"\
 /nodefaultlib:"libcmt"\
 /incremental:NO\
@@ -71,16 +74,11 @@ DEBUG_COOKEDDEPS=\
 "libboost_program_options-vc100-mt-gd-1_52.lib"\
 "libboost_thread-vc100-mt-gd-1_52.lib"\
 "libboost_chrono-vc100-mt-gd-1_52.lib"\
-"libboost_system-vc100-mt-gd-1_52.lib"
+"libboost_system-vc100-mt-gd-1_52.lib"\
+"python32_d.lib"
 
-RELEASE_COOKEDDEPS=\
-"fltk.lib"\
-"fltkforms.lib"\
-"fltkgl.lib"\
-"fltkimages.lib"\
-"fltkjpeg.lib"\
-"fltkpng.lib"\
-"fltkzlib.lib"
+RELEASE_COOKEDDEPS=
+# TODO 
 
 UNIT_TEST_OUT=elevatorSimTests.exe
 OUT=elevatorSim.exe
