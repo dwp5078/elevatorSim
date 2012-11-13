@@ -41,6 +41,7 @@
 
 #include <cassert>
 #include <set>
+#include <boost/thread/mutex.hpp>
 
 namespace elevatorSim {
 
@@ -100,6 +101,7 @@ private:
    static SimulationState* simulationState;
 
    std::set<IStateObject*> stateObjects;
+   boost::mutex bigAssStateMutex;
 
    StateKind cState;
    cTimeManager* timeManager;

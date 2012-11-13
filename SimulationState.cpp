@@ -40,6 +40,7 @@
 #include <set>
 #include <functional>
 #include <cassert>
+#include <boost/thread/mutex.hpp>
 
 namespace elevatorSim   {
 
@@ -87,6 +88,8 @@ void SimulationState::update() {
 
    /* lambdas are sexy */
 
+   bigAssStateMutex.lock();
+
    std::for_each(
       stateObjects.begin(),
       stateObjects.end(),
@@ -96,6 +99,9 @@ void SimulationState::update() {
          (void) stateObj;
 
    });
+
+   bigAssStateMutex.unlock();
+
 }
 
 } /* namespace elevatorSim */
