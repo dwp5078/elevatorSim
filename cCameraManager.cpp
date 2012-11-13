@@ -44,11 +44,25 @@ const float MOVE = 0.37f;
 const float ROT = 0.1f;
 
 cCameraManager::cCameraManager() {
-   ReinitCamera();
+   init();
 }
 
+void cCameraManager::init()
+{
+   m_vecCamPos.Set(0.f, 0.f, 20.f);
+   m_vecCamLookAt.Set(0.f, 0.f, 0.f);
+   m_vecCamUp.Set(0.0f, 1.0f, 0.0f);
 
-void cCameraManager::Update()
+   Vec3f lookingVec = m_vecCamPos - m_vecCamLookAt;
+   Vec3f right = GetRight();
+   Vec3f::Cross3(m_vecCamUp, right, lookingVec);
+
+   m_fPitchAngle = 0.f;
+   m_fYawAngle = 0.f;
+   m_fRollAngle = 0.f;
+}
+
+void cCameraManager::update()
 {
    /* TODO: use timeManager.getLastFrameTime().total_milliseconds() */
 
@@ -111,12 +125,12 @@ void cCameraManager::Update()
    }
 
    if(keyManager.isDown(' ')) {
-      ReinitCamera();
+      init();
    }
 }
 
 
-void cCameraManager::Render()
+void cCameraManager::render()
 {
    glRotatef(m_fPitchAngle, 1, 0, 0);
    glRotatef(m_fYawAngle, 0, 1, 0);
@@ -140,21 +154,6 @@ void cCameraManager::Pitch(float fAngle)
 void cCameraManager::Roll(float fAngle)
 {
    m_fRollAngle += fAngle;
-}
-
-void cCameraManager::ReinitCamera()
-{
-   m_vecCamPos.Set(0.f, 0.f, 20.f);
-   m_vecCamLookAt.Set(0.f, 0.f, 0.f);
-   m_vecCamUp.Set(0.0f, 1.0f, 0.0f);
-
-   Vec3f lookingVec = m_vecCamPos - m_vecCamLookAt;
-   Vec3f right = GetRight();
-   Vec3f::Cross3(m_vecCamUp, right, lookingVec);
-
-   m_fPitchAngle = 0.f;
-   m_fYawAngle = 0.f;
-   m_fRollAngle = 0.f;
 }
 
 Vec3f cCameraManager::GetRight()

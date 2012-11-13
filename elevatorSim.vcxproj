@@ -62,11 +62,11 @@
     <ClCompile Include="ElevatorUnitTests.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="ISimulationTerminal.cpp" />
+    <ClCompile Include="IStateObject.cpp" />
     <ClCompile Include="Location.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="SimulationState.cpp" />
-    <ClCompile Include="SimulationTerminal.cpp" />
     <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -82,12 +82,12 @@
     <ClInclude Include="ElevatorSimWindow.hpp" />
     <ClInclude Include="Floor.hpp" />
     <ClInclude Include="ISimulationTerminal.hpp" />
+    <ClInclude Include="IStateObject.hpp" />
     <ClInclude Include="Location.hpp" />
     <ClInclude Include="Logger.hpp" />
     <ClInclude Include="MVectors.hpp" />
     <ClInclude Include="Person.hpp" />
     <ClInclude Include="SimulationState.hpp" />
-    <ClInclude Include="SimulationTerminal.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile.x86.winnt.msvc2010" />

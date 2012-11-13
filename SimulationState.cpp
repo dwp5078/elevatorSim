@@ -75,4 +75,12 @@ void SimulationState::release() {
    simulationState = NULL;
 }
 
+void SimulationState::init() {
+
+}
+
+void SimulationState::update() {
+
+}
+
 } /* namespace elevatorSim */

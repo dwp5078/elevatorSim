@@ -36,13 +36,13 @@
 namespace elevatorSim {
 
 
-const double cTimeManager::redrawInterval = 0.001;
+const double cTimeManager::redrawInterval = 0.001; /* TODO: use boost to avoid ambiguity */
 
 cTimeManager::cTimeManager() {
-   reset();
+   init();
 }
 
-void cTimeManager::reset() {
+void cTimeManager::init() {
    m_dwCurrTime = boost::posix_time::second_clock::local_time();
    m_dwLimitTime = m_dwCurrTime + boost::posix_time::seconds(1);
    totalFrames = 0;

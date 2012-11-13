@@ -69,7 +69,7 @@ void ElevatorSimRenderWindow::timerCB(void* userdata) {
    myWindow->redraw();
 
    /* TODO: move these updates to the compute thread and unify the method */
-   SimulationState::acquire().getCameraManager().Update();
+   SimulationState::acquire().getCameraManager().update();
    SimulationState::acquire().getTimeManager().update();
    SimulationState::acquire().getBuilding().update();
 
@@ -221,7 +221,7 @@ void ElevatorSimRenderWindow::draw() {
    /* TODO: make these constants somewhere */
    gluPerspective(45.0f, (GLfloat)w()/(GLfloat)h(), 0.1f, 500.0f);
 
-   SimulationState::acquire().getCameraManager().Render();
+   SimulationState::acquire().getCameraManager().render();
 
    glMatrixMode(GL_MODELVIEW);
 

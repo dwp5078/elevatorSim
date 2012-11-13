@@ -37,10 +37,11 @@
 #include "cTimeManager.hpp"
 #include "MVectors.hpp"
 #include "SimulationState.hpp"
+#include "ISimulationTerminal.hpp"
 
 namespace elevatorSim {
 
-class cCameraManager {
+class cCameraManager : public ISimulationTerminal {
    friend class SimulationState;
 
    Vec3f m_vecCamPos;
@@ -51,24 +52,18 @@ class cCameraManager {
    float m_fYawAngle;
    float m_fRollAngle;
 
-   /*
-   const cKeyManager& keyManager;
-   const cTimeManager& timeManager;
-   */
-
    cCameraManager();
 
 public:
 
-   void Update();
-   void Render();
+   void init();
+   void update();
+   void render();
 
    void Yaw(float fAngle);
    void Pitch(float fAngle);
    void Roll(float fAngle);
-
-   void ReinitCamera();
-
+   
    Vec3f GetRight();
 
    inline Vec3f GetCameraPos() {

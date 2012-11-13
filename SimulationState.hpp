@@ -49,7 +49,7 @@ class cRenderObjs;
 class cCameraManager;
 class Building;
 
-class SimulationState {
+class SimulationState : public IStateObject {
 
    static SimulationState* simulationState;
 
@@ -85,8 +85,11 @@ public:
    }
 
    void initRenderObjs() {
-      renderObjs->init();
+      renderObjs->init(); /* TODO: refactor this out */
    }
+
+   void init();
+   void update();
 };
 
 } /* namespace elevatorSim */

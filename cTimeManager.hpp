@@ -34,12 +34,13 @@
 
 #include "ElevatorSim.hpp"
 #include "SimulationState.hpp"
+#include "IStateObject.hpp"
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace elevatorSim {
 
-class cTimeManager {
+class cTimeManager : public IStateObject {
    friend class SimulationState;
 
    boost::posix_time::ptime m_dwPrevTime;
@@ -61,7 +62,7 @@ public:
    static const double redrawInterval;
 
 
-   void reset();
+   void init();
    void update();
 
    /* public const inline getters */

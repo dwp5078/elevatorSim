@@ -34,12 +34,13 @@
 
 #include "ElevatorSim.hpp"
 #include "SimulationState.hpp"
+#include "IStateObject.hpp"
 
 #include <map>
 
 namespace elevatorSim {
 
-class cKeyManager {
+class cKeyManager : public IStateObject {
    friend class SimulationState;
 
    std::map<int, bool> keysPressed;
@@ -47,6 +48,9 @@ class cKeyManager {
    cKeyManager();
 
 public:
+
+   void init();
+   void update();
 
    inline void up(int key) {
       keysPressed[key] = false;
