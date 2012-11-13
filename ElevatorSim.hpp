@@ -30,6 +30,10 @@
 #ifndef _ELEVATOR_SIM_H
 #define _ELEVATOR_SIM_H
 
+#include <Python.h>
+#include <sstream>
+#include <string>
+
 #if defined(_ES_WINNT)
 #pragma warning(disable: 4244; disable: 4512; disable: 4211)
 #include <Windows.h>

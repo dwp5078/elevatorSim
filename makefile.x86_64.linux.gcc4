@@ -10,15 +10,21 @@ Location.o\
 Person.o\
 Building.o\
 Floor.o\
-SimulationTerminal.o
+ISimulationTerminal.o\
+IStateObject.o\
+SimulationState.o\
+Logger.o
 
 CLIENT_OBJ=ElevatorSim.o
 
 UNIT_TEST_OBJS=UnitTests.o\
 ElevatorUnitTests.o
 
-CXXFLAGS=-c -std=c++11 -Wall -Wextra -Werror -pedantic -Wno-padded -Wno-missing-field-initializers -D_ES_UNIX
-LDFLAGS=-lglut -lGL -lGLU -lm -lfltk -lfltk_gl -lstdc++
+PYCXXFLAGS=$(shell python3.2-config --includes)
+PYLDFLAGS=$(shell python3.2-config --ldflags) $(shell python3.2-config --libs)
+
+CXXFLAGS=-c -std=c++11 -Wall -Wextra -Werror -pedantic -Wno-padded -Wno-missing-field-initializers -D_ES_UNIX $(PYCXXFLAGS)
+LDFLAGS=-lglut -lGL -lGLU -lm -lfltk -lfltk_gl -lboost_system -lboost_chrono -lboost_thread -lboost_program_options -lstdc++ $(PYLDFLAGS)
 DBGFLAGS=-g
 
 CC=cc

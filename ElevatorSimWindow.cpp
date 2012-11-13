@@ -31,6 +31,7 @@
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
+#include "Logger.hpp"
 
 #include <FL/Fl.H>
 #include <FL/gl.h>

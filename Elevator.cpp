@@ -48,7 +48,11 @@ Elevator::Elevator(
    int _yVal,
    const int _maxVel,
    const int _maxAccel,
-   const int _maxOccupants) : owner(_owner), maxVel(_maxVel), maxAccel(_maxAccel), maxOccupants(_maxOccupants)  {
+   const int _maxOccupants) :
+   maxVel(_maxVel),
+   maxAccel(_maxAccel),
+   maxOccupants(_maxOccupants),
+   numFloors(_numFloors) { 
 
    yVal = _yVal;
    currentVel = 0;
