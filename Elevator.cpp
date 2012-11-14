@@ -40,6 +40,7 @@
 #include <sstream>
 #include <cassert>
 #include <ctime>
+#include <cmath>
 
 namespace elevatorSim {
 
@@ -161,8 +162,77 @@ void Elevator::goToFloor(int floor) {
    int timeVal = 0;
    int accelVel = 0;
 
-   /* TODO: compute some time, acceleration pairs and append them each to scheduledAccels */
+   double tempValue = 0;
+   double tempValue_2 = 0;
 
+   int nextFloor = 0;
+   int nextfloorHeight = 0;
+
+   int acc_time = 0;
+
+   acc_time = boost::math::iround(maxVel / maxAccel);//deceleration time from max speed to 0, or acceleration time from 0 to max speed
+   stoppingDistance = boost::math::iround(maxVel * acc_time + maxAccel * (acc_time * acc_time)/2);//get SD
+
+   nextfloorHeight = floor *  Floor::YVALS_PER_FLOOR;
+
+   /* TODO: compute some time, acceleration pairs and append them each to scheduledAccels */
+	if(currentVel > 0)//if go up, the acceleration will be negative
+	{
+		//nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
+		//nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;//Y value of destination
+
+		if(currentVel == maxVel)//if the elevator reach the max speed
+		{	
+			timeVal = boost::math::iround(((nextfloorHeight - yVal) - stoppingDistance) / maxVel);
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, 0) );//the elevator reach the max speed,it can not accelerate any more
+
+			timeVal = acc_time;//deceleration time
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, -maxAccel) );//the elevator decelerat to 0
+		}
+		else//if the elevator does NOT reach the max speed
+		{
+			timeVal = boost::math::iround(maxVel - currentVel) / maxAccel;//how much time the elevator need to reach the max speed
+			tempValue = currentVel * timeVal + maxAccel * timeVal * timeVal / 2;//acceleration distance
+			//calculate how much time needed to reach the max speed
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, maxAccel) );
+
+			timeVal = boost::math::iround(((nextfloorHeight - yVal) - stoppingDistance - tempValue) / maxVel );
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, 0) );//the elevator reach the max speed,it can not accelerate any more
+
+			timeVal = acc_time;//deceleration time
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, -maxAccel) );//the elevator decelerat to 0
+		}
+	}
+	else if(currentVel < 0)//if go down
+	{
+		nextFloor = int(yVal / Floor::YVALS_PER_FLOOR);
+		nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;//Y value of destination
+
+		if(currentVel == -maxVel)//if the elevator reach the max speed
+		{
+			timeVal = boost::math::iround(((yVal - nextfloorHeight) - stoppingDistance) / maxVel);
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, 0) );//the elevator reach the max speed,it can not accelerate any more
+
+			timeVal = acc_time;//deceleration time
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, -maxAccel) );//the elevator decelerat to 0
+		}
+		else//if the elevator does NOT reach the max speed
+		{
+			timeVal = boost::math::iround(maxVel + currentVel) / maxAccel;//how much time the elevator need to reach the max speed
+			tempValue = abs(currentVel * timeVal + ( -maxAccel) * timeVal * timeVal / 2);//acceleration distance
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, -maxAccel) );
+
+			timeVal = boost::math::iround(((yVal - nextfloorHeight) - stoppingDistance - tempValue) / maxVel );
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, 0) );//the elevator reach the max speed,it can not accelerate any more
+
+			timeVal = acc_time;//deceleration time
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, maxAccel) );//the elevator decelerat to 0
+		}
+	}
+	else//if keep still
+	{
+		
+	}
    scheduledAccels.push_back( std::pair<int, int> (timeVal, accelVel) );
 }
 
