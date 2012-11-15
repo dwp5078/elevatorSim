@@ -246,7 +246,7 @@ void ElevatorSimRenderWindow::draw() {
 
 void ElevatorSimRenderWindow::mouseClicked(int x, int y)
 {
-   printf("%d, %d\n", x, y);
+   //printf("%d, %d\n", x, y);
 
    rayCasting(x, y);
 }
@@ -264,6 +264,15 @@ void ElevatorSimRenderWindow::rayCasting(int x, int y)
 
    Vec3f dir = simState.getCameraManager().GetCameraLookAt() + (dx + dy) * 2.0;
    dir.Normalize();
+
+   int maxElev = simState.getBuilding().getMaxElev();
+   Elevator** elev = simState.getBuilding().getElev();
+   
+   for(int i=0; i<maxElev; i++)  {
+      float pos = 1.0f + elev[i]->getYVal() / Floor::YVALS_PER_FLOOR * simState.getBuilding().gfxEachFloorHeight;
+
+      printf("%f\n", pos);
+   }
 }
 
 } /* namespace elevatorSim */

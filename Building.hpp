@@ -89,6 +89,9 @@ public:
 
    int getMaxElevHeight() const;
    int getMinElevHeight() const;
+
+   int getMaxElev()  {  return m_nElevator;  }
+   Elevator** getElev() {  return m_Elevators;  }
 };
 
 } /* namespace elevatorSim */
