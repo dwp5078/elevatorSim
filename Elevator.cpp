@@ -178,9 +178,6 @@ void Elevator::goToFloor(int floor) {
    /* TODO: compute some time, acceleration pairs and append them each to scheduledAccels */
 	if(currentVel > 0)//if go up, the acceleration will be negative
 	{
-		//nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
-		//nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;//Y value of destination
-
 		if(currentVel == maxVel)//if the elevator reach the max speed
 		{	
 			timeVal = boost::math::iround(((nextfloorHeight - yVal) - stoppingDistance) / maxVel);
@@ -228,9 +225,23 @@ void Elevator::goToFloor(int floor) {
 	}
 	else//if keep still
 	{
-		
+		if(yVal > nextfloorHeight)//if current location of the elevator > destination, means the elevator need to go DOWN   
+		{
+			timeVal = boost::math::iround(maxVel + currentVel) / maxAccel;//how much time the elevator need to reach the max speed
+			tempValue = abs(currentVel * timeVal + ( -maxAccel) * timeVal * timeVal / 2);//acceleration distance
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, -maxAccel) );
+
+			timeVal = boost::math::iround(((yVal - nextfloorHeight) - stoppingDistance - tempValue) / maxVel );
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, 0) );//the elevator reach the max speed,it can not accelerate any more
+
+			timeVal = acc_time;//deceleration time
+			scheduledAccels.push_back( std::pair<int, int> (timeVal, maxAccel) );//the elevator decelerat to 0
+		}
+		else if(yVal < nextfloorHeight)////if current location of the elevator < destination, means the elevator need to go UP
+		{
+			
+		}
 	}
-   scheduledAccels.push_back( std::pair<int, int> (timeVal, accelVel) );
 }
 
 void Elevator::init() {
