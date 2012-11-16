@@ -205,9 +205,6 @@ void Elevator::goToFloor(int floor) {
 	}
 	else if(currentVel < 0)//if go down
 	{
-		nextFloor = int(yVal / Floor::YVALS_PER_FLOOR);
-		nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;//Y value of destination
-
 		if(currentVel == -maxVel)//if the elevator reach the max speed
 		{
 			timeVal = boost::math::iround(((yVal - nextfloorHeight) - stoppingDistance) / maxVel);
