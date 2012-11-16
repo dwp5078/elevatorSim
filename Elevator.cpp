@@ -171,7 +171,7 @@ void Elevator::goToFloor(int floor) {
    int acc_time = 0;
 
    acc_time = boost::math::iround(maxVel / maxAccel);//deceleration time from max speed to 0, or acceleration time from 0 to max speed
-   stoppingDistance = boost::math::iround(maxVel * acc_time + maxAccel * (acc_time * acc_time)/2);//get SD
+   stoppingDistance = boost::math::iround(maxVel * acc_time - maxAccel * (acc_time * acc_time)/2);//get SD
 
    nextfloorHeight = floor *  Floor::YVALS_PER_FLOOR;
 
