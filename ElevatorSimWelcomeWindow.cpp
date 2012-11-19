@@ -42,6 +42,8 @@
 #include <FL/Enumerations.H>
 #include <FL/names.h>
 
+#include <fstream>
+
 namespace elevatorSim {
 
 /* public static member initializers */
@@ -95,17 +97,54 @@ void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData)
    thisWin->confirmDialog->show();
 }
 
+void ElevatorSimWelcomeWindow::writeDatFile()
+{
+	std::ofstream fout;
+	fout.open("FR_Record.dat",std::ios::basic_ios::in|std::ios::basic_ios::out|std::ios::basic_ios::app|std::ios::binary);
+
+	/*std::string str("First Run");
+
+	fout.write(str.c_str(), sizeof(char) * (str.size()));*/
+	fout.write((char *)(&fr_obj), sizeof(firstRunStr));
+
+	fout.close();
+}
+
+void ElevatorSimWelcomeWindow::readDatFile()
+{
+	std::ifstream fin("FR_Record.dat", std::ios::binary);
+
+	if(fin)//the file exists
+	{
+		firstRunStr readobj;
+
+		fin.read((char *)(&readobj), sizeof(firstRunStr));
+
+		firstRun = false;//not first run
+		fin.close();
+		
+	}
+	else//if the file does NOT exist
+	{
+		firstRun = true;
+		fin.close();
+		writeDatFile();//Create file
+	}
+}
+
 /* public methods */
 ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
    /* add more widgets to main window here */
-
 	firstRun = true;
 
    buildDialogs();
    end();
 
    callback((Fl_Callback*)windowCloseCB, this);
+
+   GetSystemTime(&fr_obj.st);//first run time
+   readDatFile();
 }
 
 ElevatorSimWelcomeWindow::~ElevatorSimWelcomeWindow() {
