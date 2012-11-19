@@ -102,9 +102,6 @@ void ElevatorSimWelcomeWindow::writeDatFile()
 	std::ofstream fout;
 	fout.open("FR_Record.dat",std::ios::basic_ios::in|std::ios::basic_ios::out|std::ios::basic_ios::app|std::ios::binary);
 
-	/*std::string str("First Run");
-
-	fout.write(str.c_str(), sizeof(char) * (str.size()));*/
 	fout.write((char *)(&fr_obj), sizeof(firstRunStr));
 
 	fout.close();
