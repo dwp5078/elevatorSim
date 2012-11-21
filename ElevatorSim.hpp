@@ -32,12 +32,11 @@
 #ifndef _ELEVATOR_SIM_H
 #define _ELEVATOR_SIM_H
 
-#include "Logger.hpp"
-
+#include <Python.h>
 #include <sstream>
 #include <string>
 
-#include <Python.h>
+#include "Logger.hpp"
 
 #if defined(_ES_WINNT)
 #pragma warning(disable: 4244; disable: 4512; disable: 4211; disable: 4913)
@@ -83,6 +82,7 @@ inline std::string sstreamToBuffer( std::stringstream& ss ) {
    delete [] logBuffer;
    return logString;
 }
+
 } /* namespace elevatorSim */
 
 #endif /* _ELEVATOR_SIM_H */

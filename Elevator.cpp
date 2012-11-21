@@ -53,10 +53,10 @@ Elevator::Elevator(
    const int _maxVel,
    const int _maxAccel,
    const int _maxOccupants) :
-   numFloors(_numFloors), 
    maxVel(_maxVel),
    maxAccel(_maxAccel),
-   maxOccupants(_maxOccupants) { 
+   maxOccupants(_maxOccupants),
+   numFloors(_numFloors) { 
 
    yVal = _yVal;
    currentVel = 0;
