@@ -3,3 +3,5 @@
 *.obj
 *.asm
 *.pdb
+*.pyc
+__pycache__
