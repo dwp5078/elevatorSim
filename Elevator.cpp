@@ -33,6 +33,7 @@
 #include "Elevator.hpp"
 #include "ISimulationTerminal.hpp"
 #include "Building.hpp"
+#include "Logger.hpp"
 
 #include <boost/math/special_functions/round.hpp>
 #include <vector>
@@ -90,6 +91,8 @@ bool Elevator::canStopAtNextFloor() {
     * returns true if the elevator can stop at the floor it's headed towards.
     * If the elevator is not accelerating, the function returns false.
     */
+
+   LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, "in canStopAtNextFloor()..." );
 
    int nextFloor = 0;        /* next floor */
    int nextfloorHeight = 0;  /* height of next floor */
