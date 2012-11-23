@@ -1,3 +1,10 @@
+## elevatorSim makefile
+## license: see LICENSE file
+## arch: x86
+## os: Linux
+## compiler: gcc4.7
+
+## OBJECTS
 OBJS=ElevatorSimWindow.o\
 ElevatorSimRenderWindow.o\
 ElevatorSimWelcomeWindow.o\
@@ -20,32 +27,47 @@ CLIENT_OBJ=ElevatorSim.o
 UNIT_TEST_OBJS=UnitTests.o\
 ElevatorUnitTests.o
 
-PYCXXFLAGS=$(shell python3-config --includes)
-PYLDFLAGS=$(shell python3-config --ldflags) $(shell python3-config --libs)
-FLTKLDFLAGS=$(shell fltk-config --use-gl --ldstaticflags)
+## CXXFLAGS ##
 
-CXXFLAGS=-c -std=c++11 -Wall -Wextra -Werror -pedantic -Wno-padded -Wno-missing-field-initializers -D_ES_UNIX $(PYCXXFLAGS)
-LDFLAGS=-lglut -lGL -lGLU -lm $(FLTKLDFLAGS) -lboost_system -lboost_chrono -lboost_thread -lboost_program_options -lstdc++ $(PYLDFLAGS)
+WARN_CXXFLAGS=-Wall -Wextra -Werror -pedantic
+PY_CXXFLAGS=$(shell python3-config --includes)
+CXXFLAGS=-c -std=c++11 -D_ES_UNIX $(WARN_CXXFLAGS) $(PY_CXXFLAGS)
+
+## LDFLAGS ##
+
+PY_LDFLAGS=$(shell python3-config --ldflags) $(shell python3-config --libs)
+FLTK_LDFLAGS=$(shell fltk-config --use-gl --ldflags)
+GL_LDFLAGS=-lglut -lGL -lGLU
+BOOST_LDFLAGS=-lboost_system -lboost_chrono -lboost_thread -lboost_program_options
+
+LDFLAGS=-lm $(PY_LDFLAGS) $(FLTK_LDFLAGS) $(GL_LDFLAGS) $(BOOST_LDFLAGS)
+
+## DBGFLAGS ##
+
 DBGFLAGS=-g
 
-CC=gcc
+## FILES ##
+
+CXX=g++
 RM=rm
 OUT=elevatorSim
 UNIT_TEST_OUT=elevatorSimUnitTests
+
+## RULES ##
 
 .PHONY: clean
 
 all: elevatorSim
 
 elevatorSim: $(OBJS) unitTests $(CLIENT_OBJ)
-	@$(CC) $(OBJS) $(CLIENT_OBJ) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
+	@$(CXX) $(OBJS) $(CLIENT_OBJ) $(DBGFLAGS) $(LDFLAGS) -o $(OUT)
 	@./$(UNIT_TEST_OUT)
 
 unitTests: $(OBJS) $(UNIT_TEST_OBJS)
-	@$(CC) $(OBJS) $(UNIT_TEST_OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(UNIT_TEST_OUT)
+	@$(CXX) $(OBJS) $(UNIT_TEST_OBJS) $(DBGFLAGS) $(LDFLAGS) -o $(UNIT_TEST_OUT)
 
 .cpp.o:
-	@$(CC) $(DBGFLAGS) $(CXXFLAGS) $< && echo CC $<
+	@$(CXX) $(DBGFLAGS) $(CXXFLAGS) $< && echo CXX $<
 
 clean:
 	@$(RM) -f $(OBJS) $(CLIENT_OBJ) $(UNIT_TEST_OBJS) $(OUT) $(UNIT_TEST_OUT)
