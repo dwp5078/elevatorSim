@@ -57,7 +57,7 @@ Elevator::Elevator(
    maxVel(_maxVel),
    maxAccel(_maxAccel),
    maxOccupants(_maxOccupants),
-   numFloors(_numFloors) { 
+   numFloors(_numFloors) {
 
    yVal = _yVal;
    currentVel = 0;

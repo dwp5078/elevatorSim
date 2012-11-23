@@ -80,7 +80,7 @@ class Elevator : public Location, public ISimulationTerminal {
       const int _numFloors,
       const int _maxVel = DEFAULT_MAX_VEL,
       const int _maxAccel = DEFAULT_MAX_ACCEL,
-      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS); 
+      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
 
 public:
 

@@ -60,10 +60,9 @@ int main(int argc, char** argv) {
    /* output version info of libraries */
    std::cout << "built with: " << std::endl
       << "boost v" << BOOST_LIB_VERSION << std::endl
-      << "fltk v" << FL_MAJOR_VERSION << "_" 
+      << "fltk v" << FL_MAJOR_VERSION << "_"
       << FL_MINOR_VERSION << FL_PATCH_VERSION << std::endl
       << "python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION << std::endl;
-   
 
    parseArgs(argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
@@ -93,7 +92,7 @@ void compute() {
    /* TODO: move this into a different file */
    static boost::chrono::milliseconds waitDuration(10); /* TODO: make this a const */
    SimulationState& simState = SimulationState::acquire();
-   
+
    while( simState.getState() != SimulationState::SIMULATION_KILLED ) {
       simState.update();
       boost::this_thread::sleep_for(waitDuration);

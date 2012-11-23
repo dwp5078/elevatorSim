@@ -62,6 +62,8 @@
 #include <OpenGL/glu.h>
 #elif defined(_ES_UNIX)
 #include <unistd.h>
+#pragma GCC diagnostic ignored "-Wpadded"
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #else
 #error Unspecified operating system. Use the makefile.
 #endif
