@@ -42,6 +42,7 @@
 #include <sstream>
 #include <cassert>
 #include <ctime>
+#include <cmath>
 
 namespace elevatorSim {
 
@@ -131,10 +132,6 @@ bool Elevator::canStopAtNextFloor() {
          nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
          nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
 
-         /* unused */
-         /* floor_elev_distance = nextfloorHeight - Location::yVal; */
-
-
          /* V = V0 + at, V = 0; V0 = VE */
          acc_time = boost::math::iround(-currentVel / currentAccel);
 
@@ -160,15 +157,43 @@ bool Elevator::canStopAtNextFloor() {
 void Elevator::goToFloor(int floor) {
    assert(floor >= 0 && floor < numFloors);
 
-   (void) floor;
-   (void) scheduledAccels;
+   /* height of the target floor in yVals */
+   int nextFloorHeight = floor *  Floor::YVALS_PER_FLOOR;
 
-   int timeVal = 0;
-   int accelVel = 0;
+   /* we're already there, so do nothing */
+   if(yVal == nextFloorHeight) {
+      return;
+   }
 
-   /* TODO: compute some time, acceleration pairs and append them each to scheduledAccels */
+   /* deceleration time from max speed to 0,
+    * or acceleration time from 0 to max speed */
+   /* TODO: const */
+   int accTimeInterval = boost::math::iround((float)maxVel / maxAccel);
 
-   scheduledAccels.push_back( std::pair<int, int> (timeVal, accelVel) );
+   /* distance required to stop when traveling
+    * at maximum speed and then experiencing
+    * negative maximum acceleration in the opposing
+    * the direction of motion */
+   /* TODO: const */
+   int stoppingDistance =
+      boost::math::iround(
+         maxVel * accTimeInterval -
+         maxAccel * (accTimeInterval * accTimeInterval) / 2);
+
+   /* the distance traveled at the maximum speed */
+   int maxTimeVal = boost::math::iround(
+      ((float)(abs(yVal - nextFloorHeight) - stoppingDistance) / maxVel));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> (accTimeInterval,
+      (yVal < nextFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
+
+   scheduledAccels.push_back(
+       std::pair<int, int> (maxTimeVal, 0) );
+
+   scheduledAccels.push_back(
+       std::pair<int, int> (accTimeInterval,
+       (yVal < nextFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
 }
 
 void Elevator::init() {
@@ -182,8 +207,10 @@ void Elevator::render() {
 
 void Elevator::update() {
    /* ensure that accel is either -maxAccel, +maxAccel, or 0 */
-   assert(currentAccel == -maxAccel ||
-      currentAccel == maxAccel || currentAccel == 0  );
+   assert(
+      currentAccel == -maxAccel ||
+      currentAccel == maxAccel ||
+      currentAccel == 0  );
 
    const int minElevHeight = SimulationState::acquire().getBuilding().getMinElevHeight();
    const int maxElevHeight = SimulationState::acquire().getBuilding().getMaxElevHeight();
@@ -225,17 +252,17 @@ void Elevator::update() {
 
    //////////////////Test Block Start
       /*if(yVal == finalPos)  {
-         if(waitingTime == 0)	{
-			 waitingTime = cTimeManager::worldTime();
-		 }
+         if(waitingTime == 0) {
+          waitingTime = cTimeManager::worldTime();
+       }
          if(waitingTime + 1500 <= cTimeManager::worldTime() )   {
-			 waitingTime = 0;
+          waitingTime = 0;
             destFloor = -1;
             generateRandomDest();
 
          }
       }*/
-	  if(yVal == finalPos) {
+     if(yVal == finalPos) {
          static int temp = 0;
          temp++;
          if(temp == 200) {
