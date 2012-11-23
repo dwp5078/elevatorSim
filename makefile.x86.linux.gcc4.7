@@ -22,11 +22,10 @@ ElevatorUnitTests.o
 
 PYCXXFLAGS=$(shell python3-config --includes)
 PYLDFLAGS=$(shell python3-config --ldflags) $(shell python3-config --libs)
-XFTLDFLAGS=$(shell xft-config --libs)
 FLTKLDFLAGS=$(shell fltk-config --use-gl --ldstaticflags)
 
 CXXFLAGS=-c -std=c++11 -Wall -Wextra -Werror -pedantic -Wno-padded -Wno-missing-field-initializers -D_ES_UNIX $(PYCXXFLAGS)
-LDFLAGS=-lglut -lGL -lGLU -lm $(FLTKLDFLAGS) -lboost_system -lboost_chrono -lboost_thread -lboost_program_options -lstdc++ $(PYLDFLAGS) $(XFTLDFLAGS)
+LDFLAGS=-lglut -lGL -lGLU -lm $(FLTKLDFLAGS) -lboost_system -lboost_chrono -lboost_thread -lboost_program_options -lstdc++ $(PYLDFLAGS)
 DBGFLAGS=-g
 
 CC=gcc
