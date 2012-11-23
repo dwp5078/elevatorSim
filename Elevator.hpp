@@ -65,12 +65,14 @@ class Elevator : public Location, public ISimulationTerminal {
    const int maxOccupants;
    const int numFloors;
 
-   int stoppingDistance;
+   const int stoppingDistance;
+   const int accelTimeInterval;
 
    int currentVel;
    int currentAccel;
    int destFloor;
    bool* floorsSignaled;
+
    std::vector<Person> occupants;
    std::vector<std::pair<int, int>> scheduledAccels;
 

@@ -48,8 +48,8 @@ const int Floor::YVALS_PER_FLOOR = 5000;
 Floor::Floor(
    int _yVal,
    bool _hasUpperFloor,
-   bool _hasLowerFloor) : 
-      Location(_yVal), 
+   bool _hasLowerFloor) :
+      Location(_yVal),
       hasUpperFloor(_hasUpperFloor),
       hasLowerFloor(_hasLowerFloor) {
 

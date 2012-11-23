@@ -59,7 +59,19 @@ Elevator::Elevator(
    maxVel(_maxVel),
    maxAccel(_maxAccel),
    maxOccupants(_maxOccupants),
-   numFloors(_numFloors) {
+   numFloors(_numFloors),
+
+   /* distance required to stop when traveling
+    * at maximum speed and then experiencing
+    * negative maximum acceleration in the opposing
+    * the direction of motion */
+   stoppingDistance(boost::math::iround(
+      maxVel * accelTimeInterval -
+      maxAccel * (accelTimeInterval * accelTimeInterval ) / 2.0f)),
+
+   /* deceleration time from max speed to 0,
+    * or acceleration time from 0 to max speed */
+   accelTimeInterval(boost::math::iround((float)maxVel / maxAccel)) {
 
    yVal = _yVal;
    currentVel = 0;
@@ -165,34 +177,19 @@ void Elevator::goToFloor(int floor) {
       return;
    }
 
-   /* deceleration time from max speed to 0,
-    * or acceleration time from 0 to max speed */
-   /* TODO: const */
-   int accTimeInterval = boost::math::iround((float)maxVel / maxAccel);
-
-   /* distance required to stop when traveling
-    * at maximum speed and then experiencing
-    * negative maximum acceleration in the opposing
-    * the direction of motion */
-   /* TODO: const */
-   int stoppingDistance =
-      boost::math::iround(
-         maxVel * accTimeInterval -
-         maxAccel * (accTimeInterval * accTimeInterval) / 2);
-
    /* the distance traveled at the maximum speed */
-   int maxTimeVal = boost::math::iround(
+   int maxVelTimeInterval = boost::math::iround(
       ((float)(abs(yVal - nextFloorHeight) - stoppingDistance) / maxVel));
 
    scheduledAccels.push_back(
-      std::pair<int, int> (accTimeInterval,
+      std::pair<int, int> (accelTimeInterval,
       (yVal < nextFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
 
    scheduledAccels.push_back(
-       std::pair<int, int> (maxTimeVal, 0) );
+       std::pair<int, int> (maxVelTimeInterval, 0) );
 
    scheduledAccels.push_back(
-       std::pair<int, int> (accTimeInterval,
+       std::pair<int, int> (accelTimeInterval,
        (yVal < nextFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
 }
 
