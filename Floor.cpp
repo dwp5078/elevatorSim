@@ -42,7 +42,7 @@
 namespace elevatorSim {
 
 /* public static constants */
-const int Floor::YVALS_PER_FLOOR = 1000;
+const int Floor::YVALS_PER_FLOOR = 5000;
 
 /* constructors */
 Floor::Floor(

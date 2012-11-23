@@ -186,6 +186,8 @@ ElevatorSimRenderWindow::ElevatorSimRenderWindow(
    spin = 0.0;
    m_bRenderFPS = true;
 
+   GLWindow_width = W;
+   GLWindow_height = H;
 
    Fl::add_timeout(cTimeManager::redrawInterval, timerCB, (void*)this);
    take_focus();
@@ -239,6 +241,37 @@ void ElevatorSimRenderWindow::draw() {
       std::stringstream dbgSS;
       dbgSS << "GLGETERROR= " << (int) err << std::endl;
       LOG_ERROR( Logger::SUB_RENDER, sstreamToBuffer(dbgSS) );
+   }
+}
+
+void ElevatorSimRenderWindow::mouseClicked(int x, int y)
+{
+   //printf("%d, %d\n", x, y);
+
+   rayCasting(x, y);
+}
+
+void ElevatorSimRenderWindow::rayCasting(int x, int y)
+{
+   SimulationState& simState = SimulationState::acquire();
+
+   float fovX = (GLWindow_width/GLWindow_height) * 45.f;
+
+   float mx = (float)((x - GLWindow_width * 0.5) * (1.0 / GLWindow_width) * fovX * 0.5);
+   float my = (float)((y - GLWindow_height * 0.5) * (1.0 / GLWindow_width) * fovX * 0.5);
+   Vec3f dx = simState.getCameraManager().GetRight() * mx;
+   Vec3f dy = simState.getCameraManager().GetCameraUp() * my;
+
+   Vec3f dir = simState.getCameraManager().GetCameraLookAt() + (dx + dy) * 2.0;
+   dir.Normalize();
+
+   int maxElev = simState.getBuilding().getMaxElev();
+   Elevator** elev = simState.getBuilding().getElev();
+   
+   for(int i=0; i<maxElev; i++)  {
+      float pos = 1.0f + elev[i]->getYVal() / Floor::YVALS_PER_FLOOR * simState.getBuilding().gfxEachFloorHeight;
+
+      printf("%f\n", pos);
    }
 }
 

@@ -34,6 +34,7 @@
 #include "ISimulationTerminal.hpp"
 #include "Building.hpp"
 #include "Logger.hpp"
+#include "cTimeManager.hpp"
 
 #include <boost/math/special_functions/round.hpp>
 #include <vector>
@@ -44,8 +45,8 @@
 
 namespace elevatorSim {
 
-const int Elevator::DEFAULT_MAX_VEL = 25; //5
-const int Elevator::DEFAULT_MAX_ACCEL = 1;  //3
+const int Elevator::DEFAULT_MAX_VEL = 30;
+const int Elevator::DEFAULT_MAX_ACCEL = 3;
 const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
 
 Elevator::Elevator(
@@ -62,7 +63,6 @@ Elevator::Elevator(
    yVal = _yVal;
    currentVel = 0;
    currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
-   
    floorsSignaled = new bool[numFloors];
 
    ///////////////////Test - Soohoon
@@ -130,8 +130,10 @@ bool Elevator::canStopAtNextFloor() {
       if (currentVel < 0) {
          nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
          nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
+
          /* unused */
          /* floor_elev_distance = nextfloorHeight - Location::yVal; */
+
 
          /* V = V0 + at, V = 0; V0 = VE */
          acc_time = boost::math::iround(-currentVel / currentAccel);
@@ -191,18 +193,20 @@ void Elevator::update() {
    int finalPos = destFloor * Floor::YVALS_PER_FLOOR;
    int diff = abs(finalPos - yVal);
 
-   if(diff <= Floor::YVALS_PER_FLOOR / 2)  {  //decelerate
+   if(diff <= Floor::YVALS_PER_FLOOR)  {  //decelerate
    ///////////////////Test Block End
 
       if(currentAccel > 0) {
          /* replace current vel with current vel + accel,
           * unless it's greater than the maximum vel */
-         currentVel = (currentVel - 1 > 0 ) ? ( currentVel - 1 ) : ( 5 );
+         currentVel = ( currentVel + currentAccel > maxVel ) ?
+            ( maxVel ) : ( currentVel + currentAccel );
          /* otherwise if current accel is negative... */
       } else if(currentAccel < 0) {
          /* replace current vel with current vel + accel,
           * unless it's less than the minimum vel */
-         currentVel = (currentVel + 1 < 0 ) ? ( currentVel + 1 ) : ( -5 );
+         currentVel = ( currentVel + currentAccel < -maxVel ) ?
+            ( -maxVel ) : ( currentVel + currentAccel );
       }
 
       /* if current vel is positive */
@@ -220,10 +224,21 @@ void Elevator::update() {
       }
 
    //////////////////Test Block Start
-      if(yVal == finalPos)  {
+      /*if(yVal == finalPos)  {
+         if(waitingTime == 0)	{
+			 waitingTime = cTimeManager::worldTime();
+		 }
+         if(waitingTime + 1500 <= cTimeManager::worldTime() )   {
+			 waitingTime = 0;
+            destFloor = -1;
+            generateRandomDest();
+
+         }
+      }*/
+	  if(yVal == finalPos) {
          static int temp = 0;
          temp++;
-         if(temp == 200)   {
+         if(temp == 200) {
             temp = 0;
             destFloor = -1;
             generateRandomDest();
