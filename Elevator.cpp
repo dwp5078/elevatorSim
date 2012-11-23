@@ -107,63 +107,25 @@ bool Elevator::canStopAtNextFloor() {
 
    LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, "in canStopAtNextFloor()..." );
 
-   int nextFloor = 0;        /* next floor */
-   int nextfloorHeight = 0;  /* height of next floor */
-   /* unused */ /* int floor_elev_distance; */
-   /* the distance between the elevator and next floor */
-   int acc_time = 0;         /* acceleration time */
-   int distance_needed = 0;  /* the distance needed by elevator to stop */
-
-   if(currentAccel < 0) {
-      /* if the vel > 0, and accel < 0, the elevator will stop */
-      if (currentVel > 0) {
-
-         nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
-         nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
-         /* unused */ /* floor_elev_distance = nextfloorHeight - yVal; */
-
-         /* (time) V = V0 + at, V = 0; V0 = VE */
-         acc_time = boost::math::iround(-currentVel / currentAccel);
-
-         /* (distance) X = v * t * a * t^2 / 2 */
-         distance_needed = boost::math::iround(
-            currentVel * acc_time + currentAccel * (acc_time * acc_time)/2);
-
-         if (distance_needed <= (nextfloorHeight - yVal)) {
-            return true;
-         } else {
-            return false;
-         }
-      } else {
-         /* if vel <= 0 accel < 0, the elevator will NEVER stop */
-         return false;
-      }
-   } else if(currentAccel > 0) {
-      /* if the vel < 0, and accel > 0, the elevator will stop somewhere */
-      if (currentVel < 0) {
-         nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) + 1;
-         nextfloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
-
-         /* V = V0 + at, V = 0; V0 = VE */
-         acc_time = boost::math::iround(-currentVel / currentAccel);
-
-         /* X = v * t * a * t^2 / 2 */
-         distance_needed = boost::math::iround(
-            currentVel * acc_time + currentAccel * (acc_time * acc_time)/2);
-
-         if (distance_needed <= (nextfloorHeight - yVal)) {
-            return true;
-         } else {
-            return false;
-         }
-      } else {
-         /*if vel >= 0 and accel > 0,the elevator will NEVER stop */
-         return false;
-      }
-   } else {
-      /* currentAccel == 0 */
+   if(currentAccel == 0) {
       return false;
    }
+
+   /* compute next floor by truncating current and adding or subtracting
+    * based on the current velocity */
+   int nextFloor = int(yVal / Floor::YVALS_PER_FLOOR)
+      + (currentVel > 0) ? (1) : (-1);
+
+   int nextFloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
+
+   /* compute distance to next floor
+    * based on the current velocity */
+   int nextFloorDistance = ( currentVel > 0 ) ?
+      ( nextFloorHeight - yVal ) :
+      ( yVal - nextFloorHeight );
+
+   /* check if there's ample distance to stop */
+   return nextFloorDistance <= stoppingDistance;
 }
 
 void Elevator::goToFloor(int floor) {
