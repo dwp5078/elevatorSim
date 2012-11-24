@@ -43,12 +43,12 @@ BOOST_AUTO_TEST_SUITE( elevator_tests )
 BOOST_AUTO_TEST_CASE( elevator_initialization_test ) {
    const unsigned int testStoryCount = 10;
    const unsigned int testElevCount = 1;
-   
+
    Building testBuilding(testStoryCount, testElevCount);
-   
+
    BOOST_REQUIRE_EQUAL( testBuilding.getStories(), testStoryCount );
    BOOST_REQUIRE_EQUAL( testBuilding.getElevators(), testElevCount );
-   
+
    /* TODO: write more elevator specific tests */
 }
 

@@ -30,6 +30,7 @@
  */
 
 #include "ElevatorSim.hpp"
+#include "Logger.hpp"
 
 #include <boost/test/included/unit_test.hpp>
 #include <boost/test/detail/log_level.hpp>
@@ -61,6 +62,7 @@ struct ElevatorSimUnitTestConfig {
 
    ~ElevatorSimUnitTestConfig() {
       boost::unit_test::unit_test_log.set_stream( std::cout );
+      elevatorSim::Logger::release();
    }
 
    std::ofstream test_log;
@@ -70,6 +72,7 @@ boost::unit_test::test_suite* init_unit_test_suite( int argc, char* argv[] ) {
    (void)argc;
    (void)argv;
 
+   elevatorSim::Logger::acquire();
    return NULL;
 }
 
