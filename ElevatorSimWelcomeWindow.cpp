@@ -100,8 +100,8 @@ void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData)
 void ElevatorSimWelcomeWindow::writeDatFile()
 {
 	std::ofstream fout;
-	fout.open("FR_Record.dat",std::ios::basic_ios::in|std::ios::basic_ios::out|std::ios::basic_ios::app|std::ios::binary);
 
+	fout.open("FR_Record.dat",std::ios::basic_ios::in|std::ios::basic_ios::out|std::ios::basic_ios::app|std::ios::binary);
 	fout.write((char *)(&fr_obj), sizeof(firstRunStr));
 
 	fout.close();
@@ -116,8 +116,8 @@ void ElevatorSimWelcomeWindow::readDatFile()
 		firstRunStr readobj;
 
 		fin.read((char *)(&readobj), sizeof(firstRunStr));
-
 		firstRun = false;//not first run
+
 		fin.close();
 		
 	}
@@ -125,6 +125,7 @@ void ElevatorSimWelcomeWindow::readDatFile()
 	{
 		firstRun = true;
 		fin.close();
+
 		writeDatFile();//Create file
 	}
 }
