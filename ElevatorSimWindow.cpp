@@ -148,6 +148,17 @@ void ElevatorSimWindow::dismissHelpCB(Fl_Widget* w, void* userData) {
    thisWindow->helpWin->hide();
 }
 
+void ElevatorSimWindow::dismissAboutCB(Fl_Widget* w, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "dismissAboutCB fired with widget " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+
+   ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+   thisWindow->aboutWin->hide();
+}
+
 void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -268,6 +279,10 @@ void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
          << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
+
+   ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+   thisWindow->aboutWin->hotspot(15, 15);
+   thisWindow->aboutWin->show();
 }
 
 void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
@@ -422,6 +437,21 @@ void ElevatorSimWindow::buildDialogs() {
    confirmDialog->add(yesButton);
    confirmDialog->add(noButton);
    confirmDialog->end();
+
+      /* About Dialog */
+   aboutWin = new Fl_Window(400, 300, "About");
+
+   aboutLabel = new Fl_Text_Display(10,30,380,200,"");
+   aboutDoneButton = new Fl_Button(150, 250, 100, 40, "OK");
+
+   	/*const char* tt = "5fffffff";
+   aboutLabel->insert(tt);*/
+
+   aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
+
+   aboutWin->add(aboutLabel);
+   aboutWin->add(aboutDoneButton);
+   aboutWin->end();
 }
 
 void ElevatorSimWindow::buildWelcomeWin() {

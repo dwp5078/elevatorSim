@@ -70,6 +70,7 @@ class ElevatorSimWindow : public Fl_Window {
    static void quitConfirmedCB(Fl_Button* yesButton, void* data);
    static void quitCancelledCB(Fl_Button* noButton, void* data);
    static void dismissHelpCB(Fl_Widget* w, void* userData);
+   static void dismissAboutCB(Fl_Widget* w, void* userData);
    static void toggleButtons(ElevatorSimWindow* userData);
 
    /* private members */
@@ -90,6 +91,11 @@ class ElevatorSimWindow : public Fl_Window {
    Fl_Window* helpWin;
    Fl_Text_Display* helpLabel;
    Fl_Button* helpDoneButton;
+
+   /*About widgets*/
+   Fl_Window* aboutWin;
+   Fl_Text_Display* aboutLabel;
+   Fl_Button* aboutDoneButton;
 
    /* left pane widgets */
    Fl_Button *startButton;
