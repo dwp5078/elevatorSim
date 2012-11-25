@@ -102,6 +102,8 @@ void ElevatorSimWelcomeWindow::writeDatFile()
 	std::ofstream fout;
 
 	fout.open("FR_Record.dat",std::ios::basic_ios::in|std::ios::basic_ios::out|std::ios::basic_ios::app|std::ios::binary);
+	
+	GetSystemTime(&fr_obj.st);//first run time
 	fout.write((char *)(&fr_obj), sizeof(firstRunStr));
 
 	fout.close();
@@ -141,7 +143,6 @@ ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
 
    callback((Fl_Callback*)windowCloseCB, this);
 
-   GetSystemTime(&fr_obj.st);//first run time
    readDatFile();
 }
 

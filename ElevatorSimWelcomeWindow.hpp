@@ -55,8 +55,8 @@ namespace elevatorSim
          static void quitConfirmedCB(Fl_Button* OK_Button, void* data);
          static void quitCancelledCB(Fl_Button* Cancel_Button, void* data);
 
-		 void writeDatFile();
 		 void readDatFile();
+		 void writeDatFile();
          /* private members */
          bool firstRun;
 		 struct firstRunStr {SYSTEMTIME st; } fr_obj;
