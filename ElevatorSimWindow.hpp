@@ -44,6 +44,7 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Text_Display.H>
+#include <Fl/Fl_Text_Buffer.H>
 
 namespace elevatorSim {
 
@@ -90,6 +91,7 @@ class ElevatorSimWindow : public Fl_Window {
    /*About widgets*/
    Fl_Window* aboutWin;
    Fl_Text_Display* aboutLabel;
+   Fl_Text_Buffer* aboutTextBuffer;
    Fl_Button* aboutDoneButton;
 
    /* left pane widgets */

@@ -44,6 +44,7 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Text_Display.H>
+#include <FL/Fl_Text_Buffer.H>
 #include <FL/Enumerations.H>
 #include <FL/names.h>
 
@@ -398,9 +399,8 @@ void ElevatorSimWindow::buildDialogs() {
 
    /* About Dialog */
    aboutWin = new Fl_Window(400, 300, "About");
-
+   aboutTextBuffer = new Fl_Text_Buffer();
    aboutLabel = new Fl_Text_Display(10,30,380,200);
-   //aboutTextBuffer = new Fl_Text_Buffer();
    aboutDoneButton = new Fl_Button(150, 250, 100, 40, "OK");
 
    aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
@@ -469,6 +469,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete startButton;
 
    delete aboutDoneButton;
+   delete aboutTextBuffer;
    delete aboutLabel;
    delete aboutWin;
 
