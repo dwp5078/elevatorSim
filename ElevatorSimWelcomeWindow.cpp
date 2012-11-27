@@ -49,8 +49,7 @@ const char ElevatorSimWelcomeWindow::WINDOW_TITLE[] = "Welcome";
 const int ElevatorSimWelcomeWindow::WINDOW_WIDTH = 300;
 const int ElevatorSimWelcomeWindow::WINDOW_HEIGHT = 200;
 
-void ElevatorSimWelcomeWindow::buildDialogs()
-{
+void ElevatorSimWelcomeWindow::buildDialogs() {
    confirmDialog = new Fl_Window(350, 160, "");
    Wel_Label = new Fl_Box(10,10,330,50,
       "This Welcome window will not be shown again.\nClose it?");
@@ -66,10 +65,16 @@ void ElevatorSimWelcomeWindow::buildDialogs()
    confirmDialog->end();
 }
 
+int ElevatorSimWelcomeWindow::handle(int event) {
+   if( event == FL_SHOW ) {
+      firstRun = false;
+   }
+
+   return Fl_Window::handle(event);
+}
+
 void ElevatorSimWelcomeWindow::quitConfirmedCB(
-   Fl_Button* OK_Button, void* userData)
-{
-   (void) OK_Button;
+   Fl_Button* OK_Button, void* userData) {
 
    ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
 
@@ -78,18 +83,13 @@ void ElevatorSimWelcomeWindow::quitConfirmedCB(
 }
 
 void ElevatorSimWelcomeWindow::quitCancelledCB(
-   Fl_Button* Cancel_Button, void* userData)
-{
-   (void) Cancel_Button;
+   Fl_Button* Cancel_Button, void* userData) {
 
    ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
    thisWin->confirmDialog->hide();
 }
 
-void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData)
-{
-   (void) win;
-
+void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData) {
    ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
    thisWin->confirmDialog->hotspot(15, 15);
    thisWin->confirmDialog->show();
@@ -109,6 +109,10 @@ ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
 }
 
 ElevatorSimWelcomeWindow::~ElevatorSimWelcomeWindow() {
+   delete Wel_Label;
+   delete OK_Button;
+   delete Cancel_Button;
+
    delete confirmDialog;
 }
 

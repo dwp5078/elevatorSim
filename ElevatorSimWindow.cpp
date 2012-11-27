@@ -72,10 +72,21 @@ int ElevatorSimWindow::handle(int event) {
          SimulationState::acquire().getKeyManager().down(lastKey);
          return true;
       }
-   } else if ( event == FL_KEYUP) {
+   } else if (event == FL_KEYUP) {
       SimulationState::acquire().getKeyManager().up(lastKey);
       return true;
-   } 
+   } else if (event == FL_FOCUS) {
+      Fl_Window::handle(event);
+
+      LOG_INFO(Logger::SUB_FLTK, "after focus event");
+
+      if(welcomeWin->isFirstRun()) {
+         welcomeWin->hotspot(15, 15);
+         welcomeWin->show();
+      } 
+
+      return true;
+   }
 
    handleInParent: return Fl_Window::handle(event);
 }
@@ -454,11 +465,6 @@ void ElevatorSimWindow::aboutTextModifyCB(
 
 void ElevatorSimWindow::buildWelcomeWin() {
 	welcomeWin = new ElevatorSimWelcomeWindow();
-
-	if(welcomeWin->isFirstRun()) {
-      welcomeWin->hotspot(15, 15);
-		welcomeWin->show();
-	} 
 }
 
 /* public static member initializers */

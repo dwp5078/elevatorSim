@@ -49,6 +49,7 @@ namespace elevatorSim
       private:
          /* private methods */
          void buildDialogs();
+         int handle(int event);
 
          /* private static methods */
          static void windowCloseCB(Fl_Window* win, void* userData);
