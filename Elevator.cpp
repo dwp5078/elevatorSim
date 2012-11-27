@@ -61,17 +61,17 @@ Elevator::Elevator(
    maxOccupants(_maxOccupants),
    numFloors(_numFloors),
 
+   /* deceleration time from max speed to 0,
+    * or acceleration time from 0 to max speed */
+   accelTimeInterval(boost::math::iround((float)maxVel / maxAccel)),
+
    /* distance required to stop when traveling
     * at maximum speed and then experiencing
     * negative maximum acceleration in the opposing
     * the direction of motion */
    stoppingDistance(boost::math::iround(
       maxVel * accelTimeInterval -
-      maxAccel * (accelTimeInterval * accelTimeInterval ) / 2.0f)),
-
-   /* deceleration time from max speed to 0,
-    * or acceleration time from 0 to max speed */
-   accelTimeInterval(boost::math::iround((float)maxVel / maxAccel)) {
+      maxAccel * (accelTimeInterval * accelTimeInterval ) / 2.0f)) {
 
    yVal = _yVal;
    currentVel = 0;

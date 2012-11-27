@@ -65,8 +65,8 @@ class Elevator : public Location, public ISimulationTerminal {
    const int maxOccupants;
    const int numFloors;
 
-   const int stoppingDistance;
    const int accelTimeInterval;
+   const int stoppingDistance;
 
    int currentVel;
    int currentAccel;
