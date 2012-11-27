@@ -79,9 +79,9 @@ int ElevatorSimRenderWindow::handle(int event) {
    if( event == FL_PUSH ) {
 	   rayCasting( Fl::event_x(), Fl::event_y());
 	   return true;
+   } else {
+      return Fl_Gl_Window::handle(event);
    }
-
-   return Fl_Gl_Window::handle(event);
 }
 
 void ElevatorSimRenderWindow::glInit() {
