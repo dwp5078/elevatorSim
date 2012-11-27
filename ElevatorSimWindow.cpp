@@ -159,17 +159,6 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
          std::stringstream dbgSS;
          dbgSS << "startSim CB fired" << std::endl;
       }
-
-      /*beginLabel[0] = new Fl_Text_Display(10,30,280,190,"Max Elevator:");
-      beginLabel[1] = new Fl_Text_Display(50,70,280,190,"Max Floor:");
-      beginDoneButton = new Fl_Button(100, 240, 100, 40, "Done");
-
-      //helpDoneButton->callback((Fl_Callback*) dismissHelpCB, this);
-
-      beginWin->add(beginLabel[0]);
-      beginWin->add(beginLabel[1]);
-      beginWin->add(beginDoneButton);
-      beginWin->end();*/
    }
 }
 
@@ -188,7 +177,6 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
    static bool paused = true;
 
    if(pauseButton->value()) {
-
       if(isDebugBuild()) {
          std::stringstream dbgSS;
          dbgSS << "pauseSimCB fired " << std::endl;
@@ -301,20 +289,6 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
 }
 
 void ElevatorSimWindow::buildMenu() {
-   /*
-    * struct Fl_Menu_Item {
-    *    const char*          label;
-    *    ulong                shortcut_;
-    *    Fl_Callback*         callback_;
-    *    void*                user_data_;
-    *    int                  flags;
-    *    uchar                labeltype_;
-    *    uchar                labelfont_;
-    *    uchar                labelsize_;
-    *    uchar                labelcolor_;
-    * };
-    */
-
    static const Fl_Menu_Item menuitems[] = {
          { "&File", 0, 0, 0, FL_SUBMENU },
          { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
@@ -366,7 +340,6 @@ void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
    static bool toggle = true; /* TODO: store in the simulation state */
 
    assert(
-
       (thisWin->startButton->active() &&
       !thisWin->stopButton->active() &&
       !thisWin->pauseButton->active()) ||
@@ -386,7 +359,6 @@ void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
    }
 
    assert(
-
       (thisWin->startButton->active() &&
       !thisWin->stopButton->active() &&
       !thisWin->pauseButton->active()) ||
@@ -427,7 +399,8 @@ void ElevatorSimWindow::buildDialogs() {
    /* About Dialog */
    aboutWin = new Fl_Window(400, 300, "About");
 
-   aboutLabel = new Fl_Text_Display(10,30,380,200,"");
+   aboutLabel = new Fl_Text_Display(10,30,380,200);
+   //aboutTextBuffer = new Fl_Text_Buffer();
    aboutDoneButton = new Fl_Button(150, 250, 100, 40, "OK");
 
    aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
@@ -485,9 +458,24 @@ ElevatorSimWindow::ElevatorSimWindow() :
 }
 
 ElevatorSimWindow::~ElevatorSimWindow() {
-   delete confirmDialog;
+
+   delete stopButton;
+   delete pauseButton;
+   delete startButton;
+
+   /* TODO: check if FLTK frees children automatically */
+   delete aboutWin;
+
+   /* TODO */
    delete helpWin;
+
+   /* TODO */
+   delete confirmDialog;
+
+   /* TODO */
    delete welcomeWin;
+
+   delete renderWindow;
 }
 
 } /* namespace elevatorSim */

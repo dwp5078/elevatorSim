@@ -82,11 +82,6 @@ class ElevatorSimWindow : public Fl_Window {
    Fl_Button* yesButton;
    Fl_Button* noButton;
 
-   /*Begin wigets */
-   Fl_Window* beginWin;
-   Fl_Text_Display* beginLabel[2];
-   Fl_Button* beginDoneButton;
-
    /* help widgets */
    Fl_Window* helpWin;
    Fl_Text_Display* helpLabel;
