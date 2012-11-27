@@ -115,7 +115,7 @@ void ElevatorSimRenderWindow::setViewport() {
 }
 
 void ElevatorSimRenderWindow::setPerspective(
-      GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
+   GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) {
    GLdouble xmin, xmax, ymin, ymax;
 
    ymax = zNear * tan(fovy * MY_PI / 360.0);
@@ -128,8 +128,9 @@ void ElevatorSimRenderWindow::setPerspective(
 
 void ElevatorSimRenderWindow::drawFPS(int fps, int totalFrames) {
    std::stringstream renderStringStream(
-         std::stringstream::in | std::stringstream::out);
-   char stringBuf[256];
+      std::stringstream::in | std::stringstream::out);
+   const int MAX_DIAG_STR_LEN = 256;
+   char stringBuf[MAX_DIAG_STR_LEN];
 
    glColor3f(0.0f, 1.f, 0.f); /* because green text is sexy text */
 
@@ -139,15 +140,14 @@ void ElevatorSimRenderWindow::drawFPS(int fps, int totalFrames) {
    renderStringStream
    << "Total Frame: " << totalFrames   << std::endl;
    
-   renderStringStream.getline(stringBuf, 256);
+   renderStringStream.getline(stringBuf, MAX_DIAG_STR_LEN);
    drawText(stringBuf, 10.f, 10.f);
 
-   renderStringStream.getline(stringBuf, 256);
+   renderStringStream.getline(stringBuf, MAX_DIAG_STR_LEN);
    drawText(stringBuf, 10.f, 20.f);
 }
 
-void ElevatorSimRenderWindow::drawText(
-   const char * const str, float x, float y) {
+void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y) {
    /* enabling prolog */
    glDisable(GL_DEPTH_TEST);
    glPushAttrib(GL_LIGHTING_BIT);
@@ -185,17 +185,16 @@ void ElevatorSimRenderWindow::drawText(
 }
 
 ElevatorSimRenderWindow::ElevatorSimRenderWindow(
-      int X, int Y, int W, int H, const char* Label) :
-         Fl_Gl_Window(X, Y, W, H, Label)
-{
-   spin = 0.0;
-   m_bRenderFPS = true;
+   int X, int Y, int W, int H, const char* Label) :
+   Fl_Gl_Window(X, Y, W, H, Label) {
+      spin = 0.0;
+      m_bRenderFPS = true;
 
-   GLWindow_width = W;
-   GLWindow_height = H;
+      GLWindow_width = W;
+      GLWindow_height = H;
 
-   Fl::add_timeout(cTimeManager::redrawInterval, timerCB, (void*)this);
-   take_focus();
+      Fl::add_timeout(cTimeManager::redrawInterval, timerCB, (void*)this);
+      take_focus();
 }
 
 void ElevatorSimRenderWindow::draw() {
@@ -249,8 +248,7 @@ void ElevatorSimRenderWindow::draw() {
    }
 }
 
-void ElevatorSimRenderWindow::rayCasting(int x, int y)
-{
+void ElevatorSimRenderWindow::rayCasting(int x, int y) {
    SimulationState& simState = SimulationState::acquire();
 
    float fovX = (GLWindow_width/GLWindow_height) * 45.f;
@@ -266,8 +264,9 @@ void ElevatorSimRenderWindow::rayCasting(int x, int y)
    int maxElev = simState.getBuilding().getMaxElev();
    Elevator** elev = simState.getBuilding().getElev();
    
-   for(int i=0; i<maxElev; i++)  {
-      float pos = 1.0f + elev[i]->getYVal() / Floor::YVALS_PER_FLOOR * simState.getBuilding().gfxEachFloorHeight;
+   for(int i=0; i<maxElev; i++) {
+      float pos = 1.0f + elev[i]->getYVal() / 
+         Floor::YVALS_PER_FLOOR * simState.getBuilding().gfxEachFloorHeight;
 
       printf("%f\n", pos);
    }
