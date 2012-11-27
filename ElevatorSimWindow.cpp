@@ -37,6 +37,8 @@
 #include "Logger.hpp"
 
 #include <sstream>
+#include <string>
+
 #include <FL/Fl.H>
 #include <FL/gl.h>
 #include <FL/Fl_Window.H>
@@ -405,6 +407,30 @@ void ElevatorSimWindow::buildDialogs() {
 
    aboutDisplay->buffer(aboutTextBuffer);
    aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
+
+   std::stringstream aboutSS;
+
+   /* output version info of libraries */
+   aboutSS 
+      << "elevatorSim" << std::endl
+      << "  built with: " << std::endl
+      << "    boost v" << BOOST_LIB_VERSION << " http://www.boost.org" <<std::endl
+      << "    fltk v" << FL_MAJOR_VERSION << "_"
+      << FL_MINOR_VERSION << FL_PATCH_VERSION << " http://www.fltk.org" << std::endl
+      << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION 
+      << " http://www.python.org " << std::endl;
+
+   do {
+      const int lineBufferLen = 256;
+      char lineBuffer[lineBufferLen];
+
+      aboutSS.getline(lineBuffer, lineBufferLen);
+
+      if( strlen(lineBuffer) > 0 ) {
+         aboutTextBuffer->append(lineBuffer);
+         aboutTextBuffer->append("\n");
+      }
+   } while( !aboutSS.eof() );
 
    aboutWin->add(aboutDisplay);
    aboutWin->add(aboutDoneButton);
