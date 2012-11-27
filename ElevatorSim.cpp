@@ -48,9 +48,19 @@
 using namespace elevatorSim;
 
 void compute();
-void parseArgs(int argc, char** argv);
+bool parseArgs(int argc, char** argv);
 
 int main(int argc, char** argv) {
+   if(!parseArgs(argc, argv)) {
+      /* 
+       * Debug builds on windows use AllocConsole() and redirect standard
+       * iostreams to it, so this ugly bullshit is required.
+       */
+      std::cout << "press enter to continue..." << std::endl;
+      std::cin.get();
+      return 1;
+   }
+
    glutInit(&argc, argv);
 
    Logger::acquire();
@@ -65,7 +75,6 @@ int main(int argc, char** argv) {
       << FL_MINOR_VERSION << FL_PATCH_VERSION << std::endl
       << "python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION << std::endl;
 
-   parseArgs(argc, argv);
    srand(time(0)); /* TODO: use Boost.Random */
 
    SimulationState::acquire();
@@ -100,9 +109,10 @@ void compute() {
    }
 }
 
-void parseArgs(int argc, char** argv) {
+bool parseArgs(int argc, char** argv) {
    using namespace boost::program_options;
-
+   bool shouldContinue = true;
+   
    try {
       options_description desc("Allowed options");
       desc.add_options()
@@ -115,16 +125,17 @@ void parseArgs(int argc, char** argv) {
 
       if (vm.count("help")) {
          std::cout << desc << std::endl;
-         return;
-      }
-
-      if (vm.count("verbose")) {
+         shouldContinue = false;
+      } else if (vm.count("verbose")) {
          Logger::acquire().setAllSubsystems(Logger::LOG_INFO);
       }
    } catch(std::exception& e) {
       std::cerr << "error: " << e.what() << std::endl;
-      return;
+      shouldContinue = false;
    } catch(...) {
       std::cerr << "Exception of unknown type" << std::endl;
+      shouldContinue = false;
    }
+   
+   return shouldContinue;
 }
