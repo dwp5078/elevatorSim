@@ -30,12 +30,12 @@ ElevatorUnitTests.o
 ## CXXFLAGS ##
 
 WARN_CXXFLAGS=-Wall -Wextra -Werror -pedantic
-PY_CXXFLAGS=$(shell python3-config --includes)
+PY_CXXFLAGS=$(shell python3.3-config --includes)
 CXXFLAGS=-c -std=c++11 -D_ES_UNIX $(WARN_CXXFLAGS) $(PY_CXXFLAGS)
 
 ## LDFLAGS ##
 
-PY_LDFLAGS=$(shell python3-config --ldflags) $(shell python3-config --libs)
+PY_LDFLAGS=$(shell python3.3-config --ldflags) $(shell python3.3-config --libs)
 FLTK_LDFLAGS=$(shell fltk-config --use-gl --ldflags)
 GL_LDFLAGS=-lglut -lGL -lGLU
 BOOST_LDFLAGS=-lboost_system -lboost_chrono -lboost_thread -lboost_program_options
