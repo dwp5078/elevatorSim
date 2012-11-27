@@ -403,6 +403,7 @@ void ElevatorSimWindow::buildDialogs() {
    aboutDisplay = new Fl_Text_Display(10,30,380,200);
    aboutDoneButton = new Fl_Button(150, 250, 100, 40, "OK");
 
+   aboutDisplay->buffer(aboutTextBuffer);
    aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
 
    aboutWin->add(aboutDisplay);
