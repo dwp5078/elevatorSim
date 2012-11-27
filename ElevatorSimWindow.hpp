@@ -74,6 +74,12 @@ class ElevatorSimWindow : public Fl_Window {
    static void dismissAboutCB(Fl_Widget* w, void* userData);
    static void toggleButtons(ElevatorSimWindow* userData);
 
+   static void aboutTextPredeleteCB( int pos, int nDeleted, void* cbArg);
+   static void aboutTextModifyCB(
+      int pos, int nInserted, int nDeleted,
+      int nRestyled, const char* deletedText,
+      void* cbArg);
+      
    /* private members */
    ElevatorSimRenderWindow* renderWindow;
    ElevatorSimWelcomeWindow* welcomeWin;

@@ -432,9 +432,24 @@ void ElevatorSimWindow::buildDialogs() {
       }
    } while( !aboutSS.eof() );
 
+   aboutTextBuffer->add_predelete_callback( aboutTextPredeleteCB, this);
+   aboutTextBuffer->add_modify_callback( aboutTextModifyCB, this);
+
    aboutWin->add(aboutDisplay);
    aboutWin->add(aboutDoneButton);
    aboutWin->end();
+}
+
+void ElevatorSimWindow::aboutTextPredeleteCB(
+   int pos, int nDeleted, void* cbArg) {
+      
+}
+
+void ElevatorSimWindow::aboutTextModifyCB(
+   int pos, int nInserted, int nDeleted,
+   int nRestyled, const char* deletedText,
+   void* cbArg) {
+   
 }
 
 void ElevatorSimWindow::buildWelcomeWin() {
@@ -496,7 +511,6 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete startButton;
 
    delete aboutDoneButton;
-   delete aboutTextBuffer;
    delete aboutDisplay;
    delete aboutWin;
 
