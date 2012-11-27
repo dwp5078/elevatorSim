@@ -116,6 +116,7 @@ private:
    cKeyManager* keyManager;
    cRenderObjs* renderObjs;
    cCameraManager* cameraManager;
+   int logicTicks;
 
    Building* building;
 

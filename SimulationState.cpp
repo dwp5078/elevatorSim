@@ -94,15 +94,13 @@ void SimulationState::release() {
 
 void SimulationState::init() {
    cState = SIMULATION_RUNNING;
+   logicTicks = 0;
 
    /* TODO */
 }
 
 void SimulationState::update() {
-
-   /* lambdas are sexy */
-
-   bigAssStateMutex.lock(); /* massive mutexes are not */
+   bigAssStateMutex.lock(); 
 
    std::for_each(
       stateObjects.begin(),
@@ -111,8 +109,9 @@ void SimulationState::update() {
          stateObj -> update();
    });
 
-   bigAssStateMutex.unlock();
+   ++logicTicks;
 
+   bigAssStateMutex.unlock();
 }
 
 } /* namespace elevatorSim */
