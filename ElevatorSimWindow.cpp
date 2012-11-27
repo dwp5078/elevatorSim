@@ -424,14 +424,11 @@ void ElevatorSimWindow::buildDialogs() {
    confirmDialog->add(noButton);
    confirmDialog->end();
 
-      /* About Dialog */
+   /* About Dialog */
    aboutWin = new Fl_Window(400, 300, "About");
 
    aboutLabel = new Fl_Text_Display(10,30,380,200,"");
    aboutDoneButton = new Fl_Button(150, 250, 100, 40, "OK");
-
-   	/*const char* tt = "5fffffff";
-   aboutLabel->insert(tt);*/
 
    aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
 
@@ -446,9 +443,7 @@ void ElevatorSimWindow::buildWelcomeWin() {
 	if(welcomeWin->isFirstRun()) {
       welcomeWin->hotspot(15, 15);
 		welcomeWin->show();
-	} else {
-
-   }
+	} 
 }
 
 /* public static member initializers */
