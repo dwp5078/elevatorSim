@@ -187,6 +187,13 @@ void ElevatorSimRenderWindow::drawText(const char * const str, float x, float y)
 ElevatorSimRenderWindow::ElevatorSimRenderWindow(
    int X, int Y, int W, int H, const char* Label) :
    Fl_Gl_Window(X, Y, W, H, Label) {
+
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "constructring sim render window @ " << this << std::endl;
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+      }
+
       spin = 0.0;
       m_bRenderFPS = true;
 
@@ -195,6 +202,14 @@ ElevatorSimRenderWindow::ElevatorSimRenderWindow(
 
       Fl::add_timeout(cTimeManager::redrawInterval, timerCB, (void*)this);
       take_focus();
+}
+
+ElevatorSimRenderWindow::~ElevatorSimRenderWindow() {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "destroying sim render window @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 }
 
 void ElevatorSimRenderWindow::draw() {

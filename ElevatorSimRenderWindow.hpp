@@ -79,6 +79,10 @@ class ElevatorSimRenderWindow : public Fl_Gl_Window {
    void drawText(const char * const str, float x, float y);
    void rayCasting(int x, int y);
 
+   /* public methods */
+   ElevatorSimRenderWindow(
+      int X, int Y, int W, int H, const char* Label = 0);
+
 public:
 
    /* public static constants */
@@ -91,10 +95,8 @@ public:
 
    /* public instance members */
 
-   /* public methods */
-   ElevatorSimRenderWindow(
-      int X, int Y, int W, int H, const char* Label = 0);
-
+   ~ElevatorSimRenderWindow();
+   
    void draw();
 };
 
