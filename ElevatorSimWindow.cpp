@@ -72,21 +72,7 @@ int ElevatorSimWindow::handle(int event) {
    } else if ( event == FL_KEYUP) {
       SimulationState::acquire().getKeyManager().up(lastKey);
       return true;
-   } else if ( event == FL_PUSH) {
-      //Filter out the mouse click that is outside of the gl window
-      int x = Fl::event_x() - ElevatorSimRenderWindow::LEFT_MARGIN;
-      int y = Fl::event_y() - ElevatorSimRenderWindow::TOP_MARGIN;
-
-      if (x < 0 || y < 0)  return true;
-      if (x > WINDOW_WIDTH - (ElevatorSimRenderWindow::LEFT_MARGIN +
-            ElevatorSimRenderWindow::RIGHT_MARGIN))   return true;
-      if (y > WINDOW_HEIGHT -
-            (ElevatorSimRenderWindow::TOP_MARGIN +
-            ElevatorSimRenderWindow::BOTTOM_MARGIN))  return true;
-
-      renderWindow->mouseClicked(x, y);
-      
-   }
+   } 
 
    handleInParent: return Fl_Window::handle(event);
 }

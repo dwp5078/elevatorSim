@@ -76,6 +76,11 @@ int ElevatorSimRenderWindow::handle(int event) {
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer( dbgSS ) );
    }
 
+   if( event == FL_PUSH ) {
+	   rayCasting( Fl::event_x(), Fl::event_y());
+	   return true;
+   }
+
    return Fl_Gl_Window::handle(event);
 }
 
@@ -242,13 +247,6 @@ void ElevatorSimRenderWindow::draw() {
       dbgSS << "GLGETERROR= " << (int) err << std::endl;
       LOG_ERROR( Logger::SUB_RENDER, sstreamToBuffer(dbgSS) );
    }
-}
-
-void ElevatorSimRenderWindow::mouseClicked(int x, int y)
-{
-   //printf("%d, %d\n", x, y);
-
-   rayCasting(x, y);
 }
 
 void ElevatorSimRenderWindow::rayCasting(int x, int y)
