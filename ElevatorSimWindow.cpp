@@ -370,7 +370,6 @@ void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
       thisWin->stopButton->active() &&
       thisWin->pauseButton->active()));
 
-
    toggle = !toggle;
 }
 
@@ -418,7 +417,8 @@ void ElevatorSimWindow::buildDialogs() {
       << "    fltk v" << FL_MAJOR_VERSION << "_"
       << FL_MINOR_VERSION << FL_PATCH_VERSION << " http://www.fltk.org" << std::endl
       << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION 
-      << " http://www.python.org " << std::endl;
+      << " http://www.python.org " << std::endl 
+      << "hosted at: https://github.com/maxdeliso/elevatorSim" << std::endl;
 
    do {
       const int lineBufferLen = 256;
