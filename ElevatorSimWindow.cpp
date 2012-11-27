@@ -458,6 +458,11 @@ ElevatorSimWindow::ElevatorSimWindow() :
 }
 
 ElevatorSimWindow::~ElevatorSimWindow() {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "started to destroy sim window @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 
    delete stopButton;
    delete pauseButton;
@@ -477,6 +482,12 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 
    delete welcomeWin;
    delete renderWindow;
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "finished destroying sim window @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 }
 
 } /* namespace elevatorSim */
