@@ -89,12 +89,10 @@ int main(int argc, char** argv) {
 
    delete mainWin;
 
-   LOG_INFO(Logger::SUB_GENERAL, "logger shutting down");
-
    SimulationState::release();
-   Logger::release();
    Py_Finalize();
-
+   LOG_INFO(Logger::SUB_GENERAL, "logger shutting down");
+   Logger::release();
    return 0;
 }
 
