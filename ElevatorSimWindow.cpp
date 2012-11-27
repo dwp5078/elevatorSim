@@ -463,18 +463,19 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete pauseButton;
    delete startButton;
 
-   /* TODO: check if FLTK frees children automatically */
+   delete aboutDoneButton;
+   delete aboutLabel;
    delete aboutWin;
 
-   /* TODO */
+   delete helpDoneButton;
+   delete helpLabel;
    delete helpWin;
 
-   /* TODO */
+   delete noButton;
+   delete yesButton;
    delete confirmDialog;
 
-   /* TODO */
    delete welcomeWin;
-
    delete renderWindow;
 }
 
