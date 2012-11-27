@@ -91,14 +91,14 @@ int main(int argc, char** argv) {
 
    SimulationState::release();
    Py_Finalize();
-   LOG_INFO(Logger::SUB_GENERAL, "logger shutting down");
+   LOG_INFO(Logger::SUB_GENERAL, "shutting down");
    Logger::release();
    return 0;
 }
 
 void compute() {
    /* TODO: move this into a different file */
-   static boost::chrono::milliseconds waitDuration(10); /* TODO: make this a const */
+   static boost::chrono::milliseconds waitDuration(10); /* TODO: make this a variable */
    SimulationState& simState = SimulationState::acquire();
 
    while( simState.getState() != SimulationState::SIMULATION_KILLED ) {
