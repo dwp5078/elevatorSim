@@ -62,12 +62,12 @@ int ElevatorSimWindow::handle(int event) {
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
-   if(event == FL_KEYDOWN)  {
+   if(event == FL_KEYDOWN) {
       if(lastKey == FL_Escape) {
          confirmDialog->hotspot(15, 15);
          confirmDialog->show();
 
-         goto handleInParent;
+         return Fl_Window::handle(event);
       } else {
          SimulationState::acquire().getKeyManager().down(lastKey);
          return true;
@@ -78,17 +78,19 @@ int ElevatorSimWindow::handle(int event) {
    } else if (event == FL_FOCUS) {
       Fl_Window::handle(event);
 
-      LOG_INFO(Logger::SUB_FLTK, "after focus event");
+      if(isDebugBuild()) {
+         LOG_INFO(Logger::SUB_FLTK, "after focus event");
+      }
 
       if(welcomeWin->isFirstRun()) {
          welcomeWin->hotspot(15, 15);
          welcomeWin->show();
-      } 
+      }
 
       return true;
+   } else {
+      return Fl_Window::handle(event);
    }
-
-   handleInParent: return Fl_Window::handle(event);
 }
 
 
