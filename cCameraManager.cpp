@@ -34,9 +34,11 @@
 #include "cKeyManager.hpp"
 #include "cTimeManager.hpp"
 #include "SimulationState.hpp"
+#include "Logger.hpp"
 
 #include <FL/Enumerations.H>
 #include <GL/glut.h>
+#include <sstream>
 
 namespace elevatorSim {
 
@@ -60,6 +62,12 @@ void cCameraManager::init()
    m_fPitchAngle = 0.f;
    m_fYawAngle = 0.f;
    m_fRollAngle = 0.f;
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "initializing camera manager @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+   }
 }
 
 void cCameraManager::update()

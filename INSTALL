@@ -56,7 +56,7 @@ All compiles below assume vcvarsall x86.
 BOOST:
    These are the proper options to set for building boost libraries for debugging:
 
-   b2.exe --with-chrono --with-program_options --with-system --with-thread --variant=debug --threading=multi --link=static
+   b2.exe --with-chrono --with-program_options --with-system --with-thread --with-test --with-date_time --variant=debug --threading=multi --link=static
 
    The two paths given at the end of a successful build are the paths you need to write into the makefile.
 

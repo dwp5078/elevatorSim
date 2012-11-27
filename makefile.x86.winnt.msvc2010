@@ -75,10 +75,10 @@ DEBUG_COOKEDDEPS=\
 "libboost_thread-vc100-mt-gd-1_52.lib"\
 "libboost_chrono-vc100-mt-gd-1_52.lib"\
 "libboost_system-vc100-mt-gd-1_52.lib"\
-"python32_d.lib"
+"python33_d.lib"
 
 RELEASE_COOKEDDEPS=
-# TODO 
+# TODO
 
 UNIT_TEST_OUT=elevatorSimTests.exe
 OUT=elevatorSim.exe
@@ -101,7 +101,7 @@ $(DEBUG_COOKEDDEPS)
 	@echo + running unit tests
 	$(UNIT_TEST_OUT)
 	@echo + success
-   
+
 .cpp.obj:
 	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
 
