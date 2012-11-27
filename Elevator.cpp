@@ -33,10 +33,12 @@
 #include "Elevator.hpp"
 #include "ISimulationTerminal.hpp"
 #include "Building.hpp"
+#include "Floor.hpp"
 #include "Logger.hpp"
 #include "cTimeManager.hpp"
 
 #include <boost/math/special_functions/round.hpp>
+#include <boost/static_assert.hpp>
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -63,26 +65,33 @@ Elevator::Elevator(
 
    /* deceleration time from max speed to 0,
     * or acceleration time from 0 to max speed */
-   accelTimeInterval(boost::math::iround((float)maxVel / maxAccel)),
+   accelTimeInterval(maxVel / maxAccel),
 
    /* distance required to stop when traveling
     * at maximum speed and then experiencing
     * negative maximum acceleration in the opposing
     * the direction of motion */
-   stoppingDistance(boost::math::iround(
+   stoppingDistance(
       maxVel * accelTimeInterval -
-      maxAccel * (accelTimeInterval * accelTimeInterval ) / 2.0f)) {
+      maxAccel * (accelTimeInterval * accelTimeInterval ) / 2) {
 
-   yVal = _yVal;
-   currentVel = 0;
-   currentAccel = 0; 
-   floorsSignaled = new bool[numFloors];
+         /* avoid truncation issues */
+         assert(maxVel % maxAccel == 0);
 
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "constructed elevator @" << this << std::endl;
-      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
-   }
+         /* make sure that the elevator can achieve maximum speed both
+          * while accelerating and slowing down between one floor */
+         assert( 2 * stoppingDistance < Floor::YVALS_PER_FLOOR);
+
+         yVal = _yVal;
+         currentVel = 0;
+         currentAccel = 0; 
+         floorsSignaled = new bool[numFloors];
+
+         if(isDebugBuild()) {
+            std::stringstream dbgSS;
+            dbgSS << "constructed elevator @" << this << std::endl;
+            LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+         }
 }
 
 Elevator::~Elevator() {
@@ -177,7 +186,7 @@ void Elevator::update() {
    assert(
       currentAccel == -maxAccel ||
       currentAccel == maxAccel ||
-      currentAccel == 0  );
+      currentAccel == 0 );
 
    currentVel += currentAccel;
    currentVel = ( currentAccel > maxVel ) ? ( maxVel ) : ( currentVel );
