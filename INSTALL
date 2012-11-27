@@ -48,6 +48,35 @@ aptitude install libboost1.50-dev-all libfltk1.3-dev libfltk1.3-compat-headers
 cd /path/to/elevatorSim
 make -f makefile.x86_64.linux.gcc4
 
-You can also use the eclipse CDT.
+NOTES FOR BUILDING DEPENDENCIES ON WINDOWS ( You probably won't have to do this ):
 
-eclipse -> import existing C++ project
+Only 32 bit targets have been tested.
+All compiles below assume vcvarsall x86.
+
+BOOST:
+   These are the proper options to set for building boost libraries for debugging:
+
+   b2.exe --with-chrono --with-program_options --with-system --with-thread --variant=debug --threading=multi --link=static
+
+   The two paths given at the end of a successful build are the paths you need to write into the makefile.
+
+FLTK:
+   Use the project file for MSVC10 located at fltk-1.xxx\ide\VisualC2010.
+   Build the Win32/Debug target. 
+   You will need to change the name of the pdb files output by the build for each library if you want to be able to debug
+   the fltk routines. This can be done by right clicking on each library solution
+      -> Configuration Properties
+      -> C/C++
+      -> Output Files
+      -> Program Database File Name
+      -> Change it to $(IntDir)_<name of library>d.pdb
+
+   This needs to be done for: fltk, fltkdll, fltkforms, fltkgl, fltkimages, fltkjpeg, fltkpng, and fltkzlib
+   Results will be in $TOP\lib. The pdbs will reside in the same directory as the solution file. You will need both.
+   Refer to http://fltk.org for further documentation.
+
+Python:
+   Use the project file for MSVC10 locate at Python-3.xxx\PCbuild.
+   Build the Win32/Debug target.
+   Results will be in the solution directory.
+   Refer to http://python.org/doc for further documentation.
