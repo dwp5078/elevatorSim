@@ -400,12 +400,12 @@ void ElevatorSimWindow::buildDialogs() {
    /* About Dialog */
    aboutWin = new Fl_Window(400, 300, "About");
    aboutTextBuffer = new Fl_Text_Buffer();
-   aboutLabel = new Fl_Text_Display(10,30,380,200);
+   aboutDisplay = new Fl_Text_Display(10,30,380,200);
    aboutDoneButton = new Fl_Button(150, 250, 100, 40, "OK");
 
    aboutDoneButton->callback((Fl_Callback*) dismissAboutCB, this);
 
-   aboutWin->add(aboutLabel);
+   aboutWin->add(aboutDisplay);
    aboutWin->add(aboutDoneButton);
    aboutWin->end();
 }
@@ -470,7 +470,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 
    delete aboutDoneButton;
    delete aboutTextBuffer;
-   delete aboutLabel;
+   delete aboutDisplay;
    delete aboutWin;
 
    delete helpDoneButton;

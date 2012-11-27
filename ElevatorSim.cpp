@@ -68,17 +68,9 @@ int main(int argc, char** argv) {
 
    LOG_INFO(Logger::SUB_GENERAL, "logger starting up");
 
-   /* output version info of libraries */
-   std::cout << "built with: " << std::endl
-      << "boost v" << BOOST_LIB_VERSION << std::endl
-      << "fltk v" << FL_MAJOR_VERSION << "_"
-      << FL_MINOR_VERSION << FL_PATCH_VERSION << std::endl
-      << "python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION << std::endl;
-
    srand(time(0)); /* TODO: use Boost.Random */
 
    SimulationState::acquire();
-
    ElevatorSimWindow* mainWin = new ElevatorSimWindow();
    mainWin -> show();
 

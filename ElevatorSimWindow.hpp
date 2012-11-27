@@ -90,7 +90,7 @@ class ElevatorSimWindow : public Fl_Window {
 
    /*About widgets*/
    Fl_Window* aboutWin;
-   Fl_Text_Display* aboutLabel;
+   Fl_Text_Display* aboutDisplay;
    Fl_Text_Buffer* aboutTextBuffer;
    Fl_Button* aboutDoneButton;
 
