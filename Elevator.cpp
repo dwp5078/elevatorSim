@@ -75,11 +75,8 @@ Elevator::Elevator(
 
    yVal = _yVal;
    currentVel = 0;
-   currentAccel = maxAccel; /* NOTE: THIS IS FOR TESTING PURPOSES */
+   currentAccel = 0; 
    floorsSignaled = new bool[numFloors];
-
-   ///////////////////Test - Soohoon
-   destFloor = -1;
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -165,126 +162,38 @@ void Elevator::render() {
 }
 
 void Elevator::update() {
-   /* ensure that accel is either -maxAccel, +maxAccel, or 0 */
+   const int minElevHeight = 
+      SimulationState::acquire().getBuilding().getMinElevHeight();
+   const int maxElevHeight = 
+      SimulationState::acquire().getBuilding().getMaxElevHeight();
+
+   /* const int currentTime =
+      SimulationState::acquire().getTime(); */
+
+   /* ensure that height and velocity and acceleration are within legal ranges */
+
+   assert( minElevHeight <= yVal && yVal <= maxElevHeight );
+   assert( -maxVel <= currentVel && currentVel <= maxVel );
    assert(
       currentAccel == -maxAccel ||
       currentAccel == maxAccel ||
       currentAccel == 0  );
 
-   const int minElevHeight = SimulationState::acquire().getBuilding().getMinElevHeight();
-   const int maxElevHeight = SimulationState::acquire().getBuilding().getMaxElevHeight();
+   currentVel += currentAccel;
+   currentVel = ( currentAccel > maxVel ) ? ( maxVel ) : ( currentVel );
+   currentVel = ( currentVel < -maxVel ) ? ( -maxVel ) : ( currentVel ); 
 
-   ///////////////////Test Block Start-  Soohoon
-   generateRandomDest();
-   int finalPos = destFloor * Floor::YVALS_PER_FLOOR;
-   int diff = abs(finalPos - yVal);
+   yVal += currentVel;
+   yVal = (yVal > maxElevHeight ) ? ( maxElevHeight ) : ( yVal );
+   yVal = (yVal < minElevHeight ) ? ( minElevHeight ) : ( yVal );
 
-   if(diff <= Floor::YVALS_PER_FLOOR)  {  //decelerate
-   ///////////////////Test Block End
-
-      if(currentAccel > 0) {
-         /* replace current vel with current vel + accel,
-          * unless it's greater than the maximum vel */
-         currentVel = ( currentVel + currentAccel > maxVel ) ?
-            ( maxVel ) : ( currentVel + currentAccel );
-         /* otherwise if current accel is negative... */
-      } else if(currentAccel < 0) {
-         /* replace current vel with current vel + accel,
-          * unless it's less than the minimum vel */
-         currentVel = ( currentVel + currentAccel < -maxVel ) ?
-            ( -maxVel ) : ( currentVel + currentAccel );
-      }
-
-      /* if current vel is positive */
-      if(currentVel > 0) {
-         /* replace current yVal with yVal plus current vel,
-          * unless it's greater than the maximum yVal */
-         yVal = (yVal + currentVel < finalPos) ?
-            ( yVal + currentVel ) : ( finalPos );
-         /* otherwise if current vel is negative */
-      } else if (currentVel < 0) {
-         /* replace current yVal with yVal + current vel,
-          * unless it's less than the minimum yVal */
-         yVal = (yVal + currentVel > finalPos) ?
-            ( yVal + currentVel ) : ( finalPos );
-      }
-
-   //////////////////Test Block Start
-      /*if(yVal == finalPos)  {
-         if(waitingTime == 0) {
-          waitingTime = cTimeManager::worldTime();
-       }
-         if(waitingTime + 1500 <= cTimeManager::worldTime() )   {
-          waitingTime = 0;
-            destFloor = -1;
-            generateRandomDest();
-
-         }
-      }*/
-     if(yVal == finalPos) {
-         static int temp = 0;
-         temp++;
-         if(temp == 200) {
-            temp = 0;
-            destFloor = -1;
-            generateRandomDest();
-
-         }
-      }
-   } else  {
-   ///////////////////Test Block End
-
-
-   /* if current accel is positive... */
-   if(currentAccel > 0) {
-      /* replace current vel with current vel + accel,
-       * unless it's greater than the maximum vel */
-      currentVel = (currentVel + currentAccel < maxVel ) ?
-         ( currentVel + currentAccel ) : ( maxVel );
-   /* otherwise if current accel is negative... */
-   } else if(currentAccel < 0) {
-      /* replace current vel with current vel + accel,
-       * unless it's less than the minimum vel */
-      currentVel = (currentVel + currentAccel > -maxVel ) ?
-         ( currentVel + currentAccel ) : ( -maxVel );
-   }
-
-   /* if current vel is positive */
-   if(currentVel > 0) {
-      /* replace current yVal with yVal plus current vel
-       * unless it's greater than the maximum yVal */
-      yVal = (yVal + currentVel < maxElevHeight) ?
-         ( yVal + currentVel ) : ( maxElevHeight );
-   /* otherwise if current vel is negative */
-   } else if (currentVel < 0) {
-      /* replace current yVal with yVal + current vel
-       * unless it's less than the minimum yVal */
-      yVal = (yVal + currentVel > minElevHeight) ?
-         ( yVal + currentVel ) : ( minElevHeight );
-   }
-
-   ////////////////Test Block Start
-   }
-   ////////////////Test Block End
-
+   /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
    assert( -maxVel <= currentVel && currentVel <= maxVel );
-}
-
-///////////////////Test Function - Soohoon
-void Elevator::generateRandomDest()
-{
-   if(destFloor != -1)  return;
-
-   destFloor = rand() % SimulationState::acquire().getBuilding().getStories();
-
-   if(yVal < destFloor * Floor::YVALS_PER_FLOOR) {
-      currentAccel = maxAccel;
-   } else {
-      currentAccel = -maxAccel;
-   }
-
-   currentVel = 0;
+   assert(
+      currentAccel == -maxAccel ||
+      currentAccel == maxAccel ||
+      currentAccel == 0  );
 }
 
 } /* namespace elevatorSim */
