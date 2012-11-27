@@ -104,6 +104,10 @@ public:
       bigAssStateMutex.unlock();
    }
 
+   inline int getTime() const {
+      return logicTicks;
+   }
+
 private:
    
    static SimulationState* simulationState;
