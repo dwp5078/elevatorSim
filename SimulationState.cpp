@@ -36,11 +36,13 @@
 #include "cRenderObjs.hpp"
 #include "cCameraManager.hpp"
 #include "Building.hpp"
+#include "Logger.hpp"
 
 #include <set>
 #include <functional>
 #include <cassert>
 #include <boost/thread/mutex.hpp>
+#include <sstream>
 
 namespace elevatorSim   {
 
@@ -56,12 +58,24 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
 }
 
 SimulationState::~SimulationState() {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "starting to destroy simulation state @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
+
    delete building;
 
    delete cameraManager;
    delete renderObjs;
    delete keyManager;
    delete timeManager;
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "finished destroying simulation state @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 }
 
 SimulationState& SimulationState::acquire() {
