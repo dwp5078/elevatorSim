@@ -1,0 +1,66 @@
+
+starting test run at 2012-Nov-27 17:21:47.431649
+Running 1 test case...
+Entering test suite "Master Test Suite"
+Entering test suite "elevator_tests"
+Entering test case "elevator_initialization_test"
+ElevatorUnitTests.cpp(49): info: check testBuilding.getStories() == testStoryCount passed
+ElevatorUnitTests.cpp(50): info: check testBuilding.getElevators() == testElevCount passed
+Leaving test case "elevator_initialization_test"; testing time: 20ms
+Leaving test suite "elevator_tests"
+Leaving test suite "Master Test Suite"
+
+starting test run at 2012-Nov-27 17:22:25.203426
+Running 1 test case...
+Entering test suite "Master Test Suite"
+Entering test suite "elevator_tests"
+Entering test case "elevator_initialization_test"
+ElevatorUnitTests.cpp(49): info: check testBuilding.getStories() == testStoryCount passed
+ElevatorUnitTests.cpp(50): info: check testBuilding.getElevators() == testElevCount passed
+Leaving test case "elevator_initialization_test"
+Leaving test suite "elevator_tests"
+Leaving test suite "Master Test Suite"
+
+starting test run at 2012-Nov-27 17:23:16.978603
+Running 1 test case...
+Entering test suite "Master Test Suite"
+Entering test suite "elevator_tests"
+Entering test case "elevator_initialization_test"
+ElevatorUnitTests.cpp(49): info: check testBuilding.getStories() == testStoryCount passed
+ElevatorUnitTests.cpp(50): info: check testBuilding.getElevators() == testElevCount passed
+Leaving test case "elevator_initialization_test"; testing time: 1ms
+Leaving test suite "elevator_tests"
+Leaving test suite "Master Test Suite"
+
+starting test run at 2012-Nov-27 17:24:13.605265
+Running 1 test case...
+Entering test suite "Master Test Suite"
+Entering test suite "elevator_tests"
+Entering test case "elevator_initialization_test"
+ElevatorUnitTests.cpp(49): info: check testBuilding.getStories() == testStoryCount passed
+ElevatorUnitTests.cpp(50): info: check testBuilding.getElevators() == testElevCount passed
+Leaving test case "elevator_initialization_test"
+Leaving test suite "elevator_tests"
+Leaving test suite "Master Test Suite"
+
+starting test run at 2012-Nov-27 17:43:06.778571
+Running 1 test case...
+Entering test suite "Master Test Suite"
+Entering test suite "elevator_tests"
+Entering test case "elevator_initialization_test"
+ElevatorUnitTests.cpp(49): info: check testBuilding.getStories() == testStoryCount passed
+ElevatorUnitTests.cpp(50): info: check testBuilding.getElevators() == testElevCount passed
+Leaving test case "elevator_initialization_test"; testing time: 1ms
+Leaving test suite "elevator_tests"
+Leaving test suite "Master Test Suite"
+
+starting test run at 2012-Nov-27 17:43:12.941187
+Running 1 test case...
+Entering test suite "Master Test Suite"
+Entering test suite "elevator_tests"
+Entering test case "elevator_initialization_test"
+ElevatorUnitTests.cpp(49): info: check testBuilding.getStories() == testStoryCount passed
+ElevatorUnitTests.cpp(50): info: check testBuilding.getElevators() == testElevCount passed
+Leaving test case "elevator_initialization_test"; testing time: 1ms
+Leaving test suite "elevator_tests"
+Leaving test suite "Master Test Suite"

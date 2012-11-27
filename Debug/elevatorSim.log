@@ -1,0 +1,16 @@
+﻿Build started 11/27/2012 12:43:10 PM.
+     1>Project "C:\Users\swl5060\elevatorSim\elevatorSim.vcxproj" on node 2 (build target(s)).
+     1>Build:
+         build.bat
+         	cl  UnitTests.obj ElevatorUnitTests.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj ElevatorSimWelcomeWindow.obj cRenderObjs.obj cTimeManager.obj cKeyManager.obj cCameraManager.obj Elevator.obj Location.obj Person.obj Building.obj Floor.obj ISimulationTerminal.obj Logger.obj SimulationState.obj IStateObject.obj /Z7 /Gm- /MDd /errorreport:none /nologo /FeelevatorSimTests.exe /link /subsystem:windows /libpath:deps\x86.winnt.msvc10\boost /libpath:deps\x86.winnt.msvc10\fltk /libpath:deps\x86.winnt.msvc10\python /nodefaultlib:"libcd" /nodefaultlib:"libcmt" /incremental:NO /machine:X86  "comctl32.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" "glu32.lib" "opengl32.lib"  "fltkd.lib" "fltkformsd.lib" "fltkgld.lib" "fltkimagesd.lib" "fltkjpegd.lib" "fltkpngd.lib" "fltkzlibd.lib" "libboost_program_options-vc100-mt-gd-1_52.lib" "libboost_thread-vc100-mt-gd-1_52.lib" "libboost_chrono-vc100-mt-gd-1_52.lib" "libboost_system-vc100-mt-gd-1_52.lib" "python33_d.lib"
+         + unit test build success
+         	cl ElevatorSim.obj ElevatorSimWindow.obj ElevatorSimRenderWindow.obj ElevatorSimWelcomeWindow.obj cRenderObjs.obj cTimeManager.obj cKeyManager.obj cCameraManager.obj Elevator.obj Location.obj Person.obj Building.obj Floor.obj ISimulationTerminal.obj Logger.obj SimulationState.obj IStateObject.obj /Z7 /Gm- /MDd /errorreport:none /nologo /FdelevatorSim.pdb /FmelevatorSim.map /FeelevatorSim.exe /link /subsystem:windows /libpath:deps\x86.winnt.msvc10\boost /libpath:deps\x86.winnt.msvc10\fltk /libpath:deps\x86.winnt.msvc10\python /nodefaultlib:"libcd" /nodefaultlib:"libcmt" /incremental:NO /machine:X86  "comctl32.lib" "kernel32.lib" "user32.lib" "gdi32.lib" "winspool.lib" "comdlg32.lib" "advapi32.lib" "shell32.lib" "ole32.lib" "oleaut32.lib" "uuid.lib" "odbc32.lib" "odbccp32.lib" "glu32.lib" "opengl32.lib"  "fltkd.lib" "fltkformsd.lib" "fltkgld.lib" "fltkimagesd.lib" "fltkjpegd.lib" "fltkpngd.lib" "fltkzlibd.lib" "libboost_program_options-vc100-mt-gd-1_52.lib" "libboost_thread-vc100-mt-gd-1_52.lib" "libboost_chrono-vc100-mt-gd-1_52.lib" "libboost_system-vc100-mt-gd-1_52.lib" "python33_d.lib"
+         + main binary build success
+         + running unit tests
+         	elevatorSimTests.exe
+         + success
+     1>Done Building Project "C:\Users\swl5060\elevatorSim\elevatorSim.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.83

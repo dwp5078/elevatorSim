@@ -45,6 +45,8 @@ namespace elevatorSim {
 class Building;
 class Person;
 
+const float queueScale = 2.f;
+
 class Floor : public Location, public ISimulationTerminal {
 
    /* friends */
@@ -60,14 +62,16 @@ class Floor : public Location, public ISimulationTerminal {
    bool signalingDown;
    const bool hasUpperFloor;
    const bool hasLowerFloor;
+   const GLfloat gfxScaleWidth;
 
    /* private methods */
 
    /* constructors */
    Floor(
       int _yVal,
+      float _gfxScaleWidth,
       bool _hasUpperFloor = false,
-      bool _hasLowerFloor = false);
+      bool _hasLowerFloor = false  );
 
 public:
 

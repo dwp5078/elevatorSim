@@ -92,6 +92,8 @@ public:
 
    int getMaxElev()  {  return m_nElevator;  }
    Elevator** getElev() {  return m_Elevators;  }
+
+   void DistributePeople();
 };
 
 } /* namespace elevatorSim */

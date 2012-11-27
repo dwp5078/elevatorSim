@@ -47,11 +47,14 @@ const int Floor::YVALS_PER_FLOOR = 5000;
 /* constructors */
 Floor::Floor(
    int _yVal,
+   float _gfxScaleWidth,
    bool _hasUpperFloor,
-   bool _hasLowerFloor) :
+   bool _hasLowerFloor
+   ) :
       Location(_yVal),
+      gfxScaleWidth(_gfxScaleWidth),
       hasUpperFloor(_hasUpperFloor),
-      hasLowerFloor(_hasLowerFloor) {
+      hasLowerFloor(_hasLowerFloor)  {
 
       signalingUp = false;
       signalingDown = false;
@@ -88,7 +91,16 @@ void Floor::render() {
    glMaterialf(GL_FRONT, GL_SHININESS, shi);
    glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
+   glPushMatrix();
+   glScalef(gfxScaleWidth + queueScale, 0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
+   glPopMatrix();
+
+   glPushMatrix();
+   //glTranslatef(-gfxScaleWidth-2.0f, gfxEachFloorHeight * i + 1.0f, 0.0f);
+   glTranslatef(-4.0f, 1.0f, 1.f);
+   glCallList(cRenderObjs::OBJ_HUMAN);
+   glPopMatrix();
 }
 
 void Floor::update() {
