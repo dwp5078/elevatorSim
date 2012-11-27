@@ -85,6 +85,7 @@ namespace elevatorSim {
          const std::string& message );
 
       void setAllSubsystems(LOG_LEVEL level);
+      void setSubsystemToLevel(LOG_SUBSYSTEM system, LOG_LEVEL level);
    };
 
 } /* namespace elevatorSim */
