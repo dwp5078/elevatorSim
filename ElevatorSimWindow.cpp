@@ -444,6 +444,7 @@ void ElevatorSimWindow::buildWelcomeWin() {
 	welcomeWin = new ElevatorSimWelcomeWindow();
 
 	if(welcomeWin->isFirstRun()) {
+      welcomeWin->hotspot(15, 15);
 		welcomeWin->show();
 	} else {
 
