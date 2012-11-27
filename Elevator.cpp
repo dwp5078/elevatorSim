@@ -111,27 +111,34 @@ bool Elevator::canStopAtNextFloor() {
     * If the elevator is not accelerating, the function returns false.
     */
 
-   LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, "in canStopAtNextFloor()..." );
-
    if(currentAccel == 0) {
       return false;
    }
 
    /* compute next floor by truncating current and adding or subtracting
     * based on the current velocity */
-   int nextFloor = int(yVal / Floor::YVALS_PER_FLOOR)
+   int nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) 
       + (currentVel > 0) ? (1) : (-1);
 
    int nextFloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
 
-   /* compute distance to next floor
-    * based on the current velocity */
-   int nextFloorDistance = ( currentVel > 0 ) ?
-      ( nextFloorHeight - yVal ) :
-      ( yVal - nextFloorHeight );
+   /* compute distance to next floor */
+   int nextFloorDistance = abs( nextFloorHeight - yVal );
 
    /* check if there's ample distance to stop */
-   return nextFloorDistance <= stoppingDistance;
+   bool canStop = nextFloorDistance <= stoppingDistance;
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "with elevator @ " << this 
+        << " and a = " << currentAccel << " v = " << currentVel << " y = " << yVal
+        << std::endl << " SD= " << stoppingDistance << " NFD= " << nextFloorDistance
+        << " can stop? " << canStop << std::endl;
+
+      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+   }
+
+   return canStop;
 }
 
 void Elevator::goToFloor(int floor) {
