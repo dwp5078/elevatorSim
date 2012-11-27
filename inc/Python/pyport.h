@@ -135,7 +135,7 @@ Used in:  PY_LONG_LONG
 #define _PyHASH_MULTIPLIER 1000003  /* 0xf4243 */
 
 /* Parameters used for the numeric hash implementation.  See notes for
-   _PyHash_Double in Objects/object.c.  Numeric hashes are based on
+   _Py_HashDouble in Objects/object.c.  Numeric hashes are based on
    reduction modulo the prime 2**_PyHASH_BITS - 1. */
 
 #if SIZEOF_VOID_P >= 8
@@ -555,6 +555,30 @@ extern "C" {
 #define _Py_SET_53BIT_PRECISION_END                             \
     if (new_387controlword != old_387controlword)               \
         _Py_set_387controlword(old_387controlword)
+#endif
+
+/* get and set x87 control word for VisualStudio/x86 */
+#if defined(_MSC_VER) && !defined(_WIN64) /* x87 not supported in 64-bit */
+#define HAVE_PY_SET_53BIT_PRECISION 1
+#define _Py_SET_53BIT_PRECISION_HEADER \
+    unsigned int old_387controlword, new_387controlword, out_387controlword
+/* We use the __control87_2 function to set only the x87 control word.
+   The SSE control word is unaffected. */
+#define _Py_SET_53BIT_PRECISION_START                                   \
+    do {                                                                \
+        __control87_2(0, 0, &old_387controlword, NULL);                 \
+        new_387controlword =                                            \
+          (old_387controlword & ~(_MCW_PC | _MCW_RC)) | (_PC_53 | _RC_NEAR); \
+        if (new_387controlword != old_387controlword)                   \
+            __control87_2(new_387controlword, _MCW_PC | _MCW_RC,        \
+                          &out_387controlword, NULL);                   \
+    } while (0)
+#define _Py_SET_53BIT_PRECISION_END                                     \
+    do {                                                                \
+        if (new_387controlword != old_387controlword)                   \
+            __control87_2(old_387controlword, _MCW_PC | _MCW_RC,        \
+                          &out_387controlword, NULL);                   \
+    } while (0)
 #endif
 
 /* default definitions are empty */

@@ -219,6 +219,8 @@ class QueryTestCase(unittest.TestCase):
  others.should.not.be: like.this}"""
         self.assertEqual(DottedPrettyPrinter().pformat(o), exp)
 
+    @unittest.expectedFailure
+    #See http://bugs.python.org/issue13907
     @test.support.cpython_only
     def test_set_reprs(self):
         # This test creates a complex arrangement of frozensets and
@@ -241,10 +243,12 @@ class QueryTestCase(unittest.TestCase):
         # Consequently, this test is fragile and
         # implementation-dependent.  Small changes to Python's sort
         # algorithm cause the test to fail when it should pass.
+        # XXX Or changes to the dictionary implmentation...
 
         self.assertEqual(pprint.pformat(set()), 'set()')
         self.assertEqual(pprint.pformat(set(range(3))), '{0, 1, 2}')
         self.assertEqual(pprint.pformat(frozenset()), 'frozenset()')
+
         self.assertEqual(pprint.pformat(frozenset(range(3))), 'frozenset({0, 1, 2})')
         cube_repr_tgt = """\
 {frozenset(): frozenset({frozenset({2}), frozenset({0}), frozenset({1})}),
@@ -461,6 +465,16 @@ class QueryTestCase(unittest.TestCase):
             'frozenset({' + ','.join(map(repr, skeys)) + '})')
         self.assertEqual(clean(pprint.pformat(dict.fromkeys(keys))),
             '{' + ','.join('%r:None' % k for k in skeys) + '}')
+
+        # Issue 10017: TypeError on user-defined types as dict keys.
+        self.assertEqual(pprint.pformat({Unorderable: 0, 1: 0}),
+                         '{1: 0, ' + repr(Unorderable) +': 0}')
+
+        # Issue 14998: TypeError on tuples with NoneTypes as dict keys.
+        keys = [(1,), (None,)]
+        self.assertEqual(pprint.pformat(dict.fromkeys(keys, 0)),
+                         '{%r: 0, %r: 0}' % tuple(sorted(keys, key=id)))
+
 
 class DottedPrettyPrinter(pprint.PrettyPrinter):
 

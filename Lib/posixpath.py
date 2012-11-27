@@ -71,16 +71,26 @@ def isabs(s):
 def join(a, *p):
     """Join two or more pathname components, inserting '/' as needed.
     If any component is an absolute path, all previous path components
-    will be discarded."""
+    will be discarded.  An empty last part will result in a path that
+    ends with a separator."""
     sep = _get_sep(a)
     path = a
-    for b in p:
-        if b.startswith(sep):
-            path = b
-        elif not path or path.endswith(sep):
-            path +=  b
-        else:
-            path += sep + b
+    try:
+        for b in p:
+            if b.startswith(sep):
+                path = b
+            elif not path or path.endswith(sep):
+                path += b
+            else:
+                path += sep + b
+    except TypeError:
+        valid_types = all(isinstance(s, (str, bytes, bytearray))
+                          for s in (a, ) + p)
+        if valid_types:
+            # Must have a mixture of text and binary data
+            raise TypeError("Can't mix strings and bytes in path "
+                            "components.") from None
+        raise
     return path
 
 
@@ -266,8 +276,8 @@ def expanduser(path):
         root = b'/'
     else:
         root = '/'
-    userhome = userhome.rstrip(root) or userhome
-    return userhome + path[i:]
+    userhome = userhome.rstrip(root)
+    return (userhome + path[i:]) or root
 
 
 # Expand paths containing shell variable substitutions.

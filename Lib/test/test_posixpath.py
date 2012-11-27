@@ -1,10 +1,11 @@
-import unittest
-from test import support, test_genericpath
-
-import posixpath
+import itertools
 import os
+import posixpath
 import sys
+import unittest
+import warnings
 from posixpath import realpath, abspath, dirname, basename
+from test import support, test_genericpath
 
 try:
     import posix
@@ -56,8 +57,21 @@ class PosixPathTest(unittest.TestCase):
         self.assertEqual(posixpath.join(b"/foo/", b"bar/", b"baz/"),
                          b"/foo/bar/baz/")
 
-        self.assertRaises(TypeError, posixpath.join, b"bytes", "str")
-        self.assertRaises(TypeError, posixpath.join, "str", b"bytes")
+        def check_error_msg(list_of_args, msg):
+            """Check posixpath.join raises friendly TypeErrors."""
+            for args in (item for perm in list_of_args
+                              for item in itertools.permutations(perm)):
+                with self.assertRaises(TypeError) as cm:
+                    posixpath.join(*args)
+                self.assertEqual(msg, cm.exception.args[0])
+
+        check_error_msg([[b'bytes', 'str'], [bytearray(b'bytes'), 'str']],
+                        "Can't mix strings and bytes in path components.")
+        # regression, see #15377
+        with self.assertRaises(TypeError) as cm:
+            posixpath.join(None, 'str')
+        self.assertNotEqual("Can't mix strings and bytes in path components.",
+                            cm.exception.args[0])
 
     def test_split(self):
         self.assertEqual(posixpath.split("/foo/bar"), ("/foo", "bar"))
@@ -231,7 +245,9 @@ class PosixPathTest(unittest.TestCase):
 
     def test_ismount(self):
         self.assertIs(posixpath.ismount("/"), True)
-        self.assertIs(posixpath.ismount(b"/"), True)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            self.assertIs(posixpath.ismount(b"/"), True)
 
     def test_ismount_non_existent(self):
         # Non-existent mountpoint.
@@ -298,6 +314,7 @@ class PosixPathTest(unittest.TestCase):
             with support.EnvironmentVarGuard() as env:
                 env['HOME'] = '/'
                 self.assertEqual(posixpath.expanduser("~"), "/")
+                self.assertEqual(posixpath.expanduser("~/foo"), "/foo")
                 # expanduser should fall back to using the password database
                 del env['HOME']
                 home = pwd.getpwuid(os.getuid()).pw_dir

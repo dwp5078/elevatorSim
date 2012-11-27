@@ -31,12 +31,6 @@ class CmdLineTest(unittest.TestCase):
         self.verify_valid_flag('-O')
         self.verify_valid_flag('-OO')
 
-    def test_q(self):
-        self.verify_valid_flag('-Qold')
-        self.verify_valid_flag('-Qnew')
-        self.verify_valid_flag('-Qwarn')
-        self.verify_valid_flag('-Qwarnall')
-
     def test_site_flag(self):
         self.verify_valid_flag('-S')
 
@@ -151,7 +145,7 @@ class CmdLineTest(unittest.TestCase):
     @unittest.skipUnless(sys.platform == 'darwin', 'test specific to Mac OS X')
     def test_osx_utf8(self):
         def check_output(text):
-            decoded = text.decode('utf8', 'surrogateescape')
+            decoded = text.decode('utf-8', 'surrogateescape')
             expected = ascii(decoded).encode('ascii') + b'\n'
 
             env = os.environ.copy()
@@ -223,7 +217,7 @@ class CmdLineTest(unittest.TestCase):
         self.assertIn(path2.encode('ascii'), out)
 
     def test_displayhook_unencodable(self):
-        for encoding in ('ascii', 'latin1', 'utf8'):
+        for encoding in ('ascii', 'latin-1', 'utf-8'):
             env = os.environ.copy()
             env['PYTHONIOENCODING'] = encoding
             p = subprocess.Popen(
@@ -265,6 +259,23 @@ class CmdLineTest(unittest.TestCase):
             "print(repr(input()))",
             b"'abc'")
 
+    def test_output_newline(self):
+        # Issue 13119 Newline for print() should be \r\n on Windows.
+        code = """if 1:
+            import sys
+            print(1)
+            print(2)
+            print(3, file=sys.stderr)
+            print(4, file=sys.stderr)"""
+        rc, out, err = assert_python_ok('-c', code)
+
+        if sys.platform == 'win32':
+            self.assertEqual(b'1\r\n2\r\n', out)
+            self.assertEqual(b'3\r\n4', err)
+        else:
+            self.assertEqual(b'1\n2\n', out)
+            self.assertEqual(b'3\n4', err)
+
     def test_unmached_quote(self):
         # Issue #10206: python program starting with unmatched quote
         # spewed spaces to stdout
@@ -282,7 +293,7 @@ class CmdLineTest(unittest.TestCase):
         rc, out, err = assert_python_ok('-c', code)
         self.assertEqual(b'', out)
         self.assertRegex(err.decode('ascii', 'ignore'),
-                         'Exception IOError: .* ignored')
+                         'Exception OSError: .* ignored')
 
     def test_closed_stdout(self):
         # Issue #13444: if stdout has been explicitly closed, we should
@@ -336,14 +347,14 @@ class CmdLineTest(unittest.TestCase):
         hashes = []
         for i in range(2):
             code = 'print(hash("spam"))'
-            rc, out, err = assert_python_ok('-R', '-c', code)
+            rc, out, err = assert_python_ok('-c', code)
             self.assertEqual(rc, 0)
             hashes.append(out)
         self.assertNotEqual(hashes[0], hashes[1])
 
         # Verify that sys.flags contains hash_randomization
         code = 'import sys; print("random is", sys.flags.hash_randomization)'
-        rc, out, err = assert_python_ok('-R', '-c', code)
+        rc, out, err = assert_python_ok('-c', code)
         self.assertEqual(rc, 0)
         self.assertIn(b'random is 1', out)
 

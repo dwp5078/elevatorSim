@@ -1,4 +1,5 @@
 import sys
+import io
 import linecache
 import time
 import socket
@@ -6,6 +7,7 @@ import traceback
 import _thread as thread
 import threading
 import queue
+import tkinter
 
 from idlelib import CallTips
 from idlelib import AutoComplete
@@ -37,6 +39,17 @@ else:
         s += "%s: %s\n" % (category.__name__, message)
         return s
     warnings.formatwarning = idle_formatwarning_subproc
+
+
+tcl = tkinter.Tcl()
+
+
+def handle_tk_events(tcl=tcl):
+    """Process any tk events that are ready to be dispatched if tkinter
+    has been imported, a tcl interpreter has been created and tk has been
+    loaded."""
+    tcl.eval("update")
+
 
 # Thread shared globals: Establish a queue between a subthread (which handles
 # the socket) and the main thread (which runs user code), plus global
@@ -93,6 +106,7 @@ def main(del_exitfunc=False):
             try:
                 seq, request = rpc.request_queue.get(block=True, timeout=0.05)
             except queue.Empty:
+                handle_tk_events()
                 continue
             method, args, kwargs = request
             ret = method(*args, **kwargs)
@@ -244,6 +258,45 @@ class MyRPCServer(rpc.RPCServer):
             quitting = True
             thread.interrupt_main()
 
+class _RPCFile(io.TextIOBase):
+    """Wrapper class for the RPC proxy to typecheck arguments
+    that may not support pickling. The base class is there only
+    to support type tests; all implementations come from the remote
+    object."""
+
+    def __init__(self, rpc):
+        super.__setattr__(self, 'rpc', rpc)
+
+    def __getattribute__(self, name):
+        # When accessing the 'rpc' attribute, or 'write', use ours
+        if name in ('rpc', 'write', 'writelines'):
+            return io.TextIOBase.__getattribute__(self, name)
+        # Else only look into the remote object only
+        return getattr(self.rpc, name)
+
+    def __setattr__(self, name, value):
+        return setattr(self.rpc, name, value)
+
+    @staticmethod
+    def _ensure_string(func):
+        def f(self, s):
+            if not isinstance(s, str):
+                raise TypeError('must be str, not ' + type(s).__name__)
+            return func(self, s)
+        return f
+
+class _RPCOutputFile(_RPCFile):
+    @_RPCFile._ensure_string
+    def write(self, s):
+        if not isinstance(s, str):
+            raise TypeError('must be str, not ' + type(s).__name__)
+        return self.rpc.write(s)
+
+class _RPCInputFile(_RPCFile):
+    @_RPCFile._ensure_string
+    def write(self, s):
+        raise io.UnsupportedOperation("not writable")
+    writelines = write
 
 class MyHandler(rpc.RPCHandler):
 
@@ -251,9 +304,11 @@ class MyHandler(rpc.RPCHandler):
         """Override base method"""
         executive = Executive(self)
         self.register("exec", executive)
-        sys.stdin = self.console = self.get_remote_proxy("stdin")
-        sys.stdout = self.get_remote_proxy("stdout")
-        sys.stderr = self.get_remote_proxy("stderr")
+        self.console = self.get_remote_proxy("stdin")
+        sys.stdin = _RPCInputFile(self.console)
+        sys.stdout = _RPCOutputFile(self.get_remote_proxy("stdout"))
+        sys.stderr = _RPCOutputFile(self.get_remote_proxy("stderr"))
+        sys.displayhook = rpc.displayhook
         # page help() text to shell.
         import pydoc # import must be done here to capture i/o binding
         pydoc.pager = pydoc.plainpager
