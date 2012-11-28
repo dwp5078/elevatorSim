@@ -81,6 +81,7 @@ SimulationState::~SimulationState() {
 SimulationState& SimulationState::acquire() {
    if(simulationState == NULL) {
       simulationState = new SimulationState();
+      simulationState -> init();
    }
 
    return *simulationState;

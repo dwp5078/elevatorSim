@@ -145,27 +145,29 @@ void Elevator::goToFloor(int floor) {
    assert(floor >= 0 && floor < numFloors);
 
    /* height of the target floor in yVals */
-   int nextFloorHeight = floor *  Floor::YVALS_PER_FLOOR;
+   int targetFloorHeight = floor *  Floor::YVALS_PER_FLOOR;
+   const int currentTime =
+      SimulationState::acquire().getTime();
 
    /* we're already there, so do nothing */
-   if(yVal == nextFloorHeight) {
+   if(yVal == targetFloorHeight) {
       return;
    }
 
    /* the distance traveled at the maximum speed */
    int maxVelTimeInterval = boost::math::iround(
-      ((float)(abs(yVal - nextFloorHeight) - stoppingDistance) / maxVel));
+      ((float)(abs(yVal - targetFloorHeight) - stoppingDistance) / maxVel));
 
    scheduledAccels.push_back(
-      std::pair<int, int> (accelTimeInterval,
-      (yVal < nextFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
+      std::pair<int, int> ( currentTime + accelTimeInterval,
+      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
 
    scheduledAccels.push_back(
-       std::pair<int, int> (maxVelTimeInterval, 0) );
+       std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 0 ));
 
    scheduledAccels.push_back(
-       std::pair<int, int> (accelTimeInterval,
-       (yVal < nextFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
+       std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 
+       ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
 }
 
 void Elevator::init() {
@@ -182,18 +184,30 @@ void Elevator::update() {
       SimulationState::acquire().getBuilding().getMinElevHeight();
    const int maxElevHeight = 
       SimulationState::acquire().getBuilding().getMaxElevHeight();
-
-   /* const int currentTime =
-      SimulationState::acquire().getTime(); */
+   const int currentTime =
+      SimulationState::acquire().getTime();
 
    /* ensure that height and velocity and acceleration are within legal ranges */
-
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
    assert( -maxVel <= currentVel && currentVel <= maxVel );
    assert(
       currentAccel == -maxAccel ||
       currentAccel == maxAccel ||
       currentAccel == 0 );
+
+   /* is there a scheduled acceleration pending? */
+   if( scheduledAccels.size() ) {
+      std::pair<int, int> nextScheduledAccel = scheduledAccels.back();
+
+      /* is it the next scheduled acceleration now */
+      if( nextScheduledAccel.first == currentTime ) {
+         /* remove it from the queue */
+         scheduledAccels.pop_back();
+
+      /* and set the current accel */
+      currentAccel = nextScheduledAccel.second;
+      }
+   } 
 
    currentVel += currentAccel;
    currentVel = ( currentAccel > maxVel ) ? ( maxVel ) : ( currentVel );
