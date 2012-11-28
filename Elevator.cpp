@@ -118,7 +118,7 @@ bool Elevator::canStopAtNextFloor() {
    /* compute next floor by truncating current and adding or subtracting
     * based on the current velocity */
    int nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) 
-      + (currentVel > 0) ? (1) : (-1);
+      + ((currentVel > 0) ? (1) : (-1));
 
    int nextFloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
 
