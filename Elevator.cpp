@@ -156,18 +156,33 @@ void Elevator::goToFloor(int floor) {
 
    /* the distance traveled at the maximum speed */
    int maxVelTimeInterval = boost::math::iround(
-      ((float)(abs(yVal - targetFloorHeight) - stoppingDistance) / maxVel));
+      ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
+
+   /* print debug info */
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "with elevator @ " << this
+         << " time t=" << currentTime
+         << " a = " << currentAccel << " v = " << currentVel << " y = " << yVal
+         << " and " << scheduledAccels.size() << " scheduled accels. " << std::endl;
+
+      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+   }
+
+   /* push them onto the back of the vector in reverse order */
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 0 ));
 
    scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + accelTimeInterval,
+      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 
+      ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + accelTimeInterval, 0 ));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime,
       ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
-
-   scheduledAccels.push_back(
-       std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 0 ));
-
-   scheduledAccels.push_back(
-       std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 
-       ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
 }
 
 void Elevator::init() {
@@ -199,20 +214,35 @@ void Elevator::update() {
    if( scheduledAccels.size() ) {
       std::pair<int, int> nextScheduledAccel = scheduledAccels.back();
 
-      /* is it the next scheduled acceleration now */
+      /* is the next scheduled acceleration now? */
       if( nextScheduledAccel.first == currentTime ) {
-         /* remove it from the queue */
+
+         /* remove it from the vector */
          scheduledAccels.pop_back();
 
-      /* and set the current accel */
-      currentAccel = nextScheduledAccel.second;
+         /* print debug info */
+         if(isDebugBuild()) {
+            std::stringstream dbgSS;
+            dbgSS << "with elevator @ " << this 
+               << " pulling scheduled accel off of queue at t = " << currentTime
+               << ", a = " << currentAccel << ", v = " << currentVel << ", y = " << yVal
+               << " and now " << scheduledAccels.size() 
+               << " scheduled accels. NEW ACCEL: " << nextScheduledAccel.second << std::endl;
+
+            LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+         }
+
+         /* and overwrite the current accel */
+         currentAccel = nextScheduledAccel.second;
       }
    } 
 
+   /* update current velocity */
    currentVel += currentAccel;
-   currentVel = ( currentAccel > maxVel ) ? ( maxVel ) : ( currentVel );
+   currentVel = ( currentVel > maxVel ) ? ( maxVel ) : ( currentVel );
    currentVel = ( currentVel < -maxVel ) ? ( -maxVel ) : ( currentVel ); 
 
+   /* update current position */
    yVal += currentVel;
    yVal = (yVal > maxElevHeight ) ? ( maxElevHeight ) : ( yVal );
    yVal = (yVal < minElevHeight ) ? ( minElevHeight ) : ( yVal );
