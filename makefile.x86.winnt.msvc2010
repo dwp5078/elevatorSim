@@ -9,6 +9,7 @@ CLIENT_OBJ=ElevatorSim.obj
 SIM_OBJS=ElevatorSimWindow.obj\
 ElevatorSimRenderWindow.obj\
 ElevatorSimWelcomeWindow.obj\
+ElevatorSimStartWindow.obj\
 cRenderObjs.obj\
 cTimeManager.obj\
 cKeyManager.obj\
