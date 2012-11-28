@@ -454,15 +454,24 @@ void ElevatorSimWindow::buildDialogs() {
 }
 
 void ElevatorSimWindow::aboutTextPredeleteCB(
-   int pos, int nDeleted, void* cbArg) {
-      
+   int pos, int nDeleted, void* userData) {
+ 
+      (void) pos;
+      (void) nDeleted;
+      (void) userData;
 }
 
 void ElevatorSimWindow::aboutTextModifyCB(
    int pos, int nInserted, int nDeleted,
    int nRestyled, const char* deletedText,
-   void* cbArg) {
-   
+   void* userData) {
+      
+      (void) pos;
+      (void) nInserted;
+      (void) nDeleted;
+      (void) nRestyled;
+      (void) deletedText;
+      (void) userData;
 }
 
 void ElevatorSimWindow::buildWelcomeWin() {

@@ -74,22 +74,26 @@ int ElevatorSimWelcomeWindow::handle(int event) {
 }
 
 void ElevatorSimWelcomeWindow::quitConfirmedCB(
-   Fl_Button* OK_Button, void* userData) {
+   Fl_Button* okButton, void* userData) {
+      (void) okButton;
 
-   ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
+      ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
 
-   thisWin->confirmDialog->hide();
-   thisWin->hide();
+      thisWin->confirmDialog->hide();
+      thisWin->hide();
 }
 
 void ElevatorSimWelcomeWindow::quitCancelledCB(
-   Fl_Button* Cancel_Button, void* userData) {
+   Fl_Button* cancelButton, void* userData) {
+   (void) cancelButton;
 
    ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
    thisWin->confirmDialog->hide();
 }
 
 void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData) {
+   (void) win;
+
    ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
    thisWin->confirmDialog->hotspot(15, 15);
    thisWin->confirmDialog->show();
