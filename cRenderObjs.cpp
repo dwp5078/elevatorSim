@@ -221,7 +221,7 @@ void cRenderObjs::initHuman()
 {
    glNewList(OBJ_HUMAN, GL_COMPILE);
 
-   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   /*GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
    GLfloat dif[4] = {0.2f, 0.2f, 0.8f, 1.0f};
    GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
    GLfloat shi = 0.5f;
@@ -230,7 +230,7 @@ void cRenderObjs::initHuman()
    glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
    glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
    glMaterialf(GL_FRONT, GL_SHININESS, shi);
-   glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glMaterialfv(GL_FRONT, GL_EMISSION, emi);*/
 
    glScalef(0.4f, 0.4f, 0.4f);
 

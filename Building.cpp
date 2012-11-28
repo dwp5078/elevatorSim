@@ -64,7 +64,7 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
 
       for(unsigned int i=0; i < m_nStory ; ++i) {
          m_Floors[i] = new Floor(
-            i * Floor::YVALS_PER_FLOOR, gfxScaleWidth, i != m_nStory-1, i != 0);
+            i * Floor::YVALS_PER_FLOOR, i, gfxScaleWidth, i != m_nStory-1, i != 0);
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
@@ -215,6 +215,8 @@ void Building::update()
    for(unsigned int i = 0; i < m_nElevator; i++) {
       m_Elevators[i]->update();
    }
+
+   if(rand() % 20 == 0) DistributePeople();
 }
 
 int Building::getMaxElevHeight() const {
@@ -227,7 +229,14 @@ int Building::getMinElevHeight() const {
 
 void Building::DistributePeople()
 {
+   int floorNum = 0, destination = 0;
+      
+   while(floorNum == destination) {
+      floorNum = rand() % m_nStory;   
+      destination = rand() % m_nStory;
+   }   
 
+   m_Floors[floorNum]->addOccupant(1, destination);
 }
 
 
