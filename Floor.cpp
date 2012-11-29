@@ -98,29 +98,53 @@ void Floor::render() {
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   if(signalingUp)   {
-      /*glPushMatrix();
-      glTranslatef(-gfxScaleWidth+0.5, 1.0f, 0.f);
-      
+   //Render Arrow
+   {
+      glPushMatrix();
+      glTranslatef(-gfxScaleWidth + 0.8f, 1.1f, 0.2f);
+      glScalef(0.25f, 0.25f, 0.25f);
+
+      if(signalingUp)   {
+         GLfloat arrow_dif[4] = {0.9f, 0.0f, 0.0f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      else  {
+         GLfloat arrow_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
       glBegin(GL_TRIANGLES);
-      glNormal3f(0.0, 0.0, 1.0);
+      glNormal3f(0.0, 1.0f, 1.0f);
       glVertex3f(1.0,  0.0,  0.0);
       glVertex3f( -1.0,  0.0,  0.0);
-      glVertex3f( 1.0, -1.0,  0.0);
+      glVertex3f( 0.0, 1.73f,  0.0);
       glEnd();
+      glPopMatrix();
 
-      glPopMatrix();*/
+      glPushMatrix();
+      glTranslatef(-gfxScaleWidth+0.8, 0.9f, 0.2f);
+      glScalef(0.25f, 0.25f, 0.25f);
+
+      if(signalingDown) {
+         GLfloat arrow_dif[4] = {0.0f, 0.9f, 0.0f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      else  {
+         GLfloat arrow_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      glBegin(GL_TRIANGLES);
+      glNormal3f(0.0, 1.0f, 1.0f);
+      glVertex3f( -1.0,  0.0,  0.0);
+      glVertex3f(1.0,  0.0,  0.0);
+      glVertex3f( 0.0, -1.73f,  0.0);
+      glEnd();
+      glPopMatrix();
    }
 
-   else  {
-   }
-
-   if(signalingDown) {
-   }
-
-   else  {
-   }
-   
    int num = getNumOccupants();
 
    if(num != 0)   {
@@ -197,7 +221,7 @@ void Floor::addOccupant(int numOfPeople, int destination)
       occupants.push_back(person);
    }
 
-   if(thisFloor - destination < 0)  {      signalingDown = true;   }
+   if(thisFloor - destination > 0)  {      signalingDown = true;   }
    else  {      signalingUp = true;   }
 }
 
