@@ -44,7 +44,7 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Text_Display.H>
-#include <Fl/Fl_Text_Buffer.H>
+#include <FL/Fl_Text_Buffer.H>
 
 namespace elevatorSim {
 
