@@ -74,6 +74,9 @@ class ElevatorSimWindow : public Fl_Window {
    static void dismissAboutCB(Fl_Widget* w, void* userData);
    static void toggleButtons(ElevatorSimWindow* userData);
 
+   static void inputAcceptCB(Fl_Window*  w, void* userData);
+   static void inputCancelCB(Fl_Window* w, void* userData);
+
    static void aboutTextPredeleteCB( int pos, int nDeleted, void* cbArg);
    static void aboutTextModifyCB(
       int pos, int nInserted, int nDeleted,
@@ -104,6 +107,14 @@ class ElevatorSimWindow : public Fl_Window {
    Fl_Button *startButton;
    Fl_Button *pauseButton;
    Fl_Button *stopButton;
+
+   /* User input widget */
+   Fl_Window* inputWin;
+   Fl_Input* elevatorNum;
+   Fl_Input* seedNum;
+   Fl_Input* floorNum;
+   Fl_Button *inputAccept;
+   Fl_Button *inputCancel;
 
 public:
 
