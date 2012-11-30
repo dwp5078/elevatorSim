@@ -107,6 +107,44 @@ void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
    thisWin->confirmDialog->show();
 }
 
+
+
+
+
+void ElevatorSimWindow::inputAcceptCB(Fl_Window* w, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "inputAcceptCB fired with widget ptr " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+
+}
+
+void ElevatorSimWindow::inputCancelCB(Fl_Window* w, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "inputCancelCB fired with widget ptr " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+
+   //ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -175,6 +213,26 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
          std::stringstream dbgSS;
          dbgSS << "startSim CB fired" << std::endl;
       }
+
+
+
+
+
+	     ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+   thisWindow->inputWin->hotspot(15, 15);
+   thisWindow->inputWin->show();
+
+
+
+
+
+
+
+
+
+
+
+
    }
 }
 
@@ -398,6 +456,25 @@ void ElevatorSimWindow::buildDialogs() {
    helpWin->add(helpLabel);
    helpWin->add(helpDoneButton);
    helpWin->end();
+
+   /* Input dialog */
+   inputWin = new Fl_Window(300, 300, "Please enter parameter");
+
+   elevatorNum = new Fl_Input(100, 20, 140, 30, "# of elevators:");
+   floorNum = new Fl_Input(100, 70, 140, 30, "# of floors:");
+   seedNum = new Fl_Input(100, 120, 140, 30, "Seed:");
+
+   inputAccept = new Fl_Button(100, 170, 140, 30, "Accept");
+   inputCancel = new Fl_Button(100, 220, 140, 30, "Cancel");
+   inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
+   inputCancel->callback((Fl_Callback*) inputCancelCB, this);
+
+   inputWin->add(floorNum);
+   inputWin->add(elevatorNum);
+   inputWin->add(seedNum);
+   inputWin->add(inputCancel);
+   inputWin->add(inputAccept);
+   inputWin->end();
 
    /* Confirmation dialog */
    confirmDialog = new Fl_Window(220, 110, "Are you sure?");
