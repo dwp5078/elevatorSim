@@ -274,4 +274,32 @@ void Elevator::update() {
       currentAccel == 0  );
 }
 
+void Elevator::pickupOccupants(Floor* floor)
+{
+   std::vector<Person> *floorOccupants = floor->getOccupants();
+
+   // Take out people from elevator
+   if(getOccupantSize() > 0)  {
+      std::vector<Person>::iterator p;
+      for(p = occupants.begin(); p != occupants.end(); p++) {
+         if(p->destination.getYVal() == getCurrentFloor())   {
+            occupants.erase(p);
+         }
+      }
+   }
+
+   // Bring people from floor
+   std::for_each(
+      floorOccupants->begin(),
+      floorOccupants->end(),
+      [] (Person p) {
+
+   });
+   
+}
+
+int Elevator::getCurrentFloor()   {
+   return yVal / Floor::YVALS_PER_FLOOR;
+}
+
 } /* namespace elevatorSim */

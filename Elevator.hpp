@@ -40,6 +40,7 @@
 #include "Building.hpp"
 #include "SimulationState.hpp"
 
+
 #include <vector>
 #include <utility>
 
@@ -48,6 +49,7 @@ namespace elevatorSim {
 class Location;
 class Building;
 class Person;
+class Floor;
 struct SimulationTerminal;
 
 class Elevator : public Location, public ISimulationTerminal {
@@ -101,14 +103,19 @@ public:
    /* public methods */
    bool canStopAtNextFloor();
    void goToFloor(int floor);
+   bool isStopped()  {  return (currentVel == 0)?true:false;   };
+   void pickupOccupants(Floor* floor);
+   int getCurrentFloor();
 
    /* inherited from SimulationTerminal */
    void init();
    void render();
    void update();
    void generateRandomDest();
-
+   
    int getOccupantSize()   {  return occupants.size();   }
+
+   
 
 };
 

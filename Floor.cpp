@@ -225,4 +225,9 @@ void Floor::addOccupant(int numOfPeople, int destination)
    else  {      signalingUp = true;   }
 }
 
+/*void Floor::elevatorReached(Elevator* elev)
+{
+
+}*/
+
 } /* namespace elevatorSim */
