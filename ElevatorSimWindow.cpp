@@ -93,7 +93,6 @@ int ElevatorSimWindow::handle(int event) {
    }
 }
 
-
 /* private static methods */
 void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
    if(isDebugBuild()) {
@@ -175,6 +174,14 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
          std::stringstream dbgSS;
          dbgSS << "startSim CB fired" << std::endl;
       }
+
+      /* TODO: show start window */
+    
+	   /*  
+       * ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+       * thisWindow->inputWin->hotspot(15, 15);
+       * thisWindow->inputWin->show(); 
+       */
    }
 }
 
@@ -242,7 +249,6 @@ void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
          << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
-
 
    /* TODO: display save dialog */
 }
