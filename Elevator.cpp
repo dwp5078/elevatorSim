@@ -48,8 +48,8 @@
 
 namespace elevatorSim {
 
-const int Elevator::DEFAULT_MAX_VEL = 30;
-const int Elevator::DEFAULT_MAX_ACCEL = 3;
+const int Elevator::DEFAULT_MAX_VEL = 120;
+const int Elevator::DEFAULT_MAX_ACCEL = 4;
 const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
 
 Elevator::Elevator(
@@ -158,6 +158,9 @@ void Elevator::goToFloor(int floor) {
    int maxVelTimeInterval = boost::math::iround(
       ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
 
+   /* ensure that there are no truncation issues */
+   assert(maxVelTimeInterval * maxVel + 2 * stoppingDistance == targetFloorHeight);
+      
    /* print debug info */
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -213,6 +216,10 @@ void Elevator::update() {
       currentAccel == maxAccel ||
       currentAccel == 0 );
 
+   if( currentTime == 100 ) {
+      goToFloor(21);
+   }
+      
    /* is there a scheduled acceleration pending? */
    if( scheduledAccels.size() ) {
       std::pair<int, int> nextScheduledAccel = scheduledAccels.back();
@@ -250,6 +257,14 @@ void Elevator::update() {
    yVal = (yVal > maxElevHeight ) ? ( maxElevHeight ) : ( yVal );
    yVal = (yVal < minElevHeight ) ? ( minElevHeight ) : ( yVal );
 
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "elevator @" << this 
+         << " yVal " << yVal << " v " << currentVel 
+         << " a " << currentAccel << std::endl;
+      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+   } 
+ 
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
    assert( -maxVel <= currentVel && currentVel <= maxVel );

@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
 
 void compute() {
    /* TODO: move this into a different file */
-   static boost::chrono::milliseconds waitDuration(10); /* TODO: make this a variable */
+   static boost::chrono::milliseconds waitDuration(20); /* TODO: make this a variable */
    SimulationState& simState = SimulationState::acquire();
 
    while( simState.getState() != SimulationState::SIMULATION_KILLED ) {
