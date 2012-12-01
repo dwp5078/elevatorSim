@@ -31,6 +31,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "Logger.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
@@ -99,6 +100,12 @@ ElevatorSimStartWindow::~ElevatorSimStartWindow() {
    delete seedNum;
    delete floorNum;
    delete elevatorNum;
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "finished destroying start window @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 }
 
 } /* namespace elevatorSim */

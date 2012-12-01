@@ -33,6 +33,7 @@
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
+#include "ElevatorSimStartWindow.hpp"
 #include "SimulationState.hpp"
 #include "Logger.hpp"
 
@@ -480,10 +481,6 @@ void ElevatorSimWindow::aboutTextModifyCB(
       (void) userData;
 }
 
-void ElevatorSimWindow::buildWelcomeWin() {
-	welcomeWin = new ElevatorSimWelcomeWindow();
-}
-
 /* public static member initializers */
 const char ElevatorSimWindow::WINDOW_TITLE[] = "elevatorSim";
 const int ElevatorSimWindow::WINDOW_WIDTH = 640;
@@ -513,7 +510,9 @@ ElevatorSimWindow::ElevatorSimWindow() :
       end();
 
       buildDialogs();
-      buildWelcomeWin();
+
+      welcomeWin = new ElevatorSimWelcomeWindow();
+      startWin = new ElevatorSimStartWindow();
 
       callback((Fl_Callback*)windowCloseCB, this);
 
@@ -529,6 +528,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 
+   /* free class-local heap-allocated widgets */
    delete stopButton;
    delete pauseButton;
    delete startButton;
@@ -545,6 +545,8 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete yesButton;
    delete confirmDialog;
 
+   /* free class-extra heap-allocated instances */
+   delete startWin;
    delete welcomeWin;
    delete renderWindow;
 
