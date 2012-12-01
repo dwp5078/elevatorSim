@@ -176,13 +176,9 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
          dbgSS << "startSim CB fired" << std::endl;
       }
 
-      /* TODO: show start window */
-    
-	   /*  
-       * ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
-       * thisWindow->inputWin->hotspot(15, 15);
-       * thisWindow->inputWin->show(); 
-       */
+      ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+      thisWindow->startWin->hotspot(15, 15);
+      thisWindow->startWin->show();
    }
 }
 

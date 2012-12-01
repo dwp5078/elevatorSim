@@ -78,11 +78,6 @@ ElevatorSimStartWindow::ElevatorSimStartWindow() :
       inputCancel = new Fl_Button(100, 220, 140, 30, "Cancel");
       inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
       inputCancel->callback((Fl_Callback*) inputCancelCB, this);
-   
-      floorNum->clear_visible_focus();
-      seedNum->clear_visible_focus();
-      inputCancel->clear_visible_focus();
-      inputAccept->clear_visible_focus();
 
       add(floorNum);
       add(elevatorNum);
