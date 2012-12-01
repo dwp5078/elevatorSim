@@ -510,6 +510,26 @@ ElevatorSimWindow::ElevatorSimWindow() :
       welcomeWin = new ElevatorSimWelcomeWindow();
       startWin = new ElevatorSimStartWindow();
 
+      /* some hackery to set the application icon in windows */
+      #ifdef _ES_WINNT
+      HANDLE iconImage = LoadImage( 
+         GetModuleHandle(NULL), 
+         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON), 
+         IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+
+      if(iconImage == NULL) {
+         std::cout << "warning: failed to load application icon!" << std::endl;
+      } else {
+         if(isDebugBuild()) {
+            std::stringstream dbgSS;
+            dbgSS << "loaded app icon OK @ " << (void*)iconImage << std::endl;
+            LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+         }
+
+         icon( (const void*) iconImage );
+      }
+      #endif
+      
       callback((Fl_Callback*)windowCloseCB, this);
 
       /* add more callbacks to main window here */

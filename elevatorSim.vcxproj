@@ -83,6 +83,7 @@
     <ClInclude Include="ElevatorSimWelcomeWindow.hpp" />
     <ClInclude Include="ElevatorSimWindow.hpp" />
     <ClInclude Include="Floor.hpp" />
+    <ClInclude Include="icon_resource.h" />
     <ClInclude Include="ISimulationTerminal.hpp" />
     <ClInclude Include="IStateObject.hpp" />
     <ClInclude Include="Location.hpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="SimulationState.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="elevatorSim.ico" />
     <None Include="makefile.x86.winnt.msvc2010" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
