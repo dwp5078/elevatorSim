@@ -64,7 +64,7 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
 
       for(unsigned int i=0; i < m_nStory ; ++i) {
          m_Floors[i] = new Floor(
-            i * Floor::YVALS_PER_FLOOR, i != m_nStory-1, i != 0 );
+            i * Floor::YVALS_PER_FLOOR, i, gfxScaleWidth, i != m_nStory-1, i != 0);
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
@@ -126,11 +126,11 @@ void Building::render() {
 	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    /* adding waiting queue */
-   float queueScale = 2.f;
+   
 
    /* Left wall */
    glPushMatrix();
-   glTranslatef(-gfxScaleWidth - queueScale*2, gfxScaleHeight, 0.f);
+   glTranslatef(-gfxScaleWidth - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH*2, gfxScaleHeight, 0.f);
    glScalef(0.1f, gfxScaleHeight, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
@@ -144,23 +144,25 @@ void Building::render() {
 
    /* Back wall */
    glPushMatrix();
-   glTranslatef(0 - queueScale, gfxScaleHeight, -2.0f);
-   glScalef(gfxScaleWidth + queueScale, gfxScaleHeight, 0.1f);
+   glTranslatef(0 - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, gfxScaleHeight, -2.0f);
+   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, gfxScaleHeight, 0.1f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* Top wall */
    glPushMatrix();
-   glTranslatef(0.0f - queueScale, gfxScaleHeight*2, 0.0f);
-   glScalef(gfxScaleWidth + queueScale, 0.1f, 2.0f);
+   glTranslatef(0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, gfxScaleHeight*2, 0.0f);
+   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* Draw each floor */
-   for(unsigned int i=0; i < m_nStory - 1; i++) {
+   for(unsigned int i=0; i < m_nStory; i++) {
       glPushMatrix();
-      glTranslatef(0.0f - queueScale, gfxEachFloorHeight * (i+1), 0.f);
-      glScalef(gfxScaleWidth + queueScale, 0.1f, 2.0f);
+      glTranslatef(
+         0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 
+         gfxEachFloorHeight * i, 0.f);
+      //glScalef(gfxScaleWidth + queueScale, 0.1f, 2.0f);
 
       m_Floors[i]->render();
 
@@ -169,12 +171,12 @@ void Building::render() {
 
    /* Draw each floor person indicator */
    /* TODO: move this into Floor::render */
-   for(unsigned int i=0; i < m_nStory ; i++) {
+   /*for(unsigned int i=0; i < m_nStory ; i++) {
       glPushMatrix();
       glTranslatef(-gfxScaleWidth-2.0f, gfxEachFloorHeight * i + 1.0f, 0.0f);
       glCallList(cRenderObjs::OBJ_HUMAN);
       glPopMatrix();
-   }
+   }*/
 
    /* Draw each elevator */
    for(unsigned int i=0; i < m_nElevator; i++) {
@@ -215,6 +217,8 @@ void Building::update()
    for(unsigned int i = 0; i < m_nElevator; i++) {
       m_Elevators[i]->update();
    }
+
+   if(rand() % 20 == 0) DistributePeople();
 }
 
 int Building::getMaxElevHeight() const {
@@ -224,5 +228,18 @@ int Building::getMaxElevHeight() const {
 int Building::getMinElevHeight() const {
    return 0;
 }
+
+void Building::DistributePeople()
+{
+   int floorNum = 0, destination = 0;
+      
+   while(floorNum == destination) {
+      floorNum = rand() % m_nStory;   
+      destination = rand() % m_nStory;
+   }   
+
+   m_Floors[floorNum]->addOccupant(1, destination);
+}
+
 
 } /* namepsace elevatorSim */

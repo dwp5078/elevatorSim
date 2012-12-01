@@ -51,7 +51,8 @@ public:
    static const GLfloat ELEV_GAP_WIDTH;
    static const GLfloat GFX_ELEV_SCALE_HEIGHT;
    static const GLfloat GFX_ELEV_SCALE_WIDTH;
-
+   static const GLfloat GFX_FLOOR_QUEUE_SCALE_WIDTH;
+   
    enum OBJ_LIST {
       OBJ_PLANE = 1,
       OBJ_CUBE,

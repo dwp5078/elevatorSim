@@ -191,7 +191,10 @@ void Elevator::init() {
 
 void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
-   glCallList(cRenderObjs::OBJ_HUMAN);
+
+   int num = getOccupantSize();
+   if(num > 0)
+      glCallList(cRenderObjs::OBJ_HUMAN);
 }
 
 void Elevator::update() {

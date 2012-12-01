@@ -108,6 +108,7 @@ public:
    void update();
    void generateRandomDest();
 
+   int getOccupantSize()   {  return occupants.size();   }
 };
 
 } /* namespace elevatorSim */

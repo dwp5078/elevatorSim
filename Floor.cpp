@@ -47,11 +47,16 @@ const int Floor::YVALS_PER_FLOOR = 5000;
 /* constructors */
 Floor::Floor(
    int _yVal,
+   int _thisFloor,
+   float _gfxScaleWidth,
    bool _hasUpperFloor,
-   bool _hasLowerFloor) :
+   bool _hasLowerFloor
+   ) :
       Location(_yVal),
+      thisFloor(_thisFloor),
+      gfxScaleWidth(_gfxScaleWidth),
       hasUpperFloor(_hasUpperFloor),
-      hasLowerFloor(_hasLowerFloor) {
+      hasLowerFloor(_hasLowerFloor)  {
 
       signalingUp = false;
       signalingDown = false;
@@ -76,23 +81,148 @@ void Floor::init() {
 }
 
 void Floor::render() {
-   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-   GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-   GLfloat shi = 0.5f;
-   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   GLfloat floor_amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   GLfloat floor_dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+   GLfloat floor_spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   GLfloat floor_shi = 0.5f;
+   GLfloat floor_emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
-   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-   glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-   glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-   glMaterialf(GL_FRONT, GL_SHININESS, shi);
-   glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glMaterialfv(GL_FRONT, GL_AMBIENT, floor_amb);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, floor_dif);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, floor_spe);
+   glMaterialf(GL_FRONT, GL_SHININESS, floor_shi);
+   glMaterialfv(GL_FRONT, GL_EMISSION, floor_emi);
 
+   glPushMatrix();
+   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
+   glPopMatrix();
+
+   //Render Arrow
+   {
+      glPushMatrix();
+      glTranslatef(-gfxScaleWidth + 0.8f, 1.1f, 0.2f);
+      glScalef(0.25f, 0.25f, 0.25f);
+
+      if(signalingUp)   {
+         GLfloat arrow_dif[4] = {0.9f, 0.0f, 0.0f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      else  {
+         GLfloat arrow_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      glBegin(GL_TRIANGLES);
+      glNormal3f(0.0, 1.0f, 1.0f);
+      glVertex3f(1.0,  0.0,  0.0);
+      glVertex3f( -1.0,  0.0,  0.0);
+      glVertex3f( 0.0, 1.73f,  0.0);
+      glEnd();
+      glPopMatrix();
+
+      glPushMatrix();
+      glTranslatef(-gfxScaleWidth+0.8, 0.9f, 0.2f);
+      glScalef(0.25f, 0.25f, 0.25f);
+
+      if(signalingDown) {
+         GLfloat arrow_dif[4] = {0.0f, 0.9f, 0.0f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      else  {
+         GLfloat arrow_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+         glMaterialfv(GL_FRONT, GL_DIFFUSE, arrow_dif);
+      }
+
+      glBegin(GL_TRIANGLES);
+      glNormal3f(0.0, 1.0f, 1.0f);
+      glVertex3f( -1.0,  0.0,  0.0);
+      glVertex3f(1.0,  0.0,  0.0);
+      glVertex3f( 0.0, -1.73f,  0.0);
+      glEnd();
+      glPopMatrix();
+   }
+
+   int num = getNumOccupants();
+
+   if(num != 0)   {
+      GLfloat human_amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+      GLfloat human_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+      GLfloat human_spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+      GLfloat human_shi = 0.5f;
+      GLfloat human_emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+
+      if(num > 20)   {
+         human_dif[0] = 1.0f, human_dif[1] = 0.0f, human_dif[2] = 0.0f;
+      }
+      else  {
+         float perc = num / 20.f;
+
+         human_dif[0] = 0.9f * perc;
+         human_dif[2] = 0.9f * (1.0f - perc);
+      }
+
+      glMaterialfv(GL_FRONT, GL_AMBIENT, human_amb);
+      glMaterialfv(GL_FRONT, GL_DIFFUSE, human_dif);
+      glMaterialfv(GL_FRONT, GL_SPECULAR, human_spe);
+      glMaterialf(GL_FRONT, GL_SHININESS, human_shi);
+      glMaterialfv(GL_FRONT, GL_EMISSION, human_emi);
+
+      if(num <= 5) {
+         glPushMatrix();
+         glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+      }
+      
+      else if(num <= 10) {
+         glPushMatrix();
+         glTranslatef(-gfxScaleWidth-0.1f, 1.0f, 0.f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+
+         glPushMatrix();
+         glTranslatef(-gfxScaleWidth-0.9f, 1.0f, 0.f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+      }
+
+      else{
+         glPushMatrix();
+         glTranslatef(-gfxScaleWidth, 1.0f, -0.15f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+
+         glPushMatrix();
+         glTranslatef(-gfxScaleWidth-1.0f, 1.0f, -0.15f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+
+         glPushMatrix();
+         glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.15f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+      }
+   }
 }
 
 void Floor::update() {
 
+}
+
+void Floor::addOccupant(int numOfPeople, int destination)
+{
+   for(int i=0; i<numOfPeople; i++) {
+      Location loc(thisFloor);
+      Location dest(destination);
+      Person person(loc, dest);
+      occupants.push_back(person);
+   }
+
+   if(thisFloor - destination > 0)  {      signalingDown = true;   }
+   else  {      signalingUp = true;   }
 }
 
 } /* namespace elevatorSim */
