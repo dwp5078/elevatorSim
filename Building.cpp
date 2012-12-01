@@ -203,6 +203,7 @@ void Building::render() {
 
    /* Render land */
    glPushMatrix();
+   glTranslatef(-cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 0.f, 0.f);
    glScalef(4.0f + (m_nElevator * 2.0f), 0.0f, 10.0f);
    glCallList(cRenderObjs::OBJ_PLANE);
    glPopMatrix();
