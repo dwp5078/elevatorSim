@@ -51,9 +51,9 @@ namespace elevatorSim {
          static void inputCancelCB(Fl_Window* w, void* userData);
    
          /* user input widget */
-         Fl_Input* elevatorNum;
-         Fl_Input* seedNum;
-         Fl_Input* floorNum;
+         Fl_Input* elevatorNumInput;
+         Fl_Input* floorNumInput;
+         Fl_Input* seedNumInput;
          Fl_Button *inputAccept;
          Fl_Button *inputCancel;
          
@@ -63,6 +63,10 @@ namespace elevatorSim {
          const static int WINDOW_WIDTH;
          const static int WINDOW_HEIGHT;
          const static char WINDOW_TITLE[];
+
+		   int getElevatorNum();
+		   int getFloorNum();
+		   int getSeedNum();
 
          ElevatorSimStartWindow();
          ~ElevatorSimStartWindow();
