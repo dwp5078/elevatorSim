@@ -38,6 +38,8 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Button.H>
 
+#include <boost/lexical_cast.hpp>
+
 namespace elevatorSim {
 
 /* public static member initializers */
@@ -57,7 +59,31 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
    }
 
    (void) w;
-   (void) userData;
+
+   ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
+
+   try {
+      int elevatorCount = 
+         boost::lexical_cast<int> ( thisWindow->elevatorNum->value() );
+      int floorCount = 
+         boost::lexical_cast<int> ( thisWindow->floorNum->value() );
+      int randomSeed = 
+         boost::lexical_cast<int> ( thisWindow->seedNum->value() );
+      
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "in inputAcceptCB with valid params ec = " << elevatorCount
+            << " fc = " << floorCount 
+            << " rs = " << randomSeed
+            << std::endl;
+         LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+      }
+
+      /* TODO: affect simulation state */
+
+   } catch ( boost::bad_lexical_cast& ) {
+      LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters");     
+   }
 }
 
 void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
@@ -68,7 +94,9 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
    }
    
    (void) w;
-   (void) userData;
+
+   ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
+   thisWindow->hide();
 }
 
 /* public methods */
