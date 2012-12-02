@@ -58,10 +58,10 @@ class Floor : public Location, public ISimulationTerminal {
    std::vector<Person> occupants;
    bool signalingUp;
    bool signalingDown;
+   const int thisFloor;
+   const GLfloat gfxScaleWidth;
    const bool hasUpperFloor;
    const bool hasLowerFloor;
-   const GLfloat gfxScaleWidth;
-   const int thisFloor;
 
    /* private methods */
 

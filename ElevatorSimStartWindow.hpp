@@ -36,8 +36,8 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
-#include <FL/FL_Input.H>
-#include <FL/FL_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Button.H>
 
 namespace elevatorSim {
    class ElevatorSimStartWindow : public Fl_Window {

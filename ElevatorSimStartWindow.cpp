@@ -35,8 +35,8 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
-#include <FL/FL_Input.H>
-#include <FL/FL_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Button.H>
 
 namespace elevatorSim {
 
@@ -56,6 +56,8 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
+   (void) w;
+   (void) userData;
 }
 
 void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
@@ -65,6 +67,8 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
    
+   (void) w;
+   (void) userData;
 }
 
 /* public methods */

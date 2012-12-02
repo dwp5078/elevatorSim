@@ -68,6 +68,7 @@
 #include <OpenGL/glu.h>
 #elif defined(_ES_UNIX)
 #include <unistd.h>
+#include <GL/glut.h>
 #pragma GCC diagnostic ignored "-Wpadded"
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #else
