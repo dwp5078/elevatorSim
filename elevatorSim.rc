@@ -1,0 +1,8 @@
+#include "icon_resource.h"
+
+1 TEXTINCLUDE 
+BEGIN
+    "icon_resource.h\0"
+END
+
+IDI_ELEVATOR_SIM_ICON           ICON                    "elevatorSim.ico"

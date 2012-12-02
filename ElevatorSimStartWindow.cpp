@@ -31,9 +31,12 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "Logger.hpp"
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
+#include <FL/FL_Input.H>
+#include <FL/FL_Button.H>
 
 namespace elevatorSim {
 
@@ -46,17 +49,58 @@ int ElevatorSimStartWindow::handle(int event) {
    return Fl_Window::handle(event);
 }
 
+void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "inputAcceptCB fired with widget ptr " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+
+}
+
+void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "inputCancelCB fired with widget ptr " << w << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+   
+}
+
 /* public methods */
 ElevatorSimStartWindow::ElevatorSimStartWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
+      elevatorNum = new Fl_Input(100, 20, 140, 30, "# of elevators:");
+      floorNum = new Fl_Input(100, 70, 140, 30, "# of floors:");
+      seedNum = new Fl_Input(100, 120, 140, 30, "Random seed:");
+
+      inputAccept = new Fl_Button(100, 170, 140, 30, "Accept");
+      inputCancel = new Fl_Button(100, 220, 140, 30, "Cancel");
+      inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
+      inputCancel->callback((Fl_Callback*) inputCancelCB, this);
+
+      add(floorNum);
+      add(elevatorNum);
+      add(seedNum);
+      add(inputCancel);
+      add(inputAccept);
    
-      /* add more widgets to main window here */
-      
-   end();
+      end();
 }
 
 ElevatorSimStartWindow::~ElevatorSimStartWindow() {
+   delete inputCancel;
+   delete inputAccept;
+   
+   delete seedNum;
+   delete floorNum;
+   delete elevatorNum;
 
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "finished destroying start window @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 }
 
 } /* namespace elevatorSim */

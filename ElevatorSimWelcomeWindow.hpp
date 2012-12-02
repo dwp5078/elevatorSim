@@ -50,12 +50,17 @@ namespace elevatorSim
          /* private methods */
          void buildDialogs();
          int handle(int event);
-
+         void writeDatFile();
+         void readDatFile();
+         
          /* private static methods */
          static void windowCloseCB(Fl_Window* win, void* userData);
          static void quitConfirmedCB(Fl_Button* OK_Button, void* data);
          static void quitCancelledCB(Fl_Button* Cancel_Button, void* data);
 
+         /* private static constants */
+         const static char FIRST_RUN_FILENAME[];
+         
          /* private members */
          bool firstRun;
 

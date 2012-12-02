@@ -33,6 +33,7 @@
 #include "ElevatorSimWindow.hpp"
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
+#include "ElevatorSimStartWindow.hpp"
 #include "SimulationState.hpp"
 #include "Logger.hpp"
 
@@ -93,7 +94,6 @@ int ElevatorSimWindow::handle(int event) {
    }
 }
 
-
 /* private static methods */
 void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
    if(isDebugBuild()) {
@@ -106,44 +106,6 @@ void ElevatorSimWindow::windowCloseCB(Fl_Window* w, void* userData) {
    thisWin->confirmDialog->hotspot(15, 15);
    thisWin->confirmDialog->show();
 }
-
-
-
-
-
-void ElevatorSimWindow::inputAcceptCB(Fl_Window* w, void* userData) {
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "inputAcceptCB fired with widget ptr " << w << std::endl;
-      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
-   }
-
-}
-
-void ElevatorSimWindow::inputCancelCB(Fl_Window* w, void* userData) {
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "inputCancelCB fired with widget ptr " << w << std::endl;
-      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
-   }
-
-   //ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
@@ -214,25 +176,9 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
          dbgSS << "startSim CB fired" << std::endl;
       }
 
-
-
-
-
-	     ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
-   thisWindow->inputWin->hotspot(15, 15);
-   thisWindow->inputWin->show();
-
-
-
-
-
-
-
-
-
-
-
-
+      ElevatorSimWindow* thisWindow = (ElevatorSimWindow*) userData;
+      thisWindow->startWin->hotspot(15, 15);
+      thisWindow->startWin->show();
    }
 }
 
@@ -300,7 +246,6 @@ void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
          << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
-
 
    /* TODO: display save dialog */
 }
@@ -457,30 +402,6 @@ void ElevatorSimWindow::buildDialogs() {
    helpWin->add(helpDoneButton);
    helpWin->end();
 
-   /* Input dialog */
-   inputWin = new Fl_Window(300, 300, "Please enter parameter");
-
-   elevatorNum = new Fl_Input(100, 20, 140, 30, "# of elevators:");
-   floorNum = new Fl_Input(100, 70, 140, 30, "# of floors:");
-   seedNum = new Fl_Input(100, 120, 140, 30, "Seed:");
-
-   inputAccept = new Fl_Button(100, 170, 140, 30, "Accept");
-   inputCancel = new Fl_Button(100, 220, 140, 30, "Cancel");
-   inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
-   inputCancel->callback((Fl_Callback*) inputCancelCB, this);
-   
-   floorNum->clear_visible_focus();
-   seedNum->clear_visible_focus();
-   inputCancel->clear_visible_focus();
-   inputAccept->clear_visible_focus();
-
-   inputWin->add(floorNum);
-   inputWin->add(elevatorNum);
-   inputWin->add(seedNum);
-   inputWin->add(inputCancel);
-   inputWin->add(inputAccept);
-   inputWin->end();
-
    /* Confirmation dialog */
    confirmDialog = new Fl_Window(220, 110, "Are you sure?");
    yesButton = new Fl_Button(10, 10, 200, 40, "yes");
@@ -556,10 +477,6 @@ void ElevatorSimWindow::aboutTextModifyCB(
       (void) userData;
 }
 
-void ElevatorSimWindow::buildWelcomeWin() {
-	welcomeWin = new ElevatorSimWelcomeWindow();
-}
-
 /* public static member initializers */
 const char ElevatorSimWindow::WINDOW_TITLE[] = "elevatorSim";
 const int ElevatorSimWindow::WINDOW_WIDTH = 640;
@@ -589,8 +506,30 @@ ElevatorSimWindow::ElevatorSimWindow() :
       end();
 
       buildDialogs();
-      buildWelcomeWin();
 
+      welcomeWin = new ElevatorSimWelcomeWindow();
+      startWin = new ElevatorSimStartWindow();
+
+      /* some hackery to set the application icon in windows */
+      #ifdef _ES_WINNT
+      HANDLE iconImage = LoadImage( 
+         GetModuleHandle(NULL), 
+         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON), 
+         IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+
+      if(iconImage == NULL) {
+         std::cout << "warning: failed to load application icon!" << std::endl;
+      } else {
+         if(isDebugBuild()) {
+            std::stringstream dbgSS;
+            dbgSS << "loaded app icon OK @ " << (void*)iconImage << std::endl;
+            LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+         }
+
+         icon( (const void*) iconImage );
+      }
+      #endif
+      
       callback((Fl_Callback*)windowCloseCB, this);
 
       /* add more callbacks to main window here */
@@ -605,6 +544,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 
+   /* free class-local heap-allocated widgets */
    delete stopButton;
    delete pauseButton;
    delete startButton;
@@ -621,6 +561,8 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete yesButton;
    delete confirmDialog;
 
+   /* free class-extra heap-allocated instances */
+   delete startWin;
    delete welcomeWin;
    delete renderWindow;
 

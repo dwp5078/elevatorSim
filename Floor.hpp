@@ -60,14 +60,18 @@ class Floor : public Location, public ISimulationTerminal {
    bool signalingDown;
    const bool hasUpperFloor;
    const bool hasLowerFloor;
+   const GLfloat gfxScaleWidth;
+   const int thisFloor;
 
    /* private methods */
 
    /* constructors */
    Floor(
       int _yVal,
+      int _thisFloor,
+      float _gfxScaleWidth,
       bool _hasUpperFloor = false,
-      bool _hasLowerFloor = false);
+      bool _hasLowerFloor = false  );
 
 public:
 
@@ -83,6 +87,8 @@ public:
    void render();
    void update();
 
+   void addOccupant(int numOfPeople, int destination);
+   int getNumOccupants()   {  return occupants.size();   }
 };
 
 } /* namespace elevatorSim */

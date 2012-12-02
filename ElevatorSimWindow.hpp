@@ -35,6 +35,7 @@
 #include "ElevatorSim.hpp"
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
+#include "ElevatorSimStartWindow.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
@@ -55,7 +56,6 @@ class ElevatorSimWindow : public Fl_Window {
    void buildMenu();
    void buildButtons();
    void buildDialogs();
-   void buildWelcomeWin();
 
    /* private static methods */
    static void windowCloseCB(Fl_Window* w, void* userData);
@@ -74,9 +74,6 @@ class ElevatorSimWindow : public Fl_Window {
    static void dismissAboutCB(Fl_Widget* w, void* userData);
    static void toggleButtons(ElevatorSimWindow* userData);
 
-   static void inputAcceptCB(Fl_Window*  w, void* userData);
-   static void inputCancelCB(Fl_Window* w, void* userData);
-
    static void aboutTextPredeleteCB( int pos, int nDeleted, void* cbArg);
    static void aboutTextModifyCB(
       int pos, int nInserted, int nDeleted,
@@ -86,6 +83,7 @@ class ElevatorSimWindow : public Fl_Window {
    /* private members */
    ElevatorSimRenderWindow* renderWindow;
    ElevatorSimWelcomeWindow* welcomeWin;
+   ElevatorSimStartWindow* startWin;
 
    /* quit confirmation widgets */
    Fl_Window* confirmDialog;
@@ -107,14 +105,6 @@ class ElevatorSimWindow : public Fl_Window {
    Fl_Button *startButton;
    Fl_Button *pauseButton;
    Fl_Button *stopButton;
-
-   /* User input widget */
-   Fl_Window* inputWin;
-   Fl_Input* elevatorNum;
-   Fl_Input* seedNum;
-   Fl_Input* floorNum;
-   Fl_Button *inputAccept;
-   Fl_Button *inputCancel;
 
 public:
 

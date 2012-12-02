@@ -48,6 +48,7 @@
 #include <Windows.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include "icon_resource.h"
 #elif defined(_ES_DARWIN)
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic ignored "-Wconditional-uninitialized"

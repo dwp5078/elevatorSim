@@ -85,8 +85,10 @@ UNIT_TEST_OUT=elevatorSimTests.exe
 OUT=elevatorSim.exe
 MAPFILE=elevatorSim.map
 PDBFILE=elevatorSim.pdb
+RESFILE=elevatorSim.res
+RCFILE=elevatorSim.rc
 
-elevatorSim: $(OBJS) unitTests makefile.x86.winnt.msvc2010
+elevatorSim: $(OBJS) $(RESFILE) unitTests makefile.x86.winnt.msvc2010
 	cl\
 $(OBJS)\
 $(DEBUGFLAGS)\
@@ -97,6 +99,7 @@ $(DRIVERFLAGS)\
 /link\
 $(LINKFLAGS)\
 $(SYSDEPS)\
+$(RESFILE)\
 $(DEBUG_COOKEDDEPS)
 	@echo + main binary build success
 	@echo + running unit tests
@@ -106,6 +109,9 @@ $(DEBUG_COOKEDDEPS)
 .cpp.obj:
 	cl $(DEBUGFLAGS) $(DRIVERFLAGS) $(CXXFLAGS) $< /FAcs /Fa$<.asm
 
+$(RESFILE): $(RCFILE)
+   rc /nologo /v /r $(RCFILE)
+   
 unitTests: $(UNIT_TEST_OBJS) $(SIM_OBJS)
 	cl\
 $(UNIT_TEST_OBJS)\
@@ -120,5 +126,5 @@ $(DEBUG_COOKEDDEPS)
 	@echo + unit test build success
 
 clean:
-	@erase /f /q $(OBJS) $(OUT) $(UNIT_TEST_OUT) $(UNIT_TEST_OBJS) $(MAPFILE) $(PDBFILE)
+	@erase /f /q $(OBJS) $(OUT) $(UNIT_TEST_OUT) $(UNIT_TEST_OBJS) $(MAPFILE) $(PDBFILE) $(RESFILE)
 	@echo + clean

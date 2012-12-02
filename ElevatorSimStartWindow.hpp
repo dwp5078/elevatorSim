@@ -36,6 +36,8 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
+#include <FL/FL_Input.H>
+#include <FL/FL_Button.H>
 
 namespace elevatorSim {
    class ElevatorSimStartWindow : public Fl_Window {
@@ -44,6 +46,17 @@ namespace elevatorSim {
          /* private methods */
          int handle(int event);
 
+         /* fltk callbacks */
+         static void inputAcceptCB(Fl_Window*  w, void* userData);
+         static void inputCancelCB(Fl_Window* w, void* userData);
+   
+         /* user input widget */
+         Fl_Input* elevatorNum;
+         Fl_Input* seedNum;
+         Fl_Input* floorNum;
+         Fl_Button *inputAccept;
+         Fl_Button *inputCancel;
+         
       public:
 
          /* public static members */
