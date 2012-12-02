@@ -79,7 +79,6 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
 /* public methods */
 ElevatorSimStartWindow::ElevatorSimStartWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
-	  elevatorSim::ElevatorSimStartWindow::elevatorNum = 0;
       elevatorNumInput = new Fl_Input(100, 20, 140, 30, "# of elevators:");
       floorNumInput = new Fl_Input(100, 70, 140, 30, "# of floors:");
       seedNumInput = new Fl_Input(100, 120, 140, 30, "Random seed:");
