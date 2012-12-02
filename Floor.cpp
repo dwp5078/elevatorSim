@@ -35,7 +35,6 @@
 #include "Building.hpp"
 #include "SimulationState.hpp"
 
-#include <GL/glut.h>
 #include <iostream>
 #include <sstream>
 
