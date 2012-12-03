@@ -551,6 +551,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 
    delete aboutDoneButton;
    delete aboutDisplay;
+   delete aboutTextBuffer;
    delete aboutWin;
 
    delete helpDoneButton;
