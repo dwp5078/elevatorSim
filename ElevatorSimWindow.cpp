@@ -544,6 +544,9 @@ ElevatorSimWindow::~ElevatorSimWindow() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 
+   /* de-register the re-draw callback for the render window */
+   Fl::remove_timeout(ElevatorSimRenderWindow::timerCB);
+   
    /* free class-local heap-allocated widgets */
    delete stopButton;
    delete pauseButton;
