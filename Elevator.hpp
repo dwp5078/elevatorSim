@@ -76,9 +76,9 @@ class Elevator : public Location, public ISimulationTerminal {
    std::vector<Person> occupants;
    std::vector<std::pair<int, int>> scheduledAccels;
 
-   /* private methods */
+      /* private methods */
 
-   /* constructor */
+      /* constructor */
    Elevator(
       int _yVal,
       const int _numFloors,
@@ -102,13 +102,14 @@ public:
    bool canStopAtNextFloor();
    void goToFloor(int floor);
 
+   int getOccupantSize() const {  
+      return occupants.size();   
+   }
+
    /* inherited from SimulationTerminal */
    void init();
    void render();
    void update();
-   void generateRandomDest();
-
-   int getOccupantSize()   {  return occupants.size();   }
 
 };
 
