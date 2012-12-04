@@ -59,18 +59,19 @@ class Elevator : public Location, public ISimulationTerminal {
 
    /* private static methods */
 
-   /* private instance members */
+   /* private const instance members */
    const int maxVel;
    const int maxAccel;
    const int maxOccupants;
    const int numFloors;
-
    const int accelTimeInterval;
    const int stoppingDistance;
 
+   /* private instance members */
    int currentVel;
    int currentAccel;
-   int destFloor;
+
+   /* TODO: use a safer container */
    bool* floorsSignaled;
 
    std::vector<Person> occupants;

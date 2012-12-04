@@ -196,7 +196,17 @@ void Elevator::goToFloor(int floor) {
 }
 
 void Elevator::init() {
-   /* TODO */
+   currentAccel = 0;
+   currentVel = 0;
+
+   /* TODO: use a safer container */
+   for(int i = 0; i < numFloors; ++i) {
+      floorsSignaled[i] = false;
+   }
+
+   occupants.clear();
+   scheduledFloors.clear();
+   scheduledAccels.clear();
 }
 
 void Elevator::render() {

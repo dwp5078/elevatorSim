@@ -76,7 +76,9 @@ Floor::~Floor() {
 }
 
 void Floor::init() {
-
+   occupants.clear();
+   signalingUp = false;
+   signalingDown = false;
 }
 
 void Floor::render() {
