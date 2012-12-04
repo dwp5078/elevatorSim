@@ -38,6 +38,7 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Button.H>
+#include <FL/Fl_File_Chooser.H>
 
 namespace elevatorSim {
    class ElevatorSimStartWindow : public Fl_Window {
@@ -53,6 +54,8 @@ namespace elevatorSim {
          Fl_Input* elevatorNumInput;
          Fl_Input* floorNumInput;
          Fl_Input* seedNumInput;
+         Fl_Input* elevatorAIPathInput;
+         Fl_File_Chooser* elevatorAIFileChooser;
          Fl_Button *inputAccept;
          Fl_Button *inputCancel;
          
