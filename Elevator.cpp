@@ -50,7 +50,7 @@ namespace elevatorSim {
 
 const int Elevator::DEFAULT_MAX_VEL = 120;
 const int Elevator::DEFAULT_MAX_ACCEL = 4;
-const int Elevator::DEFAULT_MAX_OCCUPANTS = 100;//12;
+const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;//12;
 
 Elevator::Elevator(
    int _yVal,
@@ -218,9 +218,7 @@ void Elevator::init() {
 void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
 
-   int num = getOccupantSize();
-   if(num > 0)
-      glCallList(cRenderObjs::OBJ_HUMAN);
+   cRenderObjs::renderOccupants(getOccupantSize(), maxOccupants, false);
 }
 
 void Elevator::update() {

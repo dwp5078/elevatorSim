@@ -67,6 +67,8 @@ public:
    void initPlane();
    void initElevator();
    void initHuman();
+
+   static void renderOccupants(int num, int maxOccupants, bool forFloor = true);
 };
 
 } /* namespace elevatorSim */

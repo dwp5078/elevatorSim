@@ -70,7 +70,7 @@ public:
    const GLfloat gfxEachElevWidth;
 
    /* constructors */
-   Building(unsigned int _nStory = 4, unsigned int _nElevator = 5);
+   Building(unsigned int _nStory = 4, unsigned int _nElevator = 3);
    ~Building();
 
    /* public methods inherited from ISimulationTerminal */
