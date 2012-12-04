@@ -74,11 +74,12 @@ class Elevator : public Location, public ISimulationTerminal {
    bool* floorsSignaled;
 
    std::vector<Person> occupants;
+   std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
 
-      /* private methods */
+   /* private methods */
 
-      /* constructor */
+   /* constructor */
    Elevator(
       int _yVal,
       const int _numFloors,
