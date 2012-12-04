@@ -87,6 +87,8 @@ class Elevator : public Location, public ISimulationTerminal {
       const int _maxAccel = DEFAULT_MAX_ACCEL,
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
 
+   void scheduleAccelsToFloor( const int srcFloor, const int destfloor );
+   
 public:
 
    /* public static constants */

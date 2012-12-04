@@ -87,11 +87,61 @@ Elevator::Elevator(
          currentAccel = 0; 
          floorsSignaled = new bool[numFloors];
 
+         /* FOR DEBUG */
+         scheduledFloors.push_back(5);
+         
          if(isDebugBuild()) {
             std::stringstream dbgSS;
             dbgSS << "constructed elevator @" << this << std::endl;
             LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
          }
+}
+
+void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) {
+   assert(destfloor >= 0 && destfloor < numFloors && srcFloor == (yVal / Floor::YVALS_PER_FLOOR));
+
+   /* height of the target floor in yVals */
+   int targetFloorHeight = destfloor *  Floor::YVALS_PER_FLOOR;
+   int thisFloorHeight = srcFloor *  Floor::YVALS_PER_FLOOR;
+
+   /* the distance traveled at the maximum speed */
+   int maxVelTimeInterval = boost::math::iround(
+      ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
+      
+   /* retrieve current logic clock */
+   const int currentTime =
+      SimulationState::acquire().getTime();
+      
+   /* ensure that the total distance scheduled to be traveled is exactly
+    * equal to the different in heights between current and distination */
+   assert(maxVelTimeInterval * maxVel + 2 * stoppingDistance ==
+      abs(targetFloorHeight - thisFloorHeight));
+      
+   /* print debug info */
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "with elevator @ " << this
+         << " time t=" << currentTime
+         << " a = " << currentAccel << " v = " << currentVel << " y = " << yVal
+         << " and " << scheduledAccels.size() << " scheduled accels. " << std::endl;
+
+      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+   }
+
+   /* push them onto the back of the vector in reverse order */
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 0 ));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 
+      ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + accelTimeInterval, 0 ));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime,
+      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));  
 }
 
 Elevator::~Elevator() {
@@ -142,50 +192,7 @@ bool Elevator::canStopAtNextFloor() {
 }
 
 void Elevator::goToFloor(int floor) {
-   assert(floor >= 0 && floor < numFloors);
-
-   /* height of the target floor in yVals */
-   int targetFloorHeight = floor *  Floor::YVALS_PER_FLOOR;
-   const int currentTime =
-      SimulationState::acquire().getTime();
-
-   /* we're already there, so do nothing */
-   if(yVal == targetFloorHeight) {
-      return;
-   }
-
-   /* the distance traveled at the maximum speed */
-   int maxVelTimeInterval = boost::math::iround(
-      ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
-
-   /* ensure that there are no truncation issues */
-   assert(maxVelTimeInterval * maxVel + 2 * stoppingDistance == targetFloorHeight);
-      
-   /* print debug info */
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "with elevator @ " << this
-         << " time t=" << currentTime
-         << " a = " << currentAccel << " v = " << currentVel << " y = " << yVal
-         << " and " << scheduledAccels.size() << " scheduled accels. " << std::endl;
-
-      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-   }
-
-   /* push them onto the back of the vector in reverse order */
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 0 ));
-
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 
-      ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
-
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + accelTimeInterval, 0 ));
-
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime,
-      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
+   scheduledFloors.push_back(floor);
 }
 
 void Elevator::init() {
@@ -201,9 +208,9 @@ void Elevator::render() {
 }
 
 void Elevator::update() {
-   const int minElevHeight = 
+   const int minElevHeight =
       SimulationState::acquire().getBuilding().getMinElevHeight();
-   const int maxElevHeight = 
+   const int maxElevHeight =
       SimulationState::acquire().getBuilding().getMaxElevHeight();
    const int currentTime =
       SimulationState::acquire().getTime();
@@ -216,10 +223,23 @@ void Elevator::update() {
       currentAccel == maxAccel ||
       currentAccel == 0 );
 
-   if( currentTime == 100 ) {
-      goToFloor(21);
+   /* are we on stopped on a floor with another floor scheduled? */
+   if( currentVel == 0 && yVal % Floor::YVALS_PER_FLOOR == 0 && scheduledFloors.size() > 0 ) {
+      const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
+      const int nextFloor = scheduledFloors.back();
+
+      scheduledFloors.pop_back();
+
+      /* FOR DEBUG: schedule a new random dest */
+      if( scheduledFloors.size() == 0 ) {
+         scheduledFloors.push_back( rand() % numFloors );
+      }
+
+      if( thisFloor != nextFloor ) {
+         scheduleAccelsToFloor(thisFloor, nextFloor);
+      }
    }
-      
+
    /* is there a scheduled acceleration pending? */
    if( scheduledAccels.size() ) {
       std::pair<int, int> nextScheduledAccel = scheduledAccels.back();
