@@ -110,7 +110,7 @@ void Building::init() {
 
 void Building::render() {
    glLoadIdentity();
-   glTranslatef(0.0f, -2.0f, 0.0f);
+   glTranslatef(2.0f, -2.0f, -1.2f*m_nElevator);
 
    /* TODO: move these values into Building as members */
    static GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
@@ -223,7 +223,7 @@ void Building::update()
       }*/
    }
 
-   if(rand() % 50 == 0) DistributePeople();
+   if(rand() % 20 == 0) DistributePeople();
 }
 
 int Building::getMaxElevHeight() const {

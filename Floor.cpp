@@ -226,6 +226,22 @@ void Floor::addOccupant(int numOfPeople, int destination)
    else  {      signalingUp = true;   }
 }
 
+void Floor::recheckButtonPressed()
+{
+   std::vector<Person>::iterator iter = occupants.begin();
+
+   signalingUp = false;
+   signalingDown = false;
+
+   while(iter != occupants.end())
+   {
+      if(iter->getDestination().getYVal() - thisFloor > 0)  signalingUp = true;
+      else if(iter->getDestination().getYVal() - thisFloor < 0)  signalingDown = true;
+
+      iter++;
+   }
+}
+
 /*void Floor::elevatorReached(Elevator* elev)
 {
 

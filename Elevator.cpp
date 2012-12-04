@@ -50,7 +50,7 @@ namespace elevatorSim {
 
 const int Elevator::DEFAULT_MAX_VEL = 120;
 const int Elevator::DEFAULT_MAX_ACCEL = 4;
-const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
+const int Elevator::DEFAULT_MAX_OCCUPANTS = 100;//12;
 
 Elevator::Elevator(
    int _yVal,
@@ -263,12 +263,12 @@ void Elevator::update() {
 
       /* FOR DEBUG: schedule a new random dest */
 
-      if( scheduledFloors.size() == 1 ) {
+      if( scheduledFloors.size() == 0 ) {
          //scheduledFloors.push_back( rand() % numFloors );
 
-         int currFloor = getCurrentFloor();
+         /*int currFloor = getCurrentFloor();
          int farthest = currFloor;
-         bool goingUp = false;
+         int goingUp = 2;	//0 - up	1 - down	2 - doesn't matter
          
          itr = occupants.begin();
 
@@ -277,10 +277,13 @@ void Elevator::update() {
             if(abs(itr->getDestination().getYVal() - currFloor) > abs(farthest - currFloor)) {
                farthest = itr->getDestination().getYVal();
             }
+
+			itr++;
          }
 
-         if(farthest - currFloor < 0)  {  goingUp = false; }   //going down
-         else  {                          goingUp = true;  }   //going up
+         if(farthest - currFloor < 0)  {		goingUp = 1; }   //going down
+         else if(farthest - currFloor > 0) {    goingUp = 0;  }   //going up
+		 else									goingUp = 2;	//doesn't matter
 
          std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
          itr = floorOccupants->begin();
@@ -288,12 +291,12 @@ void Elevator::update() {
          while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
             int dest = itr->getDestination().getYVal();
 
-            if(goingUp && dest - currFloor < 0) {
+            if(goingUp == 1 && dest - currFloor < 0) {
                itr++;
                continue;
             }
 
-            if(!goingUp && dest - currFloor > 0)   {
+            if(goingUp == 0 && dest - currFloor > 0)   {
                itr++;
                continue;
             }
@@ -306,15 +309,37 @@ void Elevator::update() {
          itr = occupants.begin();
          while(itr != occupants.end())
          {
-            if(goingUp && itr->getDestination().getYVal() - currFloor < 0) continue;
-            if(!goingUp && itr->getDestination().getYVal() - currFloor > 0) continue;
+            if(goingUp == 1 && itr->getDestination().getYVal() - currFloor < 0) {
+				itr++; 
+				continue;
+			}
+            if(goingUp == 0 && itr->getDestination().getYVal() - currFloor > 0) {
+				itr++; 
+				continue;
+			}
 
             if(abs(itr->getDestination().getYVal() - currFloor) < abs(nextDest - currFloor)) {
                nextDest = itr->getDestination().getYVal();
             }
+
+			itr++;
          }
 
-         scheduledFloors.push_back(nextDest);
+		 if(nextDest == currFloor)	nextDest = rand() % numFloors;
+
+         scheduledFloors.push_back(nextDest);*/
+
+         std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
+         itr = floorOccupants->begin();
+
+         while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
+            occupants.push_back(*itr);
+            itr = floorOccupants->erase(itr);
+         }
+
+         floorInfo[getCurrentFloor()]->recheckButtonPressed();
+
+		  scheduledFloors.push_back(rand() % numFloors);
 
       }
 
