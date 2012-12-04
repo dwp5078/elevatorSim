@@ -85,7 +85,6 @@ Elevator::Elevator(
          yVal = _yVal;
          currentVel = 0;
          currentAccel = 0; 
-         floorsSignaled = new bool[numFloors];
 
          /* FOR DEBUG */
          scheduledFloors.push_back(5);
@@ -145,8 +144,6 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
 }
 
 Elevator::~Elevator() {
-   delete [] floorsSignaled;
-
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "destructing delevator @" << this << std::endl;
@@ -198,11 +195,6 @@ void Elevator::goToFloor(int floor) {
 void Elevator::init() {
    currentAccel = 0;
    currentVel = 0;
-
-   /* TODO: use a safer container */
-   for(int i = 0; i < numFloors; ++i) {
-      floorsSignaled[i] = false;
-   }
 
    occupants.clear();
    scheduledFloors.clear();

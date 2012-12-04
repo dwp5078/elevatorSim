@@ -71,9 +71,6 @@ class Elevator : public Location, public ISimulationTerminal {
    int currentVel;
    int currentAccel;
 
-   /* TODO: use a safer container */
-   bool* floorsSignaled;
-
    std::vector<Person> occupants;
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
