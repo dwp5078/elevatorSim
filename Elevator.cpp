@@ -228,6 +228,8 @@ void Elevator::update() {
       const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
       const int nextFloor = scheduledFloors.back();
 
+      /* TODO: floor arrival processing */
+
       scheduledFloors.pop_back();
 
       /* FOR DEBUG: schedule a new random dest */
