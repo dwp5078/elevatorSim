@@ -223,7 +223,7 @@ void Building::update()
       }
    }
 
-   if(rand() % 20 == 0) DistributePeople();
+   if(rand() % 50 == 0) DistributePeople();
 }
 
 int Building::getMaxElevHeight() const {
@@ -236,14 +236,23 @@ int Building::getMinElevHeight() const {
 
 void Building::DistributePeople()
 {
-   int floorNum = 0, destination = 0;
+   /*int floorNum = 0, destination = 0;
       
    while(floorNum == destination) {
       floorNum = rand() % m_nStory;   
       destination = rand() % m_nStory;
-   }   
+   }   */
 
-   m_Floors[floorNum]->addOccupant(1, destination);
+   int floorNum;
+
+   if(rand()%5 == 0)    floorNum = 0;
+   else                 floorNum = rand() % m_nStory;
+
+   if(floorNum == 0)
+	   m_Floors[floorNum]->addOccupant(1, rand() % m_nStory);
+
+   else
+      m_Floors[floorNum]->addOccupant(1, 0);
 }
 
 

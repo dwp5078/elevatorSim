@@ -217,7 +217,7 @@ void Elevator::update() {
       currentAccel == 0 );
 
    if( currentTime == 100 ) {
-      goToFloor(21);
+      goToFloor(rand() % numFloors);
    }
       
    /* is there a scheduled acceleration pending? */
@@ -296,6 +296,7 @@ void Elevator::pickupOccupants(Floor* floor)
 
    });
    
+   //goToFloor(rand() % m_nFloor);
 }
 
 int Elevator::getCurrentFloor()   {
