@@ -45,7 +45,7 @@ namespace elevatorSim {
 
 /* public static member initializers */
 const char ElevatorSimStartWindow::WINDOW_TITLE[] = "Start";
-const int ElevatorSimStartWindow::WINDOW_WIDTH = 270;
+const int ElevatorSimStartWindow::WINDOW_WIDTH = 310;
 const int ElevatorSimStartWindow::WINDOW_HEIGHT = 320;
 
 int ElevatorSimStartWindow::handle(int event) {
@@ -106,9 +106,10 @@ ElevatorSimStartWindow::ElevatorSimStartWindow() :
       floorNumInput = new Fl_Input(100, 70, 140, 30, "# of floors:");
       seedNumInput = new Fl_Input(100, 120, 140, 30, "Random seed:");
       elevatorAIPathInput = new Fl_Input(100, 170, 140, 30, "AI script: ");
+      browseButton = new Fl_Button(100, 220, 140, 30, "Browse...");
 
-      inputAccept = new Fl_Button(100, 220, 140, 30, "Accept");
-      inputCancel = new Fl_Button(100, 270, 140, 30, "Cancel");
+      inputCancel = new Fl_Button(10, 270, 140, 30, "Cancel");
+      inputAccept = new Fl_Button(160, 270, 140, 30, "Accept");
 
       inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
       inputCancel->callback((Fl_Callback*) inputCancelCB, this);
@@ -117,9 +118,9 @@ ElevatorSimStartWindow::ElevatorSimStartWindow() :
       add(elevatorNumInput);
       add(seedNumInput);
       add(elevatorAIPathInput);
+      add(browseButton);
       add(inputCancel);
       add(inputAccept);
-   
       end();
 
       elevatorAIFileChooser = new Fl_File_Chooser(".", "*.py", Fl_File_Chooser::SINGLE, "specify AI script");
@@ -130,7 +131,8 @@ ElevatorSimStartWindow::~ElevatorSimStartWindow() {
 
    delete inputCancel;
    delete inputAccept;
-   
+   delete browseButton;
+
    delete elevatorAIPathInput;
    delete seedNumInput;
    delete floorNumInput;

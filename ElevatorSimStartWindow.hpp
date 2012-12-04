@@ -56,6 +56,7 @@ namespace elevatorSim {
          Fl_Input* seedNumInput;
          Fl_Input* elevatorAIPathInput;
          Fl_File_Chooser* elevatorAIFileChooser;
+         Fl_Button *browseButton;
          Fl_Button *inputAccept;
          Fl_Button *inputCancel;
          
