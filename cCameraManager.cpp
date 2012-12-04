@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,8 +70,7 @@ void cCameraManager::init()
    }
 }
 
-void cCameraManager::update()
-{
+void cCameraManager::update() {
    /* TODO: use timeManager.getLastFrameTime().total_milliseconds() */
 
    float move = MOVE;

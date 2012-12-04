@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,9 +55,11 @@ const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
 Elevator::Elevator(
    int _yVal,
    const int _numFloors,
+   Floor** _floorInfo,
    const int _maxVel,
    const int _maxAccel,
    const int _maxOccupants) :
+   floorInfo(_floorInfo),
    maxVel(_maxVel),
    maxAccel(_maxAccel),
    maxOccupants(_maxOccupants),
@@ -87,11 +89,65 @@ Elevator::Elevator(
          currentAccel = 0; 
          floorsSignaled = new bool[numFloors];
 
+         /* FOR DEBUG */
+         
+         Person p(Location(0), Location(rand()%(numFloors-1)+1));
+         occupants.push_back(p);
+         scheduledFloors.push_back(p.getDestination().getYVal());
+         
          if(isDebugBuild()) {
             std::stringstream dbgSS;
             dbgSS << "constructed elevator @" << this << std::endl;
             LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
          }
+}
+
+void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) {
+   assert(destfloor >= 0 && destfloor < numFloors && srcFloor == (yVal / Floor::YVALS_PER_FLOOR));
+
+   /* height of the target floor in yVals */
+   int targetFloorHeight = destfloor *  Floor::YVALS_PER_FLOOR;
+   int thisFloorHeight = srcFloor *  Floor::YVALS_PER_FLOOR;
+
+   /* the distance traveled at the maximum speed */
+   int maxVelTimeInterval = boost::math::iround(
+      ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
+      
+   /* retrieve current logic clock */
+   const int currentTime =
+      SimulationState::acquire().getTime();
+      
+   /* ensure that the total distance scheduled to be traveled is exactly
+    * equal to the different in heights between current and distination */
+   assert(maxVelTimeInterval * maxVel + 2 * stoppingDistance ==
+      abs(targetFloorHeight - thisFloorHeight));
+      
+   /* print debug info */
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "with elevator @ " << this
+         << " time t=" << currentTime
+         << " a = " << currentAccel << " v = " << currentVel << " y = " << yVal
+         << " and " << scheduledAccels.size() << " scheduled accels. " << std::endl;
+
+      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+   }
+
+   /* push them onto the back of the vector in reverse order */
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 0 ));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 
+      ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime + accelTimeInterval, 0 ));
+
+   scheduledAccels.push_back(
+      std::pair<int, int> ( currentTime,
+      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));  
+
 }
 
 Elevator::~Elevator() {
@@ -142,54 +198,21 @@ bool Elevator::canStopAtNextFloor() {
 }
 
 void Elevator::goToFloor(int floor) {
-   assert(floor >= 0 && floor < numFloors);
-
-   /* height of the target floor in yVals */
-   int targetFloorHeight = floor *  Floor::YVALS_PER_FLOOR;
-   const int currentTime =
-      SimulationState::acquire().getTime();
-
-   /* we're already there, so do nothing */
-   if(yVal == targetFloorHeight) {
-      return;
-   }
-
-   /* the distance traveled at the maximum speed */
-   int maxVelTimeInterval = boost::math::iround(
-      ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
-
-   /* ensure that there are no truncation issues */
-   assert(maxVelTimeInterval * maxVel + 2 * stoppingDistance == targetFloorHeight);
-      
-   /* print debug info */
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "with elevator @ " << this
-         << " time t=" << currentTime
-         << " a = " << currentAccel << " v = " << currentVel << " y = " << yVal
-         << " and " << scheduledAccels.size() << " scheduled accels. " << std::endl;
-
-      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-   }
-
-   /* push them onto the back of the vector in reverse order */
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 0 ));
-
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 
-      ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
-
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + accelTimeInterval, 0 ));
-
-   scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime,
-      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
+   scheduledFloors.push_back(floor);
 }
 
 void Elevator::init() {
-   /* TODO */
+   currentAccel = 0;
+   currentVel = 0;
+
+   /* TODO: use a safer container */
+   for(int i = 0; i < numFloors; ++i) {
+      floorsSignaled[i] = false;
+   }
+
+   occupants.clear();
+   scheduledFloors.clear();
+   scheduledAccels.clear();
 }
 
 void Elevator::render() {
@@ -201,9 +224,9 @@ void Elevator::render() {
 }
 
 void Elevator::update() {
-   const int minElevHeight = 
+   const int minElevHeight =
       SimulationState::acquire().getBuilding().getMinElevHeight();
-   const int maxElevHeight = 
+   const int maxElevHeight =
       SimulationState::acquire().getBuilding().getMaxElevHeight();
    const int currentTime =
       SimulationState::acquire().getTime();
@@ -216,10 +239,90 @@ void Elevator::update() {
       currentAccel == maxAccel ||
       currentAccel == 0 );
 
-   if( currentTime == 100 ) {
-      goToFloor(rand() % numFloors);
+   /* are we on stopped on a floor with another floor scheduled? */
+   if( currentVel == 0 && yVal % Floor::YVALS_PER_FLOOR == 0 && scheduledFloors.size() > 0 ) {
+      const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
+      const int nextFloor = scheduledFloors.back();
+
+      /* TODO: floor arrival processing */
+
+      //take people out from elevator
+      std::vector<Person>::iterator itr = occupants.begin();
+      while(itr != occupants.end())
+      {
+         if(itr->getDestination().getYVal() == getCurrentFloor())  {
+            itr = occupants.erase(itr);
+         }
+
+         else  itr++;
+      }
+
+      //Take people from floor
+
+      scheduledFloors.pop_back();
+
+      /* FOR DEBUG: schedule a new random dest */
+
+      if( scheduledFloors.size() == 1 ) {
+         //scheduledFloors.push_back( rand() % numFloors );
+
+         int currFloor = getCurrentFloor();
+         int farthest = currFloor;
+         bool goingUp = false;
+         
+         itr = occupants.begin();
+
+         while(itr != occupants.end())
+         {
+            if(abs(itr->getDestination().getYVal() - currFloor) > abs(farthest - currFloor)) {
+               farthest = itr->getDestination().getYVal();
+            }
+         }
+
+         if(farthest - currFloor < 0)  {  goingUp = false; }   //going down
+         else  {                          goingUp = true;  }   //going up
+
+         std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
+         itr = floorOccupants->begin();
+
+         while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
+            int dest = itr->getDestination().getYVal();
+
+            if(goingUp && dest - currFloor < 0) {
+               itr++;
+               continue;
+            }
+
+            if(!goingUp && dest - currFloor > 0)   {
+               itr++;
+               continue;
+            }
+
+            occupants.push_back(*itr);
+            itr = floorOccupants->erase(itr);
+         }
+
+         int nextDest = currFloor;
+         itr = occupants.begin();
+         while(itr != occupants.end())
+         {
+            if(goingUp && itr->getDestination().getYVal() - currFloor < 0) continue;
+            if(!goingUp && itr->getDestination().getYVal() - currFloor > 0) continue;
+
+            if(abs(itr->getDestination().getYVal() - currFloor) < abs(nextDest - currFloor)) {
+               nextDest = itr->getDestination().getYVal();
+            }
+         }
+
+         scheduledFloors.push_back(nextDest);
+
+      }
+
+      if( thisFloor != nextFloor ) {
+         scheduleAccelsToFloor(thisFloor, nextFloor);
+      }
    }
-      
+
    /* is there a scheduled acceleration pending? */
    if( scheduledAccels.size() ) {
       std::pair<int, int> nextScheduledAccel = scheduledAccels.back();
@@ -274,7 +377,7 @@ void Elevator::update() {
       currentAccel == 0  );
 }
 
-void Elevator::pickupOccupants(Floor* floor)
+/*void Elevator::pickupOccupants(Floor* floor)
 {
    std::vector<Person> *floorOccupants = floor->getOccupants();
 
@@ -297,7 +400,7 @@ void Elevator::pickupOccupants(Floor* floor)
    });
    
    //goToFloor(rand() % m_nFloor);
-}
+}*/
 
 int Elevator::getCurrentFloor()   {
    return yVal / Floor::YVALS_PER_FLOOR;

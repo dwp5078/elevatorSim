@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,6 +68,7 @@
 #include <OpenGL/glu.h>
 #elif defined(_ES_UNIX)
 #include <unistd.h>
+#include <GL/glut.h>
 #pragma GCC diagnostic ignored "-Wpadded"
 #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #else

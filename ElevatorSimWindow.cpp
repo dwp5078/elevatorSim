@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -544,6 +544,9 @@ ElevatorSimWindow::~ElevatorSimWindow() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
 
+   /* de-register the re-draw callback for the render window */
+   Fl::remove_timeout(ElevatorSimRenderWindow::timerCB);
+   
    /* free class-local heap-allocated widgets */
    delete stopButton;
    delete pauseButton;
@@ -551,6 +554,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 
    delete aboutDoneButton;
    delete aboutDisplay;
+   delete aboutTextBuffer;
    delete aboutWin;
 
    delete helpDoneButton;

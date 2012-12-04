@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,10 +58,12 @@ class Floor : public Location, public ISimulationTerminal {
    std::vector<Person> occupants;
    bool signalingUp;
    bool signalingDown;
+
+   /* private const instance members */
+   const int thisFloor;
+   const GLfloat gfxScaleWidth;
    const bool hasUpperFloor;
    const bool hasLowerFloor;
-   const GLfloat gfxScaleWidth;
-   const int thisFloor;
 
    /* private methods */
 

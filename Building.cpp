@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
-         m_Elevators[i] = new Elevator(0, _nStory);
+         m_Elevators[i] = new Elevator(0, _nStory, m_Floors);
       }
 
       if(isDebugBuild()) {
@@ -218,9 +218,9 @@ void Building::update()
    for(unsigned int i = 0; i < m_nElevator; i++) {
       m_Elevators[i]->update();
 
-      if(m_Elevators[i]->isStopped())  {
+      /*if(m_Elevators[i]->isStopped())  {
          m_Elevators[i]->pickupOccupants(m_Floors[m_Elevators[i]->getCurrentFloor()]);
-      }
+      }*/
    }
 
    if(rand() % 50 == 0) DistributePeople();

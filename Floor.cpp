@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@
 #include "Building.hpp"
 #include "SimulationState.hpp"
 
-#include <GL/glut.h>
 #include <iostream>
 #include <sstream>
 
@@ -77,7 +76,9 @@ Floor::~Floor() {
 }
 
 void Floor::init() {
-
+   occupants.clear();
+   signalingUp = false;
+   signalingDown = false;
 }
 
 void Floor::render() {
@@ -98,7 +99,7 @@ void Floor::render() {
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
-   //Render Arrow
+   /* Render Arrow */
    {
       glPushMatrix();
       glTranslatef(-gfxScaleWidth + 0.8f, 1.1f, 0.2f);

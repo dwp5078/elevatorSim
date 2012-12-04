@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,15 +35,17 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
-#include <FL/FL_Input.H>
-#include <FL/FL_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Button.H>
+
+#include <boost/lexical_cast.hpp>
 
 namespace elevatorSim {
 
 /* public static member initializers */
 const char ElevatorSimStartWindow::WINDOW_TITLE[] = "Start";
-const int ElevatorSimStartWindow::WINDOW_WIDTH = 300;
-const int ElevatorSimStartWindow::WINDOW_HEIGHT = 200;
+const int ElevatorSimStartWindow::WINDOW_WIDTH = 270;
+const int ElevatorSimStartWindow::WINDOW_HEIGHT = 270;
 
 int ElevatorSimStartWindow::handle(int event) {
    return Fl_Window::handle(event);
@@ -56,6 +58,31 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
+   (void) w;
+   ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
+
+   try {
+      int elevatorCount = 
+         boost::lexical_cast<int> ( thisWindow->elevatorNumInput->value() );
+      int floorCount = 
+         boost::lexical_cast<int> ( thisWindow->floorNumInput->value() );
+      int randomSeed = 
+         boost::lexical_cast<int> ( thisWindow->seedNumInput->value() );
+      
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "in inputAcceptCB with valid params ec = " << elevatorCount
+            << " fc = " << floorCount 
+            << " rs = " << randomSeed
+            << std::endl;
+         LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+      }
+
+      /* TODO: affect simulation state */
+
+   } catch ( boost::bad_lexical_cast& ) {
+      LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters");     
+   }
 }
 
 void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
@@ -65,23 +92,27 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
    
+   (void) w;
+
+   ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
+   thisWindow->hide();
 }
 
 /* public methods */
 ElevatorSimStartWindow::ElevatorSimStartWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
-      elevatorNum = new Fl_Input(100, 20, 140, 30, "# of elevators:");
-      floorNum = new Fl_Input(100, 70, 140, 30, "# of floors:");
-      seedNum = new Fl_Input(100, 120, 140, 30, "Random seed:");
+      elevatorNumInput = new Fl_Input(100, 20, 140, 30, "# of elevators:");
+      floorNumInput = new Fl_Input(100, 70, 140, 30, "# of floors:");
+      seedNumInput = new Fl_Input(100, 120, 140, 30, "Random seed:");
 
       inputAccept = new Fl_Button(100, 170, 140, 30, "Accept");
       inputCancel = new Fl_Button(100, 220, 140, 30, "Cancel");
       inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
       inputCancel->callback((Fl_Callback*) inputCancelCB, this);
 
-      add(floorNum);
-      add(elevatorNum);
-      add(seedNum);
+      add(floorNumInput);
+      add(elevatorNumInput);
+      add(seedNumInput);
       add(inputCancel);
       add(inputAccept);
    
@@ -92,9 +123,9 @@ ElevatorSimStartWindow::~ElevatorSimStartWindow() {
    delete inputCancel;
    delete inputAccept;
    
-   delete seedNum;
-   delete floorNum;
-   delete elevatorNum;
+   delete seedNumInput;
+   delete floorNumInput;
+   delete elevatorNumInput;
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,21 +61,25 @@ class Elevator : public Location, public ISimulationTerminal {
 
    /* private static methods */
 
-   /* private instance members */
+   /* private const instance members */
    const int maxVel;
    const int maxAccel;
    const int maxOccupants;
    const int numFloors;
-
    const int accelTimeInterval;
    const int stoppingDistance;
 
+   Floor** floorInfo;
+
+   /* private instance members */
    int currentVel;
    int currentAccel;
-   int destFloor;
+
+   /* TODO: use a safer container */
    bool* floorsSignaled;
 
    std::vector<Person> occupants;
+   std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
 
    /* private methods */
@@ -84,10 +88,13 @@ class Elevator : public Location, public ISimulationTerminal {
    Elevator(
       int _yVal,
       const int _numFloors,
+      Floor** _floorInfo,
       const int _maxVel = DEFAULT_MAX_VEL,
       const int _maxAccel = DEFAULT_MAX_ACCEL,
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
 
+   void scheduleAccelsToFloor( const int srcFloor, const int destfloor );
+   
 public:
 
    /* public static constants */
@@ -104,17 +111,18 @@ public:
    bool canStopAtNextFloor();
    void goToFloor(int floor);
    bool isStopped()  {  return (currentVel == 0)?true:false;   };
-   void pickupOccupants(Floor* floor);
+   //void pickupOccupants(Floor* floor);
    int getCurrentFloor();
+
+   int getOccupantSize() const {  
+      return occupants.size();   
+   }
 
    /* inherited from SimulationTerminal */
    void init();
    void render();
    void update();
-   void generateRandomDest();
    
-   int getOccupantSize()   {  return occupants.size();   }
-
    
 
 };

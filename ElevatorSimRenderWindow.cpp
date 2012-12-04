@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,8 +77,8 @@ int ElevatorSimRenderWindow::handle(int event) {
    }
 
    if( event == FL_PUSH ) {
-	   rayCasting( Fl::event_x(), Fl::event_y());
-	   return true;
+      rayCasting( Fl::event_x(), Fl::event_y());
+      return true;
    } else {
       return Fl_Gl_Window::handle(event);
    }

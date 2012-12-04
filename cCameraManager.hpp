@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,4 +81,4 @@ public:
 
 } /* namespace elevatorSim */
 
-#endif //__CCAMERAMANAGER_H__
+#endif /* __CCAMERAMANAGER_H__ */

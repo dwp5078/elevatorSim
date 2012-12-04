@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,13 +36,12 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
-#include <FL/FL_Input.H>
-#include <FL/FL_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Button.H>
 
 namespace elevatorSim {
    class ElevatorSimStartWindow : public Fl_Window {
-      private:
-      
+
          /* private methods */
          int handle(int event);
 
@@ -51,9 +50,9 @@ namespace elevatorSim {
          static void inputCancelCB(Fl_Window* w, void* userData);
    
          /* user input widget */
-         Fl_Input* elevatorNum;
-         Fl_Input* seedNum;
-         Fl_Input* floorNum;
+         Fl_Input* elevatorNumInput;
+         Fl_Input* floorNumInput;
+         Fl_Input* seedNumInput;
          Fl_Button *inputAccept;
          Fl_Button *inputCancel;
          
@@ -63,6 +62,10 @@ namespace elevatorSim {
          const static int WINDOW_WIDTH;
          const static int WINDOW_HEIGHT;
          const static char WINDOW_TITLE[];
+
+		   int getElevatorNum();
+		   int getFloorNum();
+		   int getSeedNum();
 
          ElevatorSimStartWindow();
          ~ElevatorSimStartWindow();

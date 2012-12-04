@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Joseph Max DeLiso, Daniel Gilbert
+ * Copyright (c) 2012, Joseph Max DeLiso
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,9 +42,11 @@
 #include <FL/Enumerations.H>
 #include <FL/names.h>
 
+#include <fstream>
 namespace elevatorSim {
 
 /* public static member initializers */
+const char ElevatorSimWelcomeWindow::FIRST_RUN_FILENAME[] = ".firstrun";
 const char ElevatorSimWelcomeWindow::WINDOW_TITLE[] = "Welcome";
 const int ElevatorSimWelcomeWindow::WINDOW_WIDTH = 300;
 const int ElevatorSimWelcomeWindow::WINDOW_HEIGHT = 200;
@@ -78,7 +80,6 @@ void ElevatorSimWelcomeWindow::quitConfirmedCB(
       (void) okButton;
 
       ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
-
       thisWin->confirmDialog->hide();
       thisWin->hide();
 }
@@ -91,6 +92,7 @@ void ElevatorSimWelcomeWindow::quitCancelledCB(
    thisWin->confirmDialog->hide();
 }
 
+
 void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData) {
    (void) win;
 
@@ -99,17 +101,43 @@ void ElevatorSimWelcomeWindow::windowCloseCB(Fl_Window* win, void* userData) {
    thisWin->confirmDialog->show();
 }
 
+void ElevatorSimWelcomeWindow::writeDatFile() {
+   std::ofstream fout(FIRST_RUN_FILENAME, std::ios::basic_ios::out);
+   
+   if(fout.good()) {
+      fout.write("F", 2);
+      fout.close();
+   } else {
+      assert(false);
+   }
+}
+
+void ElevatorSimWelcomeWindow::readDatFile() {
+   std::ifstream fin(FIRST_RUN_FILENAME, std::ios::basic_ios::in );
+   
+   if(fin.fail()) {
+      firstRun = true;
+      fin.close();
+      writeDatFile();
+   } else {
+      char firstRunChar;
+      fin.read(&firstRunChar, sizeof(firstRunChar));
+      firstRun = false;
+      fin.close();
+   }
+}
+
 /* public methods */
 ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
-   /* add more widgets to main window here */
+      readDatFile();
+   
+      /* add more widgets to main window here */
+   
+      buildDialogs();
+      end();
 
-	firstRun = true;
-
-   buildDialogs();
-   end();
-
-   callback((Fl_Callback*)windowCloseCB, this);
+      callback((Fl_Callback*)windowCloseCB, this);
 }
 
 ElevatorSimWelcomeWindow::~ElevatorSimWelcomeWindow() {
