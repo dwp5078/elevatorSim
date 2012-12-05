@@ -70,6 +70,14 @@ Floor::Floor(
 }
 
 Floor::~Floor() {
+   /* free all the people allocated on the heap */
+   std::for_each(
+      occupants.begin(),
+      occupants.end(),
+      [] ( Person * p ) {
+         delete p;
+      });
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "destructing floor @" << this << std::endl;
@@ -158,7 +166,7 @@ void Floor::update() {
    updateSignalArrows();
 }
 
-void Floor::addOccupant(Person p) {
+void Floor::addOccupant(Person* p) {
    occupants.push_back(p);
    updateSignalArrows();
 }
@@ -167,11 +175,14 @@ void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
-   /* TODO: std::for_eachify */
-   std::vector<Person>::iterator iter = occupants.begin();
+   std::vector<Person*>::const_iterator iter = occupants.begin();
    while(iter != occupants.end()) {
-      if(iter->getDestination().getYVal() - thisFloor > 0)  signalingUp = true;
-      else if(iter->getDestination().getYVal() - thisFloor < 0)  signalingDown = true;
+      const Person* currentPerson = *iter;
+      if(currentPerson->getDestination().getYVal() - thisFloor > 0) {
+         signalingUp = true;
+      } else if(currentPerson->getDestination().getYVal() - thisFloor < 0) {
+         signalingDown = true;
+      }
 
       iter++;
    }

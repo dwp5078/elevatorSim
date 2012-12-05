@@ -37,7 +37,6 @@
 #include "Logger.hpp"
 #include "cTimeManager.hpp"
 
-#include <boost/static_assert.hpp>
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -145,6 +144,14 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
 }
 
 Elevator::~Elevator() {
+   /* free all the people allocated on the heap */
+   std::for_each(
+      occupants.begin(),
+      occupants.end(),
+      [] ( Person * p ) {
+         delete p;
+      });
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "destructing delevator @" << this << std::endl;
@@ -244,9 +251,12 @@ void Elevator::update() {
          /* FLOOR ARRIVAL PROCESSING */
 
          /* remove occupants from elevator who are terminating here */
-         std::vector<Person>::iterator itr = occupants.begin();
+         std::vector<Person*>::iterator itr = occupants.begin();
          while(itr != occupants.end()) {
-            if(itr->getDestination().getYVal() == getCurrentFloor())  {
+            Person* currentPerson = *itr;
+
+            if(currentPerson->getDestination().getYVal() == getCurrentFloor())  {
+               delete currentPerson;
                itr = occupants.erase(itr);
             } else {
                itr++;

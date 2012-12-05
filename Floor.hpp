@@ -55,7 +55,7 @@ class Floor : public Location, public ISimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   std::vector<Person> occupants;
+   std::vector<Person*> occupants;
    bool signalingUp;
    bool signalingDown;
 
@@ -89,7 +89,7 @@ public:
    void render();
    void update();
 
-   void addOccupant(Person p);
+   void addOccupant(Person* p);
    int getNumOccupants() const {  return occupants.size(); }
    void updateSignalArrows();
 };

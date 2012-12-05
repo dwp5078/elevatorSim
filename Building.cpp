@@ -220,8 +220,8 @@ void Building::distributePeople() {
       /* pick a different random dest floor */
       while( (destFloor = rand() % m_nStory) == sourceFloor );
       
-      /* instantiate a new person */
-      Person newPerson(sourceFloor, destFloor);
+      /* allocate a new person off the heap */
+      Person* newPerson = new Person(sourceFloor, destFloor);
 
       /* add the new randomly generated occupant */
 	   m_Floors[sourceFloor]->addOccupant(newPerson);

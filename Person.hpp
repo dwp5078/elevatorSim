@@ -59,7 +59,7 @@ class Person : public ISimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   Location current;
+   Location start;
    Location destination;
    enum PRIORITY priority;
 

@@ -40,7 +40,6 @@
 #include "Building.hpp"
 #include "SimulationState.hpp"
 
-
 #include <vector>
 #include <utility>
 
@@ -72,7 +71,7 @@ class Elevator : public Location, public ISimulationTerminal {
    int currentVel;
    int currentAccel;
 
-   std::vector<Person> occupants;
+   std::vector<Person*> occupants;
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
 

@@ -41,13 +41,29 @@ Person::Person(
    Location startLoc,
    Location dest,
    enum PRIORITY p) {
-      current = startLoc;
+      start = startLoc;
       destination = dest;
       priority = p;
+
+      /* print debug info */
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "with person @ " << this 
+            << " start " << start.getYVal()
+            << ", dest " << destination.getYVal()
+            << ", pri = " << (int)priority << std::endl;
+
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+      }
 }
 
 Person::~Person() {
-
+   /* print debug info */
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "destructing person @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+   }
 }
 
 void Person::init() {
