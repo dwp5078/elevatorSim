@@ -102,9 +102,15 @@ void Person::update() {
    /* If we're in a floor... */
    if( floorContainer != NULL ) {
 
+      /* TODO: check to see if an elevator has arrived, and
+       * get on if it has */
+
+
    /* if we're in an elevator... */
    } else if( elevatorContainer != NULL ) {
 
+      /* TODO: check to see if we've arrived at our destination floor,
+       * and get off if we have */
    }
 
    if(isDebugBuild()) {
