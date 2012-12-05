@@ -97,7 +97,7 @@ void Person::update() {
    Elevator* elevatorContainer = dynamic_cast<Elevator*> ( container );
 
    /* ensure that RTTI is working correctly */
-   assert( floorContainer == NULL || elevatorContainer == NULL );
+   assert( (floorContainer == NULL) ^ (elevatorContainer == NULL) );
 
    /* If we're in a floor... */
    if( floorContainer != NULL ) {
