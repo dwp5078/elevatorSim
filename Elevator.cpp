@@ -260,9 +260,6 @@ void Elevator::update() {
             occupants.push_back(*itr);
             itr = floorOccupants->erase(itr);
          }
- 
-         /* recompute this elevator's signaling arrows based on new occupants */
-         floorInfo[getCurrentFloor()]->recheckButtonPressed();
 
          /* FOR DEBUG: schedule a new random dest upon arriving at a floor 
           * if there are no stops after this */

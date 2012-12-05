@@ -153,7 +153,7 @@ void Floor::render() {
 }
 
 void Floor::update() {
-
+   updateSignalArrows();
 }
 
 void Floor::addOccupant(int numOfPeople, int destination)
@@ -171,7 +171,7 @@ void Floor::addOccupant(int numOfPeople, int destination)
       { signalingUp = true; }
 }
 
-void Floor::recheckButtonPressed()
+void Floor::updateSignalArrows()
 {
    std::vector<Person>::iterator iter = occupants.begin();
 
@@ -186,10 +186,5 @@ void Floor::recheckButtonPressed()
       iter++;
    }
 }
-
-/*void Floor::elevatorReached(Elevator* elev)
-{
-
-}*/
 
 } /* namespace elevatorSim */
