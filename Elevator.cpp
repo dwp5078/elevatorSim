@@ -145,13 +145,7 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
 }
 
 Elevator::~Elevator() {
-   /* free all the people allocated on the heap */
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         delete p;
-      });
+   init();
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -204,6 +198,14 @@ void Elevator::goToFloor(int floor) {
 void Elevator::init() {
    currentAccel = 0;
    currentVel = 0;
+
+   /* free all the people allocated on the heap */
+   std::for_each(
+      occupants.begin(),
+      occupants.end(),
+      [] ( Person * p ) {
+         delete p;
+      });
 
    occupants.clear();
    scheduledFloors.clear();

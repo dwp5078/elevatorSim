@@ -39,6 +39,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <set>
 
 namespace elevatorSim {
 
@@ -70,14 +71,8 @@ Floor::Floor(
 }
 
 Floor::~Floor() {
-   /* free all the people allocated on the heap */
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         delete p;
-      });
-
+   init();
+ 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "destructing floor @" << this << std::endl;
@@ -86,6 +81,14 @@ Floor::~Floor() {
 }
 
 void Floor::init() {
+   /* free all the people allocated on the heap */
+   std::for_each(
+      occupants.begin(),
+      occupants.end(),
+      [] ( Person * p ) {
+         delete p;
+      });
+
    occupants.clear();
    signalingUp = false;
    signalingDown = false;
@@ -167,7 +170,8 @@ void Floor::update() {
 }
 
 void Floor::addOccupant(Person* p) {
-   occupants.push_back(p);
+   std::pair<std::set<Person*>::iterator,bool> ret = occupants.insert(p);
+   assert( ret.second );
    updateSignalArrows();
 }
 
@@ -175,7 +179,7 @@ void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
-   std::vector<Person*>::const_iterator iter = occupants.begin();
+   std::set<Person*>::const_iterator iter = occupants.begin();
    while(iter != occupants.end()) {
       const Person* currentPerson = *iter;
       if(currentPerson->getDestination().getYVal() - thisFloor > 0) {

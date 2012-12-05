@@ -39,6 +39,7 @@
 #include "Building.hpp"
 
 #include <vector>
+#include <set>
 
 namespace elevatorSim {
 
@@ -55,7 +56,7 @@ class Floor : public Location, public ISimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   std::vector<Person*> occupants;
+   std::set<Person*> occupants;
    bool signalingUp;
    bool signalingDown;
 
