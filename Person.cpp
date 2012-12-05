@@ -93,6 +93,20 @@ void Person::update() {
 
    ISimulationTerminal* container = locateContainer();
 
+   Floor* floorContainer = dynamic_cast<Floor*> ( container );
+   Elevator* elevatorContainer = dynamic_cast<Elevator*> ( container );
+
+   /* ensure that RTTI is working correctly */
+   assert( floorContainer == NULL || elevatorContainer == NULL );
+
+   /* If we're in a floor... */
+   if( floorContainer != NULL ) {
+
+   /* if we're in an elevator... */
+   } else if( elevatorContainer != NULL ) {
+
+   }
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "updating person @ " << this
