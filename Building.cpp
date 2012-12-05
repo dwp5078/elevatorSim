@@ -63,13 +63,13 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       m_Floors = new Floor * [m_nStory];
       m_Elevators = new Elevator * [m_nElevator];
 
-      for(unsigned int i=0; i < m_nStory ; ++i) {
+      for(int i=0; i < m_nStory ; ++i) {
          m_Floors[i] = new Floor(
             i * Floor::YVALS_PER_FLOOR, i, gfxScaleWidth, i != m_nStory-1, i != 0);
       }
 
-      for(unsigned int i=0; i < m_nElevator ; ++i ) {
-         m_Elevators[i] = new Elevator(0, _nStory, m_Floors);
+      for(int i=0; i < m_nElevator ; ++i ) {
+         m_Elevators[i] = new Elevator(0);
       }
 
       if(isDebugBuild()) {
@@ -86,11 +86,11 @@ Building::~Building() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 
-   for(unsigned int i=0; i < m_nStory ; ++i) {
+   for(int i=0; i < m_nStory ; ++i) {
       delete m_Floors[i];
    }
 
-   for(unsigned int i=0; i < m_nElevator ; ++i ) {
+   for(int i=0; i < m_nElevator ; ++i ) {
       delete m_Elevators[i];
    }
 
@@ -100,11 +100,11 @@ Building::~Building() {
 
 /* public methods inherited from SimulationTerminal */
 void Building::init() {
-   for(unsigned int i=0; i < m_nStory ; ++i) {
+   for(int i=0; i < m_nStory ; ++i) {
       m_Floors[i]->init();
    }
 
-   for(unsigned int i=0; i < m_nElevator ; ++i ) {
+   for(int i=0; i < m_nElevator ; ++i ) {
       m_Elevators[i]->init();
    }
 }
@@ -157,7 +157,7 @@ void Building::render() {
    glPopMatrix();
 
    /* Draw each floor */
-   for(unsigned int i=0; i < m_nStory; i++) {
+   for(int i=0; i < m_nStory; i++) {
       glPushMatrix();
       glTranslatef(
          0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 
@@ -169,7 +169,7 @@ void Building::render() {
    }
 
    /* Draw each elevator */
-   for(unsigned int i=0; i < m_nElevator; i++) {
+   for(int i=0; i < m_nElevator; i++) {
       glPushMatrix();
       glTranslatef(
          -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i,
@@ -199,11 +199,11 @@ void Building::render() {
 }
 
 void Building::update() {
-   for(unsigned int i = 0; i < m_nStory; i++) {
+   for(int i = 0; i < m_nStory; i++) {
       m_Floors[i]->update();
    }
 
-   for(unsigned int i = 0; i < m_nElevator; i++) {
+   for(int i = 0; i < m_nElevator; i++) {
       m_Elevators[i]->update();
    }
 

@@ -48,8 +48,8 @@ class Building : public ISimulationTerminal {
    /* friends */
 
    /* private static constants */
-   const unsigned int m_nStory;
-   const unsigned int m_nElevator;
+   const int m_nStory;
+   const int m_nElevator;
 
    /* private static methods */
 
@@ -82,19 +82,19 @@ public:
    void distributePeople();
 
    /* inline const accessors */
-   inline unsigned int getStories() const {
+   inline int getStories() const {
       return m_nStory;
    }
 
-   inline unsigned int getElevators() const {
+   inline int getElevators() const {
       return m_nElevator;
    }
 
    int getMaxElevHeight() const;
    int getMinElevHeight() const;
 
-   int getMaxElev()  {  return m_nElevator;  }
-   Elevator** getElev() {  return m_Elevators;  }
+   int getMaxElev() { return m_nElevator; }
+   Elevator** getElev() { return m_Elevators; }
 };
 
 } /* namespace elevatorSim */

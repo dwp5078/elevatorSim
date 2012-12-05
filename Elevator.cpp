@@ -53,16 +53,12 @@ const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;//12;
 
 Elevator::Elevator(
    int _yVal,
-   const int _numFloors,
-   Floor** _floorInfo,
    const int _maxVel,
    const int _maxAccel,
    const int _maxOccupants) :
-   floorInfo(_floorInfo),
    maxVel(_maxVel),
    maxAccel(_maxAccel),
    maxOccupants(_maxOccupants),
-   numFloors(_numFloors),
 
    /* deceleration time from max speed to 0,
     * or acceleration time from 0 to max speed */
@@ -88,7 +84,7 @@ Elevator::Elevator(
          currentAccel = 0; 
 
          /* FOR DEBUG */
-         scheduledFloors.push_back( rand() % numFloors );
+         scheduledFloors.push_back( 1 );
          
          if(isDebugBuild()) {
             std::stringstream dbgSS;
@@ -98,8 +94,10 @@ Elevator::Elevator(
 }
 
 void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) {
+   SimulationState& simState = SimulationState::acquire();
+
    assert(destfloor >= 0 && 
-      destfloor < numFloors && 
+      destfloor < simState.getBuilding().getStories() && 
       srcFloor == (yVal / Floor::YVALS_PER_FLOOR));
 
    /* height of the target floor in yVals */
@@ -217,6 +215,8 @@ void Elevator::update() {
       SimulationState::acquire().getBuilding().getMaxElevHeight();
    const int currentTime =
       SimulationState::acquire().getTime();
+   const int numFloors =
+      SimulationState::acquire().getBuilding().getStories();
 
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );

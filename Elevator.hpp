@@ -65,11 +65,8 @@ class Elevator : public Location, public ISimulationTerminal {
    const int maxVel;
    const int maxAccel;
    const int maxOccupants;
-   const int numFloors;
    const int accelTimeInterval;
    const int stoppingDistance;
-
-   Floor** floorInfo;
 
    /* private instance members */
    int currentVel;
@@ -84,8 +81,6 @@ class Elevator : public Location, public ISimulationTerminal {
    /* constructor */
    Elevator(
       int _yVal,
-      const int _numFloors,
-      Floor** _floorInfo,
       const int _maxVel = DEFAULT_MAX_VEL,
       const int _maxAccel = DEFAULT_MAX_ACCEL,
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
