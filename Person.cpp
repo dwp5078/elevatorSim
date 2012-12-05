@@ -34,6 +34,8 @@
 #include "Location.hpp"
 #include "Logger.hpp"
 
+#include <algorithm>
+
 namespace elevatorSim {
 
 /* constructors */
@@ -55,6 +57,11 @@ Person::Person(
 
          LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
       }
+}
+
+Person::Person( Person&& p ) {
+   /* TODO: stub */
+   (void) p;
 }
 
 Person::~Person() {

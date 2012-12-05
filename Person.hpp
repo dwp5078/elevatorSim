@@ -37,6 +37,8 @@
 #include "Elevator.hpp"
 #include "ISimulationTerminal.hpp"
 
+#include <algorithm>
+
 namespace elevatorSim {
 
 class Building;
@@ -71,6 +73,8 @@ class Person : public ISimulationTerminal {
       Location dest,
       enum PRIORITY p=UNKNOWN);
 
+   Person( Person&& p );
+   
 public:
 
    /* public static constants */
