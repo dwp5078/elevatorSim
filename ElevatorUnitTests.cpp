@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( elevator_initialization_test ) {
    Building testBuilding(testStoryCount, testElevCount);
 
    BOOST_REQUIRE_EQUAL( testBuilding.getStories(), testStoryCount );
-   BOOST_REQUIRE_EQUAL( testBuilding.getElevators(), testElevCount );
+   BOOST_REQUIRE_EQUAL( testBuilding.getMaxElev(), testElevCount );
 
    /* TODO: write more elevator specific tests */
 }

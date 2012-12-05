@@ -277,7 +277,7 @@ void ElevatorSimRenderWindow::rayCasting(int x, int y) {
    dir.Normalize();
 
    int maxElev = simState.getBuilding().getMaxElev();
-   Elevator** elev = simState.getBuilding().getElev();
+   Elevator** elev = simState.getBuilding().getElevators();
    
    for(int i=0; i<maxElev; i++) {
       float pos = 1.0f + elev[i]->getYVal() / 

@@ -97,6 +97,7 @@ public:
    void render();
    void update();
 
+   ISimulationTerminal* locateContainer();
 };
 
 } /* namespace elevatorSim */

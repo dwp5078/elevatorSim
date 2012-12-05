@@ -169,6 +169,10 @@ void Floor::update() {
    updateSignalArrows();
 }
 
+bool Floor::containsPerson(Person *p) {
+   return (occupants.find(p) != occupants.end());
+}
+
 void Floor::addOccupant(Person* p) {
    std::pair<std::set<Person*>::iterator,bool> ret = occupants.insert(p);
    assert( ret.second );

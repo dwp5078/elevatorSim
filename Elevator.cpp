@@ -327,6 +327,10 @@ void Elevator::update() {
       currentAccel == 0  );
 }
 
+bool Elevator::containsPerson(Person *p) {
+   return (occupants.find(p) != occupants.end());
+}
+
 int Elevator::getCurrentFloor()   {
    return yVal / Floor::YVALS_PER_FLOOR;
 }

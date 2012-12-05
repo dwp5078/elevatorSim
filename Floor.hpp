@@ -90,6 +90,7 @@ public:
    void render();
    void update();
 
+   bool containsPerson(Person *p);
    void addOccupant(Person* p);
    int getNumOccupants() const {  return occupants.size(); }
    void updateSignalArrows();

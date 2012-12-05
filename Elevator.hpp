@@ -117,6 +117,7 @@ public:
    void render();
    void update();
 
+   bool containsPerson(Person *p);
 };
 
 } /* namespace elevatorSim */

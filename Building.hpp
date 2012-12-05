@@ -85,6 +85,7 @@ public:
    inline int getStories() const {
       return m_nStory;
    }
+   Floor** getFloors() { return m_Floors; }
 
    inline int getElevators() const {
       return m_nElevator;
@@ -94,7 +95,8 @@ public:
    int getMinElevHeight() const;
 
    int getMaxElev() { return m_nElevator; }
-   Elevator** getElev() { return m_Elevators; }
+   Elevator** getElevators() { return m_Elevators; }
+
 };
 
 } /* namespace elevatorSim */

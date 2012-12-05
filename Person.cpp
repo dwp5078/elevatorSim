@@ -33,6 +33,7 @@
 #include "Person.hpp"
 #include "Location.hpp"
 #include "Logger.hpp"
+#include "SimulationState.hpp"
 
 #include <algorithm>
 
@@ -82,18 +83,46 @@ void Person::render() {
 }
 
 void Person::update() {
-   /* TODO: find parent by searching over all floors and elevators,
-    * this operation's worst case should run in linear time, O(E+F), 
-    * where E is number of elevators and F is number of Floors.
-    *
-    * Then check to see if we've reached a movement condition. If so,
+   /* Then check to see if we've reached a movement condition. If so,
     * either move from floor to elevator or from elevator to floor.
     *
     * NOTE: see line 257 of Elevator::update(), which deletes person
     * instances when they reach their destination floor. This may
     * need to be refactored.
-    * */
+    */
+ 
 
+}
+
+ISimulationTerminal* Person::locateContainer() {
+   /* find parent by searching over all floors and elevators,
+    * this operation's worst case runs in linear time, O(E+F), 
+    * where E is number of elevators and F is number of Floors.
+    */
+   Building& building = SimulationState::acquire().getBuilding();
+
+   Floor** floors = building.getFloors(); 
+   Elevator** elevators = building.getElevators(); 
+   ISimulationTerminal* container = NULL;
+
+   for( int i = 0; 
+      container == NULL && i < building.getStories(); 
+      ++i ) {
+         if( floors[i]->containsPerson(this) ) {
+            container = floors[i];
+         }
+   }
+
+   for( int i = 0; 
+      container == NULL && i < building.getMaxElev(); 
+      ++i ) {
+         if( elevators[i]->containsPerson(this) ) {
+            container = elevators[i];
+         }
+   }
+
+   assert( container != NULL );
+   return container;
 }
 
 } /* namespace ElevatorSim */
