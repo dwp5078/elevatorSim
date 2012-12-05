@@ -32,7 +32,7 @@ OBJS=$(CLIENT_OBJ) $(SIM_OBJS)
 
 DRIVERFLAGS=/errorreport:none /nologo
 
-CXXFLAGS=/W4 /WX /EHac /c /D_ES_WINNT /Iinc /Iinc\Python
+CXXFLAGS=/W4 /WX /EHac /GR /c /D_ES_WINNT /Iinc /Iinc\Python
 
 DEBUGFLAGS=/Z7 /Gm- /MDd
 
