@@ -75,7 +75,18 @@ void Person::render() {
 }
 
 void Person::update() {
-   /* TODO */
+   /* TODO: find parent by searching over all floors and elevators,
+    * this operation's worst case should run in linear time, O(E+F), 
+    * where E is number of elevators and F is number of Floors.
+    *
+    * Then check to see if we've reached a movement condition. If so,
+    * either move from floor to elevator or from elevator to floor.
+    *
+    * NOTE: see line 257 of Elevator::update(), which deletes person
+    * instances when they reach their destination floor. This may
+    * need to be refactored.
+    * */
+
 }
 
 } /* namespace ElevatorSim */
