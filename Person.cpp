@@ -43,6 +43,7 @@ Person::Person(
    enum PRIORITY p) {
       current = startLoc;
       destination = dest;
+      priority = p;
 }
 
 Person::~Person() {
