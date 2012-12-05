@@ -37,7 +37,6 @@
 #include "Logger.hpp"
 #include "cTimeManager.hpp"
 
-#include <boost/math/special_functions/round.hpp>
 #include <boost/static_assert.hpp>
 #include <vector>
 #include <iostream>
@@ -89,10 +88,7 @@ Elevator::Elevator(
          currentAccel = 0; 
 
          /* FOR DEBUG */
-         
-         Person p(Location(0), Location(rand()%(numFloors-1)+1));
-         occupants.push_back(p);
-         scheduledFloors.push_back(p.getDestination().getYVal());
+         scheduledFloors.push_back( rand() % numFloors );
          
          if(isDebugBuild()) {
             std::stringstream dbgSS;
@@ -102,16 +98,18 @@ Elevator::Elevator(
 }
 
 void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) {
-   assert(destfloor >= 0 && destfloor < numFloors && srcFloor == (yVal / Floor::YVALS_PER_FLOOR));
+   assert(destfloor >= 0 && 
+      destfloor < numFloors && 
+      srcFloor == (yVal / Floor::YVALS_PER_FLOOR));
 
    /* height of the target floor in yVals */
    int targetFloorHeight = destfloor *  Floor::YVALS_PER_FLOOR;
    int thisFloorHeight = srcFloor *  Floor::YVALS_PER_FLOOR;
 
    /* the distance traveled at the maximum speed */
-   int maxVelTimeInterval = boost::math::iround(
-      ((float)(abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel));
-      
+   int maxVelTimeInterval = 
+      (abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel;
+
    /* retrieve current logic clock */
    const int currentTime =
       SimulationState::acquire().getTime();
@@ -146,7 +144,6 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
    scheduledAccels.push_back(
       std::pair<int, int> ( currentTime,
       ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));  
-
 }
 
 Elevator::~Elevator() {
@@ -230,112 +227,48 @@ void Elevator::update() {
       currentAccel == 0 );
 
    /* are we on stopped on a floor with another floor scheduled? */
-   if( currentVel == 0 && yVal % Floor::YVALS_PER_FLOOR == 0 && scheduledFloors.size() > 0 ) {
-      const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
-      const int nextFloor = scheduledFloors.back();
+   if( currentVel == 0 && 
+      yVal % Floor::YVALS_PER_FLOOR == 0 && 
+      scheduledFloors.size() > 0 ) {
+         const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
+         const int nextFloor = scheduledFloors.back();
 
-      /* TODO: floor arrival processing */
+         /* remove this floor from the scheduled floors queue */
+         scheduledFloors.pop_back();
 
-      //take people out from elevator
-      std::vector<Person>::iterator itr = occupants.begin();
-      while(itr != occupants.end())
-      {
-         if(itr->getDestination().getYVal() == getCurrentFloor())  {
-            itr = occupants.erase(itr);
+         /* if it's different from this floor, schedule the accelerations */
+         if( thisFloor != nextFloor ) {
+            scheduleAccelsToFloor(thisFloor, nextFloor);
          }
 
-         else  itr++;
-      }
+         /* FLOOR ARRIVAL PROCESSING */
 
-      //Take people from floor
-
-      scheduledFloors.pop_back();
-
-      /* FOR DEBUG: schedule a new random dest */
-
-      if( scheduledFloors.size() == 0 ) {
-         //scheduledFloors.push_back( rand() % numFloors );
-
-         /*int currFloor = getCurrentFloor();
-         int farthest = currFloor;
-         int goingUp = 2;	//0 - up	1 - down	2 - doesn't matter
-         
-         itr = occupants.begin();
-
-         while(itr != occupants.end())
-         {
-            if(abs(itr->getDestination().getYVal() - currFloor) > abs(farthest - currFloor)) {
-               farthest = itr->getDestination().getYVal();
+         /* remove occupants from elevator who are terminating here */
+         std::vector<Person>::iterator itr = occupants.begin();
+         while(itr != occupants.end()) {
+            if(itr->getDestination().getYVal() == getCurrentFloor())  {
+               itr = occupants.erase(itr);
+            } else {
+               itr++;
             }
-
-			itr++;
          }
 
-         if(farthest - currFloor < 0)  {		goingUp = 1; }   //going down
-         else if(farthest - currFloor > 0) {    goingUp = 0;  }   //going up
-		 else									goingUp = 2;	//doesn't matter
-
+         /* remove all occupants from floor and put them in this elevator */
          std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
          itr = floorOccupants->begin();
-
-         while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
-            int dest = itr->getDestination().getYVal();
-
-            if(goingUp == 1 && dest - currFloor < 0) {
-               itr++;
-               continue;
-            }
-
-            if(goingUp == 0 && dest - currFloor > 0)   {
-               itr++;
-               continue;
-            }
-
-            occupants.push_back(*itr);
-            itr = floorOccupants->erase(itr);
-         }
-
-         int nextDest = currFloor;
-         itr = occupants.begin();
-         while(itr != occupants.end())
-         {
-            if(goingUp == 1 && itr->getDestination().getYVal() - currFloor < 0) {
-				itr++; 
-				continue;
-			}
-            if(goingUp == 0 && itr->getDestination().getYVal() - currFloor > 0) {
-				itr++; 
-				continue;
-			}
-
-            if(abs(itr->getDestination().getYVal() - currFloor) < abs(nextDest - currFloor)) {
-               nextDest = itr->getDestination().getYVal();
-            }
-
-			itr++;
-         }
-
-		 if(nextDest == currFloor)	nextDest = rand() % numFloors;
-
-         scheduledFloors.push_back(nextDest);*/
-
-         std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
-         itr = floorOccupants->begin();
-
          while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
             occupants.push_back(*itr);
             itr = floorOccupants->erase(itr);
          }
-
+ 
+         /* recompute this elevator's signaling arrows based on new occupants */
          floorInfo[getCurrentFloor()]->recheckButtonPressed();
 
-		  scheduledFloors.push_back(rand() % numFloors);
-
-      }
-
-      if( thisFloor != nextFloor ) {
-         scheduleAccelsToFloor(thisFloor, nextFloor);
-      }
+         /* FOR DEBUG: schedule a new random dest upon arriving at a floor 
+          * if there are no stops after this */
+         if( scheduledFloors.size() == 0 ) {
+            scheduledFloors.push_back(rand() % numFloors);
+         }
    }
 
    /* is there a scheduled acceleration pending? */
