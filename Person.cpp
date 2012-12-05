@@ -91,7 +91,14 @@ void Person::update() {
     * need to be refactored.
     */
  
-
+   ISimulationTerminal* container = locateContainer();
+   
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "updating person @ " << this 
+         << " with container @ " << container << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+   }
 }
 
 ISimulationTerminal* Person::locateContainer() {
