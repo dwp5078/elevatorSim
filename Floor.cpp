@@ -156,30 +156,18 @@ void Floor::update() {
    updateSignalArrows();
 }
 
-void Floor::addOccupant(int numOfPeople, int destination)
-{
-   for(int i=0; i<numOfPeople; i++) {
-      Location loc(thisFloor);
-      Location dest(destination);
-      Person person(loc, dest);
-      occupants.push_back(person);
-   }
-
-   if(thisFloor - destination > 0)  
-      { signalingDown = true; }
-   else 
-      { signalingUp = true; }
+void Floor::addOccupant(Person p) {
+   occupants.push_back(p);
+   updateSignalArrows();
 }
 
-void Floor::updateSignalArrows()
-{
-   std::vector<Person>::iterator iter = occupants.begin();
-
+void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
-   while(iter != occupants.end())
-   {
+   /* TODO: std::for_eachify */
+   std::vector<Person>::iterator iter = occupants.begin();
+   while(iter != occupants.end()) {
       if(iter->getDestination().getYVal() - thisFloor > 0)  signalingUp = true;
       else if(iter->getDestination().getYVal() - thisFloor < 0)  signalingDown = true;
 

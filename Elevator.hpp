@@ -107,9 +107,11 @@ public:
    /* public methods */
    bool canStopAtNextFloor();
    void goToFloor(int floor);
-   bool isStopped()  {  return (currentVel == 0)?true:false;   };
-   //void pickupOccupants(Floor* floor);
    int getCurrentFloor();
+
+   bool isStopped() const { 
+      return (currentVel == 0); 
+   };
 
    int getOccupantSize() const {  
       return occupants.size();   

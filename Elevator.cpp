@@ -254,12 +254,9 @@ void Elevator::update() {
          }
 
          /* remove all occupants from floor and put them in this elevator */
-         std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
-         itr = floorOccupants->begin();
-         while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
-            occupants.push_back(*itr);
-            itr = floorOccupants->erase(itr);
-         }
+         //Floor* thisFloorPtr = floorInfo[getCurrentFloor()];
+         //std::vector<Person> floorOccupants = thisFloorPtr->takeOccupants();
+         /* TODO: add floorOccupants to this elevator's occupants */
 
          /* FOR DEBUG: schedule a new random dest upon arriving at a floor 
           * if there are no stops after this */
@@ -321,31 +318,6 @@ void Elevator::update() {
       currentAccel == maxAccel ||
       currentAccel == 0  );
 }
-
-/*void Elevator::pickupOccupants(Floor* floor)
-{
-   std::vector<Person> *floorOccupants = floor->getOccupants();
-
-   // Take out people from elevator
-   if(getOccupantSize() > 0)  {
-      std::vector<Person>::iterator p;
-      for(p = occupants.begin(); p != occupants.end(); p++) {
-         if(p->destination.getYVal() == getCurrentFloor())   {
-            occupants.erase(p);
-         }
-      }
-   }
-
-   // Bring people from floor
-   std::for_each(
-      floorOccupants->begin(),
-      floorOccupants->end(),
-      [] (Person p) {
-
-   });
-   
-   //goToFloor(rand() % m_nFloor);
-}*/
 
 int Elevator::getCurrentFloor()   {
    return yVal / Floor::YVALS_PER_FLOOR;

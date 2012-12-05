@@ -89,9 +89,8 @@ public:
    void render();
    void update();
 
-   void addOccupant(const int numOfPeople, const int destination);
+   void addOccupant(Person p);
    int getNumOccupants() const {  return occupants.size(); }
-   std::vector<Person> *getOccupants() { return &occupants; }
    void updateSignalArrows();
 };
 
