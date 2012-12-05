@@ -41,6 +41,7 @@
 #include "SimulationState.hpp"
 
 #include <vector>
+#include <set>
 #include <utility>
 
 namespace elevatorSim {
@@ -71,7 +72,7 @@ class Elevator : public Location, public ISimulationTerminal {
    int currentVel;
    int currentAccel;
 
-   std::vector<Person*> occupants;
+   std::set<Person*> occupants;
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
 

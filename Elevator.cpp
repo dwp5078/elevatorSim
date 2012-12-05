@@ -38,6 +38,7 @@
 #include "cTimeManager.hpp"
 
 #include <vector>
+#include <set>
 #include <iostream>
 #include <sstream>
 #include <cassert>
@@ -251,7 +252,7 @@ void Elevator::update() {
          /* FLOOR ARRIVAL PROCESSING */
 
          /* remove occupants from elevator who are terminating here */
-         std::vector<Person*>::iterator itr = occupants.begin();
+         std::set<Person*>::iterator itr = occupants.begin();
          while(itr != occupants.end()) {
             Person* currentPerson = *itr;
 
