@@ -111,7 +111,6 @@ void SimulationState::update() {
    });
 
    ++logicTicks;
-
    bigAssStateMutex.unlock();
 }
 

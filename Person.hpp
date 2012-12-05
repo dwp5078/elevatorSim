@@ -43,13 +43,10 @@ class Building;
 class Elevator;
 
 class Person : public ISimulationTerminal {
-
    /* friends */
    friend class Building;
    friend class Floor;
    friend class Elevator;
-
-   /* (this person has no friends, trololoo) */
 
    /* private static constants */
    enum PRIORITY {
@@ -70,9 +67,9 @@ class Person : public ISimulationTerminal {
 
    /* constructors */
    Person(
-         Location startLoc,
-         Location dest,
-         enum PRIORITY p=UNKNOWN);
+      Location startLoc,
+      Location dest,
+      enum PRIORITY p=UNKNOWN);
 
 public:
 
@@ -82,15 +79,14 @@ public:
 
    ~Person();
 
-   /* public methods */
-   Location getCurrent();
-   void setCurrent(Location newLoc);
+   /* public const methods */
+   Location getDestination() const {
+      return destination;
+   }
 
-   Location getDestination();
-   void setDestination(Location newLoc);
-
-   enum PRIORITY getPriority();
-   void setPriority(enum PRIORITY newPriority);
+   enum PRIORITY getPriority() const {
+      return priority;
+   }
 
    /* public methods inherited from ISimulationTerminal*/
    void init();

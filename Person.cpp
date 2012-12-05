@@ -32,6 +32,7 @@
 #include "ElevatorSim.hpp"
 #include "Person.hpp"
 #include "Location.hpp"
+#include "Logger.hpp"
 
 namespace elevatorSim {
 
@@ -40,38 +41,12 @@ Person::Person(
    Location startLoc,
    Location dest,
    enum PRIORITY p) {
-      priority = p;
       current = startLoc;
       destination = dest;
 }
 
 Person::~Person() {
 
-}
-
-/* getters and setters */
-enum Person::PRIORITY Person::getPriority() {
-   return priority;
-}
-
-void Person::setPriority(enum Person::PRIORITY newPriority) {
-   priority = newPriority;
-}
-
-Location Person::getCurrent() {
-   return current;
-}
-
-void Person::setCurrent(Location newLoc) {
-   current = newLoc;
-}
-
-Location Person::getDestination() {
-   return destination;
-}
-
-void Person::setDestination(Location newLoc) {
-   destination = newLoc;
 }
 
 void Person::init() {
