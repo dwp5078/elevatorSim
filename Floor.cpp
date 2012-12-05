@@ -32,11 +32,13 @@
 #include "ElevatorSim.hpp"
 #include "Floor.hpp"
 #include "cRenderObjs.hpp"
+#include "Person.hpp"
 #include "Building.hpp"
 #include "SimulationState.hpp"
 
 #include <iostream>
 #include <sstream>
+#include <vector>
 
 namespace elevatorSim {
 

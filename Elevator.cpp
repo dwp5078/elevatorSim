@@ -213,10 +213,10 @@ void Elevator::update() {
       SimulationState::acquire().getBuilding().getMinElevHeight();
    const int maxElevHeight =
       SimulationState::acquire().getBuilding().getMaxElevHeight();
-   const int currentTime =
-      SimulationState::acquire().getTime();
    const int numFloors =
       SimulationState::acquire().getBuilding().getStories();
+   const int currentTime =
+      SimulationState::acquire().getTime();
 
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
@@ -252,11 +252,6 @@ void Elevator::update() {
                itr++;
             }
          }
-
-         /* remove all occupants from floor and put them in this elevator */
-         //Floor* thisFloorPtr = floorInfo[getCurrentFloor()];
-         //std::vector<Person> floorOccupants = thisFloorPtr->takeOccupants();
-         /* TODO: add floorOccupants to this elevator's occupants */
 
          /* FOR DEBUG: schedule a new random dest upon arriving at a floor 
           * if there are no stops after this */

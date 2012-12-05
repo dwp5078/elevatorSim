@@ -283,6 +283,7 @@ void ElevatorSimRenderWindow::rayCasting(int x, int y) {
       float pos = 1.0f + elev[i]->getYVal() / 
          Floor::YVALS_PER_FLOOR * simState.getBuilding().gfxEachFloorHeight;
 
+      (void) pos;
       /* printf("%f\n", pos); TODO: use logs for this instead */
    }
 }
