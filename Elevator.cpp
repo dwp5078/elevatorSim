@@ -81,11 +81,11 @@ Elevator::Elevator(
 
          yVal = _yVal;
          currentVel = 0;
-         currentAccel = 0; 
+         currentAccel = 0;
 
          /* FOR DEBUG */
          scheduledFloors.push_back( 1 );
-         
+
          if(isDebugBuild()) {
             std::stringstream dbgSS;
             dbgSS << "constructed elevator @" << this << std::endl;
@@ -96,8 +96,8 @@ Elevator::Elevator(
 void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) {
    SimulationState& simState = SimulationState::acquire();
 
-   assert(destfloor >= 0 && 
-      destfloor < simState.getBuilding().getStories() && 
+   assert(destfloor >= 0 &&
+      destfloor < simState.getBuilding().getStories() &&
       srcFloor == (yVal / Floor::YVALS_PER_FLOOR));
 
    /* height of the target floor in yVals */
@@ -105,18 +105,18 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
    int thisFloorHeight = srcFloor *  Floor::YVALS_PER_FLOOR;
 
    /* the distance traveled at the maximum speed */
-   int maxVelTimeInterval = 
+   int maxVelTimeInterval =
       (abs(yVal - targetFloorHeight) - 2 * stoppingDistance) / maxVel;
 
    /* retrieve current logic clock */
    const int currentTime =
       SimulationState::acquire().getTime();
-      
+
    /* ensure that the total distance scheduled to be traveled is exactly
     * equal to the different in heights between current and distination */
    assert(maxVelTimeInterval * maxVel + 2 * stoppingDistance ==
       abs(targetFloorHeight - thisFloorHeight));
-      
+
    /* print debug info */
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -133,7 +133,7 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
       std::pair<int, int> ( currentTime + 2 * accelTimeInterval + maxVelTimeInterval, 0 ));
 
    scheduledAccels.push_back(
-      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval, 
+      std::pair<int, int> ( currentTime + accelTimeInterval + maxVelTimeInterval,
       ( yVal < targetFloorHeight) ? ( -maxAccel ) : ( maxAccel )));
 
    scheduledAccels.push_back(
@@ -141,7 +141,7 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
 
    scheduledAccels.push_back(
       std::pair<int, int> ( currentTime,
-      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));  
+      ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));
 }
 
 Elevator::~Elevator() {
@@ -167,7 +167,7 @@ bool Elevator::canStopAtNextFloor() {
 
    /* compute next floor by truncating current and adding or subtracting
     * based on the current velocity */
-   int nextFloor = int(yVal / Floor::YVALS_PER_FLOOR) 
+   int nextFloor = int(yVal / Floor::YVALS_PER_FLOOR)
       + ((currentVel > 0) ? (1) : (-1));
 
    int nextFloorHeight = nextFloor * Floor::YVALS_PER_FLOOR;
@@ -180,7 +180,7 @@ bool Elevator::canStopAtNextFloor() {
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
-      dbgSS << "with elevator @ " << this 
+      dbgSS << "with elevator @ " << this
         << " and a = " << currentAccel << " v = " << currentVel << " y = " << yVal
         << std::endl << " SD= " << stoppingDistance << " NFD= " << nextFloorDistance
         << " can stop? " << canStop << std::endl;
@@ -237,8 +237,8 @@ void Elevator::update() {
       currentAccel == 0 );
 
    /* are we on stopped on a floor with another floor scheduled? */
-   if( currentVel == 0 && 
-      yVal % Floor::YVALS_PER_FLOOR == 0 && 
+   if( currentVel == 0 &&
+      yVal % Floor::YVALS_PER_FLOOR == 0 &&
       scheduledFloors.size() > 0 ) {
          const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
          const int nextFloor = scheduledFloors.back();
@@ -253,20 +253,23 @@ void Elevator::update() {
 
          /* FLOOR ARRIVAL PROCESSING */
 
-         /* remove occupants from elevator who are terminating here */
+         /* remove occupants from elevator who are terminating here
+          * and destruct them, freeing their memory.
+          * (OWNER FREES) */
          std::set<Person*>::iterator itr = occupants.begin();
          while(itr != occupants.end()) {
             Person* currentPerson = *itr;
 
-            if(currentPerson->getDestination().getYVal() == getCurrentFloor())  {
-               delete currentPerson;
-               itr = occupants.erase(itr);
-            } else {
-               itr++;
-            }
+            if(currentPerson->getDestination().getYVal()
+               == getCurrentFloor())  {
+                  delete currentPerson;
+                  itr = occupants.erase(itr);
+               } else {
+                  itr++;
+               }
          }
 
-         /* FOR DEBUG: schedule a new random dest upon arriving at a floor 
+         /* FOR DEBUG: schedule a new random dest upon arriving at a floor
           * if there are no stops after this */
          if( scheduledFloors.size() == 0 ) {
             scheduledFloors.push_back(rand() % numFloors);
@@ -286,10 +289,10 @@ void Elevator::update() {
          /* print debug info */
          if(isDebugBuild()) {
             std::stringstream dbgSS;
-            dbgSS << "with elevator @ " << this 
+            dbgSS << "with elevator @ " << this
                << " pulling scheduled accel off of queue at t = " << currentTime
                << ", a = " << currentAccel << ", v = " << currentVel << ", y = " << yVal
-               << " and now " << scheduledAccels.size() 
+               << " and now " << scheduledAccels.size()
                << " scheduled accels. NEW ACCEL: " << nextScheduledAccel.second << std::endl;
 
             LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
@@ -298,12 +301,12 @@ void Elevator::update() {
          /* and overwrite the current accel */
          currentAccel = nextScheduledAccel.second;
       }
-   } 
+   }
 
    /* update current velocity */
    currentVel += currentAccel;
    currentVel = ( currentVel > maxVel ) ? ( maxVel ) : ( currentVel );
-   currentVel = ( currentVel < -maxVel ) ? ( -maxVel ) : ( currentVel ); 
+   currentVel = ( currentVel < -maxVel ) ? ( -maxVel ) : ( currentVel );
 
    /* update current position */
    yVal += currentVel;
@@ -312,11 +315,11 @@ void Elevator::update() {
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
-      dbgSS << "elevator @" << this 
-         << " yVal " << yVal << " v " << currentVel 
+      dbgSS << "elevator @" << this
+         << " yVal " << yVal << " v " << currentVel
          << " a " << currentAccel << std::endl;
       LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-   } 
+   }
 
    /* update occupants */
    std::for_each(

@@ -86,7 +86,7 @@ class Elevator : public Location, public ISimulationTerminal {
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
 
    void scheduleAccelsToFloor( const int srcFloor, const int destfloor );
-   
+
 public:
 
    /* public static constants */
@@ -104,12 +104,12 @@ public:
    void goToFloor(int floor);
    int getCurrentFloor();
 
-   bool isStopped() const { 
-      return (currentVel == 0); 
+   bool isStopped() const {
+      return (currentVel == 0);
    };
 
-   int getOccupantSize() const {  
-      return occupants.size();   
+   int getOccupantSize() const {
+      return occupants.size();
    }
 
    /* inherited from SimulationTerminal */

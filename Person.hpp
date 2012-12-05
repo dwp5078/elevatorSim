@@ -74,7 +74,7 @@ class Person : public ISimulationTerminal {
       enum PRIORITY p=UNKNOWN);
 
    Person( Person&& p );
-   
+
 public:
 
    /* public static constants */

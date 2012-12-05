@@ -51,7 +51,7 @@ Person::Person(
       /* print debug info */
       if(isDebugBuild()) {
          std::stringstream dbgSS;
-         dbgSS << "with person @ " << this 
+         dbgSS << "with person @ " << this
             << " start " << start.getYVal()
             << ", dest " << destination.getYVal()
             << ", pri = " << (int)priority << std::endl;
@@ -90,12 +90,12 @@ void Person::update() {
     * instances when they reach their destination floor. This may
     * need to be refactored.
     */
- 
+
    ISimulationTerminal* container = locateContainer();
-   
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
-      dbgSS << "updating person @ " << this 
+      dbgSS << "updating person @ " << this
          << " with container @ " << container << std::endl;
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
@@ -103,25 +103,25 @@ void Person::update() {
 
 ISimulationTerminal* Person::locateContainer() {
    /* find parent by searching over all floors and elevators,
-    * this operation's worst case runs in linear time, O(E+F), 
+    * this operation's worst case runs in linear time, O(E+F),
     * where E is number of elevators and F is number of Floors.
     */
    Building& building = SimulationState::acquire().getBuilding();
 
-   Floor** floors = building.getFloors(); 
-   Elevator** elevators = building.getElevators(); 
+   Floor** floors = building.getFloors();
+   Elevator** elevators = building.getElevators();
    ISimulationTerminal* container = NULL;
 
-   for( int i = 0; 
-      container == NULL && i < building.getStories(); 
+   for( int i = 0;
+      container == NULL && i < building.getStories();
       ++i ) {
          if( floors[i]->containsPerson(this) ) {
             container = floors[i];
          }
    }
 
-   for( int i = 0; 
-      container == NULL && i < building.getMaxElev(); 
+   for( int i = 0;
+      container == NULL && i < building.getMaxElev();
       ++i ) {
          if( elevators[i]->containsPerson(this) ) {
             container = elevators[i];
