@@ -168,6 +168,23 @@ void Floor::render() {
 void Floor::update() {
    updateSignalArrows();
 
+   /* FLOOR ARRIVAL PROCESSING */
+
+   /* remove occupants from this floor who are destined here.
+    * (OWNER FREES) */
+   std::set<Person*>::iterator itr = occupants.begin();
+   while(itr != occupants.end()) {
+      Person* currentPerson = *itr;
+
+      if(currentPerson->getDestination().getYVal()
+         == thisFloor * Floor::YVALS_PER_FLOOR) {
+            delete currentPerson;
+            itr = occupants.erase(itr);
+         } else {
+            itr++;
+         }
+      }
+
    std::for_each(
       occupants.begin(),
       occupants.end(),

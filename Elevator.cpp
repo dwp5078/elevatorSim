@@ -251,24 +251,6 @@ void Elevator::update() {
             scheduleAccelsToFloor(thisFloor, nextFloor);
          }
 
-         /* FLOOR ARRIVAL PROCESSING */
-
-         /* remove occupants from elevator who are terminating here
-          * and destruct them, freeing their memory.
-          * (OWNER FREES) */
-         std::set<Person*>::iterator itr = occupants.begin();
-         while(itr != occupants.end()) {
-            Person* currentPerson = *itr;
-
-            if(currentPerson->getDestination().getYVal()
-               == getCurrentFloor())  {
-                  delete currentPerson;
-                  itr = occupants.erase(itr);
-               } else {
-                  itr++;
-               }
-         }
-
          /* FOR DEBUG: schedule a new random dest upon arriving at a floor
           * if there are no stops after this */
          if( scheduledFloors.size() == 0 ) {
