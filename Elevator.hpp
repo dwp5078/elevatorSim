@@ -40,6 +40,7 @@
 #include "Building.hpp"
 #include "SimulationState.hpp"
 
+
 #include <vector>
 #include <utility>
 
@@ -48,6 +49,7 @@ namespace elevatorSim {
 class Location;
 class Building;
 class Person;
+class Floor;
 struct SimulationTerminal;
 
 class Elevator : public Location, public ISimulationTerminal {
@@ -67,6 +69,8 @@ class Elevator : public Location, public ISimulationTerminal {
    const int accelTimeInterval;
    const int stoppingDistance;
 
+   Floor** floorInfo;
+
    /* private instance members */
    int currentVel;
    int currentAccel;
@@ -81,6 +85,7 @@ class Elevator : public Location, public ISimulationTerminal {
    Elevator(
       int _yVal,
       const int _numFloors,
+      Floor** _floorInfo,
       const int _maxVel = DEFAULT_MAX_VEL,
       const int _maxAccel = DEFAULT_MAX_ACCEL,
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
@@ -102,6 +107,9 @@ public:
    /* public methods */
    bool canStopAtNextFloor();
    void goToFloor(int floor);
+   bool isStopped()  {  return (currentVel == 0)?true:false;   };
+   //void pickupOccupants(Floor* floor);
+   int getCurrentFloor();
 
    int getOccupantSize() const {  
       return occupants.size();   

@@ -146,67 +146,10 @@ void Floor::render() {
       glPopMatrix();
    }
 
-   int num = getNumOccupants();
-
-   if(num != 0)   {
-      GLfloat human_amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-      GLfloat human_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-      GLfloat human_spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-      GLfloat human_shi = 0.5f;
-      GLfloat human_emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-
-      if(num > 20)   {
-         human_dif[0] = 1.0f, human_dif[1] = 0.0f, human_dif[2] = 0.0f;
-      }
-      else  {
-         float perc = num / 20.f;
-
-         human_dif[0] = 0.9f * perc;
-         human_dif[2] = 0.9f * (1.0f - perc);
-      }
-
-      glMaterialfv(GL_FRONT, GL_AMBIENT, human_amb);
-      glMaterialfv(GL_FRONT, GL_DIFFUSE, human_dif);
-      glMaterialfv(GL_FRONT, GL_SPECULAR, human_spe);
-      glMaterialf(GL_FRONT, GL_SHININESS, human_shi);
-      glMaterialfv(GL_FRONT, GL_EMISSION, human_emi);
-
-      if(num <= 5) {
-         glPushMatrix();
-         glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.f);
-         glCallList(cRenderObjs::OBJ_HUMAN);
-         glPopMatrix();
-      }
-      
-      else if(num <= 10) {
-         glPushMatrix();
-         glTranslatef(-gfxScaleWidth-0.1f, 1.0f, 0.f);
-         glCallList(cRenderObjs::OBJ_HUMAN);
-         glPopMatrix();
-
-         glPushMatrix();
-         glTranslatef(-gfxScaleWidth-0.9f, 1.0f, 0.f);
-         glCallList(cRenderObjs::OBJ_HUMAN);
-         glPopMatrix();
-      }
-
-      else{
-         glPushMatrix();
-         glTranslatef(-gfxScaleWidth, 1.0f, -0.15f);
-         glCallList(cRenderObjs::OBJ_HUMAN);
-         glPopMatrix();
-
-         glPushMatrix();
-         glTranslatef(-gfxScaleWidth-1.0f, 1.0f, -0.15f);
-         glCallList(cRenderObjs::OBJ_HUMAN);
-         glPopMatrix();
-
-         glPushMatrix();
-         glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.15f);
-         glCallList(cRenderObjs::OBJ_HUMAN);
-         glPopMatrix();
-      }
-   }
+   glPushMatrix();
+   glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.f);
+   cRenderObjs::renderOccupants(getNumOccupants(), 50);
+   glPopMatrix();
 }
 
 void Floor::update() {
@@ -222,8 +165,31 @@ void Floor::addOccupant(int numOfPeople, int destination)
       occupants.push_back(person);
    }
 
-   if(thisFloor - destination > 0)  {      signalingDown = true;   }
-   else  {      signalingUp = true;   }
+   if(thisFloor - destination > 0)  
+      { signalingDown = true; }
+   else 
+      { signalingUp = true; }
 }
+
+void Floor::recheckButtonPressed()
+{
+   std::vector<Person>::iterator iter = occupants.begin();
+
+   signalingUp = false;
+   signalingDown = false;
+
+   while(iter != occupants.end())
+   {
+      if(iter->getDestination().getYVal() - thisFloor > 0)  signalingUp = true;
+      else if(iter->getDestination().getYVal() - thisFloor < 0)  signalingDown = true;
+
+      iter++;
+   }
+}
+
+/*void Floor::elevatorReached(Elevator* elev)
+{
+
+}*/
 
 } /* namespace elevatorSim */

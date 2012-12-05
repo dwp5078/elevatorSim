@@ -50,14 +50,16 @@ namespace elevatorSim {
 
 const int Elevator::DEFAULT_MAX_VEL = 120;
 const int Elevator::DEFAULT_MAX_ACCEL = 4;
-const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;
+const int Elevator::DEFAULT_MAX_OCCUPANTS = 12;//12;
 
 Elevator::Elevator(
    int _yVal,
    const int _numFloors,
+   Floor** _floorInfo,
    const int _maxVel,
    const int _maxAccel,
    const int _maxOccupants) :
+   floorInfo(_floorInfo),
    maxVel(_maxVel),
    maxAccel(_maxAccel),
    maxOccupants(_maxOccupants),
@@ -87,7 +89,10 @@ Elevator::Elevator(
          currentAccel = 0; 
 
          /* FOR DEBUG */
-         scheduledFloors.push_back(5);
+         
+         Person p(Location(0), Location(rand()%(numFloors-1)+1));
+         occupants.push_back(p);
+         scheduledFloors.push_back(p.getDestination().getYVal());
          
          if(isDebugBuild()) {
             std::stringstream dbgSS;
@@ -141,6 +146,7 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
    scheduledAccels.push_back(
       std::pair<int, int> ( currentTime,
       ( yVal < targetFloorHeight) ? ( maxAccel ) : ( -maxAccel )));  
+
 }
 
 Elevator::~Elevator() {
@@ -204,9 +210,7 @@ void Elevator::init() {
 void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
 
-   int num = getOccupantSize();
-   if(num > 0)
-      glCallList(cRenderObjs::OBJ_HUMAN);
+   cRenderObjs::renderOccupants(getOccupantSize(), maxOccupants, false);
 }
 
 void Elevator::update() {
@@ -232,11 +236,101 @@ void Elevator::update() {
 
       /* TODO: floor arrival processing */
 
+      //take people out from elevator
+      std::vector<Person>::iterator itr = occupants.begin();
+      while(itr != occupants.end())
+      {
+         if(itr->getDestination().getYVal() == getCurrentFloor())  {
+            itr = occupants.erase(itr);
+         }
+
+         else  itr++;
+      }
+
+      //Take people from floor
+
       scheduledFloors.pop_back();
 
       /* FOR DEBUG: schedule a new random dest */
+
       if( scheduledFloors.size() == 0 ) {
-         scheduledFloors.push_back( rand() % numFloors );
+         //scheduledFloors.push_back( rand() % numFloors );
+
+         /*int currFloor = getCurrentFloor();
+         int farthest = currFloor;
+         int goingUp = 2;	//0 - up	1 - down	2 - doesn't matter
+         
+         itr = occupants.begin();
+
+         while(itr != occupants.end())
+         {
+            if(abs(itr->getDestination().getYVal() - currFloor) > abs(farthest - currFloor)) {
+               farthest = itr->getDestination().getYVal();
+            }
+
+			itr++;
+         }
+
+         if(farthest - currFloor < 0)  {		goingUp = 1; }   //going down
+         else if(farthest - currFloor > 0) {    goingUp = 0;  }   //going up
+		 else									goingUp = 2;	//doesn't matter
+
+         std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
+         itr = floorOccupants->begin();
+
+         while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
+            int dest = itr->getDestination().getYVal();
+
+            if(goingUp == 1 && dest - currFloor < 0) {
+               itr++;
+               continue;
+            }
+
+            if(goingUp == 0 && dest - currFloor > 0)   {
+               itr++;
+               continue;
+            }
+
+            occupants.push_back(*itr);
+            itr = floorOccupants->erase(itr);
+         }
+
+         int nextDest = currFloor;
+         itr = occupants.begin();
+         while(itr != occupants.end())
+         {
+            if(goingUp == 1 && itr->getDestination().getYVal() - currFloor < 0) {
+				itr++; 
+				continue;
+			}
+            if(goingUp == 0 && itr->getDestination().getYVal() - currFloor > 0) {
+				itr++; 
+				continue;
+			}
+
+            if(abs(itr->getDestination().getYVal() - currFloor) < abs(nextDest - currFloor)) {
+               nextDest = itr->getDestination().getYVal();
+            }
+
+			itr++;
+         }
+
+		 if(nextDest == currFloor)	nextDest = rand() % numFloors;
+
+         scheduledFloors.push_back(nextDest);*/
+
+         std::vector<Person> *floorOccupants = floorInfo[getCurrentFloor()]->getOccupants();
+         itr = floorOccupants->begin();
+
+         while(itr != floorOccupants->end() && getOccupantSize() != maxOccupants) {
+            occupants.push_back(*itr);
+            itr = floorOccupants->erase(itr);
+         }
+
+         floorInfo[getCurrentFloor()]->recheckButtonPressed();
+
+		  scheduledFloors.push_back(rand() % numFloors);
+
       }
 
       if( thisFloor != nextFloor ) {
@@ -296,6 +390,35 @@ void Elevator::update() {
       currentAccel == -maxAccel ||
       currentAccel == maxAccel ||
       currentAccel == 0  );
+}
+
+/*void Elevator::pickupOccupants(Floor* floor)
+{
+   std::vector<Person> *floorOccupants = floor->getOccupants();
+
+   // Take out people from elevator
+   if(getOccupantSize() > 0)  {
+      std::vector<Person>::iterator p;
+      for(p = occupants.begin(); p != occupants.end(); p++) {
+         if(p->destination.getYVal() == getCurrentFloor())   {
+            occupants.erase(p);
+         }
+      }
+   }
+
+   // Bring people from floor
+   std::for_each(
+      floorOccupants->begin(),
+      floorOccupants->end(),
+      [] (Person p) {
+
+   });
+   
+   //goToFloor(rand() % m_nFloor);
+}*/
+
+int Elevator::getCurrentFloor()   {
+   return yVal / Floor::YVALS_PER_FLOOR;
 }
 
 } /* namespace elevatorSim */

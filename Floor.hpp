@@ -89,8 +89,12 @@ public:
    void render();
    void update();
 
-   void addOccupant(int numOfPeople, int destination);
-   int getNumOccupants()   {  return occupants.size();   }
+   void addOccupant(const int numOfPeople, const int destination);
+   int getNumOccupants() const {  return occupants.size(); }
+   std::vector<Person> *getOccupants() { return &occupants; }
+   void recheckButtonPressed();
+
+   //void elevatorReached(Elevator *elev);
 };
 
 } /* namespace elevatorSim */

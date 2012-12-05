@@ -50,7 +50,8 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
    gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
-   gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator) {
+   gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator),
+   invPersonArriveProb(20) {
 
       if(isDebugBuild()) {
          std::stringstream dbgSS;
@@ -68,7 +69,7 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       }
 
       for(unsigned int i=0; i < m_nElevator ; ++i ) {
-         m_Elevators[i] = new Elevator(0, _nStory);
+         m_Elevators[i] = new Elevator(0, _nStory, m_Floors);
       }
 
       if(isDebugBuild()) {
@@ -110,14 +111,14 @@ void Building::init() {
 
 void Building::render() {
    glLoadIdentity();
-   glTranslatef(0.0f, -2.0f, 0.0f);
+   glTranslatef(2.0f, -2.0f, -1.2f*m_nElevator);
 
    /* TODO: move these values into Building as members */
-   static GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-   static GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-   static GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-   static GLfloat shi = 0.5f;
-   static GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+   static const GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   static const GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
+   static const GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   static const GLfloat shi = 0.5f;
+   static const GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
@@ -126,7 +127,6 @@ void Building::render() {
 	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    /* adding waiting queue */
-   
 
    /* Left wall */
    glPushMatrix();
@@ -162,21 +162,11 @@ void Building::render() {
       glTranslatef(
          0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 
          gfxEachFloorHeight * i, 0.f);
-      //glScalef(gfxScaleWidth + queueScale, 0.1f, 2.0f);
 
       m_Floors[i]->render();
 
       glPopMatrix();
    }
-
-   /* Draw each floor person indicator */
-   /* TODO: move this into Floor::render */
-   /*for(unsigned int i=0; i < m_nStory ; i++) {
-      glPushMatrix();
-      glTranslatef(-gfxScaleWidth-2.0f, gfxEachFloorHeight * i + 1.0f, 0.0f);
-      glCallList(cRenderObjs::OBJ_HUMAN);
-      glPopMatrix();
-   }*/
 
    /* Draw each elevator */
    for(unsigned int i=0; i < m_nElevator; i++) {
@@ -198,7 +188,6 @@ void Building::render() {
 
       m_Elevators[i]->render();
       glPopMatrix();
-
    }
 
    /* Render land */
@@ -209,8 +198,7 @@ void Building::render() {
    glPopMatrix();
 }
 
-void Building::update()
-{
+void Building::update() {
    for(unsigned int i = 0; i < m_nStory; i++) {
       m_Floors[i]->update();
    }
@@ -219,7 +207,22 @@ void Building::update()
       m_Elevators[i]->update();
    }
 
-   if(rand() % 20 == 0) DistributePeople();
+   distributePeople();
+}
+
+void Building::distributePeople() {
+   /* roll the dice to see if we'll be adding a person */
+   if( rand() % invPersonArriveProb == 0 ) {
+      /* pick a random source floor */
+      const int sourceFloor = rand() % m_nStory;
+      int destFloor;
+
+      /* pick a different random dest floor */
+      while( (destFloor = rand() % m_nStory) == sourceFloor );
+      
+      /* add the new randomly generated occupant */
+	   m_Floors[sourceFloor]->addOccupant(1, destFloor);
+   }
 }
 
 int Building::getMaxElevHeight() const {
@@ -229,18 +232,5 @@ int Building::getMaxElevHeight() const {
 int Building::getMinElevHeight() const {
    return 0;
 }
-
-void Building::DistributePeople()
-{
-   int floorNum = 0, destination = 0;
-      
-   while(floorNum == destination) {
-      floorNum = rand() % m_nStory;   
-      destination = rand() % m_nStory;
-   }   
-
-   m_Floors[floorNum]->addOccupant(1, destination);
-}
-
 
 } /* namepsace elevatorSim */

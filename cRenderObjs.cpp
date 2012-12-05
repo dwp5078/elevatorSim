@@ -277,4 +277,81 @@ void cRenderObjs::initHuman()
    glEndList();
 }
 
+void cRenderObjs::renderOccupants(int num, int maxOccupants, bool forFloor)
+{
+   if(num > 0)   {
+      GLfloat human_amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+      GLfloat human_dif[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+      GLfloat human_spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+      GLfloat human_shi = 0.5f;
+      GLfloat human_emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+
+      float perc = (float)num / maxOccupants;
+
+      if(perc > 0.8f)   {
+         human_dif[0] = 1.0f, human_dif[1] = 0.0f, human_dif[2] = 0.0f;
+      }
+      else  {
+         
+
+         human_dif[0] = 0.9f * perc;
+         human_dif[2] = 0.9f * (1.0f - perc);
+      }
+
+      glMaterialfv(GL_FRONT, GL_AMBIENT, human_amb);
+      glMaterialfv(GL_FRONT, GL_DIFFUSE, human_dif);
+      glMaterialfv(GL_FRONT, GL_SPECULAR, human_spe);
+      glMaterialf(GL_FRONT, GL_SHININESS, human_shi);
+      glMaterialfv(GL_FRONT, GL_EMISSION, human_emi);
+
+      float posx = 0.f;
+      //float posy = 0.f;
+
+      if(forFloor)   {
+         posx = 0.5f;
+         //posy = 1.0f;
+      }
+
+      else  {
+         posx = 0.22f;
+      }
+
+      if(perc <= 0.33f) {
+         glPushMatrix();
+         //glTranslatef(0.f, 1.0f, 0.f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+      }
+      
+      else if(perc <= 0.66f) {
+         glPushMatrix();
+         glTranslatef(posx, 0.f, 0.f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+
+         glPushMatrix();
+         glTranslatef(-posx, 0.f, 0.f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+      }
+
+      else{
+         glPushMatrix();
+         glTranslatef(posx, 0.f, -0.15f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+
+         glPushMatrix();
+         glTranslatef(-posx, 0.f, -0.15f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+
+         glPushMatrix();
+         glTranslatef(0.f, 0.f, 0.15f);
+         glCallList(cRenderObjs::OBJ_HUMAN);
+         glPopMatrix();
+      }
+   }
+}
+
 } /* namespace elevatorSim */

@@ -68,15 +68,18 @@ public:
    const GLfloat gfxScaleWidth;
    const GLfloat gfxEachFloorHeight;
    const GLfloat gfxEachElevWidth;
+   const int invPersonArriveProb;
 
    /* constructors */
-   Building(unsigned int _nStory = 30, unsigned int _nElevator = 3);
+   Building(unsigned int _nStory = 4, unsigned int _nElevator = 3);
    ~Building();
 
    /* public methods inherited from ISimulationTerminal */
    void init();
    void render();
    void update();
+
+   void distributePeople();
 
    /* inline const accessors */
    inline unsigned int getStories() const {
@@ -92,8 +95,6 @@ public:
 
    int getMaxElev()  {  return m_nElevator;  }
    Elevator** getElev() {  return m_Elevators;  }
-
-   void DistributePeople();
 };
 
 } /* namespace elevatorSim */

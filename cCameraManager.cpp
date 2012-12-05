@@ -101,10 +101,12 @@ void cCameraManager::update() {
 
    if(keyManager.isDown(FL_Up)) {
       m_vecCamPos.z = m_vecCamPos.z - move;
+	  m_vecCamLookAt.z = m_vecCamLookAt.z - move;
    }
 
    if(keyManager.isDown(FL_Down)) {
       m_vecCamPos.z = m_vecCamPos.z + move;
+	  m_vecCamLookAt.z = m_vecCamLookAt.z + move;
    }
 
    if(keyManager.isDown('w')) {
