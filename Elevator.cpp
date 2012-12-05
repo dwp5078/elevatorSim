@@ -317,7 +317,15 @@ void Elevator::update() {
          << " a " << currentAccel << std::endl;
       LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
    } 
- 
+
+   /* update occupants */
+   std::for_each(
+      occupants.begin(),
+      occupants.end(),
+      [] ( Person * p ) {
+         p -> update();
+      });
+
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
    assert( -maxVel <= currentVel && currentVel <= maxVel );

@@ -167,6 +167,13 @@ void Floor::render() {
 
 void Floor::update() {
    updateSignalArrows();
+
+   std::for_each(
+      occupants.begin(),
+      occupants.end(),
+      [] ( Person * p ) {
+         p -> update();
+      });
 }
 
 bool Floor::containsPerson(Person *p) {
