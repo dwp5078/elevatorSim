@@ -73,7 +73,7 @@ Floor::Floor(
 
 Floor::~Floor() {
    init();
- 
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "destructing floor @" << this << std::endl;
@@ -173,20 +173,19 @@ void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
-   /*
-    *
-   std::set<Person*>::const_iterator iter = occupants.begin();
-   while(iter != occupants.end()) {
+   std::set<Person*>::const_iterator iter = people.begin();
+   while(iter != people.end()) {
       const Person* currentPerson = *iter;
-      if(currentPerson->getDestination().getYVal() - thisFloor > 0) {
-         signalingUp = true;
-      } else if(currentPerson->getDestination().getYVal() - thisFloor < 0) {
-         signalingDown = true;
+      if(currentPerson->getDestination().getYVal()
+         - thisFloor > 0) {
+            signalingUp = true;
+      } else if(currentPerson->getDestination().getYVal()
+         - thisFloor < 0) {
+            signalingDown = true;
       }
 
-   *   iter++;
-   * }
-   */
+      iter++;
+   }
 }
 
 } /* namespace elevatorSim */
