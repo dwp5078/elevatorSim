@@ -261,18 +261,6 @@ void Elevator::update() {
          /* remove it from the vector */
          scheduledAccels.pop_back();
 
-         /* print debug info */
-         if(isDebugBuild()) {
-            std::stringstream dbgSS;
-            dbgSS << "with elevator @ " << this
-               << " pulling scheduled accel off of queue at t = " << currentTime
-               << ", a = " << currentAccel << ", v = " << currentVel << ", y = " << yVal
-               << " and now " << scheduledAccels.size()
-               << " scheduled accels. NEW ACCEL: " << nextScheduledAccel.second << std::endl;
-
-            LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-         }
-
          /* and overwrite the current accel */
          currentAccel = nextScheduledAccel.second;
       }

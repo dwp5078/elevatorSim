@@ -135,13 +135,6 @@ void Person::update() {
          assert( elevatorContainer -> removePerson( this ) );
       }
    }
-
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "updating person @ " << this
-         << " with container @ " << container << std::endl;
-      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
-   }
 }
 
 IPersonCarrier* Person::locateContainer() const {

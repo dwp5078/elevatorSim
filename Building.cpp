@@ -46,12 +46,12 @@
 
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int _nStory, unsigned int _nElevator) :
+Building::Building(unsigned int _nStory, unsigned int _nElevator, int _invPersonArriveProb) :
    gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
    gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator),
-   invPersonArriveProb(20) {
+   invPersonArriveProb(_invPersonArriveProb) {
 
       if(isDebugBuild()) {
          std::stringstream dbgSS;
