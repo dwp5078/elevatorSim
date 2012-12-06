@@ -40,6 +40,7 @@
 #include <FL/Fl_File_Chooser.H>
 
 #include <boost/lexical_cast.hpp>
+#include <fstream>
 
 namespace elevatorSim {
 
@@ -117,13 +118,25 @@ void ElevatorSimStartWindow::fileChosenCB(Fl_File_Chooser* cw, void* userData) {
          << " and value: " << cw->value() << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
-   
-   (void) cw;
 
    ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
    (void) thisWindow;
 
-   /* TODO: run input validation and then hide the chooser or display an error */
+   std::ifstream scriptHandle( cw -> value(), std::ifstream::in );
+
+   if( scriptHandle.fail() ) {
+      /* TODO: display an error: couldn't open script file */
+   
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "could not open file loc'd at " << cw -> value() << std::endl;
+         LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+      }
+   } else {
+      scriptHandle.close();
+      thisWindow->elevatorAIPathInput->value( cw -> value() );
+      cw -> hide();
+   }
 }
 
 /* public methods */
