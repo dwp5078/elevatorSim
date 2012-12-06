@@ -44,6 +44,11 @@ protected:
 
 public:
 
+   static enum PERSON_CARRIER_TYPES {
+      FLOOR_CARRIER,
+      ELEVATOR_CARRIER
+   };
+
    bool containsPerson( const Person* const & p ) const {
       return people.find( const_cast<Person* const &>( p ) ) != people.end();
    }
