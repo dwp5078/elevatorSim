@@ -201,22 +201,15 @@ void Elevator::init() {
    currentVel = 0;
 
    /* free all the people allocated on the heap */
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         delete p;
-      });
 
-   occupants.clear();
+
    scheduledFloors.clear();
    scheduledAccels.clear();
 }
 
 void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
-
-   cRenderObjs::renderOccupants(getOccupantSize(), maxOccupants, false);
+   cRenderObjs::renderOccupants(numPeopleContained(), maxOccupants, false);
 }
 
 void Elevator::update() {
@@ -305,12 +298,6 @@ void Elevator::update() {
    }
 
    /* update occupants */
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         p -> update();
-      });
 
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
@@ -319,10 +306,6 @@ void Elevator::update() {
       currentAccel == -maxAccel ||
       currentAccel == maxAccel ||
       currentAccel == 0  );
-}
-
-bool Elevator::containsPerson(Person *p) {
-   return (occupants.find(p) != occupants.end());
 }
 
 int Elevator::getCurrentFloor()   {

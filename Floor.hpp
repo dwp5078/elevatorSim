@@ -59,7 +59,6 @@ class Floor : public Location, public ISimulationTerminal, public IPersonCarrier
    /* private static methods */
 
    /* private instance members */
-   std::set<Person*> occupants;
    bool signalingUp;
    bool signalingDown;
 
@@ -93,9 +92,6 @@ public:
    void render();
    void update();
 
-   bool containsPerson(Person *p);
-   void addOccupant(Person* p);
-   int getNumOccupants() const {  return occupants.size(); }
    void updateSignalArrows();
 };
 

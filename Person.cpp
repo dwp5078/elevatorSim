@@ -91,7 +91,7 @@ void Person::update() {
     * need to be refactored.
     */
 
-   ISimulationTerminal* container = locateContainer();
+   IPersonCarrier* container = locateContainer();
 
    Floor* floorContainer = dynamic_cast<Floor*> ( container );
    Elevator* elevatorContainer = dynamic_cast<Elevator*> ( container );
@@ -121,7 +121,7 @@ void Person::update() {
    }
 }
 
-ISimulationTerminal* Person::locateContainer() {
+IPersonCarrier* Person::locateContainer() const {
    /* find parent by searching over all floors and elevators,
     * this operation's worst case runs in linear time, O(E+F),
     * where E is number of elevators and F is number of Floors.
@@ -130,7 +130,7 @@ ISimulationTerminal* Person::locateContainer() {
 
    Floor** floors = building.getFloors();
    Elevator** elevators = building.getElevators();
-   ISimulationTerminal* container = NULL;
+   IPersonCarrier* container = NULL;
 
    for( int i = 0;
       container == NULL && i < building.getStories();

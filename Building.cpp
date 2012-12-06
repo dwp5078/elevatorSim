@@ -160,7 +160,7 @@ void Building::render() {
    for(int i=0; i < m_nStory; i++) {
       glPushMatrix();
       glTranslatef(
-         0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 
+         0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
          gfxEachFloorHeight * i, 0.f);
 
       m_Floors[i]->render();
@@ -219,12 +219,13 @@ void Building::distributePeople() {
 
       /* pick a different random dest floor */
       while( (destFloor = rand() % m_nStory) == sourceFloor );
-      
+
       /* allocate a new person off the heap */
       Person* newPerson = new Person(sourceFloor, destFloor);
 
+      delete newPerson;
       /* add the new randomly generated occupant */
-	   m_Floors[sourceFloor]->addOccupant(newPerson);
+	   //m_Floors[sourceFloor]->addOccupant(newPerson);
    }
 }
 

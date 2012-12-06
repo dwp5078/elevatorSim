@@ -44,8 +44,8 @@ protected:
 
 public:
 
-   bool containsPerson( Person *& p ) const {
-      return people.find(p) == people.end();
+   bool containsPerson( const Person* const & p ) const {
+      return people.find( const_cast<Person* const &>( p ) ) != people.end();
    }
 
    void addPerson( Person*& p ) {
@@ -60,7 +60,7 @@ public:
       return ( people.erase(p) > 0 );
    }
 
-   int peopledContained() const {
+   int numPeopleContained() const {
       return people.size();
    }
 

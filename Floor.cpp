@@ -83,14 +83,6 @@ Floor::~Floor() {
 
 void Floor::init() {
    /* free all the people allocated on the heap */
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         delete p;
-      });
-
-   occupants.clear();
    signalingUp = false;
    signalingDown = false;
 }
@@ -162,7 +154,7 @@ void Floor::render() {
 
    glPushMatrix();
    glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.f);
-   cRenderObjs::renderOccupants(getNumOccupants(), 50);
+   cRenderObjs::renderOccupants(numPeopleContained(), 50);
    glPopMatrix();
 }
 
@@ -173,41 +165,16 @@ void Floor::update() {
 
    /* remove occupants from this floor who are destined here.
     * (OWNER FREES) */
-   std::set<Person*>::iterator itr = occupants.begin();
-   while(itr != occupants.end()) {
-      Person* currentPerson = *itr;
 
-      if(currentPerson->getDestination().getYVal()
-         == thisFloor * Floor::YVALS_PER_FLOOR) {
-            delete currentPerson;
-            itr = occupants.erase(itr);
-         } else {
-            itr++;
-         }
-      }
-
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         p -> update();
-      });
-}
-
-bool Floor::containsPerson(Person *p) {
-   return (occupants.find(p) != occupants.end());
-}
-
-void Floor::addOccupant(Person* p) {
-   std::pair<std::set<Person*>::iterator,bool> ret = occupants.insert(p);
-   assert( ret.second );
-   updateSignalArrows();
+   /* TODO: update all people */
 }
 
 void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
+   /*
+    *
    std::set<Person*>::const_iterator iter = occupants.begin();
    while(iter != occupants.end()) {
       const Person* currentPerson = *iter;
@@ -217,8 +184,9 @@ void Floor::updateSignalArrows() {
          signalingDown = true;
       }
 
-      iter++;
-   }
+   *   iter++;
+   * }
+   */
 }
 
 } /* namespace elevatorSim */

@@ -74,7 +74,6 @@ class Elevator : public Location, public ISimulationTerminal, public IPersonCarr
    int currentVel;
    int currentAccel;
 
-   std::set<Person*> occupants;
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
 
@@ -110,16 +109,11 @@ public:
       return (currentVel == 0);
    };
 
-   int getOccupantSize() const {
-      return occupants.size();
-   }
-
    /* inherited from SimulationTerminal */
    void init();
    void render();
    void update();
 
-   bool containsPerson(Person *p);
 };
 
 } /* namespace elevatorSim */
