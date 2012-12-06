@@ -297,6 +297,24 @@ void Elevator::update() {
    }
 
    /* update occupants */
+   for(std::set<Person*>::iterator iter = people.begin();
+      iter != people.end();
+      ) {
+         /* obtain a pointer to the current person by using iterator */
+         Person* currentMutablePerson = *iter;
+
+         /* copy construct an iterator from the current one */
+         std::set<Person*>::iterator nextPosition = std::set<Person*>::iterator(iter);
+
+         /* increment iterator position, to save the next position */
+         ++nextPosition;
+
+         currentMutablePerson -> update();
+
+         /* the current iterator could've been invalidated by a person moving itself, 
+         * so intead of iter++ we just overwrite with the saved position */
+         iter = nextPosition;     
+   }
 
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );
