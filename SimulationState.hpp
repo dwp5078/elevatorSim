@@ -88,13 +88,15 @@ public:
    void init();
    void update();
 
+   void start(
+      int numElevators, 
+      int numFloors, 
+      int randomSeed, 
+      const std::string& pyAI );
+
    /* TODO: something more elaborate and safe here */
    inline void notifyKill() {
       cState = SIMULATION_KILLED;
-   }
-
-   inline void notifyRun() {
-      cState = SIMULATION_RUNNING;
    }
 
    inline enum StateKind getState() const {

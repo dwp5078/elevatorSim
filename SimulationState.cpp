@@ -94,7 +94,7 @@ void SimulationState::release() {
 }
 
 void SimulationState::init() {
-   cState = SIMULATION_READY;
+   cState = SIMULATION_STARTING;
    logicTicks = 0;
 
    /* TODO */
@@ -103,15 +103,42 @@ void SimulationState::init() {
 void SimulationState::update() {
    bigAssStateMutex.lock(); 
 
-   std::for_each(
-      stateObjects.begin(),
-      stateObjects.end(),
-      [] (IStateObject * stateObj) { 
-         stateObj -> update();
-   });
+   if( cState == SIMULATION_RUNNING ) {
+      std::for_each(
+         stateObjects.begin(),
+         stateObjects.end(),
+         [] (IStateObject * stateObj) { 
+            stateObj -> update();
+      });
 
-   ++logicTicks;
+      ++logicTicks;
+   }
+
    bigAssStateMutex.unlock();
+}
+
+void SimulationState::start(
+   int numElevators, 
+   int numFloors, 
+   int randomSeed, 
+   const std::string& pyAI ) {
+      bigAssStateMutex.lock(); 
+
+      /* cRenderObjs */
+
+      init();
+
+      timeManager->init();
+      keyManager->init();
+      cameraManager->init();
+
+      stateObjects.erase(building);   
+      delete building;
+      building = new Building(numFloors, numElevators);
+      stateObjects.insert(building);
+
+      cState = SIMULATION_RUNNING;
+      bigAssStateMutex.unlock();
 }
 
 } /* namespace elevatorSim */
