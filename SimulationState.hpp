@@ -100,10 +100,20 @@ public:
    }
 
    enum StateKind getState() {
-      lockBASM();
-      StateKind cStateCopy = cState;
-      unlockBASM();
-      return cStateCopy;
+      StateKind ret;
+
+      if(bigAssStateMutex.try_lock()) {
+         ret = cState;
+         bigAssStateMutex.unlock();
+      } else {
+         ret = SIMULATION_STARTING;
+      }
+
+      return ret;
+   }
+
+   enum StateKind getStateUnsafe() {
+      return cState;
    }
 
    inline void lockBASM() {

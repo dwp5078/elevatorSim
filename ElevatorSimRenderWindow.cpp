@@ -248,8 +248,9 @@ void ElevatorSimRenderWindow::draw() {
    int curFPS = simState.getTimeManager().getFPS();
    int curTotalFrames = simState.getTimeManager().getTotalFrames();
    
-   SimulationState::StateKind currentSimState = simState.getState();
+   SimulationState::StateKind currentSimState = simState.getStateUnsafe();
    simState.unlockBASM(); /* CRITICAL SECTION STOP */
+
 
    if(currentSimState == SimulationState::SIMULATION_RUNNING &&
       m_bRenderFPS) {
