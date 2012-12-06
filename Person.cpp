@@ -61,11 +61,6 @@ Person::Person(
       }
 }
 
-Person::Person( Person&& p ) {
-   /* TODO: stub */
-   (void) p;
-}
-
 Person::~Person() {
    /* print debug info */
    if(isDebugBuild()) {
@@ -95,26 +90,46 @@ void Person::update() {
    std::vector<Elevator*> elevators = SimulationState::acquire().getBuilding().getElevators();
    std::vector<Floor*> floors = SimulationState::acquire().getBuilding().getFloors();
 
-   switch( container->getCarrierType() ) {
-      case IPersonCarrier::FLOOR_CARRIER:
+   /* we're waiting at floor, so check if there are any elevators currently on this floor */
+   if( container->getCarrierType() == IPersonCarrier::FLOOR_CARRIER ) {
+      /* check to see if an elevator has arrived, and
+       * get on if it has */
 
-         /* TODO: check to see if an elevator has arrived, and
-          * get on if it has */
+      std::set<Elevator*> candidateElevators;
 
-         (void) floorContainer;
-         (void) elevators;
+      /* iterate over all of the elevators and compare their positions to this person's
+       * starting location */
+      std::for_each(
+         elevators.begin(),
+         elevators.end(),
+            [this, &candidateElevators] ( Elevator* thisElevator ) {
+               if( thisElevator -> getYVal() == start.getYVal() * Floor::YVALS_PER_FLOOR ) {
+                  /* we've found a candidate elevator, so add it to the set */ 
+                  candidateElevators.insert(thisElevator);
+               }
+         });
 
-      break;
+      /* if there are candidate elevators */
+      if( candidateElevators.size() > 0 ) {
+         /* just pick the first one (for now) */
+         Elevator * elevatorToBoard  = *candidateElevators.begin();
+         
+         /* move ourselves to this elevator */
+         elevatorToBoard -> addPerson( this );
 
-      case IPersonCarrier::ELEVATOR_CARRIER:
+         /* remove ourselves from our containing floor */
+         assert( floorContainer -> removePerson( this ) );
+      }
 
-         /* TODO: check to see if we've arrived at our destination floor,
-          * and get off if we have */
+      (void) floorContainer;
+      (void) elevators;
 
-         (void) elevatorContainer;
-         (void) floors;
+   } else if( container->getCarrierType() == IPersonCarrier::ELEVATOR_CARRIER) {
+      /* TODO: check to see if we've arrived at our destination floor,
+       * and get off if we have */
 
-      break;
+      (void) elevatorContainer;
+      (void) floors;
    }
 
    if(isDebugBuild()) {
@@ -124,6 +139,7 @@ void Person::update() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 }
+
 
 IPersonCarrier* Person::locateContainer() const {
    /* find parent by searching over all floors and elevators,

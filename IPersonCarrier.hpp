@@ -50,10 +50,11 @@ public:
    };
 
    bool containsPerson( const Person* const & p ) const {
+
       return people.find( const_cast<Person* const &>( p ) ) != people.end();
    }
 
-   void addPerson( Person*& p ) {
+   void addPerson( Person * const p ) {
       std::pair<std::set<Person*>::iterator, bool> ret =
          people.insert(p);
 
@@ -61,7 +62,7 @@ public:
       assert(ret.second);
    }
 
-   bool removePerson( Person*& p ) {
+   bool removePerson( Person* p ) {
       return ( people.erase(p) > 0 );
    }
 

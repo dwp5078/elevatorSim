@@ -73,8 +73,6 @@ class Person : public ISimulationTerminal {
       Location dest,
       enum PRIORITY p=UNKNOWN);
 
-   Person( Person&& p );
-
 public:
 
    /* public static constants */

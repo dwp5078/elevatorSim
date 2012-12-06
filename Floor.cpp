@@ -163,29 +163,42 @@ void Floor::update() {
    updateSignalArrows();
 
    /* remove occupants from this floor who are destined here.
-    * (OWNER FREES) */
+    * (OWNER FREES+CHILD MOVES) */
 
+   /* this is a very special iteration over the set because 
+    * the keys are liable to be deleted during execution 
+    * of functions called as a result of person update.
+    */
    for(std::set<Person*>::iterator iter = people.begin();
       iter != people.end();
       ) {
+         /* obtain a pointer to the current person by using iterator */
          Person* currentMutablePerson = *iter;
 
+         /* copy construct an iterator from the current one */
+         std::set<Person*>::iterator nextPosition = std::set<Person*>::iterator(iter);
+
+         /* increment iterator position, to save the next position */
+         ++nextPosition;
+
+         /* if the person was getting off on this floor, remove them from the simulation */
          if(currentMutablePerson->getDestination().getYVal()
             == thisFloor * Floor::YVALS_PER_FLOOR )  {
-               iter = people.erase(iter++);
+
+               /* pass the old iteration position to erase, but first jump to a new one */
+               people.erase(iter++);
+
+               /* free the mutable person from the simulation */
                delete currentMutablePerson;
          } else {
-            iter++;
+            /* otherwise we just update the person */
+            currentMutablePerson -> update();
+
+            /* the current iterator could've been invalidated by a person moving itself, 
+             * so intead of iter++ we just overwrite with the saved position */
+            iter = nextPosition;
          }
    }
-
-   /* update all people */
-   std::for_each(
-      people.begin(),
-      people.end(),
-      [] ( Person* p ) {
-         p -> update();
-      });
 }
 
 void Floor::updateSignalArrows() {
