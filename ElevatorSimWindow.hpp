@@ -73,7 +73,6 @@ class ElevatorSimWindow : public Fl_Window {
    static void quitCancelledCB(Fl_Button* noButton, void* data);
    static void dismissHelpCB(Fl_Widget* w, void* userData);
    static void dismissAboutCB(Fl_Widget* w, void* userData);
-   static void toggleButtons(ElevatorSimWindow* userData);
 
    static void aboutTextPredeleteCB( int pos, int nDeleted, void* cbArg);
    static void aboutTextModifyCB(

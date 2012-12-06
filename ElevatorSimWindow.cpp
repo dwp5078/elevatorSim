@@ -196,9 +196,6 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
    Fl_Button* pauseButton = (Fl_Button*)w;
 
-   /* TODO: this needs to be moved into time manager */
-   static bool paused = true;
-
    if(pauseButton->value()) {
       if(isDebugBuild()) {
          std::stringstream dbgSS;
@@ -206,15 +203,15 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
+      /* TODO: affect simulationState */
+      /*
       if(paused) {
          w->label("Resume");
 
       } else {
          w->label("Pause");
-      }
-
-      /* TODO: this needs to be moved into time manager */
-      paused = !paused;
+      *}
+      */
    }
 }
 
@@ -237,7 +234,7 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
-      toggleButtons((ElevatorSimWindow*) userData);
+      /* TODO: simulationState::stop, display report */
    }
 }
 
@@ -358,40 +355,6 @@ void ElevatorSimWindow::buildButtons() {
       pauseButton->active()));
 }
 
-void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
-   static bool toggle = true; /* TODO: store in the simulation state */
-
-   assert(
-      (thisWin->startButton->active() &&
-      !thisWin->stopButton->active() &&
-      !thisWin->pauseButton->active()) ||
-
-      (!thisWin->startButton->active() &&
-      thisWin->stopButton->active() &&
-      thisWin->pauseButton->active()));
-
-   if(toggle){
-      thisWin->startButton->deactivate();
-      thisWin->stopButton->activate();
-      thisWin->pauseButton->activate();
-   } else {
-      thisWin->stopButton->deactivate();
-      thisWin->pauseButton->deactivate();
-      thisWin->startButton->activate();
-   }
-
-   assert(
-      (thisWin->startButton->active() &&
-      !thisWin->stopButton->active() &&
-      !thisWin->pauseButton->active()) ||
-
-      (!thisWin->startButton->active() &&
-      thisWin->stopButton->active() &&
-      thisWin->pauseButton->active()));
-
-   toggle = !toggle;
-}
-
 void ElevatorSimWindow::buildDialogs() {
    /* Help Dialog */
    helpWin = new Fl_Window(300, 300, "Help");
@@ -467,22 +430,17 @@ void ElevatorSimWindow::updateButtonAvailability() {
       LOG_INFO( Logger::SUB_FLTK, "updating button availability...");
    }
 
-    /* left pane widgets */
-   (void) startButton;
-   (void) pauseButton;
-   (void) stopButton;
-
    switch(simState.getState()) {
    case SimulationState::SIMULATION_RUNNING:
-      
-      break;
-
-   case SimulationState::SIMULATION_STARTING:
-
+      startButton->deactivate();
+      stopButton->activate();
+      pauseButton->activate();
       break;
 
    case SimulationState::SIMULATION_READY:
-
+      startButton->activate();
+      stopButton->deactivate();
+      pauseButton->deactivate();
       break;
 
    default:
