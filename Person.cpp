@@ -88,25 +88,27 @@ void Person::update() {
     */
 
    IPersonCarrier* container = locateContainer();
+   Floor* floorContainer = static_cast<Floor*> (container);
+   Elevator* elevatorContainer = static_cast<Elevator*> (container);
 
-   Floor* floorContainer = dynamic_cast<Floor*> ( container );
-   Elevator* elevatorContainer = dynamic_cast<Elevator*> ( container );
+   switch( container->getCarrierType() ) {
+      case IPersonCarrier::FLOOR_CARRIER:
 
-   /* ensure that RTTI is working correctly */
-   assert( (floorContainer == NULL) ^ (elevatorContainer == NULL) );
+         /* TODO: check to see if an elevator has arrived, and
+          * get on if it has */
 
-   /* If we're in a floor... */
-   if( floorContainer != NULL ) {
+         (void) floorContainer;
 
-      /* TODO: check to see if an elevator has arrived, and
-       * get on if it has */
+      break;
 
+      case IPersonCarrier::ELEVATOR_CARRIER:
 
-   /* if we're in an elevator... */
-   } else if( elevatorContainer != NULL ) {
+         /* TODO: check to see if we've arrived at our destination floor,
+          * and get off if we have */
 
-      /* TODO: check to see if we've arrived at our destination floor,
-       * and get off if we have */
+         (void) elevatorContainer;
+
+      break;
    }
 
    if(isDebugBuild()) {
@@ -125,7 +127,7 @@ IPersonCarrier* Person::locateContainer() const {
    Building& building = SimulationState::acquire().getBuilding();
 
    std::vector<Floor*> floors = building.getFloors();
-   std::vector<Elevator*> elevators =  building.getElevators();
+   std::vector<Elevator*> elevators = building.getElevators();
 
    IPersonCarrier* container = NULL;
 
