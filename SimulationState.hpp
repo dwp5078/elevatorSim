@@ -55,6 +55,7 @@ class SimulationState : public IStateObject {
 public:
 
    enum StateKind {
+      SIMULATION_READY,
       SIMULATION_STARTING,
       SIMULATION_RUNNING,
       SIMULATION_PAUSED,
@@ -90,6 +91,10 @@ public:
    /* TODO: something more elaborate and safe here */
    inline void notifyKill() {
       cState = SIMULATION_KILLED;
+   }
+
+   inline void notifyRun() {
+      cState = SIMULATION_RUNNING;
    }
 
    inline enum StateKind getState() const {

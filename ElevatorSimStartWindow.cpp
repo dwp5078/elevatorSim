@@ -31,6 +31,7 @@
 
 #include "ElevatorSim.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "SimulationState.hpp"
 #include "Logger.hpp"
 
 #include <FL/Fl.H>
@@ -74,6 +75,11 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
    (void) w;
    ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
 
+
+   //Change state to run - SOOHOON
+   SimulationState& simState = SimulationState::acquire();
+   simState.notifyRun();
+
    try {
       int elevatorCount = 
          boost::lexical_cast<int> ( thisWindow->elevatorNumInput->value() );
@@ -96,6 +102,8 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
    } catch ( boost::bad_lexical_cast& ) {
       LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters");     
    }
+
+
 }
 
 void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {

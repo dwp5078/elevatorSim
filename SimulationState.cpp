@@ -94,7 +94,7 @@ void SimulationState::release() {
 }
 
 void SimulationState::init() {
-   cState = SIMULATION_RUNNING;
+   cState = SIMULATION_READY;
    logicTicks = 0;
 
    /* TODO */

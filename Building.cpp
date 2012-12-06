@@ -215,6 +215,10 @@ void Building::render() {
 }
 
 void Building::update() {
+   // If state is not RUNNING, just return. No update
+   SimulationState& simState = SimulationState::acquire();
+   if(simState.getState() != SimulationState::SIMULATION_RUNNING)   return;
+
    std::for_each(
       floors.begin(),
       floors.end(),
