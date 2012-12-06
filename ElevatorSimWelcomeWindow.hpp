@@ -70,6 +70,8 @@ namespace elevatorSim
          Fl_Box* Wel_Label;
          Fl_Button* OK_Button;
          Fl_Button* Cancel_Button;
+		 Fl_Text_Buffer* WelcomeTextBuffer;
+		 Fl_Text_Display* WelcomeDisplay;
 		 Fl_Check_Button* Check_Button;
 
       public:

@@ -130,15 +130,21 @@ void ElevatorSimWelcomeWindow::readDatFile() {
 /* public methods */
 ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
-      //readDatFile();
+      //initial questions&answers
+	   
+	   readDatFile();
    
       /* add more widgets to main window here */
    
       buildDialogs();
 	  
-	  Check_Button = new Fl_Check_Button(80,50,100,100,"continue showing these tips?");
-      Check_Button->set_changed();
+	  WelcomeTextBuffer = new Fl_Text_Buffer();
+	  WelcomeDisplay = new Fl_Text_Display(10,30,280,130);
+	  Check_Button = new Fl_Check_Button(10,170,210,20,"Continue showing these tips?");
+      Check_Button->value(1);
 
+	  add(WelcomeDisplay);
+      WelcomeDisplay->buffer(WelcomeTextBuffer);
 	  add(Check_Button);
       end();
 
