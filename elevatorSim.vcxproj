@@ -62,6 +62,7 @@
     <ClCompile Include="ElevatorSimWindow.cpp" />
     <ClCompile Include="ElevatorUnitTests.cpp" />
     <ClCompile Include="Floor.cpp" />
+    <ClCompile Include="IPersonCarrier.cpp" />
     <ClCompile Include="ISimulationTerminal.cpp" />
     <ClCompile Include="IStateObject.cpp" />
     <ClCompile Include="Location.cpp" />
@@ -84,6 +85,7 @@
     <ClInclude Include="ElevatorSimWindow.hpp" />
     <ClInclude Include="Floor.hpp" />
     <ClInclude Include="icon_resource.h" />
+    <ClInclude Include="IPersonCarrier.hpp" />
     <ClInclude Include="ISimulationTerminal.hpp" />
     <ClInclude Include="IStateObject.hpp" />
     <ClInclude Include="Location.hpp" />
