@@ -161,12 +161,29 @@ void Floor::render() {
 void Floor::update() {
    updateSignalArrows();
 
-   /* FLOOR ARRIVAL PROCESSING */
-
    /* remove occupants from this floor who are destined here.
     * (OWNER FREES) */
+   for(std::set<Person*>::iterator iter = people.begin();
+      iter != people.end();
+      iter++) {
+         Person* currentMutablePerson = *iter;
 
-   /* TODO: update all people */
+         if(currentMutablePerson->getDestination().getYVal()
+            == thisFloor * Floor::YVALS_PER_FLOOR )  {
+               iter = people.erase(iter);
+               delete currentMutablePerson;
+         } else {
+            iter++;
+         }
+   }
+
+   /* update all people */
+   std::for_each(
+      people.begin(),
+      people.end(),
+      [] ( Person* p ) {
+         p -> update();
+      });
 }
 
 void Floor::updateSignalArrows() {
