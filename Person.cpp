@@ -83,12 +83,8 @@ void Person::render() {
 }
 
 void Person::update() {
-   /* Then check to see if we've reached a movement condition. If so,
+   /* Check to see if we've reached a movement condition. If so,
     * either move from floor to elevator or from elevator to floor.
-    *
-    * NOTE: see line 257 of Elevator::update(), which deletes person
-    * instances when they reach their destination floor. This may
-    * need to be refactored.
     */
 
    IPersonCarrier* container = locateContainer();
