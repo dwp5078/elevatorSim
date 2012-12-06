@@ -56,6 +56,7 @@ class ElevatorSimWindow : public Fl_Window {
    void buildMenu();
    void buildButtons();
    void buildDialogs();
+   void updateButtonAvailability();
 
    /* private static methods */
    static void windowCloseCB(Fl_Window* w, void* userData);

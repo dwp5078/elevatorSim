@@ -99,8 +99,11 @@ public:
       cState = SIMULATION_KILLED;
    }
 
-   inline enum StateKind getState() const {
-      return cState;
+   enum StateKind getState() {
+      lockBASM();
+      StateKind cStateCopy = cState;
+      unlockBASM();
+      return cStateCopy;
    }
 
    inline void lockBASM() {

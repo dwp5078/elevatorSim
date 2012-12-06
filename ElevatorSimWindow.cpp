@@ -88,6 +88,9 @@ int ElevatorSimWindow::handle(int event) {
          welcomeWin->show();
       }
 
+      /* check simState for which buttons to activate and deactivate */
+      updateButtonAvailability();
+
       return true;
    } else {
       return Fl_Window::handle(event);
@@ -454,6 +457,38 @@ void ElevatorSimWindow::buildDialogs() {
    aboutWin->add(aboutDisplay);
    aboutWin->add(aboutDoneButton);
    aboutWin->end();
+}
+
+void ElevatorSimWindow::updateButtonAvailability() {
+
+   SimulationState& simState = SimulationState::acquire();
+
+   if(isDebugBuild()) {
+      LOG_INFO( Logger::SUB_FLTK, "updating button availability...");
+   }
+
+    /* left pane widgets */
+   (void) startButton;
+   (void) pauseButton;
+   (void) stopButton;
+
+   switch(simState.getState()) {
+   case SimulationState::SIMULATION_RUNNING:
+      
+      break;
+
+   case SimulationState::SIMULATION_STARTING:
+
+      break;
+
+   case SimulationState::SIMULATION_READY:
+
+      break;
+
+   default:
+
+      break;
+   }
 }
 
 void ElevatorSimWindow::aboutTextPredeleteCB(
