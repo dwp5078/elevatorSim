@@ -40,6 +40,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <set>
 
 namespace elevatorSim {
@@ -163,14 +164,15 @@ void Floor::update() {
 
    /* remove occupants from this floor who are destined here.
     * (OWNER FREES) */
+
    for(std::set<Person*>::iterator iter = people.begin();
       iter != people.end();
-      iter++) {
+      ) {
          Person* currentMutablePerson = *iter;
 
          if(currentMutablePerson->getDestination().getYVal()
             == thisFloor * Floor::YVALS_PER_FLOOR )  {
-               iter = people.erase(iter);
+               iter = people.erase(iter++);
                delete currentMutablePerson;
          } else {
             iter++;

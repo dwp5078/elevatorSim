@@ -223,9 +223,8 @@ void Building::distributePeople() {
       /* allocate a new person off the heap */
       Person* newPerson = new Person(sourceFloor, destFloor);
 
-      delete newPerson;
       /* add the new randomly generated occupant */
-	   //m_Floors[sourceFloor]->addOccupant(newPerson);
+	   m_Floors[sourceFloor]->addPerson(newPerson);
    }
 }
 
