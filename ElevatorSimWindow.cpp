@@ -310,7 +310,7 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
 void ElevatorSimWindow::buildMenu() {
    static const Fl_Menu_Item menuitems[] = {
          { "&File", 0, 0, 0, FL_SUBMENU },
-         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
+         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this, FL_MENU_INACTIVE },
          { "E&xit", FL_COMMAND + 'x', (Fl_Callback *)menuQuitCB, this },
          { 0 },
          { "&Help", 0, 0, 0, FL_SUBMENU },
