@@ -122,11 +122,18 @@ void Person::update() {
       }
    } else if( container->getCarrierType() == IPersonCarrier::ELEVATOR_CARRIER) {
       Elevator* elevatorContainer = static_cast<Elevator*> (container);
-      /* TODO: check to see if we've arrived at our destination floor,
-      * and get off if we have */
+      
+      /* if our container elevator has got the same yVal as our destination,
+       * we've arrived */
+      if( elevatorContainer->getYVal() == destination.getYVal() ) {
+         int floorIndex = destination.getYVal() / Floor::YVALS_PER_FLOOR;
 
-      (void) elevatorContainer;
-      (void) floors;
+         /* move ourselves to this floor */
+         floors[floorIndex] -> addPerson( this );
+
+         /* remove ourselves from our containing elevator */
+         assert( elevatorContainer -> removePerson( this ) );
+      }
    }
 
    if(isDebugBuild()) {
