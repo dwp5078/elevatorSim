@@ -276,14 +276,6 @@ void Elevator::update() {
    yVal = (yVal > maxElevHeight ) ? ( maxElevHeight ) : ( yVal );
    yVal = (yVal < minElevHeight ) ? ( minElevHeight ) : ( yVal );
 
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "elevator @" << this
-         << " yVal " << yVal << " v " << currentVel
-         << " a " << currentAccel << std::endl;
-      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-   }
-
    /* update occupants */
    for(std::set<Person*>::iterator iter = people.begin();
       iter != people.end();

@@ -70,9 +70,9 @@ public:
 
    /* constructors */
    Building(
-      unsigned int _nStory = 8, 
+      unsigned int _nStory = 4, 
       unsigned int _nElevator = 2, 
-      int _invPersonArriveProb = 1000);
+      int _invPersonArriveProb = 100);
    ~Building();
 
    /* public methods inherited from ISimulationTerminal */

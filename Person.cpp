@@ -88,14 +88,14 @@ void Person::update() {
    std::vector<Floor*> floors = SimulationState::acquire().getBuilding().getFloors();
 
    /* we're waiting at floor, so check if there are any elevators currently on this floor,
-    * check to see if an elevator has arrived, and get on if it has
-    */
+   * check to see if an elevator has arrived, and get on if it has
+   */
    if( container->getCarrierType() == IPersonCarrier::FLOOR_CARRIER ) {
       Floor* floorContainer = static_cast<Floor*> (container);
       std::set<Elevator*> candidateElevators;
 
       /* iterate over all of the elevators and compare their positions to this person's
-       * starting location */
+      * starting location */
       std::for_each(
          elevators.begin(),
          elevators.end(),
@@ -111,7 +111,7 @@ void Person::update() {
          /* just pick the first one (for now) */
 
          /* TODO: choose randomly among available elevators,
-          * (in preparation for making this a scriptable choice) */
+         * (in preparation for making this a scriptable choice) */
          Elevator * elevatorToBoard  = *candidateElevators.begin();
 
          /* move ourselves to this elevator */
@@ -122,17 +122,34 @@ void Person::update() {
       }
    } else if( container->getCarrierType() == IPersonCarrier::ELEVATOR_CARRIER) {
       Elevator* elevatorContainer = static_cast<Elevator*> (container);
-      
+
       /* if our container elevator has got the same yVal as our destination,
-       * we've arrived */
+      * we've arrived */
       if( elevatorContainer->getYVal() == destination.getYVal() ) {
          int floorIndex = destination.getYVal() / Floor::YVALS_PER_FLOOR;
 
          /* move ourselves to this floor */
          floors[floorIndex] -> addPerson( this );
 
+         if(isDebugBuild()) {
+            std::stringstream dbgSS;
+            dbgSS << "removing self from elevator container, "
+               << "num occupants before: " << elevatorContainer -> numPeopleContained()
+               << " ..."
+               << std::endl;
+            LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+         }
+
          /* remove ourselves from our containing elevator */
          assert( elevatorContainer -> removePerson( this ) );
+
+         if(isDebugBuild()) {
+            std::stringstream dbgSS;
+            dbgSS << "removed self from elevator container, "
+               << "num occupants after: " << elevatorContainer -> numPeopleContained()
+               << std::endl;
+            LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
+         }
       }
    }
 }
