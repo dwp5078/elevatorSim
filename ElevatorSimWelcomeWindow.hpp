@@ -42,6 +42,7 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_Text_Display.H>
+#include <FL/Fl_Check_Button.H>
 
 namespace elevatorSim
 {
@@ -69,6 +70,7 @@ namespace elevatorSim
          Fl_Box* Wel_Label;
          Fl_Button* OK_Button;
          Fl_Button* Cancel_Button;
+		 Fl_Check_Button* Check_Button;
 
       public:
 

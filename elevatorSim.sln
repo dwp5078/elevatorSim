@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "elevatorSim", "elevatorSim.vcxproj", "{3EAE1861-08AA-E322-84BF-000B81ED659C}"
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "elevatorSim", "elevatorSim.vcxproj", "{BFCFFB93-3999-087B-60AB-6F70BF6FC249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3EAE1861-08AA-E322-84BF-000B81ED659C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{3EAE1861-08AA-E322-84BF-000B81ED659C}.Debug|Win32.Build.0 = Debug|Win32
-		{3EAE1861-08AA-E322-84BF-000B81ED659C}.Release|Win32.ActiveCfg = Release|Win32
-		{3EAE1861-08AA-E322-84BF-000B81ED659C}.Release|Win32.Build.0 = Release|Win32
+		{BFCFFB93-3999-087B-60AB-6F70BF6FC249}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BFCFFB93-3999-087B-60AB-6F70BF6FC249}.Debug|Win32.Build.0 = Debug|Win32
+		{BFCFFB93-3999-087B-60AB-6F70BF6FC249}.Release|Win32.ActiveCfg = Release|Win32
+		{BFCFFB93-3999-087B-60AB-6F70BF6FC249}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
