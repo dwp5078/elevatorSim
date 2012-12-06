@@ -44,7 +44,7 @@ protected:
 
 public:
 
-   static enum PERSON_CARRIER_TYPES {
+   static enum PERSON_CARRIER_TYPE {
       FLOOR_CARRIER,
       ELEVATOR_CARRIER
    };
@@ -68,6 +68,8 @@ public:
    int numPeopleContained() const {
       return people.size();
    }
+
+   virtual enum PERSON_CARRIER_TYPE getCarrierType() const = 0;
 
    virtual ~IPersonCarrier() = 0;
 

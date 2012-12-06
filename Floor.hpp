@@ -93,6 +93,10 @@ public:
    void update();
 
    void updateSignalArrows();
+
+   enum PERSON_CARRIER_TYPE getCarrierType() const {
+      return IPersonCarrier::FLOOR_CARRIER; 
+   }
 };
 
 } /* namespace elevatorSim */

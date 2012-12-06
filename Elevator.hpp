@@ -109,6 +109,10 @@ public:
       return (currentVel == 0);
    };
 
+   enum PERSON_CARRIER_TYPE getCarrierType() const {
+      return IPersonCarrier::ELEVATOR_CARRIER; 
+   }
+
    /* inherited from SimulationTerminal */
    void init();
    void render();
