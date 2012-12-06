@@ -57,6 +57,7 @@
     <ClCompile Include="Elevator.cpp" />
     <ClCompile Include="ElevatorSim.cpp" />
     <ClCompile Include="ElevatorSimRenderWindow.cpp" />
+    <ClCompile Include="ElevatorSimResultsWindow.cpp" />
     <ClCompile Include="ElevatorSimStartWindow.cpp" />
     <ClCompile Include="ElevatorSimWelcomeWindow.cpp" />
     <ClCompile Include="ElevatorSimWindow.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="Elevator.hpp" />
     <ClInclude Include="ElevatorSim.hpp" />
     <ClInclude Include="ElevatorSimRenderWindow.hpp" />
+    <ClInclude Include="ElevatorSimResultsWindow.hpp" />
     <ClInclude Include="ElevatorSimStartWindow.hpp" />
     <ClInclude Include="ElevatorSimWelcomeWindow.hpp" />
     <ClInclude Include="ElevatorSimWindow.hpp" />

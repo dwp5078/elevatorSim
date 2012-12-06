@@ -10,6 +10,7 @@ SIM_OBJS=ElevatorSimWindow.obj\
 ElevatorSimRenderWindow.obj\
 ElevatorSimWelcomeWindow.obj\
 ElevatorSimStartWindow.obj\
+ElevatorSimResultsWindow.obj\
 cRenderObjs.obj\
 cTimeManager.obj\
 cKeyManager.obj\
