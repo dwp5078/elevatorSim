@@ -32,6 +32,7 @@
 #include "ElevatorSim.hpp"
 #include "Elevator.hpp"
 #include "ISimulationTerminal.hpp"
+#include "IPersonCarrier.hpp"
 #include "Building.hpp"
 #include "Floor.hpp"
 #include "Logger.hpp"

@@ -36,6 +36,7 @@
 #include "Location.hpp"
 #include "Person.hpp"
 #include "ISimulationTerminal.hpp"
+#include "IPersonCarrier.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
 #include "SimulationState.hpp"
@@ -51,8 +52,9 @@ class Building;
 class Person;
 class Floor;
 struct SimulationTerminal;
+class IPersonCarrier;
 
-class Elevator : public Location, public ISimulationTerminal {
+class Elevator : public Location, public ISimulationTerminal, public IPersonCarrier {
 
    /* friends */
    friend class Building;

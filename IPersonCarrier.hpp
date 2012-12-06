@@ -29,76 +29,45 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _FLOOR_H
-#define _FLOOR_H
+#ifndef _I_PERSON_CARRIER_H
+#define _I_PERSON_CARRIER_H
 
-#include "ElevatorSim.hpp"
-#include "ISimulationTerminal.hpp"
-#include "IPersonCarrier.hpp"
-#include "IPersonCarrier.hpp"
-#include "Location.hpp"
-#include "Person.hpp"
-#include "Building.hpp"
-
-#include <vector>
 #include <set>
 
 namespace elevatorSim {
-
-class Building;
 class Person;
-class IPersonCarrier;
 
-class Floor : public Location, public ISimulationTerminal, public IPersonCarrier {
+class IPersonCarrier {
+protected:
 
-   /* friends */
-   friend class Building;
-
-   /* private static constants */
-
-   /* private static methods */
-
-   /* private instance members */
-   std::set<Person*> occupants;
-   bool signalingUp;
-   bool signalingDown;
-
-   /* private const instance members */
-   const int thisFloor;
-   const GLfloat gfxScaleWidth;
-   const bool hasUpperFloor;
-   const bool hasLowerFloor;
-
-   /* private methods */
-
-   /* constructors */
-   Floor(
-      int _yVal,
-      int _thisFloor,
-      float _gfxScaleWidth,
-      bool _hasUpperFloor = false,
-      bool _hasLowerFloor = false  );
+   std::set<Person*> people;
 
 public:
 
-   /* public static constants */
-   static const int YVALS_PER_FLOOR;
+   bool containsPerson( Person *& p ) const {
+      return people.find(p) == people.end();
+   }
 
-   /* public instance members */
+   void addPerson( Person*& p ) {
+      std::pair<std::set<Person*>::iterator, bool> ret =
+         people.insert(p);
 
-   ~Floor();
+      /* ensure that the add succeeded */
+      assert(ret.second);
+   }
 
-   /* public methods inherited from ISimulationTerminal*/
-   void init();
-   void render();
-   void update();
+   bool removePerson( Person*& p ) {
+      return ( people.erase(p) > 0 );
+   }
 
-   bool containsPerson(Person *p);
-   void addOccupant(Person* p);
-   int getNumOccupants() const {  return occupants.size(); }
-   void updateSignalArrows();
+   int peopledContained() const {
+      return people.size();
+   }
+
+   virtual ~IPersonCarrier() = 0;
+
 };
 
 } /* namespace elevatorSim */
 
-#endif /* _FLOOR_H */
+#endif /* _I_PERSON_CARRIER_H */

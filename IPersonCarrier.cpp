@@ -29,76 +29,13 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _FLOOR_H
-#define _FLOOR_H
-
 #include "ElevatorSim.hpp"
-#include "ISimulationTerminal.hpp"
 #include "IPersonCarrier.hpp"
-#include "IPersonCarrier.hpp"
-#include "Location.hpp"
-#include "Person.hpp"
-#include "Building.hpp"
-
-#include <vector>
-#include <set>
+#include "Floor.hpp"
+#include "Elevator.hpp"
 
 namespace elevatorSim {
+   IPersonCarrier::~IPersonCarrier() {
 
-class Building;
-class Person;
-class IPersonCarrier;
-
-class Floor : public Location, public ISimulationTerminal, public IPersonCarrier {
-
-   /* friends */
-   friend class Building;
-
-   /* private static constants */
-
-   /* private static methods */
-
-   /* private instance members */
-   std::set<Person*> occupants;
-   bool signalingUp;
-   bool signalingDown;
-
-   /* private const instance members */
-   const int thisFloor;
-   const GLfloat gfxScaleWidth;
-   const bool hasUpperFloor;
-   const bool hasLowerFloor;
-
-   /* private methods */
-
-   /* constructors */
-   Floor(
-      int _yVal,
-      int _thisFloor,
-      float _gfxScaleWidth,
-      bool _hasUpperFloor = false,
-      bool _hasLowerFloor = false  );
-
-public:
-
-   /* public static constants */
-   static const int YVALS_PER_FLOOR;
-
-   /* public instance members */
-
-   ~Floor();
-
-   /* public methods inherited from ISimulationTerminal*/
-   void init();
-   void render();
-   void update();
-
-   bool containsPerson(Person *p);
-   void addOccupant(Person* p);
-   int getNumOccupants() const {  return occupants.size(); }
-   void updateSignalArrows();
-};
-
-} /* namespace elevatorSim */
-
-#endif /* _FLOOR_H */
+   }
+} /* namespace ElevatorSim */

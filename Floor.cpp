@@ -30,6 +30,7 @@
  */
 
 #include "ElevatorSim.hpp"
+#include "IPersonCarrier.hpp"
 #include "Floor.hpp"
 #include "cRenderObjs.hpp"
 #include "Person.hpp"
