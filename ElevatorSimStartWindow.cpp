@@ -113,7 +113,8 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
 void ElevatorSimStartWindow::fileChosenCB(Fl_File_Chooser* cw, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
-      dbgSS << "fileChosen fired with widget ptr " << cw << std::endl;
+      dbgSS << "fileChosen fired with widget ptr " << cw
+         << " and value: " << cw->value() << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
    
