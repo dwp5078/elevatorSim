@@ -55,8 +55,8 @@ class SimulationState : public IStateObject {
 public:
 
    enum StateKind {
-      SIMULATION_READY,
       SIMULATION_STARTING,
+      SIMULATION_READY,
       SIMULATION_RUNNING,
       SIMULATION_PAUSED,
       SIMULATION_KILLED
