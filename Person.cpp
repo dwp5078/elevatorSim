@@ -84,14 +84,13 @@ void Person::update() {
     */
 
    IPersonCarrier* container = locateContainer();
-   Floor* floorContainer = static_cast<Floor*> (container);
-   Elevator* elevatorContainer = static_cast<Elevator*> (container);
-   
    std::vector<Elevator*> elevators = SimulationState::acquire().getBuilding().getElevators();
    std::vector<Floor*> floors = SimulationState::acquire().getBuilding().getFloors();
 
    /* we're waiting at floor, so check if there are any elevators currently on this floor */
    if( container->getCarrierType() == IPersonCarrier::FLOOR_CARRIER ) {
+      Floor* floorContainer = static_cast<Floor*> (container);
+
       /* check to see if an elevator has arrived, and
        * get on if it has */
 
@@ -127,6 +126,7 @@ void Person::update() {
       (void) elevators;
 
    } else if( container->getCarrierType() == IPersonCarrier::ELEVATOR_CARRIER) {
+      Elevator* elevatorContainer = static_cast<Elevator*> (container);
       /* TODO: check to see if we've arrived at our destination floor,
        * and get off if we have */
 
