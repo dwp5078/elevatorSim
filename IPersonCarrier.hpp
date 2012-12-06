@@ -50,7 +50,6 @@ public:
    };
 
    bool containsPerson( const Person* const & p ) const {
-
       return people.find( const_cast<Person* const &>( p ) ) != people.end();
    }
 

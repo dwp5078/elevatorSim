@@ -112,6 +112,8 @@ void Person::update() {
       /* if there are candidate elevators */
       if( candidateElevators.size() > 0 ) {
          /* just pick the first one (for now) */
+         /* TODO: choose randomly among available elevators,
+          * (in preparation for making this a scriptable choice) */
          Elevator * elevatorToBoard  = *candidateElevators.begin();
          
          /* move ourselves to this elevator */
