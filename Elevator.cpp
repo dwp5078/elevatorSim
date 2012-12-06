@@ -202,7 +202,6 @@ void Elevator::init() {
 
    /* free all the people allocated on the heap */
 
-
    scheduledFloors.clear();
    scheduledAccels.clear();
 }

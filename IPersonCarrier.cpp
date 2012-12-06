@@ -33,9 +33,34 @@
 #include "IPersonCarrier.hpp"
 #include "Floor.hpp"
 #include "Elevator.hpp"
+#include "Logger.hpp"
 
 namespace elevatorSim {
    IPersonCarrier::~IPersonCarrier() {
+       /* print debug info */
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "with IPersonCarrier @ " << this 
+            << " with " << people.size() 
+            << " people. destructing them..." << std::endl;
 
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+      }
+
+      for(std::set<Person*>::iterator iter = people.begin();
+         iter != people.end();
+         ) {
+            Person* currentMutablePerson = *iter;
+            iter = people.erase(iter++);
+            delete currentMutablePerson;
+      }
+
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "destructing in IPersonCarrier @ " << this 
+            << " complete" << std::endl;
+
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+      }
    }
 } /* namespace ElevatorSim */
