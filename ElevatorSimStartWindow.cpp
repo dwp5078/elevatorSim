@@ -85,21 +85,26 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
       
       if(isDebugBuild()) {
          std::stringstream dbgSS;
-         dbgSS << "in inputAcceptCB with valid params ec = " << elevatorCount
+         dbgSS << "in inputAcceptCB with well formed params ec = " 
+            << elevatorCount
             << " fc = " << floorCount 
             << " rs = " << randomSeed
             << std::endl;
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
-   
-      SimulationState& simState = SimulationState::acquire();
-      simState.start(elevatorCount, floorCount, randomSeed, "");
-      thisWindow->hide();
+
+      if( elevatorCount >= 1 && floorCount > 1 ) {
+         SimulationState& simState = SimulationState::acquire();
+         simState.start(elevatorCount, floorCount, randomSeed, "");
+         thisWindow->hide();
+      } else {
+         LOG_ERROR( Logger::SUB_FLTK, "parameters out of range" );
+      }
 
       /*elevatorAIPathInput->value();*/
 
    } catch ( boost::bad_lexical_cast& ) {
-      LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters");     
+      LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters"); 
    }
 
 
