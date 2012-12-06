@@ -47,9 +47,11 @@ namespace elevatorSim {
          int handle(int event);
 
          /* fltk callbacks */
+         static void browseCB(Fl_Button* b, void* userData);
          static void inputAcceptCB(Fl_Window*  w, void* userData);
          static void inputCancelCB(Fl_Window* w, void* userData);
-   
+         static void fileChosenCB(Fl_File_Chooser* fc, void* userData);
+
          /* user input widget */
          Fl_Input* elevatorNumInput;
          Fl_Input* floorNumInput;

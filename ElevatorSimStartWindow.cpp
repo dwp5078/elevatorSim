@@ -52,6 +52,17 @@ int ElevatorSimStartWindow::handle(int event) {
    return Fl_Window::handle(event);
 }
 
+void ElevatorSimStartWindow::browseCB(Fl_Button* b, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "button @ " << b << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+
+   ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
+   thisWindow -> elevatorAIFileChooser -> show();
+}
+
 void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -99,6 +110,21 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
    thisWindow->hide();
 }
 
+void ElevatorSimStartWindow::fileChosenCB(Fl_File_Chooser* cw, void* userData) {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "fileChosen fired with widget ptr " << cw << std::endl;
+      LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
+   }
+   
+   (void) cw;
+
+   ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
+   (void) thisWindow;
+
+   /* TODO: run input validation and then hide the chooser or display an error */
+}
+
 /* public methods */
 ElevatorSimStartWindow::ElevatorSimStartWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
@@ -111,6 +137,7 @@ ElevatorSimStartWindow::ElevatorSimStartWindow() :
       inputCancel = new Fl_Button(10, 270, 140, 30, "Cancel");
       inputAccept = new Fl_Button(160, 270, 140, 30, "Accept");
 
+      browseButton->callback((Fl_Callback*) browseCB, this);
       inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
       inputCancel->callback((Fl_Callback*) inputCancelCB, this);
 
@@ -124,6 +151,7 @@ ElevatorSimStartWindow::ElevatorSimStartWindow() :
       end();
 
       elevatorAIFileChooser = new Fl_File_Chooser(".", "*.py", Fl_File_Chooser::SINGLE, "specify AI script");
+      elevatorAIFileChooser->callback( fileChosenCB, this );
 }
 
 ElevatorSimStartWindow::~ElevatorSimStartWindow() {
