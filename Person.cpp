@@ -36,6 +36,7 @@
 #include "SimulationState.hpp"
 
 #include <algorithm>
+#include <vector>
 
 namespace elevatorSim {
 
@@ -90,6 +91,9 @@ void Person::update() {
    IPersonCarrier* container = locateContainer();
    Floor* floorContainer = static_cast<Floor*> (container);
    Elevator* elevatorContainer = static_cast<Elevator*> (container);
+   
+   std::vector<Elevator*> elevators = SimulationState::acquire().getBuilding().getElevators();
+   std::vector<Floor*> floors = SimulationState::acquire().getBuilding().getFloors();
 
    switch( container->getCarrierType() ) {
       case IPersonCarrier::FLOOR_CARRIER:
@@ -98,6 +102,7 @@ void Person::update() {
           * get on if it has */
 
          (void) floorContainer;
+         (void) elevators;
 
       break;
 
@@ -107,6 +112,7 @@ void Person::update() {
           * and get off if we have */
 
          (void) elevatorContainer;
+         (void) floors;
 
       break;
    }
