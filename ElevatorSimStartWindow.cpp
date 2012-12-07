@@ -191,13 +191,6 @@ ElevatorSimStartWindow::ElevatorSimStartWindow() :
       inputAccept->callback((Fl_Callback*) inputAcceptCB, this);
       inputCancel->callback((Fl_Callback*) inputCancelCB, this);
 
-      add(floorNumInput);
-      add(elevatorNumInput);
-      add(seedNumInput);
-      add(elevatorAIPathInput);
-      add(browseButton);
-      add(inputCancel);
-      add(inputAccept);
       end();
 
       elevatorAIFileChooser = new Fl_File_Chooser(".", "*.py", Fl_File_Chooser::SINGLE, "specify AI script");
