@@ -52,7 +52,7 @@ bool parseArgs(int argc, char** argv);
 
 int main(int argc, char** argv) {
    if(!parseArgs(argc, argv)) {
-      /* 
+      /*
        * Debug builds on windows use AllocConsole() and redirect standard
        * iostreams to it, so this ugly bullshit is required.
        */
@@ -102,7 +102,7 @@ void compute() {
 bool parseArgs(int argc, char** argv) {
    using namespace boost::program_options;
    bool shouldContinue = true;
-   
+
    try {
       options_description desc("Allowed options");
       desc.add_options()
@@ -126,6 +126,6 @@ bool parseArgs(int argc, char** argv) {
       std::cerr << "Exception of unknown type" << std::endl;
       shouldContinue = false;
    }
-   
+
    return shouldContinue;
 }

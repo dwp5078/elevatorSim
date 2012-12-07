@@ -79,7 +79,7 @@ class ElevatorSimWindow : public Fl_Window {
       int pos, int nInserted, int nDeleted,
       int nRestyled, const char* deletedText,
       void* cbArg);
-      
+
    /* private members */
    ElevatorSimRenderWindow* renderWindow;
    ElevatorSimWelcomeWindow* welcomeWin;

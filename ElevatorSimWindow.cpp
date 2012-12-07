@@ -392,14 +392,14 @@ void ElevatorSimWindow::buildDialogs() {
    std::stringstream aboutSS;
 
    /* output version info of libraries */
-   aboutSS 
+   aboutSS
       << "elevatorSim" << std::endl
       << "  built with: " << std::endl
       << "    boost v" << BOOST_LIB_VERSION << " http://www.boost.org" <<std::endl
       << "    fltk v" << FL_MAJOR_VERSION << "_"
       << FL_MINOR_VERSION << FL_PATCH_VERSION << " http://www.fltk.org" << std::endl
-      << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION 
-      << " http://www.python.org " << std::endl 
+      << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION
+      << " http://www.python.org " << std::endl
       << "hosted at: https://github.com/maxdeliso/elevatorSim" << std::endl;
 
    do {
@@ -451,7 +451,7 @@ void ElevatorSimWindow::updateButtonAvailability() {
 
 void ElevatorSimWindow::aboutTextPredeleteCB(
    int pos, int nDeleted, void* userData) {
- 
+
       (void) pos;
       (void) nDeleted;
       (void) userData;
@@ -461,7 +461,7 @@ void ElevatorSimWindow::aboutTextModifyCB(
    int pos, int nInserted, int nDeleted,
    int nRestyled, const char* deletedText,
    void* userData) {
-      
+
       (void) pos;
       (void) nInserted;
       (void) nDeleted;
@@ -505,9 +505,9 @@ ElevatorSimWindow::ElevatorSimWindow() :
 
       /* some hackery to set the application icon in windows */
       #ifdef _ES_WINNT
-      HANDLE iconImage = LoadImage( 
-         GetModuleHandle(NULL), 
-         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON), 
+      HANDLE iconImage = LoadImage(
+         GetModuleHandle(NULL),
+         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON),
          IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 
       if(iconImage == NULL) {
@@ -522,7 +522,7 @@ ElevatorSimWindow::ElevatorSimWindow() :
          icon( (const void*) iconImage );
       }
       #endif
-      
+
       callback((Fl_Callback*)windowCloseCB, this);
 
       /* add more callbacks to main window here */
@@ -539,7 +539,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 
    /* de-register the re-draw callback for the render window */
    Fl::remove_timeout(ElevatorSimRenderWindow::timerCB);
-   
+
    /* free class-local heap-allocated widgets */
    delete stopButton;
    delete pauseButton;

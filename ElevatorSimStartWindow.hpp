@@ -40,11 +40,19 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_File_Chooser.H>
 
+#include <string>
+
 namespace elevatorSim {
    class ElevatorSimStartWindow : public Fl_Window {
 
          /* private methods */
          int handle(int event);
+
+         static bool validateSimulationParams(
+            const int numElev,
+            const int numFloor,
+            const int rSeed,
+            const std::string& pyAiPath);
 
          /* fltk callbacks */
          static void browseCB(Fl_Button* b, void* userData);
@@ -61,7 +69,7 @@ namespace elevatorSim {
          Fl_Button *browseButton;
          Fl_Button *inputAccept;
          Fl_Button *inputCancel;
-         
+
       public:
 
          /* public static members */

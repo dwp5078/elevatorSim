@@ -42,6 +42,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include <fstream>
+#include <string>
 
 namespace elevatorSim {
 
@@ -52,6 +53,21 @@ const int ElevatorSimStartWindow::WINDOW_HEIGHT = 320;
 
 int ElevatorSimStartWindow::handle(int event) {
    return Fl_Window::handle(event);
+}
+
+bool ElevatorSimStartWindow::validateSimulationParams(
+   const int numElev,
+   const int numFloor,
+   const int rSeed,
+   const std::string& pyAiPath) {
+
+      if( numElev < 1 || numFloor <= 1 ) {
+         return false;
+      }
+
+
+
+      return true;
 }
 
 void ElevatorSimStartWindow::browseCB(Fl_Button* b, void* userData) {
@@ -76,38 +92,46 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
    ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
 
    try {
-      int elevatorCount = 
+      int elevatorCount =
          boost::lexical_cast<int> ( thisWindow->elevatorNumInput->value() );
-      int floorCount = 
+      int floorCount =
          boost::lexical_cast<int> ( thisWindow->floorNumInput->value() );
-      int randomSeed = 
+      int randomSeed =
          boost::lexical_cast<int> ( thisWindow->seedNumInput->value() );
-      
+      std::string pyScriptPath( thisWindow -> elevatorAIPathInput -> value() );
+
       if(isDebugBuild()) {
          std::stringstream dbgSS;
-         dbgSS << "in inputAcceptCB with well formed params ec = " 
+         dbgSS << "in inputAcceptCB with well formed params ec = "
             << elevatorCount
-            << " fc = " << floorCount 
+            << " fc = " << floorCount
             << " rs = " << randomSeed
+            << " pp = " << pyScriptPath
             << std::endl;
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
-      if( elevatorCount >= 1 && floorCount > 1 ) {
-         SimulationState& simState = SimulationState::acquire();
-         simState.start(elevatorCount, floorCount, randomSeed, "");
-         thisWindow->hide();
+      if( validateSimulationParams(
+         elevatorCount,
+         floorCount,
+         randomSeed,
+         pyScriptPath)) {
+
+            /* Affect simulation state */
+            SimulationState::acquire().start(
+               elevatorCount,
+               floorCount,
+               randomSeed,
+               pyScriptPath);
+
+            /* hide this window */
+            thisWindow -> hide();
       } else {
          LOG_ERROR( Logger::SUB_FLTK, "parameters out of range" );
       }
-
-      /*elevatorAIPathInput->value();*/
-
    } catch ( boost::bad_lexical_cast& ) {
-      LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters"); 
+      LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters");
    }
-
-
 }
 
 void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
@@ -116,7 +140,7 @@ void ElevatorSimStartWindow::inputCancelCB(Fl_Window* w, void* userData) {
       dbgSS << "inputCancelCB fired with widget ptr " << w << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
-   
+
    (void) w;
 
    ElevatorSimStartWindow* thisWindow = (ElevatorSimStartWindow*) userData;
@@ -138,7 +162,7 @@ void ElevatorSimStartWindow::fileChosenCB(Fl_File_Chooser* cw, void* userData) {
 
    if( scriptHandle.fail() ) {
       /* TODO: display an error: couldn't open script file */
-   
+
       if(isDebugBuild()) {
          std::stringstream dbgSS;
          dbgSS << "could not open file loc'd at " << cw -> value() << std::endl;
