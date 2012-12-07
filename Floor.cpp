@@ -42,6 +42,7 @@
 #include <vector>
 #include <algorithm>
 #include <set>
+#include <unordered_set>
 
 namespace elevatorSim {
 
@@ -169,14 +170,14 @@ void Floor::update() {
     * the keys are liable to be deleted during execution 
     * of functions called as a result of person update.
     */
-   for(std::set<Person*>::iterator iter = people.begin();
+   for(std::unordered_set<Person*>::iterator iter = people.begin();
       iter != people.end();
       ) {
          /* obtain a pointer to the current person by using iterator */
          Person* currentMutablePerson = *iter;
 
          /* copy construct an iterator from the current one */
-         std::set<Person*>::iterator nextPosition = std::set<Person*>::iterator(iter);
+         std::unordered_set<Person*>::iterator nextPosition = std::unordered_set<Person*>::iterator(iter);
 
          /* increment iterator position, to save the next position */
          ++nextPosition;
@@ -205,7 +206,7 @@ void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
-   std::set<Person*>::const_iterator iter = people.begin();
+   std::unordered_set<Person*>::const_iterator iter = people.begin();
    while(iter != people.end()) {
       const Person* currentPerson = *iter;
       if(currentPerson->getDestination().getYVal()

@@ -47,7 +47,7 @@ namespace elevatorSim {
          LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
       }
 
-      for(std::set<Person*>::iterator iter = people.begin();
+      for(std::unordered_set<Person*>::iterator iter = people.begin();
          iter != people.end();
          ) {
             Person* currentMutablePerson = *iter;

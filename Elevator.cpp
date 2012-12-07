@@ -40,6 +40,7 @@
 
 #include <vector>
 #include <set>
+#include <unordered_set>
 #include <iostream>
 #include <sstream>
 #include <cassert>
@@ -277,14 +278,14 @@ void Elevator::update() {
    yVal = (yVal < minElevHeight ) ? ( minElevHeight ) : ( yVal );
 
    /* update occupants */
-   for(std::set<Person*>::iterator iter = people.begin();
+   for(std::unordered_set<Person*>::iterator iter = people.begin();
       iter != people.end();
       ) {
          /* obtain a pointer to the current person by using iterator */
          Person* currentMutablePerson = *iter;
 
          /* copy construct an iterator from the current one */
-         std::set<Person*>::iterator nextPosition = std::set<Person*>::iterator(iter);
+         std::unordered_set<Person*>::iterator nextPosition = std::unordered_set<Person*>::iterator(iter);
 
          /* increment iterator position, to save the next position */
          ++nextPosition;

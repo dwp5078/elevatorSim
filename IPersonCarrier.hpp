@@ -32,7 +32,7 @@
 #ifndef _I_PERSON_CARRIER_H
 #define _I_PERSON_CARRIER_H
 
-#include <set>
+#include <unordered_set>
 
 namespace elevatorSim {
 class Person;
@@ -40,7 +40,7 @@ class Person;
 class IPersonCarrier {
 protected:
 
-   std::set<Person*> people;
+   std::unordered_set<Person*> people;
 
 public:
 
@@ -54,7 +54,7 @@ public:
    }
 
    void addPerson( Person * const p ) {
-      std::pair<std::set<Person*>::iterator, bool> ret =
+      std::pair<std::unordered_set<Person*>::iterator, bool> ret =
          people.insert(p);
 
       /* ensure that the add succeeded */
