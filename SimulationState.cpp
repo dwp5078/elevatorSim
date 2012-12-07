@@ -38,11 +38,13 @@
 #include "Building.hpp"
 #include "Logger.hpp"
 
+#include <boost/thread/mutex.hpp>
 #include <set>
 #include <functional>
 #include <cassert>
-#include <boost/thread/mutex.hpp>
 #include <sstream>
+#include <string>
+#include <fstream>
 
 namespace elevatorSim   {
 
@@ -101,13 +103,13 @@ void SimulationState::init() {
 }
 
 void SimulationState::update() {
-   bigAssStateMutex.lock(); 
+   bigAssStateMutex.lock();
 
    if( cState == SIMULATION_RUNNING ) {
       std::for_each(
          stateObjects.begin(),
          stateObjects.end(),
-         [] (IStateObject * stateObj) { 
+         [] (IStateObject * stateObj) {
             stateObj -> update();
       });
 
@@ -118,27 +120,57 @@ void SimulationState::update() {
 }
 
 void SimulationState::start(
-   int numElevators, 
-   int numFloors, 
-   int randomSeed, 
-   const std::string& pyAI ) {
-      bigAssStateMutex.lock(); 
+   int numElevators,
+   int numFloors,
+   int randomSeed,
+   const std::string& pyAiPath ) {
+      bigAssStateMutex.lock();
 
       /* cRenderObjs */
 
-      init();
+      /* load and compile python */
+      if( loadPythonScript( pyAiPath ) ) {
 
-      timeManager->init();
-      keyManager->init();
-      cameraManager->init();
+         init();
 
-      stateObjects.erase(building);   
-      delete building;
-      building = new Building(numFloors, numElevators);
-      stateObjects.insert(building);
+         timeManager->init();
+         keyManager->init();
+         cameraManager->init();
 
-      cState = SIMULATION_RUNNING;
+         stateObjects.erase(building);
+         delete building;
+         building = new Building(numFloors, numElevators);
+         stateObjects.insert(building);
+
+         cState = SIMULATION_RUNNING;
+      }
+
       bigAssStateMutex.unlock();
+}
+
+bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
+   std::string pyBuffer;
+
+   std::ifstream pyScriptFile( pyAiPath.c_str(), std::ifstream::in );
+   if (pyScriptFile.is_open()) {
+      int lineCount = 0;
+      while ( pyScriptFile.good() ) {
+         std::string lineBuffer;
+         getline (pyScriptFile, lineBuffer);
+         pyBuffer += lineBuffer;
+         ++lineCount;
+      }
+
+      pyScriptFile.close();
+      (void) lineCount;
+
+
+   } else {
+      LOG_ERROR( Logger::SUB_GENERAL, "couldn't open script file");
+      return false;
+   }
+
+   return true;
 }
 
 } /* namespace elevatorSim */

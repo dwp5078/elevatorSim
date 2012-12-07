@@ -89,10 +89,10 @@ public:
    void update();
 
    void start(
-      int numElevators, 
-      int numFloors, 
-      int randomSeed, 
-      const std::string& pyAI );
+      int numElevators,
+      int numFloors,
+      int randomSeed,
+      const std::string& pyAiPath );
 
    /* TODO: something more elaborate and safe here */
    inline void notifyKill() {
@@ -128,8 +128,12 @@ public:
       return logicTicks;
    }
 
+
+
 private:
-   
+
+   bool loadPythonScript( const std::string& pyAiPath );
+
    static SimulationState* simulationState;
 
    std::set<IStateObject*> stateObjects;
