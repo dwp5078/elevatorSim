@@ -94,6 +94,8 @@ public:
       int randomSeed,
       const std::string& pyAiPath );
 
+   void stop();
+
    /* TODO: something more elaborate and safe here */
    inline void notifyKill() {
       cState = SIMULATION_KILLED;

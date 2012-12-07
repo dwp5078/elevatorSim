@@ -156,6 +156,17 @@ void SimulationState::start(
       bigAssStateMutex.unlock();
 }
 
+
+void SimulationState::stop() {
+   bigAssStateMutex.lock();
+   init();
+   cState = SIMULATION_READY;
+
+   /* TODO: post-process simulation data */
+
+   bigAssStateMutex.unlock();
+}
+
 bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
    std::string pyBuffer;
 
