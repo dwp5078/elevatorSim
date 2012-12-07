@@ -226,6 +226,7 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
    }
 
    Fl_Button* stopButton = (Fl_Button*)w;
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
    if(stopButton->value()) {
 
@@ -235,7 +236,8 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
-      /* TODO: simulationState::stop, display report */
+      /* SimulationState::stop(); */
+      thisWin -> resultsWin -> show();
    }
 }
 

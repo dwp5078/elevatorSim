@@ -46,14 +46,14 @@
 namespace elevatorSim {
 
 /* public static member initializers */
-const char ElevatorSimResultsWindow::WINDOW_TITLE[] = "Start";
-const int ElevatorSimResultsWindow::WINDOW_WIDTH = 310;
-const int ElevatorSimResultsWindow::WINDOW_HEIGHT = 320;
+const char ElevatorSimResultsWindow::WINDOW_TITLE[] = "Simulation Report";
+const int ElevatorSimResultsWindow::WINDOW_WIDTH = 512;
+const int ElevatorSimResultsWindow::WINDOW_HEIGHT = 316;
 
 /* public methods */
 ElevatorSimResultsWindow::ElevatorSimResultsWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
-     
+
 }
 
 ElevatorSimResultsWindow::~ElevatorSimResultsWindow() {
