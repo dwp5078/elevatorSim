@@ -9,11 +9,7 @@ Due to time constraints, an elaborate build system is a low priority item.
 Dependencies:
     boost 1.51.0/boost 1.50
     fltk 1.3.0
-
-If attempting builds for platforms which do not include pre-built binaries, either replace the 
-header files included in-tree or make sure to build the _exact_ version of the dependencies
-and place them in the correct subdirectory of ./deps to avoid conflicts between binaries
-and headers.    
+    python 3.3
 
 Tier one platforms: x86.winnt.msvc2010
 
