@@ -34,6 +34,7 @@
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "ElevatorSimResultsWindow.hpp"
 #include "SimulationState.hpp"
 #include "Logger.hpp"
 
@@ -502,6 +503,7 @@ ElevatorSimWindow::ElevatorSimWindow() :
 
       welcomeWin = new ElevatorSimWelcomeWindow();
       startWin = new ElevatorSimStartWindow();
+      resultsWin = new ElevatorSimResultsWindow();
 
       /* some hackery to set the application icon in windows */
       #ifdef _ES_WINNT
@@ -562,6 +564,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete startWin;
    delete welcomeWin;
    delete renderWindow;
+   delete resultsWin;
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;

@@ -36,6 +36,7 @@
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "ElevatorSimResultsWindow.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
@@ -84,6 +85,7 @@ class ElevatorSimWindow : public Fl_Window {
    ElevatorSimRenderWindow* renderWindow;
    ElevatorSimWelcomeWindow* welcomeWin;
    ElevatorSimStartWindow* startWin;
+   ElevatorSimResultsWindow* resultsWin;
 
    /* quit confirmation widgets */
    Fl_Window* confirmDialog;
