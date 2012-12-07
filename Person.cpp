@@ -166,23 +166,21 @@ IPersonCarrier* Person::locateContainer() const {
 
    IPersonCarrier* container = NULL;
 
-   std::for_each( 
-      floors.begin(),
-      floors.end(),
-      [&] ( Floor* thisFloor ) {
-         if( thisFloor -> containsPerson(this) ) {
-            container = thisFloor;
-         }
-      });
+   for(std::vector<Floor*>::const_iterator it = floors.begin();
+      container == NULL && it != floors.end();
+      ++it) {
+         container =
+            ( (Floor*)(*it) -> containsPerson(this) )
+            ? ( (Floor*)(*it) ) : ( NULL );
+   }
 
-   std::for_each( 
-      elevators.begin(),
-      elevators.end(),
-      [&] ( Elevator* thisElevator ) {
-         if( thisElevator -> containsPerson(this) ) {
-            container = thisElevator;
-         }
-      });
+   for(std::vector<Elevator*>::const_iterator it = elevators.begin();
+      container == NULL && it != elevators.end();
+      ++it) {
+         container =
+            ( (Elevator*)(*it) -> containsPerson(this) )
+            ? ( (Elevator*)(*it) ) : ( NULL );
+   }
 
    /* TODO: add std::set<IPeopleCarrier*> building.getPersonCarriers */
 
