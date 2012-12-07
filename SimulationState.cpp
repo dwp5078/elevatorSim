@@ -57,6 +57,7 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
    stateObjects.insert((building = new Building()));
 
    renderObjs = new cRenderObjs();
+   userScript = NULL;
 }
 
 SimulationState::~SimulationState() {
@@ -65,6 +66,8 @@ SimulationState::~SimulationState() {
       dbgSS << "starting to destroy simulation state @ " << this << std::endl;
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
+
+   init();
 
    delete building;
 
@@ -99,7 +102,10 @@ void SimulationState::init() {
    cState = SIMULATION_STARTING;
    logicTicks = 0;
 
-   /* TODO */
+   if( userScript != NULL) {
+      Py_DECREF(userScript);
+      userScript = NULL;
+   }
 }
 
 void SimulationState::update() {
@@ -124,14 +130,16 @@ void SimulationState::start(
    int numFloors,
    int randomSeed,
    const std::string& pyAiPath ) {
+      assert(userScript == NULL);
+
       bigAssStateMutex.lock();
 
       /* cRenderObjs */
 
+      init();
+
       /* load and compile python */
       if( loadPythonScript( pyAiPath ) ) {
-
-         init();
 
          timeManager->init();
          keyManager->init();
@@ -167,18 +175,15 @@ bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
       /* see http://docs.python.org/3/c-api/veryhigh.html#Py_CompileStringExFlags */
 
       /* compile the string into an object */
-      PyObject* aiScriptObj =
+      userScript =
          Py_CompileString(
             pyBuffer.c_str(),
             pyAiPath.c_str(),
             Py_file_input);
 
-      if( aiScriptObj == NULL ) {
+      if( userScript == NULL ) {
          PyErr_Print();
-      } else {
-
-         /* just free the script object for now */
-         Py_DECREF(aiScriptObj);
+         return false;
       }
 
    } else {

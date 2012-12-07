@@ -128,8 +128,6 @@ public:
       return logicTicks;
    }
 
-
-
 private:
 
    bool loadPythonScript( const std::string& pyAiPath );
@@ -147,6 +145,7 @@ private:
    int logicTicks;
 
    Building* building;
+   PyObject* userScript;
 
    SimulationState();
    ~SimulationState();
