@@ -164,6 +164,22 @@ bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
       pyScriptFile.close();
       (void) lineCount;
 
+      /* see http://docs.python.org/3/c-api/veryhigh.html#Py_CompileStringExFlags */
+
+      /* compile the string into an object */
+      PyObject* aiScriptObj =
+         Py_CompileString(
+            pyBuffer.c_str(),
+            pyAiPath.c_str(),
+            Py_file_input);
+
+      if( aiScriptObj == NULL ) {
+         PyErr_Print();
+      } else {
+
+         /* just free the script object for now */
+         Py_DECREF(aiScriptObj);
+      }
 
    } else {
       LOG_ERROR( Logger::SUB_GENERAL, "couldn't open script file");
