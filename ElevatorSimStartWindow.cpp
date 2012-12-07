@@ -65,8 +65,16 @@ bool ElevatorSimStartWindow::validateSimulationParams(
          return false;
       }
 
+      std::ifstream scriptFile( pyAiPath.c_str(), std::ifstream::in );
+      if( !scriptFile ) {
 
+         LOG_ERROR( Logger::SUB_GENERAL,
+            "failed to open input file: " + pyAiPath );
 
+         return false;
+      }
+
+      scriptFile.close();
       return true;
 }
 
@@ -127,7 +135,7 @@ void ElevatorSimStartWindow::inputAcceptCB(Fl_Window* w, void* userData) {
             /* hide this window */
             thisWindow -> hide();
       } else {
-         LOG_ERROR( Logger::SUB_FLTK, "parameters out of range" );
+         LOG_ERROR( Logger::SUB_FLTK, "parameters unacceptable" );
       }
    } catch ( boost::bad_lexical_cast& ) {
       LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, "failed to parse input parameters");
