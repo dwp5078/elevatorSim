@@ -55,7 +55,7 @@ public:
    inline static Person* checkContainerCache( Person * const cp );
    static void cleanContainerCache();
 
-   static enum PERSON_CARRIER_TYPE {
+   enum PERSON_CARRIER_TYPE {
       FLOOR_CARRIER,
       ELEVATOR_CARRIER
    };

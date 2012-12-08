@@ -150,6 +150,8 @@ void SimulationState::start(
          building = new Building(numFloors, numElevators);
          stateObjects.insert(building);
 
+         srand(randomSeed);
+
          cState = SIMULATION_RUNNING;
       }
 
