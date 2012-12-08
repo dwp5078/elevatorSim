@@ -84,18 +84,22 @@ void ElevatorSimWelcomeWindow::quitConfirmedCB(
       (void) okButton;
 
       ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
-	  
-	  char tipValue; 
-	  tipValue = thisWin->Check_Button->value();//Check_Button->value();
 
 	  std::ofstream fout(FIRST_RUN_FILENAME, std::ios::basic_ios::out);
-   
-	   if(fout.good()) {
-		  fout.write(&tipValue, 2);
+
+	  if(fout.good()) {
+
+		  if(thisWin->Check_Button->value())
+		  {
+			  fout << "T";  
+		  } else {
+			  fout << "F";
+		  }
+
 		  fout.close();
-	   } else {
+	  } else {
 		  assert(false);
-	   }
+	  }
 
       thisWin->confirmDialog->hide();
       thisWin->hide();
@@ -122,7 +126,7 @@ void ElevatorSimWelcomeWindow::writeDatFile() {
    std::ofstream fout(FIRST_RUN_FILENAME, std::ios::basic_ios::out);
    
    if(fout.good()) {
-      fout.write("F", 2);
+      fout.write("T", 2);
       fout.close();
    } else {
       assert(false);
@@ -139,7 +143,14 @@ void ElevatorSimWelcomeWindow::readDatFile() {
    } else {
       char firstRunChar;
       fin.read(&firstRunChar, sizeof(firstRunChar));
-      firstRun = false;
+	  if(firstRunChar == 'T')//if T,means continue show the first run windows
+	  {
+		firstRun = true;
+	  }
+	  else//else means does not need to continue show the first run windows
+	  {
+		firstRun = false;
+	  }
       fin.close();
    }
 }
@@ -176,7 +187,7 @@ ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
       //initial questions&answers
 	   WelcomeTextBuffer = new Fl_Text_Buffer();
 	    Check_Button = new Fl_Check_Button(10,170,210,20,"Continue showing these tips?");
-	   //readDatFile();
+	   readDatFile();
        createTips();
       /* add more widgets to main window here */
    
