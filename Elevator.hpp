@@ -36,6 +36,7 @@
 #include "Location.hpp"
 #include "Person.hpp"
 #include "ISimulationTerminal.hpp"
+#include "IPersonCarrier.hpp"
 #include "cRenderObjs.hpp"
 #include "Building.hpp"
 #include "SimulationState.hpp"
@@ -51,8 +52,9 @@ class Building;
 class Person;
 class Floor;
 struct SimulationTerminal;
+class IPersonCarrier;
 
-class Elevator : public Location, public ISimulationTerminal {
+class Elevator : public Location, public ISimulationTerminal, public IPersonCarrier {
 
    /* friends */
    friend class Building;
@@ -72,7 +74,6 @@ class Elevator : public Location, public ISimulationTerminal {
    int currentVel;
    int currentAccel;
 
-   std::set<Person*> occupants;
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
 
@@ -86,7 +87,7 @@ class Elevator : public Location, public ISimulationTerminal {
       const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
 
    void scheduleAccelsToFloor( const int srcFloor, const int destfloor );
-   
+
 public:
 
    /* public static constants */
@@ -104,12 +105,12 @@ public:
    void goToFloor(int floor);
    int getCurrentFloor();
 
-   bool isStopped() const { 
-      return (currentVel == 0); 
+   bool isStopped() const {
+      return (currentVel == 0);
    };
 
-   int getOccupantSize() const {  
-      return occupants.size();   
+   enum PERSON_CARRIER_TYPE getCarrierType() const {
+      return IPersonCarrier::ELEVATOR_CARRIER; 
    }
 
    /* inherited from SimulationTerminal */
@@ -117,7 +118,6 @@ public:
    void render();
    void update();
 
-   bool containsPerson(Person *p);
 };
 
 } /* namespace elevatorSim */

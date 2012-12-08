@@ -34,6 +34,7 @@
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "ElevatorSimResultsWindow.hpp"
 #include "SimulationState.hpp"
 #include "Logger.hpp"
 
@@ -87,6 +88,9 @@ int ElevatorSimWindow::handle(int event) {
          welcomeWin->hotspot(15, 15);
          welcomeWin->show();
       }
+
+      /* check simState for which buttons to activate and deactivate */
+      updateButtonAvailability();
 
       return true;
    } else {
@@ -193,9 +197,6 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
    Fl_Button* pauseButton = (Fl_Button*)w;
 
-   /* TODO: this needs to be moved into time manager */
-   static bool paused = true;
-
    if(pauseButton->value()) {
       if(isDebugBuild()) {
          std::stringstream dbgSS;
@@ -203,15 +204,15 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
+      /* TODO: affect simulationState */
+      /*
       if(paused) {
          w->label("Resume");
 
       } else {
          w->label("Pause");
-      }
-
-      /* TODO: this needs to be moved into time manager */
-      paused = !paused;
+      *}
+      */
    }
 }
 
@@ -225,6 +226,7 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
    }
 
    Fl_Button* stopButton = (Fl_Button*)w;
+   ElevatorSimWindow* thisWin = (ElevatorSimWindow*) userData;
 
    if(stopButton->value()) {
 
@@ -234,7 +236,8 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
-      toggleButtons((ElevatorSimWindow*) userData);
+      SimulationState::acquire().stop();
+      thisWin -> resultsWin -> show();
    }
 }
 
@@ -310,7 +313,7 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
 void ElevatorSimWindow::buildMenu() {
    static const Fl_Menu_Item menuitems[] = {
          { "&File", 0, 0, 0, FL_SUBMENU },
-         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this },
+         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this, FL_MENU_INACTIVE },
          { "E&xit", FL_COMMAND + 'x', (Fl_Callback *)menuQuitCB, this },
          { 0 },
          { "&Help", 0, 0, 0, FL_SUBMENU },
@@ -355,40 +358,6 @@ void ElevatorSimWindow::buildButtons() {
       pauseButton->active()));
 }
 
-void ElevatorSimWindow::toggleButtons(ElevatorSimWindow* thisWin){
-   static bool toggle = true; /* TODO: store in the simulation state */
-
-   assert(
-      (thisWin->startButton->active() &&
-      !thisWin->stopButton->active() &&
-      !thisWin->pauseButton->active()) ||
-
-      (!thisWin->startButton->active() &&
-      thisWin->stopButton->active() &&
-      thisWin->pauseButton->active()));
-
-   if(toggle){
-      thisWin->startButton->deactivate();
-      thisWin->stopButton->activate();
-      thisWin->pauseButton->activate();
-   } else {
-      thisWin->stopButton->deactivate();
-      thisWin->pauseButton->deactivate();
-      thisWin->startButton->activate();
-   }
-
-   assert(
-      (thisWin->startButton->active() &&
-      !thisWin->stopButton->active() &&
-      !thisWin->pauseButton->active()) ||
-
-      (!thisWin->startButton->active() &&
-      thisWin->stopButton->active() &&
-      thisWin->pauseButton->active()));
-
-   toggle = !toggle;
-}
-
 void ElevatorSimWindow::buildDialogs() {
    /* Help Dialog */
    helpWin = new Fl_Window(300, 300, "Help");
@@ -426,14 +395,14 @@ void ElevatorSimWindow::buildDialogs() {
    std::stringstream aboutSS;
 
    /* output version info of libraries */
-   aboutSS 
+   aboutSS
       << "elevatorSim" << std::endl
       << "  built with: " << std::endl
       << "    boost v" << BOOST_LIB_VERSION << " http://www.boost.org" <<std::endl
       << "    fltk v" << FL_MAJOR_VERSION << "_"
       << FL_MINOR_VERSION << FL_PATCH_VERSION << " http://www.fltk.org" << std::endl
-      << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION 
-      << " http://www.python.org " << std::endl 
+      << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION
+      << " http://www.python.org " << std::endl
       << "hosted at: https://github.com/maxdeliso/elevatorSim" << std::endl;
 
    do {
@@ -456,9 +425,36 @@ void ElevatorSimWindow::buildDialogs() {
    aboutWin->end();
 }
 
+void ElevatorSimWindow::updateButtonAvailability() {
+
+   SimulationState& simState = SimulationState::acquire();
+
+   if(isDebugBuild()) {
+      LOG_INFO( Logger::SUB_FLTK, "updating button availability...");
+   }
+
+   switch(simState.getState()) {
+   case SimulationState::SIMULATION_RUNNING:
+      startButton->deactivate();
+      stopButton->activate();
+      pauseButton->activate();
+      break;
+
+   case SimulationState::SIMULATION_READY:
+      startButton->activate();
+      stopButton->deactivate();
+      pauseButton->deactivate();
+      break;
+
+   default:
+
+      break;
+   }
+}
+
 void ElevatorSimWindow::aboutTextPredeleteCB(
    int pos, int nDeleted, void* userData) {
- 
+
       (void) pos;
       (void) nDeleted;
       (void) userData;
@@ -468,7 +464,7 @@ void ElevatorSimWindow::aboutTextModifyCB(
    int pos, int nInserted, int nDeleted,
    int nRestyled, const char* deletedText,
    void* userData) {
-      
+
       (void) pos;
       (void) nInserted;
       (void) nDeleted;
@@ -509,12 +505,13 @@ ElevatorSimWindow::ElevatorSimWindow() :
 
       welcomeWin = new ElevatorSimWelcomeWindow();
       startWin = new ElevatorSimStartWindow();
+      resultsWin = new ElevatorSimResultsWindow();
 
       /* some hackery to set the application icon in windows */
       #ifdef _ES_WINNT
-      HANDLE iconImage = LoadImage( 
-         GetModuleHandle(NULL), 
-         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON), 
+      HANDLE iconImage = LoadImage(
+         GetModuleHandle(NULL),
+         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON),
          IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 
       if(iconImage == NULL) {
@@ -529,7 +526,7 @@ ElevatorSimWindow::ElevatorSimWindow() :
          icon( (const void*) iconImage );
       }
       #endif
-      
+
       callback((Fl_Callback*)windowCloseCB, this);
 
       /* add more callbacks to main window here */
@@ -546,7 +543,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
 
    /* de-register the re-draw callback for the render window */
    Fl::remove_timeout(ElevatorSimRenderWindow::timerCB);
-   
+
    /* free class-local heap-allocated widgets */
    delete stopButton;
    delete pauseButton;
@@ -569,6 +566,7 @@ ElevatorSimWindow::~ElevatorSimWindow() {
    delete startWin;
    delete welcomeWin;
    delete renderWindow;
+   delete resultsWin;
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;

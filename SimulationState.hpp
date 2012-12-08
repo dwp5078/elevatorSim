@@ -56,6 +56,7 @@ public:
 
    enum StateKind {
       SIMULATION_STARTING,
+      SIMULATION_READY,
       SIMULATION_RUNNING,
       SIMULATION_PAUSED,
       SIMULATION_KILLED
@@ -87,12 +88,33 @@ public:
    void init();
    void update();
 
+   void start(
+      int numElevators,
+      int numFloors,
+      int randomSeed,
+      const std::string& pyAiPath );
+
+   void stop();
+
    /* TODO: something more elaborate and safe here */
    inline void notifyKill() {
       cState = SIMULATION_KILLED;
    }
 
-   inline enum StateKind getState() const {
+   enum StateKind getState() {
+      StateKind ret;
+
+      if(bigAssStateMutex.try_lock()) {
+         ret = cState;
+         bigAssStateMutex.unlock();
+      } else {
+         ret = SIMULATION_STARTING;
+      }
+
+      return ret;
+   }
+
+   enum StateKind getStateUnsafe() {
       return cState;
    }
 
@@ -109,7 +131,9 @@ public:
    }
 
 private:
-   
+
+   bool loadPythonScript( const std::string& pyAiPath );
+
    static SimulationState* simulationState;
 
    std::set<IStateObject*> stateObjects;
@@ -123,6 +147,7 @@ private:
    int logicTicks;
 
    Building* building;
+   PyObject* userScript;
 
    SimulationState();
    ~SimulationState();

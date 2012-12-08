@@ -30,6 +30,7 @@
  */
 
 #include "ElevatorSim.hpp"
+#include "IPersonCarrier.hpp"
 #include "Floor.hpp"
 #include "cRenderObjs.hpp"
 #include "Person.hpp"
@@ -39,7 +40,9 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include <set>
+#include <unordered_set>
 
 namespace elevatorSim {
 
@@ -72,7 +75,7 @@ Floor::Floor(
 
 Floor::~Floor() {
    init();
- 
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "destructing floor @" << this << std::endl;
@@ -82,14 +85,6 @@ Floor::~Floor() {
 
 void Floor::init() {
    /* free all the people allocated on the heap */
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         delete p;
-      });
-
-   occupants.clear();
    signalingUp = false;
    signalingDown = false;
 }
@@ -161,42 +156,65 @@ void Floor::render() {
 
    glPushMatrix();
    glTranslatef(-gfxScaleWidth-0.5f, 1.0f, 0.f);
-   cRenderObjs::renderOccupants(getNumOccupants(), 50);
+   cRenderObjs::renderOccupants(numPeopleContained(), 50);
    glPopMatrix();
 }
 
 void Floor::update() {
    updateSignalArrows();
 
-   std::for_each(
-      occupants.begin(),
-      occupants.end(),
-      [] ( Person * p ) {
-         p -> update();
-      });
-}
+   /* remove occupants from this floor who are destined here.
+    * (OWNER FREES+CHILD MOVES) */
 
-bool Floor::containsPerson(Person *p) {
-   return (occupants.find(p) != occupants.end());
-}
+   /* this is a very special iteration over the set because 
+    * the keys are liable to be deleted during execution 
+    * of functions called as a result of person update.
+    */
+   for(std::unordered_set<Person*>::iterator iter = people.begin();
+      iter != people.end();
+      ) {
+         /* obtain a pointer to the current person by using iterator */
+         Person* currentMutablePerson = *iter;
 
-void Floor::addOccupant(Person* p) {
-   std::pair<std::set<Person*>::iterator,bool> ret = occupants.insert(p);
-   assert( ret.second );
-   updateSignalArrows();
+         /* copy construct an iterator from the current one */
+         std::unordered_set<Person*>::iterator nextPosition = std::unordered_set<Person*>::iterator(iter);
+
+         /* increment iterator position, to save the next position */
+         ++nextPosition;
+
+         /* if the person was getting off on this floor, remove them from the simulation */
+         if(currentMutablePerson->getDestination().getYVal()
+            == thisFloor * Floor::YVALS_PER_FLOOR )  {
+
+               /* pass the old iteration position to erase, but first jump to a new one */
+               people.erase(iter++);
+
+               /* free the mutable person from the simulation */
+               delete currentMutablePerson;
+         } else {
+            /* otherwise we just update the person */
+            currentMutablePerson -> update();
+
+            /* the current iterator could've been invalidated by a person moving itself, 
+             * so intead of iter++ we just overwrite with the saved position */
+            iter = nextPosition;
+         }
+   }
 }
 
 void Floor::updateSignalArrows() {
    signalingUp = false;
    signalingDown = false;
 
-   std::set<Person*>::const_iterator iter = occupants.begin();
-   while(iter != occupants.end()) {
+   std::unordered_set<Person*>::const_iterator iter = people.begin();
+   while(iter != people.end()) {
       const Person* currentPerson = *iter;
-      if(currentPerson->getDestination().getYVal() - thisFloor > 0) {
-         signalingUp = true;
-      } else if(currentPerson->getDestination().getYVal() - thisFloor < 0) {
-         signalingDown = true;
+      if(currentPerson->getDestination().getYVal()
+         - thisFloor > 0) {
+            signalingUp = true;
+      } else if(currentPerson->getDestination().getYVal()
+         - thisFloor < 0) {
+            signalingDown = true;
       }
 
       iter++;

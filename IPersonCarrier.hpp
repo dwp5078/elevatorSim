@@ -29,75 +29,63 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _PERSON_H
-#define _PERSON_H
+#ifndef _I_PERSON_CARRIER_H
+#define _I_PERSON_CARRIER_H
 
-#include "Location.hpp"
-#include "Building.hpp"
-#include "Elevator.hpp"
-#include "ISimulationTerminal.hpp"
-
-#include <algorithm>
+#include <unordered_set>
+#include <unordered_map>
 
 namespace elevatorSim {
+class Person;
 
-class Building;
-class Elevator;
+class IPersonCarrier {
 
-class Person : public ISimulationTerminal {
-   /* friends */
-   friend class Building;
-   friend class Floor;
-   friend class Elevator;
+   static std::unordered_map<Person*, IPersonCarrier*>* containerCache;
 
-   /* private static constants */
-   enum PRIORITY {
-      UNKNOWN,
-      NORMAL,
-      HIGH,
-      EMERGENCY
-   };
+   static std::unordered_map<Person*, IPersonCarrier*>* acquireContainerCache();
+   inline static void invalidateCCEntry( Person * const cp );
+   inline static void updateCCEntry( Person * const cp, IPersonCarrier* icp );
 
-   /* private static methods */
+protected:
 
-   /* private instance members */
-   Location start;
-   Location destination;
-   enum PRIORITY priority;
-
-   /* private methods */
-
-   /* constructors */
-   Person(
-      Location startLoc,
-      Location dest,
-      enum PRIORITY p=UNKNOWN);
+   std::unordered_set<Person*> people;
 
 public:
 
-   /* public static constants */
+   inline static Person* checkContainerCache( Person * const cp );
+   static void cleanContainerCache();
 
-   /* public instance members */
+   enum PERSON_CARRIER_TYPE {
+      FLOOR_CARRIER,
+      ELEVATOR_CARRIER
+   };
 
-   ~Person();
-
-   /* public const methods */
-   Location getDestination() const {
-      return destination;
+   bool containsPerson( const Person* const & p ) const {
+      return people.find( const_cast<Person* const &>( p ) ) != people.end();
    }
 
-   enum PRIORITY getPriority() const {
-      return priority;
+   void addPerson( Person * const p ) {
+      std::pair<std::unordered_set<Person*>::iterator, bool> ret =
+         people.insert(p);
+
+      /* ensure that the add succeeded */
+      assert(ret.second);
    }
 
-   /* public methods inherited from ISimulationTerminal*/
-   void init();
-   void render();
-   void update();
+   bool removePerson( Person* p ) {
+      return ( people.erase(p) > 0 );
+   }
 
-   IPersonCarrier* locateContainer() const;
+   int numPeopleContained() const {
+      return people.size();
+   }
+
+   virtual enum PERSON_CARRIER_TYPE getCarrierType() const = 0;
+
+   virtual ~IPersonCarrier() = 0;
+
 };
 
 } /* namespace elevatorSim */
 
-#endif /* _PERSON_H */
+#endif /* _I_PERSON_CARRIER_H */

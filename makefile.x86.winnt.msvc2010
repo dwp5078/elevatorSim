@@ -10,6 +10,7 @@ SIM_OBJS=ElevatorSimWindow.obj\
 ElevatorSimRenderWindow.obj\
 ElevatorSimWelcomeWindow.obj\
 ElevatorSimStartWindow.obj\
+ElevatorSimResultsWindow.obj\
 cRenderObjs.obj\
 cTimeManager.obj\
 cKeyManager.obj\
@@ -20,9 +21,10 @@ Person.obj\
 Building.obj\
 Floor.obj\
 ISimulationTerminal.obj\
+IStateObject.obj\
+IPersonCarrier.obj\
 Logger.obj\
-SimulationState.obj\
-IStateObject.obj
+SimulationState.obj
 
 UNIT_TEST_OBJS=\
 UnitTests.obj\

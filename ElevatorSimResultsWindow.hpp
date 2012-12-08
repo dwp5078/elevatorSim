@@ -29,75 +29,31 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _PERSON_H
-#define _PERSON_H
+#ifndef _ELEVATOR_SIM_RESULTS_WINDOW_H
+#define _ELEVATOR_SIM_RESULTS_WINDOW_H
 
-#include "Location.hpp"
-#include "Building.hpp"
-#include "Elevator.hpp"
-#include "ISimulationTerminal.hpp"
+#include "ElevatorSim.hpp"
 
-#include <algorithm>
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
 
 namespace elevatorSim {
+   class ElevatorSimResultsWindow : public Fl_Window {
+         /* fltk callbacks */
+ 
+         /* user input widgets */
+         
+      public:
 
-class Building;
-class Elevator;
+         /* public static members */
+         const static int WINDOW_WIDTH;
+         const static int WINDOW_HEIGHT;
+         const static char WINDOW_TITLE[];
 
-class Person : public ISimulationTerminal {
-   /* friends */
-   friend class Building;
-   friend class Floor;
-   friend class Elevator;
-
-   /* private static constants */
-   enum PRIORITY {
-      UNKNOWN,
-      NORMAL,
-      HIGH,
-      EMERGENCY
+         ElevatorSimResultsWindow();
+         ~ElevatorSimResultsWindow();
    };
-
-   /* private static methods */
-
-   /* private instance members */
-   Location start;
-   Location destination;
-   enum PRIORITY priority;
-
-   /* private methods */
-
-   /* constructors */
-   Person(
-      Location startLoc,
-      Location dest,
-      enum PRIORITY p=UNKNOWN);
-
-public:
-
-   /* public static constants */
-
-   /* public instance members */
-
-   ~Person();
-
-   /* public const methods */
-   Location getDestination() const {
-      return destination;
-   }
-
-   enum PRIORITY getPriority() const {
-      return priority;
-   }
-
-   /* public methods inherited from ISimulationTerminal*/
-   void init();
-   void render();
-   void update();
-
-   IPersonCarrier* locateContainer() const;
-};
 
 } /* namespace elevatorSim */
 
-#endif /* _PERSON_H */
+#endif /* _ELEVATOR_SIM_RESULTS_WINDOW_H */

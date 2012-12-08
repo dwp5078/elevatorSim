@@ -38,6 +38,8 @@
 #include "ISimulationTerminal.hpp"
 
 #include <GL/glut.h>
+#include <set>
+#include <vector>
 
 namespace elevatorSim{
 class Floor;
@@ -47,15 +49,11 @@ class Building : public ISimulationTerminal {
 
    /* friends */
 
-   /* private static constants */
-   const int m_nStory;
-   const int m_nElevator;
-
    /* private static methods */
 
    /* private instance members */
-   Floor** m_Floors;
-   Elevator** m_Elevators;
+   std::vector<Floor*> floors;
+   std::vector<Elevator*> elevators;
 
    /* private methods */
 
@@ -71,7 +69,10 @@ public:
    const int invPersonArriveProb;
 
    /* constructors */
-   Building(unsigned int _nStory = 4, unsigned int _nElevator = 3);
+   Building(
+      unsigned int _nStory = 4, 
+      unsigned int _nElevator = 2, 
+      int _invPersonArriveProb = 100);
    ~Building();
 
    /* public methods inherited from ISimulationTerminal */
@@ -83,19 +84,18 @@ public:
 
    /* inline const accessors */
    inline int getStories() const {
-      return m_nStory;
+      return floors.size();
    }
-   Floor** getFloors() { return m_Floors; }
 
-   inline int getElevators() const {
-      return m_nElevator;
+   int getMaxElev() const {  
+      return elevators.size();
    }
+
+   std::vector<Floor*>& getFloors() { return floors; }
+   std::vector<Elevator*>& getElevators() { return elevators; }
 
    int getMaxElevHeight() const;
    int getMinElevHeight() const;
-
-   int getMaxElev() { return m_nElevator; }
-   Elevator** getElevators() { return m_Elevators; }
 
 };
 

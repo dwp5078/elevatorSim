@@ -37,21 +37,20 @@
 #include "Logger.hpp"
 
 #include <GL/glut.h>
-
 #include <iostream>
+#include <set>
 #include <sstream>
+#include <vector>
 #include <cassert>
 
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int _nStory, unsigned int _nElevator) :
-   m_nStory(_nStory),
-   m_nElevator(_nElevator),
+Building::Building(unsigned int _nStory, unsigned int _nElevator, int _invPersonArriveProb) :
    gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
    gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator),
-   invPersonArriveProb(20) {
+   invPersonArriveProb(_invPersonArriveProb) {
 
       if(isDebugBuild()) {
          std::stringstream dbgSS;
@@ -60,16 +59,21 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
          LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
       }
 
-      m_Floors = new Floor * [m_nStory];
-      m_Elevators = new Elevator * [m_nElevator];
+      floors = std::vector<Floor*> (_nStory);
 
-      for(int i=0; i < m_nStory ; ++i) {
-         m_Floors[i] = new Floor(
-            i * Floor::YVALS_PER_FLOOR, i, gfxScaleWidth, i != m_nStory-1, i != 0);
+      for(unsigned int i=0; i < _nStory ; ++i) {
+         floors[i] =
+            new Floor(
+               i * Floor::YVALS_PER_FLOOR,
+               i,
+               gfxScaleWidth,
+               i != _nStory-1,
+               i != 0);
       }
 
-      for(int i=0; i < m_nElevator ; ++i ) {
-         m_Elevators[i] = new Elevator(0);
+      elevators = std::vector<Elevator*> (_nElevator);
+      for(unsigned int i=0; i < _nElevator ; ++i ) {
+         elevators[i] = new Elevator(0);
       }
 
       if(isDebugBuild()) {
@@ -86,32 +90,43 @@ Building::~Building() {
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 
-   for(int i=0; i < m_nStory ; ++i) {
-      delete m_Floors[i];
+   for(std::vector<Floor*>::iterator iter = floors.begin();
+      iter != floors.end();
+      ) {
+         Floor* currentFloor = *iter;
+         iter = floors.erase(iter++);
+         delete currentFloor;
    }
 
-   for(int i=0; i < m_nElevator ; ++i ) {
-      delete m_Elevators[i];
+   for(std::vector<Elevator*>::iterator iter = elevators.begin();
+      iter != elevators.end();
+      ) {
+         Elevator* currentElevator = *iter;
+         iter = elevators.erase(iter++);
+         delete currentElevator;
    }
-
-   delete [] m_Floors;
-   delete [] m_Elevators;
 }
 
 /* public methods inherited from SimulationTerminal */
 void Building::init() {
-   for(int i=0; i < m_nStory ; ++i) {
-      m_Floors[i]->init();
-   }
+   std::for_each(
+      floors.begin(),
+      floors.end(),
+      [] (Floor * thisFloor ) {
+         thisFloor -> init();
+      });
 
-   for(int i=0; i < m_nElevator ; ++i ) {
-      m_Elevators[i]->init();
-   }
+   std::for_each(
+      elevators.begin(),
+      elevators.end(),
+      [] (Elevator * thisElevator ) {
+         thisElevator -> init();
+      });
 }
 
 void Building::render() {
    glLoadIdentity();
-   glTranslatef(2.0f, -2.0f, -1.2f*m_nElevator);
+   glTranslatef(2.0f, -2.0f, -1.2f * elevators.size());
 
    /* TODO: move these values into Building as members */
    static const GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
@@ -157,26 +172,26 @@ void Building::render() {
    glPopMatrix();
 
    /* Draw each floor */
-   for(int i=0; i < m_nStory; i++) {
+   for(unsigned int i=0; i < floors.size(); i++) {
       glPushMatrix();
       glTranslatef(
-         0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 
+         0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
          gfxEachFloorHeight * i, 0.f);
 
-      m_Floors[i]->render();
+      floors[i]->render();
 
       glPopMatrix();
    }
 
    /* Draw each elevator */
-   for(int i=0; i < m_nElevator; i++) {
+   for(unsigned int i=0; i < elevators.size(); i++) {
       glPushMatrix();
       glTranslatef(
          -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i,
          /* this is in the logical coordinate system,
           * so we divide it by YVALS_PER_FLOOR */
          1.0f +
-         (GLfloat)m_Elevators[i]->getYVal() /
+         (GLfloat)elevators[i]->getYVal() /
          Floor::YVALS_PER_FLOOR *
          gfxEachFloorHeight,
          0.0f);
@@ -186,26 +201,28 @@ void Building::render() {
        * [1.0f, 1.0f + (m_nElevator - 1) * gfxEachFloorHeight]
        */
 
-      m_Elevators[i]->render();
+      elevators[i]->render();
       glPopMatrix();
    }
 
    /* Render land */
    glPushMatrix();
    glTranslatef(-cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 0.f, 0.f);
-   glScalef(4.0f + (m_nElevator * 2.0f), 0.0f, 10.0f);
+   glScalef(4.0f + (elevators.size() * 2.0f), 0.0f, 10.0f);
    glCallList(cRenderObjs::OBJ_PLANE);
    glPopMatrix();
 }
 
 void Building::update() {
-   for(int i = 0; i < m_nStory; i++) {
-      m_Floors[i]->update();
-   }
+   std::for_each(
+      floors.begin(),
+      floors.end(),
+      [] (Floor* thisFloor) { thisFloor -> update(); });
 
-   for(int i = 0; i < m_nElevator; i++) {
-      m_Elevators[i]->update();
-   }
+   std::for_each(
+      elevators.begin(),
+      elevators.end(),
+      [] (Elevator* thisElevator ) { thisElevator -> update(); });
 
    distributePeople();
 }
@@ -214,22 +231,22 @@ void Building::distributePeople() {
    /* roll the dice to see if we'll be adding a person */
    if( rand() % invPersonArriveProb == 0 ) {
       /* pick a random source floor */
-      const int sourceFloor = rand() % m_nStory;
+      const int sourceFloor = rand() % floors.size();
       int destFloor;
 
       /* pick a different random dest floor */
-      while( (destFloor = rand() % m_nStory) == sourceFloor );
-      
+      while( (destFloor = rand() % floors.size()) == sourceFloor );
+
       /* allocate a new person off the heap */
       Person* newPerson = new Person(sourceFloor, destFloor);
 
       /* add the new randomly generated occupant */
-	   m_Floors[sourceFloor]->addOccupant(newPerson);
+	   floors[sourceFloor]->addPerson(newPerson);
    }
 }
 
 int Building::getMaxElevHeight() const {
-   return (m_nStory - 1) * Floor::YVALS_PER_FLOOR;
+   return (floors.size() - 1) * Floor::YVALS_PER_FLOOR;
 }
 
 int Building::getMinElevHeight() const {

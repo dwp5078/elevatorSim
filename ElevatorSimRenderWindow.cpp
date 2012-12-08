@@ -248,9 +248,14 @@ void ElevatorSimRenderWindow::draw() {
    int curFPS = simState.getTimeManager().getFPS();
    int curTotalFrames = simState.getTimeManager().getTotalFrames();
    
+   SimulationState::StateKind currentSimState = simState.getStateUnsafe();
    simState.unlockBASM(); /* CRITICAL SECTION STOP */
 
-   if(m_bRenderFPS) { drawFPS(curFPS, curTotalFrames); }
+
+   if(currentSimState == SimulationState::SIMULATION_RUNNING &&
+      m_bRenderFPS) {
+         drawFPS(curFPS, curTotalFrames);
+      }
 
    /* glTranslatef(0.f, 3.f, 3.f);
     * glCallList(cRenderObjs::OBJ_HUMAN); */
@@ -276,16 +281,18 @@ void ElevatorSimRenderWindow::rayCasting(int x, int y) {
    Vec3f dir = simState.getCameraManager().GetCameraLookAt() + (dx + dy) * 2.0;
    dir.Normalize();
 
-   int maxElev = simState.getBuilding().getMaxElev();
-   Elevator** elev = simState.getBuilding().getElevators();
-   
-   for(int i=0; i<maxElev; i++) {
-      float pos = 1.0f + elev[i]->getYVal() / 
-         Floor::YVALS_PER_FLOOR * simState.getBuilding().gfxEachFloorHeight;
+   const int eachFloorHeight = simState.getBuilding().gfxEachFloorHeight;
+   std::vector<Elevator*> & elevators = simState.getBuilding().getElevators();
 
-      (void) pos;
-      /* printf("%f\n", pos); TODO: use logs for this instead */
-   }
+   std::for_each(
+      elevators.begin(),
+      elevators.end(),
+      [this, &eachFloorHeight] ( const Elevator* thisElev ) {
+         float pos = 1.0f + thisElev->getYVal() / 
+            Floor::YVALS_PER_FLOOR * eachFloorHeight;
+
+         (void) pos;
+   });
 }
 
 } /* namespace elevatorSim */

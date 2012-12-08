@@ -38,11 +38,13 @@
 #include "Building.hpp"
 #include "Logger.hpp"
 
+#include <boost/thread/mutex.hpp>
 #include <set>
 #include <functional>
 #include <cassert>
-#include <boost/thread/mutex.hpp>
 #include <sstream>
+#include <string>
+#include <fstream>
 
 namespace elevatorSim   {
 
@@ -55,6 +57,7 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
    stateObjects.insert((building = new Building()));
 
    renderObjs = new cRenderObjs();
+   userScript = NULL;
 }
 
 SimulationState::~SimulationState() {
@@ -63,6 +66,8 @@ SimulationState::~SimulationState() {
       dbgSS << "starting to destroy simulation state @ " << this << std::endl;
       LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
+
+   init();
 
    delete building;
 
@@ -94,24 +99,112 @@ void SimulationState::release() {
 }
 
 void SimulationState::init() {
-   cState = SIMULATION_RUNNING;
+   cState = SIMULATION_STARTING;
    logicTicks = 0;
 
-   /* TODO */
+   if( userScript != NULL) {
+      Py_DECREF(userScript);
+      userScript = NULL;
+   }
 }
 
 void SimulationState::update() {
-   bigAssStateMutex.lock(); 
+   bigAssStateMutex.lock();
 
-   std::for_each(
-      stateObjects.begin(),
-      stateObjects.end(),
-      [] (IStateObject * stateObj) { 
-         stateObj -> update();
-   });
+   if( cState == SIMULATION_RUNNING ) {
+      std::for_each(
+         stateObjects.begin(),
+         stateObjects.end(),
+         [] (IStateObject * stateObj) {
+            stateObj -> update();
+      });
 
-   ++logicTicks;
+      ++logicTicks;
+   }
+
    bigAssStateMutex.unlock();
+}
+
+void SimulationState::start(
+   int numElevators,
+   int numFloors,
+   int randomSeed,
+   const std::string& pyAiPath ) {
+      assert(userScript == NULL);
+
+      bigAssStateMutex.lock();
+
+      /* cRenderObjs */
+
+      init();
+
+      /* load and compile python */
+      if( loadPythonScript( pyAiPath ) ) {
+
+         timeManager->init();
+         keyManager->init();
+         cameraManager->init();
+
+         stateObjects.erase(building);
+         delete building;
+         building = new Building(numFloors, numElevators);
+         stateObjects.insert(building);
+
+         srand(randomSeed);
+
+         cState = SIMULATION_RUNNING;
+      }
+
+      bigAssStateMutex.unlock();
+}
+
+
+void SimulationState::stop() {
+   bigAssStateMutex.lock();
+   init();
+   cState = SIMULATION_READY;
+
+   /* TODO: post-process simulation data */
+
+   bigAssStateMutex.unlock();
+}
+
+bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
+   std::string pyBuffer;
+
+   std::ifstream pyScriptFile( pyAiPath.c_str(), std::ifstream::in );
+   if (pyScriptFile.is_open()) {
+      int lineCount = 0;
+      while ( pyScriptFile.good() ) {
+         std::string lineBuffer;
+         getline (pyScriptFile, lineBuffer);
+         pyBuffer += lineBuffer;
+         ++lineCount;
+      }
+
+      pyScriptFile.close();
+      (void) lineCount;
+
+      /* see http://docs.python.org/3/c-api/veryhigh.html#Py_CompileStringExFlags */
+
+      /* compile the string into an object */
+      userScript =
+         Py_CompileString(
+            pyBuffer.c_str(),
+            pyAiPath.c_str(),
+            Py_file_input);
+
+      if( userScript == NULL ) {
+         PyErr_Print();
+         return false;
+      }
+
+   } else {
+      LOG_ERROR( Logger::SUB_GENERAL, "couldn't open script file");
+      return false;
+   }
+
+   return true;
 }
 
 } /* namespace elevatorSim */

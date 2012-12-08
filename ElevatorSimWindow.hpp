@@ -36,6 +36,7 @@
 #include "ElevatorSimRenderWindow.hpp"
 #include "ElevatorSimWelcomeWindow.hpp"
 #include "ElevatorSimStartWindow.hpp"
+#include "ElevatorSimResultsWindow.hpp"
 #include "cTimeManager.hpp"
 #include "cKeyManager.hpp"
 
@@ -56,6 +57,7 @@ class ElevatorSimWindow : public Fl_Window {
    void buildMenu();
    void buildButtons();
    void buildDialogs();
+   void updateButtonAvailability();
 
    /* private static methods */
    static void windowCloseCB(Fl_Window* w, void* userData);
@@ -72,18 +74,18 @@ class ElevatorSimWindow : public Fl_Window {
    static void quitCancelledCB(Fl_Button* noButton, void* data);
    static void dismissHelpCB(Fl_Widget* w, void* userData);
    static void dismissAboutCB(Fl_Widget* w, void* userData);
-   static void toggleButtons(ElevatorSimWindow* userData);
 
    static void aboutTextPredeleteCB( int pos, int nDeleted, void* cbArg);
    static void aboutTextModifyCB(
       int pos, int nInserted, int nDeleted,
       int nRestyled, const char* deletedText,
       void* cbArg);
-      
+
    /* private members */
    ElevatorSimRenderWindow* renderWindow;
    ElevatorSimWelcomeWindow* welcomeWin;
    ElevatorSimStartWindow* startWin;
+   ElevatorSimResultsWindow* resultsWin;
 
    /* quit confirmation widgets */
    Fl_Window* confirmDialog;

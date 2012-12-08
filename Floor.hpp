@@ -33,9 +33,11 @@
 #define _FLOOR_H
 
 #include "ElevatorSim.hpp"
+#include "ISimulationTerminal.hpp"
+#include "IPersonCarrier.hpp"
+#include "IPersonCarrier.hpp"
 #include "Location.hpp"
 #include "Person.hpp"
-#include "ISimulationTerminal.hpp"
 #include "Building.hpp"
 
 #include <vector>
@@ -45,8 +47,9 @@ namespace elevatorSim {
 
 class Building;
 class Person;
+class IPersonCarrier;
 
-class Floor : public Location, public ISimulationTerminal {
+class Floor : public Location, public ISimulationTerminal, public IPersonCarrier {
 
    /* friends */
    friend class Building;
@@ -56,7 +59,6 @@ class Floor : public Location, public ISimulationTerminal {
    /* private static methods */
 
    /* private instance members */
-   std::set<Person*> occupants;
    bool signalingUp;
    bool signalingDown;
 
@@ -90,10 +92,11 @@ public:
    void render();
    void update();
 
-   bool containsPerson(Person *p);
-   void addOccupant(Person* p);
-   int getNumOccupants() const {  return occupants.size(); }
    void updateSignalArrows();
+
+   enum PERSON_CARRIER_TYPE getCarrierType() const {
+      return IPersonCarrier::FLOOR_CARRIER; 
+   }
 };
 
 } /* namespace elevatorSim */

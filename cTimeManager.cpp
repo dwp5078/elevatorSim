@@ -47,6 +47,7 @@ void cTimeManager::init() {
    m_dwLimitTime = m_dwCurrTime + boost::posix_time::seconds(1);
    totalFrames = 0;
    secondFrames = 0;
+   FPS = 0;
 }
 
 void cTimeManager::update() {
