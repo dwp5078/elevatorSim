@@ -85,6 +85,7 @@ int main(int argc, char** argv) {
    Py_Finalize();
    LOG_INFO(Logger::SUB_GENERAL, "shutting down");
    Logger::release();
+   IPersonCarrier::cleanContainerCache();
    return 0;
 }
 
