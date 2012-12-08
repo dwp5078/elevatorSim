@@ -36,6 +36,9 @@
 #include "Logger.hpp"
 
 namespace elevatorSim {
+
+   std::unordered_map<Person*, IPersonCarrier*>* IPersonCarrier::containerCache = NULL;
+
    IPersonCarrier::~IPersonCarrier() {
        /* print debug info */
       if(isDebugBuild()) {
@@ -65,7 +68,9 @@ namespace elevatorSim {
    }
 
    std::unordered_map<Person*, IPersonCarrier*>* IPersonCarrier::acquireContainerCache() {
-      return NULL;
+      return (containerCache == NULL) ?
+         (containerCache = new std::unordered_map<Person*, IPersonCarrier*>()) :
+         (containerCache);
    }
 
    inline void IPersonCarrier::invalidateCCEntry( Person * const cp ) {
@@ -81,7 +86,9 @@ namespace elevatorSim {
    }
 
    void IPersonCarrier::cleanContainerCache() {
-
+      if(containerCache != NULL ) {
+         delete containerCache;
+      }
    }
 
 } /* namespace ElevatorSim */
