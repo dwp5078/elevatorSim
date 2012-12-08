@@ -74,6 +74,13 @@ class Elevator : public Location, public ISimulationTerminal, public IPersonCarr
    int currentVel;
    int currentAccel;
    int closeDoorTimer;
+
+   bool peopleOffAnimation;
+   bool peopleOnAnimation;
+
+   int peopleOffCounter;
+   int peopleOnCounter;
+   float peopleOnOffPosX;
    //int 
 
    std::vector<int> scheduledFloors;
@@ -96,6 +103,8 @@ public:
    static const int DEFAULT_MAX_VEL;
    static const int DEFAULT_MAX_ACCEL;
    static const int DEFAULT_MAX_OCCUPANTS;
+   static const int DEFAULT_MAX_ANI_COUNTER;
+   static const int DEFAULT_DOOR_CLOSE_DELAY;
 
    /* public instance members */
 
@@ -114,6 +123,11 @@ public:
    inline bool isFull() const {
       return (maxOccupants <= numPeopleContained()?true:false);
    }
+
+   //fancy animation turn on function
+   inline void peopleGetOnAnimationOn() { peopleOnAnimation = true;  peopleOnCounter = DEFAULT_MAX_ANI_COUNTER; }
+   inline void peopleGetOffAnimationOn() { peopleOffAnimation = true; peopleOffCounter = 0;}
+   inline void peopleGetOnOffAnimationOff() { peopleOnAnimation = peopleOffAnimation = false; }
 
    enum PERSON_CARRIER_TYPE getCarrierType() const {
       return IPersonCarrier::ELEVATOR_CARRIER; 

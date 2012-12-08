@@ -90,39 +90,7 @@ void Person::update() {
    /* we're waiting at floor, so check if there are any elevators currently on this floor,
    * check to see if an elevator has arrived, and get on if it has
    */
-   if( container->getCarrierType() == IPersonCarrier::FLOOR_CARRIER ) {
-      Floor* floorContainer = static_cast<Floor*> (container);
-      std::set<Elevator*> candidateElevators;
-
-      /* iterate over all of the elevators and compare their positions to this person's
-      * starting location */
-      std::for_each(
-         elevators.begin(),
-         elevators.end(),
-         [this, &candidateElevators] ( Elevator* thisElevator ) {
-            //if() break;
-
-            if(!thisElevator->isFull() && thisElevator -> getYVal() == start.getYVal() * Floor::YVALS_PER_FLOOR ) {
-               /* we've found a candidate elevator, so add it to the set */ 
-               candidateElevators.insert(thisElevator);
-            }
-      });
-
-      /* if there are candidate elevators */
-      if( candidateElevators.size() > 0 ) {
-         /* just pick the first one (for now) */
-
-         /* TODO: choose randomly among available elevators,
-         * (in preparation for making this a scriptable choice) */
-         Elevator * elevatorToBoard  = *candidateElevators.begin();
-
-         /* move ourselves to this elevator */
-         elevatorToBoard -> addPerson( this );
-
-         /* remove ourselves from our containing floor */
-         assert( floorContainer -> removePerson( this ) );
-      }
-   } else if( container->getCarrierType() == IPersonCarrier::ELEVATOR_CARRIER) {
+   if( container->getCarrierType() == IPersonCarrier::ELEVATOR_CARRIER) {
       Elevator* elevatorContainer = static_cast<Elevator*> (container);
 
       /* if our container elevator has got the same yVal as our destination,
@@ -144,6 +112,7 @@ void Person::update() {
 
          /* remove ourselves from our containing elevator */
          assert( elevatorContainer -> removePerson( this ) );
+         elevatorContainer->peopleGetOffAnimationOn();
 
          if(isDebugBuild()) {
             std::stringstream dbgSS;
@@ -154,6 +123,39 @@ void Person::update() {
          }
       }
    }
+
+   else if( container->getCarrierType() == IPersonCarrier::FLOOR_CARRIER ) {
+      Floor* floorContainer = static_cast<Floor*> (container);
+      std::set<Elevator*> candidateElevators;
+
+      /* iterate over all of the elevators and compare their positions to this person's
+      * starting location */
+      std::for_each(
+         elevators.begin(),
+         elevators.end(),
+         [this, &candidateElevators] ( Elevator* thisElevator ) {
+            if(!thisElevator->isFull() && thisElevator -> getYVal() == start.getYVal() * Floor::YVALS_PER_FLOOR ) {
+               /* we've found a candidate elevator, so add it to the set */ 
+               candidateElevators.insert(thisElevator);
+            }
+      });
+
+      /* if there are candidate elevators */
+      if( candidateElevators.size() > 0 ) {
+         /* just pick the first one (for now) */
+
+         /* TODO: choose randomly among available elevators,
+         * (in preparation for making this a scriptable choice) */
+         Elevator * elevatorToBoard  = *candidateElevators.begin();
+
+         /* move ourselves to this elevator */
+         elevatorToBoard -> addPerson( this );
+         elevatorToBoard->peopleGetOnAnimationOn();
+
+         /* remove ourselves from our containing floor */
+         assert( floorContainer -> removePerson( this ) );
+      }
+   } 
 }
 
 IPersonCarrier* Person::locateContainer() const {
