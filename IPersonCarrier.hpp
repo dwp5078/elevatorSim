@@ -33,16 +33,27 @@
 #define _I_PERSON_CARRIER_H
 
 #include <unordered_set>
+#include <unordered_map>
 
 namespace elevatorSim {
 class Person;
 
 class IPersonCarrier {
+
+   static std::unordered_map<Person*, IPersonCarrier*>* containerCache;
+
+   static std::unordered_map<Person*, IPersonCarrier*>* acquireContainerCache();
+   inline static void invalidateCCEntry( Person * const cp );
+   inline static void updateCCEntry( Person * const cp, IPersonCarrier* icp );
+
 protected:
 
    std::unordered_set<Person*> people;
 
 public:
+
+   inline static Person* checkContainerCache( Person * const cp );
+   static void cleanContainerCache();
 
    static enum PERSON_CARRIER_TYPE {
       FLOOR_CARRIER,

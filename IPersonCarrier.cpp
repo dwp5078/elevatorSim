@@ -40,8 +40,8 @@ namespace elevatorSim {
        /* print debug info */
       if(isDebugBuild()) {
          std::stringstream dbgSS;
-         dbgSS << "with IPersonCarrier @ " << this 
-            << " with " << people.size() 
+         dbgSS << "with IPersonCarrier @ " << this
+            << " with " << people.size()
             << " people. destructing them..." << std::endl;
 
          LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
@@ -57,10 +57,31 @@ namespace elevatorSim {
 
       if(isDebugBuild()) {
          std::stringstream dbgSS;
-         dbgSS << "destructing in IPersonCarrier @ " << this 
+         dbgSS << "destructing in IPersonCarrier @ " << this
             << " complete" << std::endl;
 
          LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
       }
    }
+
+   std::unordered_map<Person*, IPersonCarrier*>* IPersonCarrier::acquireContainerCache() {
+      return NULL;
+   }
+
+   inline void IPersonCarrier::invalidateCCEntry( Person * const cp ) {
+
+   }
+
+   inline void IPersonCarrier::updateCCEntry( Person * const cp, IPersonCarrier* icp ) {
+
+   }
+
+   inline Person* IPersonCarrier::checkContainerCache( Person * const cp ) {
+      return NULL;
+   }
+
+   void IPersonCarrier::cleanContainerCache() {
+
+   }
+
 } /* namespace ElevatorSim */
