@@ -29,75 +29,39 @@
  * policies, either expressed or implied, of the FreeBSD Project.
  */
 
-#ifndef _PERSON_H
-#define _PERSON_H
+#include "ElevatorSim.hpp"
+#include "ElevatorSimResultsWindow.hpp"
+#include "SimulationState.hpp"
+#include "Logger.hpp"
 
-#include "Location.hpp"
-#include "Building.hpp"
-#include "Elevator.hpp"
-#include "ISimulationTerminal.hpp"
+#include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Button.H>
+#include <FL/Fl_File_Chooser.H>
 
-#include <algorithm>
+#include <boost/lexical_cast.hpp>
+#include <fstream>
 
 namespace elevatorSim {
 
-class Building;
-class Elevator;
+/* public static member initializers */
+const char ElevatorSimResultsWindow::WINDOW_TITLE[] = "Simulation Report";
+const int ElevatorSimResultsWindow::WINDOW_WIDTH = 512;
+const int ElevatorSimResultsWindow::WINDOW_HEIGHT = 316;
 
-class Person : public ISimulationTerminal {
-   /* friends */
-   friend class Building;
-   friend class Floor;
-   friend class Elevator;
+/* public methods */
+ElevatorSimResultsWindow::ElevatorSimResultsWindow() :
+   Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
 
-   /* private static constants */
-   enum PRIORITY {
-      UNKNOWN,
-      NORMAL,
-      HIGH,
-      EMERGENCY
-   };
+}
 
-   /* private static methods */
-
-   /* private instance members */
-   Location start;
-   Location destination;
-   enum PRIORITY priority;
-
-   /* private methods */
-
-   /* constructors */
-   Person(
-      Location startLoc,
-      Location dest,
-      enum PRIORITY p=UNKNOWN);
-
-public:
-
-   /* public static constants */
-
-   /* public instance members */
-
-   ~Person();
-
-   /* public const methods */
-   Location getDestination() const {
-      return destination;
+ElevatorSimResultsWindow::~ElevatorSimResultsWindow() {
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "finished destroying results window @ " << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
    }
-
-   enum PRIORITY getPriority() const {
-      return priority;
-   }
-
-   /* public methods inherited from ISimulationTerminal*/
-   void init();
-   void render();
-   void update();
-
-   IPersonCarrier* locateContainer() const;
-};
+}
 
 } /* namespace elevatorSim */
-
-#endif /* _PERSON_H */

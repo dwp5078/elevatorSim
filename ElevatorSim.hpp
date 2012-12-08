@@ -43,6 +43,7 @@
    disable: 4244;\
    disable: 4512;\
    disable: 4211;\
+   disable: 4127;\
    disable: 4913;\
    disable: 4100)
 #include <Windows.h>

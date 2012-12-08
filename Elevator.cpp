@@ -40,6 +40,7 @@
 
 #include <vector>
 #include <set>
+#include <unordered_set>
 #include <iostream>
 #include <sstream>
 #include <cassert>
@@ -261,18 +262,6 @@ void Elevator::update() {
          /* remove it from the vector */
          scheduledAccels.pop_back();
 
-         /* print debug info */
-         if(isDebugBuild()) {
-            std::stringstream dbgSS;
-            dbgSS << "with elevator @ " << this
-               << " pulling scheduled accel off of queue at t = " << currentTime
-               << ", a = " << currentAccel << ", v = " << currentVel << ", y = " << yVal
-               << " and now " << scheduledAccels.size()
-               << " scheduled accels. NEW ACCEL: " << nextScheduledAccel.second << std::endl;
-
-            LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-         }
-
          /* and overwrite the current accel */
          currentAccel = nextScheduledAccel.second;
       }
@@ -288,15 +277,25 @@ void Elevator::update() {
    yVal = (yVal > maxElevHeight ) ? ( maxElevHeight ) : ( yVal );
    yVal = (yVal < minElevHeight ) ? ( minElevHeight ) : ( yVal );
 
-   if(isDebugBuild()) {
-      std::stringstream dbgSS;
-      dbgSS << "elevator @" << this
-         << " yVal " << yVal << " v " << currentVel
-         << " a " << currentAccel << std::endl;
-      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, sstreamToBuffer( dbgSS ));
-   }
-
    /* update occupants */
+   for(std::unordered_set<Person*>::iterator iter = people.begin();
+      iter != people.end();
+      ) {
+         /* obtain a pointer to the current person by using iterator */
+         Person* currentMutablePerson = *iter;
+
+         /* copy construct an iterator from the current one */
+         std::unordered_set<Person*>::iterator nextPosition = std::unordered_set<Person*>::iterator(iter);
+
+         /* increment iterator position, to save the next position */
+         ++nextPosition;
+
+         currentMutablePerson -> update();
+
+         /* the current iterator could've been invalidated by a person moving itself, 
+         * so intead of iter++ we just overwrite with the saved position */
+         iter = nextPosition;     
+   }
 
    /* ensure that height and velocity and acceleration are within legal ranges */
    assert( minElevHeight <= yVal && yVal <= maxElevHeight );

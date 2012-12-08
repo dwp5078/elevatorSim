@@ -37,7 +37,6 @@
 #include "Logger.hpp"
 
 #include <GL/glut.h>
-
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -46,12 +45,12 @@
 
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int _nStory, unsigned int _nElevator) :
+Building::Building(unsigned int _nStory, unsigned int _nElevator, int _invPersonArriveProb) :
    gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
    gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
    gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
    gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator),
-   invPersonArriveProb(20) {
+   invPersonArriveProb(_invPersonArriveProb) {
 
       if(isDebugBuild()) {
          std::stringstream dbgSS;
@@ -63,12 +62,12 @@ Building::Building(unsigned int _nStory, unsigned int _nElevator) :
       floors = std::vector<Floor*> (_nStory);
 
       for(unsigned int i=0; i < _nStory ; ++i) {
-         floors[i] =  
+         floors[i] =
             new Floor(
-               i * Floor::YVALS_PER_FLOOR, 
-               i, 
-               gfxScaleWidth, 
-               i != _nStory-1, 
+               i * Floor::YVALS_PER_FLOOR,
+               i,
+               gfxScaleWidth,
+               i != _nStory-1,
                i != 0);
       }
 
@@ -115,14 +114,14 @@ void Building::init() {
       floors.end(),
       [] (Floor * thisFloor ) {
          thisFloor -> init();
-      });    
+      });
 
    std::for_each(
       elevators.begin(),
       elevators.end(),
       [] (Elevator * thisElevator ) {
          thisElevator -> init();
-      });    
+      });
 }
 
 void Building::render() {
@@ -192,7 +191,7 @@ void Building::render() {
          /* this is in the logical coordinate system,
           * so we divide it by YVALS_PER_FLOOR */
          1.0f +
-         (GLfloat)elevators[i]->getYVal() / 
+         (GLfloat)elevators[i]->getYVal() /
          Floor::YVALS_PER_FLOOR *
          gfxEachFloorHeight,
          0.0f);
@@ -223,7 +222,7 @@ void Building::update() {
    std::for_each(
       elevators.begin(),
       elevators.end(),
-      [] (Elevator* thisElevator ) { thisElevator -> update(); });   
+      [] (Elevator* thisElevator ) { thisElevator -> update(); });
 
    distributePeople();
 }

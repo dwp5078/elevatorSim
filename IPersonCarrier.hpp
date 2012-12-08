@@ -32,19 +32,30 @@
 #ifndef _I_PERSON_CARRIER_H
 #define _I_PERSON_CARRIER_H
 
-#include <set>
+#include <unordered_set>
+#include <unordered_map>
 
 namespace elevatorSim {
 class Person;
 
 class IPersonCarrier {
+
+   static std::unordered_map<Person*, IPersonCarrier*>* containerCache;
+
+   static std::unordered_map<Person*, IPersonCarrier*>* acquireContainerCache();
+   inline static void invalidateCCEntry( Person * const cp );
+   inline static void updateCCEntry( Person * const cp, IPersonCarrier* icp );
+
 protected:
 
-   std::set<Person*> people;
+   std::unordered_set<Person*> people;
 
 public:
 
-   static enum PERSON_CARRIER_TYPE {
+   inline static Person* checkContainerCache( Person * const cp );
+   static void cleanContainerCache();
+
+   enum PERSON_CARRIER_TYPE {
       FLOOR_CARRIER,
       ELEVATOR_CARRIER
    };
@@ -53,15 +64,15 @@ public:
       return people.find( const_cast<Person* const &>( p ) ) != people.end();
    }
 
-   void addPerson( Person*& p ) {
-      std::pair<std::set<Person*>::iterator, bool> ret =
+   void addPerson( Person * const p ) {
+      std::pair<std::unordered_set<Person*>::iterator, bool> ret =
          people.insert(p);
 
       /* ensure that the add succeeded */
       assert(ret.second);
    }
 
-   bool removePerson( Person*& p ) {
+   bool removePerson( Person* p ) {
       return ( people.erase(p) > 0 );
    }
 
