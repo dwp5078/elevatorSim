@@ -156,6 +156,26 @@ void SimulationState::start(
       bigAssStateMutex.unlock();
 }
 
+bool SimulationState::togglePause() {
+   bool ret = false;
+   bigAssStateMutex.lock();
+
+   if( cState != SIMULATION_RUNNING && cState != SIMULATION_PAUSED ) {
+      ret = false;      
+   } else {
+
+      if( cState == SIMULATION_PAUSED ) {
+         ret = false;
+         cState = SIMULATION_RUNNING;
+      } else {
+         ret = true;
+         cState = SIMULATION_PAUSED;
+      }
+   }
+
+   bigAssStateMutex.unlock();
+   return ret;
+}
 
 void SimulationState::stop() {
    bigAssStateMutex.lock();
