@@ -53,6 +53,7 @@ namespace elevatorSim
          int handle(int event);
          void writeDatFile();
          void readDatFile();
+		 void createTips();
          
          /* private static methods */
          static void windowCloseCB(Fl_Window* win, void* userData);
@@ -61,6 +62,7 @@ namespace elevatorSim
 
          /* private static constants */
          const static char FIRST_RUN_FILENAME[];
+		 const static char TIPS_CATALOG_FILENAME[];
          
          /* private members */
          bool firstRun;

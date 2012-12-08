@@ -43,6 +43,9 @@
 #include <FL/names.h>
 
 #include <fstream>
+#include <sstream>
+#include <string>
+#include <iostream>
 namespace elevatorSim {
 
 /* public static member initializers */
@@ -50,6 +53,7 @@ const char ElevatorSimWelcomeWindow::FIRST_RUN_FILENAME[] = ".firstrun";
 const char ElevatorSimWelcomeWindow::WINDOW_TITLE[] = "Welcome";
 const int ElevatorSimWelcomeWindow::WINDOW_WIDTH = 300;
 const int ElevatorSimWelcomeWindow::WINDOW_HEIGHT = 200;
+const char ElevatorSimWelcomeWindow::TIPS_CATALOG_FILENAME[] = "Tipscatalog.txt";
 
 void ElevatorSimWelcomeWindow::buildDialogs() {
    confirmDialog = new Fl_Window(350, 160, "");
@@ -80,6 +84,19 @@ void ElevatorSimWelcomeWindow::quitConfirmedCB(
       (void) okButton;
 
       ElevatorSimWelcomeWindow* thisWin = (ElevatorSimWelcomeWindow*) userData;
+	  
+	  char tipValue; 
+	  tipValue = thisWin->Check_Button->value();//Check_Button->value();
+
+	  std::ofstream fout(FIRST_RUN_FILENAME, std::ios::basic_ios::out);
+   
+	   if(fout.good()) {
+		  fout.write(&tipValue, 2);
+		  fout.close();
+	   } else {
+		  assert(false);
+	   }
+
       thisWin->confirmDialog->hide();
       thisWin->hide();
 }
@@ -127,20 +144,47 @@ void ElevatorSimWelcomeWindow::readDatFile() {
    }
 }
 
+void ElevatorSimWelcomeWindow::createTips()
+{	
+   std::ifstream fin_tips(TIPS_CATALOG_FILENAME, std::ios::basic_ios::in );   
+
+   if(fin_tips.fail()) 
+   {
+
+      fin_tips.close();
+   } 
+   else 
+   {
+	   char lineTemp[100][200];
+   	   int i = 0;
+	   int rand_number = 0;
+
+	   while(fin_tips.getline(lineTemp[i],200))//!fin_tips.eof() )
+		{
+			i++;
+		}
+      fin_tips.close();
+
+	  rand_number = (rand() % i);
+	  WelcomeTextBuffer->append(lineTemp[rand_number]);
+   }  
+}
+
 /* public methods */
 ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
    Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
       //initial questions&answers
-	   
-	   readDatFile();
-   
+	   WelcomeTextBuffer = new Fl_Text_Buffer();
+	    Check_Button = new Fl_Check_Button(10,170,210,20,"Continue showing these tips?");
+	   //readDatFile();
+       createTips();
       /* add more widgets to main window here */
    
-      buildDialogs();
+      buildDialogs();	  
 	  
-	  WelcomeTextBuffer = new Fl_Text_Buffer();
 	  WelcomeDisplay = new Fl_Text_Display(10,30,280,130);
-	  Check_Button = new Fl_Check_Button(10,170,210,20,"Continue showing these tips?");
+	  WelcomeDisplay->buffer(WelcomeTextBuffer);
+	 
       Check_Button->value(1);
 
 	  add(WelcomeDisplay);
