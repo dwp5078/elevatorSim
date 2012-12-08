@@ -7,4 +7,4 @@ Did you know press button "PageUp" can go up?
 Did you know press button "PageDown" can go down?
 Did you know press button "Begin" will popup a window where you can input parameters?
 Did you know press button "Pause" can pause the program?
-Did you know press button "Stop" can stop the program?
+Did you know press button "Stop" can stop the program and will popup a window shows some statistics information?
