@@ -61,7 +61,7 @@ bool ElevatorSimStartWindow::validateSimulationParams(
    const int rSeed,
    const std::string& pyAiPath) {
 
-      if( numElev < 1 || numFloor <= 1 ) {
+      if( numElev < 1 || numFloor <= 1 || rSeed == 0 ) {
          return false;
       }
 

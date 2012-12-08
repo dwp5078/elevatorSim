@@ -74,14 +74,17 @@ namespace elevatorSim {
    }
 
    inline void IPersonCarrier::invalidateCCEntry( Person * const cp ) {
-
+      (void) cp;
    }
 
    inline void IPersonCarrier::updateCCEntry( Person * const cp, IPersonCarrier* icp ) {
-
+      (void) cp;
+      (void) icp;
    }
 
    inline Person* IPersonCarrier::checkContainerCache( Person * const cp ) {
+      (void)cp;
+
       return NULL;
    }
 
