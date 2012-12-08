@@ -237,6 +237,9 @@ void Elevator::update() {
          const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
          const int nextFloor = scheduledFloors.back();
 
+         /* call into python for user script processing */
+         SimulationState::acquire().runUserScriptUnsafe();
+
          /* remove this floor from the scheduled floors queue */
          scheduledFloors.pop_back();
 

@@ -158,6 +158,21 @@ void SimulationState::start(
       bigAssStateMutex.unlock();
 }
 
+void SimulationState::runUserScriptUnsafe() {
+   PyObject* globals = Py_BuildValue("{s:i}", "test", 1);
+   PyObject* locals = Py_BuildValue("{s:i}", "test", 1);
+
+   PyObject* scriptResult = PyEval_EvalCode(userScript, globals, locals);
+
+   if(PyErr_Occurred()) {
+      PyErr_Print();
+   }
+
+   Py_XDECREF(scriptResult);
+   Py_DECREF(locals);
+   Py_DECREF(globals);
+}
+
 bool SimulationState::togglePause() {
    bool ret = false;
    bigAssStateMutex.lock();
