@@ -1,0 +1,10 @@
+Did you know press button "left" can go left?
+Did you know press button "right" can go right?
+Did you know press button "up" can go forward?
+Did you know press button "down" can go backward?
+Did you know press button "space" can go back to the initial position?
+Did you know press button "PageUp" can go up?
+Did you know press button "PageDown" can go down?
+Did you know press button "Begin" will popup a window where you can input parameters?
+Did you know press button "Pause" can pause the program?
+Did you know press button "Stop" can stop the program?
