@@ -69,6 +69,7 @@ public:
    void initHuman();
 
    static void renderOccupants(int num, int maxOccupants, bool forFloor = true);
+   static void drawBitmapText(char *string,float x,float y,float z);
 };
 
 } /* namespace elevatorSim */

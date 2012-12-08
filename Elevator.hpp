@@ -73,6 +73,8 @@ class Elevator : public Location, public ISimulationTerminal, public IPersonCarr
    /* private instance members */
    int currentVel;
    int currentAccel;
+   int closeDoorTimer;
+   //int 
 
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;

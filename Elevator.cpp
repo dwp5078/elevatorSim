@@ -85,8 +85,11 @@ Elevator::Elevator(
          currentVel = 0;
          currentAccel = 0;
 
+         init();
          /* FOR DEBUG */
          scheduledFloors.push_back( 1 );
+
+         
 
          if(isDebugBuild()) {
             std::stringstream dbgSS;
@@ -147,7 +150,7 @@ void Elevator::scheduleAccelsToFloor( const int srcFloor, const int destfloor ) 
 }
 
 Elevator::~Elevator() {
-   init();
+   //init();
 
    if(isDebugBuild()) {
       std::stringstream dbgSS;
@@ -200,7 +203,7 @@ void Elevator::goToFloor(int floor) {
 void Elevator::init() {
    currentAccel = 0;
    currentVel = 0;
-
+   closeDoorTimer = -1;
    /* free all the people allocated on the heap */
 
    scheduledFloors.clear();
@@ -208,8 +211,20 @@ void Elevator::init() {
 }
 
 void Elevator::render() {
+   glPushMatrix();
+   glTranslatef(0.f, 0.1f, 1.0f);
    glCallList(cRenderObjs::OBJ_ELEVATOR);
    cRenderObjs::renderOccupants(numPeopleContained(), maxOccupants, false);
+
+
+   
+   glColor3f(0.f, 1.0f, 0.f);
+
+   char tmp[50];
+   sprintf_s(tmp, sizeof(tmp), "%d / %d", numPeopleContained(), maxOccupants);
+   cRenderObjs::drawBitmapText(tmp, -0.7f, 1.2f, 1.f);
+
+   glPopMatrix();
 }
 
 void Elevator::update() {
@@ -234,21 +249,31 @@ void Elevator::update() {
    if( currentVel == 0 &&
       yVal % Floor::YVALS_PER_FLOOR == 0 &&
       scheduledFloors.size() > 0 ) {
-         const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
-         const int nextFloor = scheduledFloors.back();
 
-         /* remove this floor from the scheduled floors queue */
-         scheduledFloors.pop_back();
-
-         /* if it's different from this floor, schedule the accelerations */
-         if( thisFloor != nextFloor ) {
-            scheduleAccelsToFloor(thisFloor, nextFloor);
+         if(closeDoorTimer == -1)   {
+            closeDoorTimer = currentTime + 80;
+            //return;
          }
 
-         /* FOR DEBUG: schedule a new random dest upon arriving at a floor
-          * if there are no stops after this */
-         if( scheduledFloors.size() == 0 ) {
-            scheduledFloors.push_back(rand() % numFloors);
+         else if (closeDoorTimer < currentTime)   {
+            closeDoorTimer = -1;
+         
+            const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
+            const int nextFloor = scheduledFloors.back();
+
+            /* remove this floor from the scheduled floors queue */
+            scheduledFloors.pop_back();
+
+            /* if it's different from this floor, schedule the accelerations */
+            if( thisFloor != nextFloor ) {
+               scheduleAccelsToFloor(thisFloor, nextFloor);
+            }
+
+            /* FOR DEBUG: schedule a new random dest upon arriving at a floor
+             * if there are no stops after this */
+            if( scheduledFloors.size() == 0 ) {
+               scheduledFloors.push_back(rand() % numFloors);
+            }
          }
    }
 

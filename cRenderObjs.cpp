@@ -354,4 +354,22 @@ void cRenderObjs::renderOccupants(int num, int maxOccupants, bool forFloor)
    }
 }
 
+void cRenderObjs::drawBitmapText(char *string,float x,float y,float z)
+{  
+   glDisable(GL_LIGHTING);
+   glDisable(GL_LIGHT0);
+
+   char *c;
+   glRasterPos3f(x, y, z);
+
+   for (c=string; *c != '\0'; c++) 
+   {
+      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+   }
+
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+}
+
+
 } /* namespace elevatorSim */
