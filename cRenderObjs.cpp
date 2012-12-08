@@ -35,7 +35,7 @@
 namespace elevatorSim   {
 
 const GLfloat cRenderObjs::BUILDING_GAP_HEIGHT = 1.1f;
-const GLfloat cRenderObjs::ELEV_GAP_WIDTH = 1.7f;
+const GLfloat cRenderObjs::ELEV_GAP_WIDTH = 1.4f;
 const GLfloat cRenderObjs::GFX_ELEV_SCALE_HEIGHT = 1.0f;
 const GLfloat cRenderObjs::GFX_ELEV_SCALE_WIDTH = 0.75f;
 const GLfloat cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH = 2.f;

@@ -100,7 +100,9 @@ void Person::update() {
          elevators.begin(),
          elevators.end(),
          [this, &candidateElevators] ( Elevator* thisElevator ) {
-            if( thisElevator -> getYVal() == start.getYVal() * Floor::YVALS_PER_FLOOR ) {
+            //if() break;
+
+            if(!thisElevator->isFull() && thisElevator -> getYVal() == start.getYVal() * Floor::YVALS_PER_FLOOR ) {
                /* we've found a candidate elevator, so add it to the set */ 
                candidateElevators.insert(thisElevator);
             }

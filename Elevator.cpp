@@ -216,8 +216,6 @@ void Elevator::render() {
    glCallList(cRenderObjs::OBJ_ELEVATOR);
    cRenderObjs::renderOccupants(numPeopleContained(), maxOccupants, false);
 
-
-   
    glColor3f(0.f, 1.0f, 0.f);
 
    char tmp[50];

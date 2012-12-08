@@ -111,6 +111,10 @@ public:
       return (currentVel == 0);
    };
 
+   inline bool isFull() const {
+      return (maxOccupants <= numPeopleContained()?true:false);
+   }
+
    enum PERSON_CARRIER_TYPE getCarrierType() const {
       return IPersonCarrier::ELEVATOR_CARRIER; 
    }
