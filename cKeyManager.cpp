@@ -36,7 +36,7 @@
 namespace elevatorSim {
 
 cKeyManager::cKeyManager() {
-   
+
 }
 
 void cKeyManager::init() {

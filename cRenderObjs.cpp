@@ -138,30 +138,8 @@ void cRenderObjs::initSphere()
 {
    glNewList(OBJ_SPHERE, GL_COMPILE);
 
-   /*
-    * glEnable(GL_MATERIAL);
-    *
-    * GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-    * GLfloat dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
-    * GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-    * GLfloat shi = 0.5f;
-    * GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-    * glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-    * glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-    * glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-    * glMaterialf(GL_FRONT, GL_SHININESS, shi);
-    * glMaterialfv(GL_FRONT, GL_EMISSION, emi);
-    */
-
    glutSolidSphere(0.4, 50, 25);
 
-
-   /*
-    * GLfloat zero[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    * glMaterialfv(GL_FRONT, GL_DIFFUSE, zero);
-    *
-    * glDisable(GL_MATERIAL);
-    */
    glEndList();
 }
 
@@ -180,35 +158,35 @@ void cRenderObjs::initElevator()
    glMaterialf(GL_FRONT, GL_SHININESS, shi);
    glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
+   /* Left wall of Elevator */
    glPushMatrix();
-   // Left wall of Elevator
    glTranslatef(-GFX_ELEV_SCALE_WIDTH, 0, 0.f);
    glScalef(0.05f, GFX_ELEV_SCALE_HEIGHT, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
-   // Right wall of Elevator
+   /* Right wall of Elevator */
    glPushMatrix();
    glTranslatef(GFX_ELEV_SCALE_WIDTH, 0, 0.f);
    glScalef(0.05f, GFX_ELEV_SCALE_HEIGHT, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
-   // Back wall of Elevator
+   /* Back wall of Elevator */
    glPushMatrix();
    glTranslatef(0, 0, -1.0f);
    glScalef(GFX_ELEV_SCALE_WIDTH, GFX_ELEV_SCALE_HEIGHT, 0.05f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
-   // Top wall of Elevator
+   /* Top wall of Elevator */
    glPushMatrix();
    glTranslatef(0, GFX_ELEV_SCALE_HEIGHT, 0.0f);
    glScalef(GFX_ELEV_SCALE_WIDTH, 0.05f, 1.0f);
    glCallList(OBJ_CUBE);
    glPopMatrix();
 
-   // Bottom wall of Elevator
+   /* Bottom wall of Elevator */
    glPushMatrix();
    glTranslatef(0, -GFX_ELEV_SCALE_HEIGHT, 0.0f);
    glScalef(GFX_ELEV_SCALE_WIDTH, 0.05f, 1.0f);
@@ -221,17 +199,6 @@ void cRenderObjs::initElevator()
 void cRenderObjs::initHuman()
 {
    glNewList(OBJ_HUMAN, GL_COMPILE);
-
-   /*GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-   GLfloat dif[4] = {0.2f, 0.2f, 0.8f, 1.0f};
-   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-   GLfloat shi = 0.5f;
-   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-   glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-   glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-   glMaterialf(GL_FRONT, GL_SHININESS, shi);
-   glMaterialfv(GL_FRONT, GL_EMISSION, emi);*/
 
    glScalef(0.4f, 0.4f, 0.4f);
 
@@ -292,7 +259,7 @@ void cRenderObjs::renderOccupants(int num, int maxOccupants, bool forFloor)
          human_dif[0] = 1.0f, human_dif[1] = 0.0f, human_dif[2] = 0.0f;
       }
       else  {
-         
+
 
          human_dif[0] = 0.9f * perc;
          human_dif[2] = 0.9f * (1.0f - perc);
@@ -305,11 +272,9 @@ void cRenderObjs::renderOccupants(int num, int maxOccupants, bool forFloor)
       glMaterialfv(GL_FRONT, GL_EMISSION, human_emi);
 
       float posx = 0.f;
-      //float posy = 0.f;
 
       if(forFloor)   {
          posx = 0.5f;
-         //posy = 1.0f;
       }
 
       else  {
@@ -318,11 +283,10 @@ void cRenderObjs::renderOccupants(int num, int maxOccupants, bool forFloor)
 
       if(perc <= 0.33f) {
          glPushMatrix();
-         //glTranslatef(0.f, 1.0f, 0.f);
          glCallList(cRenderObjs::OBJ_HUMAN);
          glPopMatrix();
       }
-      
+
       else if(perc <= 0.66f) {
          glPushMatrix();
          glTranslatef(posx, 0.f, 0.f);

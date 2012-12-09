@@ -51,7 +51,7 @@ public:
    static const GLfloat GFX_ELEV_SCALE_HEIGHT;
    static const GLfloat GFX_ELEV_SCALE_WIDTH;
    static const GLfloat GFX_FLOOR_QUEUE_SCALE_WIDTH;
-   
+
    enum OBJ_LIST {
       OBJ_PLANE = 1,
       OBJ_CUBE,
@@ -68,7 +68,8 @@ public:
    void initElevator();
    void initHuman();
 
-   static void renderOccupants(int num, int maxOccupants, bool forFloor = true);
+   static void renderOccupants(int num,
+            int maxOccupants, bool forFloor = true);
    static void drawBitmapText(char *string,float x,float y,float z);
 };
 

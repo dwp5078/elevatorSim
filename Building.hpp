@@ -69,16 +69,25 @@ public:
    const int invPersonArriveProb;
 
    /* constructors */
-   Building(
-      unsigned int _nStory = 4, 
-      unsigned int _nElevator = 2, 
-      int _invPersonArriveProb = 100);
+   Building(unsigned int _nStory = 4,
+            unsigned int _nElevator = 2,
+            int _invPersonArriveProb = 100);
    ~Building();
 
    /* public methods inherited from ISimulationTerminal */
    void init();
    void render();
    void update();
+
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
+   void decrefTuple(PyObject* thisTuple) {
+      (void) thisTuple;
+      /* TODO: stub */
+   }
 
    void distributePeople();
 

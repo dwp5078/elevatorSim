@@ -46,41 +46,41 @@
 
 namespace elevatorSim
 {
-   class ElevatorSimWelcomeWindow : public Fl_Window {
-   private:
+class ElevatorSimWelcomeWindow : public Fl_Window {
+private:
 
-      int handle(int event);
-      void writeDatFile();
-      void readDatFile();
-      void selectTipFromFile();
+   int handle(int event);
+   void writeDatFile();
+   void readDatFile();
+   void selectTipFromFile();
 
-      /* private static constants */
-      const static char FIRST_RUN_FILENAME[];
-      const static char TIPS_CATALOG_FILENAME[];
+   /* private static constants */
+   const static char FIRST_RUN_FILENAME[];
+   const static char TIPS_CATALOG_FILENAME[];
 
-      /* private members */
-      bool showTips;
-      bool hidden;
+   /* private members */
+   bool showTips;
+   bool hidden;
 
-      /* quit confirmation widgets */
-      Fl_Text_Buffer* welcomeTextBuffer;
-      Fl_Text_Display* welcomeDisplay;
-      Fl_Check_Button* checkButton;
+   /* quit confirmation widgets */
+   Fl_Text_Buffer* welcomeTextBuffer;
+   Fl_Text_Display* welcomeDisplay;
+   Fl_Check_Button* checkButton;
 
-   public:
+public:
 
-      /* public static members */
-      const static int WINDOW_WIDTH;
-      const static int WINDOW_HEIGHT;
-      const static char WINDOW_TITLE[];
+   /* public static members */
+   const static int WINDOW_WIDTH;
+   const static int WINDOW_HEIGHT;
+   const static char WINDOW_TITLE[];
 
-      inline bool shouldShowTips() const {
-         return !hidden && showTips;
-      }
+   inline bool shouldShowTips() const {
+      return !hidden && showTips;
+   }
 
-      ElevatorSimWelcomeWindow();
-      ~ElevatorSimWelcomeWindow();
-   };
+   ElevatorSimWelcomeWindow();
+   ~ElevatorSimWelcomeWindow();
+};
 
 } /* namespace elevatorSim */
 

@@ -34,7 +34,7 @@
 #include "IStateObject.hpp"
 
 namespace elevatorSim {
-   ISimulationTerminal::~ISimulationTerminal() {
+ISimulationTerminal::~ISimulationTerminal() {
 
-   }
+}
 } /* namespace ElevatorSim */

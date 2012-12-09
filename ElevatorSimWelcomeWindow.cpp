@@ -49,106 +49,110 @@
 
 namespace elevatorSim {
 
-   /* public static member initializers */
-   const char ElevatorSimWelcomeWindow::FIRST_RUN_FILENAME[] = ".firstrun";
-   const char ElevatorSimWelcomeWindow::WINDOW_TITLE[] = "Welcome";
-   const int ElevatorSimWelcomeWindow::WINDOW_WIDTH = 440;
-   const int ElevatorSimWelcomeWindow::WINDOW_HEIGHT = 272;
-   const char ElevatorSimWelcomeWindow::TIPS_CATALOG_FILENAME[] = "tipsCatalog.txt";
+/* public static member initializers */
+const char ElevatorSimWelcomeWindow::FIRST_RUN_FILENAME[]
+                                                        = ".firstrun";
+const char ElevatorSimWelcomeWindow::WINDOW_TITLE[] = "Welcome";
+const int ElevatorSimWelcomeWindow::WINDOW_WIDTH = 440;
+const int ElevatorSimWelcomeWindow::WINDOW_HEIGHT = 272;
+const char ElevatorSimWelcomeWindow::TIPS_CATALOG_FILENAME[]
+                                                           = "tipsCatalog.txt";
 
-   int ElevatorSimWelcomeWindow::handle(int event) {
-      if( event == FL_SHOW ) {
-         readDatFile();
-         selectTipFromFile();
-      } else if ( event == FL_HIDE ) {
-         /* check the check box and maybe write the datfile */
-         writeDatFile();
-         hidden = true;
-      }
-
-      return Fl_Window::handle(event);
-   }
-
-   void ElevatorSimWelcomeWindow::writeDatFile() {
-      std::ofstream fout(FIRST_RUN_FILENAME, 
-         std::ios::basic_ios::out | 
-         std::ios::basic_ios::trunc);
-
-      if(fout.good()) {
-         if( checkButton->value() ) {
-            fout << "T";
-         } else {
-            fout << "F";
-         }
-
-         fout.close();
-      } 
-   }
-
-   void ElevatorSimWelcomeWindow::readDatFile() {
-      std::ifstream fin(FIRST_RUN_FILENAME, std::ios::basic_ios::in );
-
-      if(fin.fail()) {
-         showTips = true;
-         fin.close();
-         writeDatFile();
-      } else {
-         char firstRunChar;
-         fin >> firstRunChar;
-
-         /* if T,means continue show the first run window */
-         if(firstRunChar == 'T') {
-            showTips = true;
-            /* else means does not need to continue show the first run window */
-         } else {
-            showTips = false;
-         }
-
-         fin.close();
-      }
-   }
-
-   void ElevatorSimWelcomeWindow::selectTipFromFile() {
-      std::ifstream fin_tips(TIPS_CATALOG_FILENAME, std::ios::basic_ios::in );   
-
-      if(fin_tips.fail()) {
-         fin_tips.close();
-      } else {
-         std::string lineBuffer;
-         std::vector<std::string> allTips;
-
-         while(getline(fin_tips, lineBuffer)) {
-            allTips.push_back(lineBuffer);
-         }
-
-         assert(allTips.size() > 0);
-         fin_tips.close();
-         welcomeTextBuffer->append(allTips[ (rand() % allTips.size()) ].c_str());
-      }  
-   }
-
-   /* public methods */
-   ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
-   Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
-
-      checkButton = new Fl_Check_Button(
-         10, 240, 210, 20, "Continue showing these tips?");
-      welcomeTextBuffer = new Fl_Text_Buffer();
-      welcomeDisplay = new Fl_Text_Display(10,30,420,200);
-      welcomeDisplay->wrap_mode(Fl_Text_Display::WRAP_AT_BOUNDS,  0);
-      welcomeDisplay->buffer(welcomeTextBuffer);
-
-      end();
-
-      checkButton->value(1);
+int ElevatorSimWelcomeWindow::handle(int event) {
+   if( event == FL_SHOW ) {
       readDatFile();
-      hidden = false;
+      selectTipFromFile();
+   } else if ( event == FL_HIDE ) {
+      /* check the check box and maybe write the datfile */
+      writeDatFile();
+      hidden = true;
    }
 
-   ElevatorSimWelcomeWindow::~ElevatorSimWelcomeWindow() {
-      delete checkButton;
-      delete welcomeDisplay;
-      delete welcomeTextBuffer;
+   return Fl_Window::handle(event);
+}
+
+void ElevatorSimWelcomeWindow::writeDatFile() {
+   std::ofstream fout(FIRST_RUN_FILENAME,
+            std::ios::basic_ios::out |
+            std::ios::basic_ios::trunc);
+
+   if(fout.good()) {
+      if( checkButton->value() ) {
+         fout << "T";
+      } else {
+         fout << "F";
+      }
+
+      fout.close();
    }
+}
+
+void ElevatorSimWelcomeWindow::readDatFile() {
+   std::ifstream fin(FIRST_RUN_FILENAME, std::ios::basic_ios::in );
+
+   if(fin.fail()) {
+      showTips = true;
+      fin.close();
+      writeDatFile();
+   } else {
+      char firstRunChar;
+      fin >> firstRunChar;
+
+      /* if T,means continue show the first run window */
+      if(firstRunChar == 'T') {
+         showTips = true;
+         /* else means does not need to continue show the first run window */
+      } else {
+         showTips = false;
+      }
+
+      fin.close();
+   }
+}
+
+void ElevatorSimWelcomeWindow::selectTipFromFile() {
+   std::ifstream fin_tips(TIPS_CATALOG_FILENAME, std::ios::basic_ios::in );
+
+   if(fin_tips.fail()) {
+      fin_tips.close();
+   } else {
+      std::string lineBuffer;
+      std::vector<std::string> allTips;
+
+      while(getline(fin_tips, lineBuffer)) {
+         allTips.push_back(lineBuffer);
+      }
+
+      assert(allTips.size() > 0);
+      fin_tips.close();
+      welcomeTextBuffer->append(allTips[ (rand() % allTips.size()) ].c_str());
+   }
+}
+
+/* public methods */
+ElevatorSimWelcomeWindow::ElevatorSimWelcomeWindow() :
+         Fl_Window(WINDOW_WIDTH,
+                  WINDOW_HEIGHT,
+                  WINDOW_TITLE) {
+
+   checkButton = new Fl_Check_Button(10, 240,
+            210, 20, "Continue showing these tips?");
+   welcomeTextBuffer = new Fl_Text_Buffer();
+   welcomeDisplay = new Fl_Text_Display(10,30,420,200);
+   welcomeDisplay->wrap_mode(Fl_Text_Display::WRAP_AT_BOUNDS,  0);
+   welcomeDisplay->buffer(welcomeTextBuffer);
+
+   end();
+
+   checkButton->value(1);
+   readDatFile();
+   hidden = false;
+}
+
+ElevatorSimWelcomeWindow::~ElevatorSimWelcomeWindow() {
+   delete checkButton;
+   delete welcomeDisplay;
+   delete welcomeTextBuffer;
+}
 
 } /* namespace elevatorSim */

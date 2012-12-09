@@ -94,14 +94,14 @@ public:
 
    bool operator == (const Vec3f &v) const   {
       return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
-            fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
-            fabs(z - v.z) < std::numeric_limits<float>::epsilon( ));
+               fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
+               fabs(z - v.z) < std::numeric_limits<float>::epsilon( ));
    }
 
    bool operator != (const Vec3f &v) const {
       return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
-            fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
-            fabs(z - v.z) > std::numeric_limits<float>::epsilon( ));
+               fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
+               fabs(z - v.z) > std::numeric_limits<float>::epsilon( ));
    }
 
    Vec3f& operator += (const Vec3f &v) {
@@ -152,45 +152,45 @@ public:
       a.z = b.z * c;
       }*/
 
-      friend Vec3f operator+(const Vec3f &v1, const Vec3f &v2) {
-         return Vec3f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
-      }
+   friend Vec3f operator+(const Vec3f &v1, const Vec3f &v2) {
+      return Vec3f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+   }
 
-      friend Vec3f operator - (const Vec3f &v1, const Vec3f &v2) {
-         return Vec3f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
-      }
+   friend Vec3f operator - (const Vec3f &v1, const Vec3f &v2) {
+      return Vec3f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+   }
 
-      friend Vec3f operator * (const Vec3f &v1, float f) {
-         return Vec3f(v1.x * f, v1.y * f, v1.z * f);
-      }
+   friend Vec3f operator * (const Vec3f &v1, float f) {
+      return Vec3f(v1.x * f, v1.y * f, v1.z * f);
+   }
 
-      friend Vec3f operator / (const Vec3f &v1, float f) {
-         return Vec3f(v1.x / f, v1.y / f, v1.z / f);
-      }
+   friend Vec3f operator / (const Vec3f &v1, float f) {
+      return Vec3f(v1.x / f, v1.y / f, v1.z / f);
+   }
 
-      float Length() {
-         return (float)sqrt(x * x + y * y + z * z);
-      }
+   float Length() {
+      return (float)sqrt(x * x + y * y + z * z);
+   }
 
-      void Normalize()  {
-         float l = Length();
-         if(l > 0)   {
-            x /= l;
-            y /= l;
-            z /= l;
-         }
+   void Normalize()  {
+      float l = Length();
+      if(l > 0)   {
+         x /= l;
+         y /= l;
+         z /= l;
       }
+   }
 
-      float Dot(const Vec3f &v) const {
-         return x * v.x + y * v.y + z * v.z;
-      }
+   float Dot(const Vec3f &v) const {
+      return x * v.x + y * v.y + z * v.z;
+   }
 
-      static void Cross3(Vec3f &c, const Vec3f &v1, const Vec3f &v2)   {
-         float dx = v1.y * v2.z - v1.z * v2.y;
-         float dy = v1.z * v2.x - v1.x * v2.z;
-         float dz = v1.x * v2.y - v1.y * v2.x;
-         c.x = dx; c.y = dy; c.z = dz;
-      }
+   static void Cross3(Vec3f &c, const Vec3f &v1, const Vec3f &v2)   {
+      float dx = v1.y * v2.z - v1.z * v2.y;
+      float dy = v1.z * v2.x - v1.x * v2.z;
+      float dz = v1.x * v2.y - v1.y * v2.x;
+      c.x = dx; c.y = dy; c.z = dz;
+   }
 
 
 }; //end of Vec3f
@@ -248,16 +248,16 @@ public:
 
    inline bool operator == (const Vec4f &v) const   {
       return ( fabs(x - v.x) < std::numeric_limits<float>::epsilon( ) &&
-            fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
-            fabs(z - v.z) < std::numeric_limits<float>::epsilon( ) &&
-            fabs(w - v.w) < std::numeric_limits<float>::epsilon( ));
+               fabs(y - v.y) < std::numeric_limits<float>::epsilon( ) &&
+               fabs(z - v.z) < std::numeric_limits<float>::epsilon( ) &&
+               fabs(w - v.w) < std::numeric_limits<float>::epsilon( ));
    }
 
    inline bool operator != (const Vec4f &v) const {
       return ( fabs(x - v.x) > std::numeric_limits<float>::epsilon( ) ||
-            fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
-            fabs(z - v.z) > std::numeric_limits<float>::epsilon( ) ||
-            fabs(w - v.w) > std::numeric_limits<float>::epsilon( ));
+               fabs(y - v.y) > std::numeric_limits<float>::epsilon( ) ||
+               fabs(z - v.z) > std::numeric_limits<float>::epsilon( ) ||
+               fabs(w - v.w) > std::numeric_limits<float>::epsilon( ));
    }
 
    inline Vec4f& operator += (const Vec4f &v) {
@@ -392,100 +392,100 @@ public:
       Mat44 C;
 
       C.m[0][0] =
-         A.m[0][0] * B.m[0][0] +
-         A.m[0][1] * B.m[1][0] +
-         A.m[0][2] * B.m[2][0] +
-         A.m[0][3] * B.m[3][0];
+               A.m[0][0] * B.m[0][0] +
+               A.m[0][1] * B.m[1][0] +
+               A.m[0][2] * B.m[2][0] +
+               A.m[0][3] * B.m[3][0];
 
       C.m[0][1] =
-         A.m[0][0] * B.m[0][1] +
-         A.m[0][1] * B.m[1][1] +
-         A.m[0][2] * B.m[2][1] +
-         A.m[0][3] * B.m[3][1];
+               A.m[0][0] * B.m[0][1] +
+               A.m[0][1] * B.m[1][1] +
+               A.m[0][2] * B.m[2][1] +
+               A.m[0][3] * B.m[3][1];
 
       C.m[0][2] =
-         A.m[0][0] * B.m[0][2] +
-         A.m[0][1] * B.m[1][2] +
-         A.m[0][2] * B.m[2][2] +
-         A.m[0][3] * B.m[3][2];
+               A.m[0][0] * B.m[0][2] +
+               A.m[0][1] * B.m[1][2] +
+               A.m[0][2] * B.m[2][2] +
+               A.m[0][3] * B.m[3][2];
 
       C.m[0][3] =
-         A.m[0][0] * B.m[0][3] +
-         A.m[0][1] * B.m[1][3] +
-         A.m[0][2] * B.m[2][3] +
-         A.m[0][3] * B.m[3][3];
+               A.m[0][0] * B.m[0][3] +
+               A.m[0][1] * B.m[1][3] +
+               A.m[0][2] * B.m[2][3] +
+               A.m[0][3] * B.m[3][3];
 
       C.m[1][0] =
-         A.m[1][0] * B.m[0][0] +
-         A.m[1][1] * B.m[1][0] +
-         A.m[1][2] * B.m[2][0] +
-         A.m[1][3] * B.m[3][0];
+               A.m[1][0] * B.m[0][0] +
+               A.m[1][1] * B.m[1][0] +
+               A.m[1][2] * B.m[2][0] +
+               A.m[1][3] * B.m[3][0];
 
       C.m[1][1] =
-         A.m[1][0] * B.m[0][1] +
-         A.m[1][1] * B.m[1][1] +
-         A.m[1][2] * B.m[2][1] +
-         A.m[1][3] * B.m[3][1];
+               A.m[1][0] * B.m[0][1] +
+               A.m[1][1] * B.m[1][1] +
+               A.m[1][2] * B.m[2][1] +
+               A.m[1][3] * B.m[3][1];
 
       C.m[1][2] =
-         A.m[1][0] * B.m[0][2] +
-         A.m[1][1] * B.m[1][2] +
-         A.m[1][2] * B.m[2][2] +
-         A.m[1][3] * B.m[3][2];
+               A.m[1][0] * B.m[0][2] +
+               A.m[1][1] * B.m[1][2] +
+               A.m[1][2] * B.m[2][2] +
+               A.m[1][3] * B.m[3][2];
 
       C.m[1][3] =
-         A.m[1][0] * B.m[0][3] +
-         A.m[1][1] * B.m[1][3] +
-         A.m[1][2] * B.m[2][3] +
-         A.m[1][3] * B.m[3][3];
+               A.m[1][0] * B.m[0][3] +
+               A.m[1][1] * B.m[1][3] +
+               A.m[1][2] * B.m[2][3] +
+               A.m[1][3] * B.m[3][3];
 
       C.m[2][0] =
-         A.m[2][0] * B.m[0][0] +
-         A.m[2][1] * B.m[1][0] +
-         A.m[2][2] * B.m[2][0] +
-         A.m[2][3] * B.m[3][0];
+               A.m[2][0] * B.m[0][0] +
+               A.m[2][1] * B.m[1][0] +
+               A.m[2][2] * B.m[2][0] +
+               A.m[2][3] * B.m[3][0];
 
       C.m[2][1] =
-         A.m[2][0] * B.m[0][1] +
-         A.m[2][1] * B.m[1][1] +
-         A.m[2][2] * B.m[2][1] +
-         A.m[2][3] * B.m[3][1];
+               A.m[2][0] * B.m[0][1] +
+               A.m[2][1] * B.m[1][1] +
+               A.m[2][2] * B.m[2][1] +
+               A.m[2][3] * B.m[3][1];
 
       C.m[2][2] =
-         A.m[2][0] * B.m[0][2] +
-         A.m[2][1] * B.m[1][2] +
-         A.m[2][2] * B.m[2][2] +
-         A.m[2][3] * B.m[3][2];
+               A.m[2][0] * B.m[0][2] +
+               A.m[2][1] * B.m[1][2] +
+               A.m[2][2] * B.m[2][2] +
+               A.m[2][3] * B.m[3][2];
 
       C.m[2][3] =
-         A.m[2][0] * B.m[0][3] +
-         A.m[2][1] * B.m[1][3] +
-         A.m[2][2] * B.m[2][3] +
-         A.m[2][3] * B.m[3][3];
+               A.m[2][0] * B.m[0][3] +
+               A.m[2][1] * B.m[1][3] +
+               A.m[2][2] * B.m[2][3] +
+               A.m[2][3] * B.m[3][3];
 
       C.m[3][0] =
-         A.m[3][0] * B.m[0][0] +
-         A.m[3][1] * B.m[1][0] +
-         A.m[3][2] * B.m[2][0] +
-         A.m[3][3] * B.m[3][0];
+               A.m[3][0] * B.m[0][0] +
+               A.m[3][1] * B.m[1][0] +
+               A.m[3][2] * B.m[2][0] +
+               A.m[3][3] * B.m[3][0];
 
       C.m[3][1] =
-         A.m[3][0] * B.m[0][1] +
-         A.m[3][1] * B.m[1][1] +
-         A.m[3][2] * B.m[2][1] +
-         A.m[3][3] * B.m[3][1];
+               A.m[3][0] * B.m[0][1] +
+               A.m[3][1] * B.m[1][1] +
+               A.m[3][2] * B.m[2][1] +
+               A.m[3][3] * B.m[3][1];
 
       C.m[3][2] =
-         A.m[3][0] * B.m[0][2] +
-         A.m[3][1] * B.m[1][2] +
-         A.m[3][2] * B.m[2][2] +
-         A.m[3][3] * B.m[3][2];
+               A.m[3][0] * B.m[0][2] +
+               A.m[3][1] * B.m[1][2] +
+               A.m[3][2] * B.m[2][2] +
+               A.m[3][3] * B.m[3][2];
 
       C.m[3][3] =
-         A.m[3][0] * B.m[0][3] +
-         A.m[3][1] * B.m[1][3] +
-         A.m[3][2] * B.m[2][3] +
-         A.m[3][3] * B.m[3][3];
+               A.m[3][0] * B.m[0][3] +
+               A.m[3][1] * B.m[1][3] +
+               A.m[3][2] * B.m[2][3] +
+               A.m[3][3] * B.m[3][3];
 
       return C;
    }
@@ -518,7 +518,7 @@ public:
          |0 -sin  cos  0|
          |0  0    0    1|*/
 
-         A.m[1][1] = cosf(fangle);
+      A.m[1][1] = cosf(fangle);
       A.m[1][2] = sinf(fangle);
       A.m[2][1] = -sinf(fangle);
       A.m[2][2] = cosf(fangle);

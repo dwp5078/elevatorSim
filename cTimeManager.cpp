@@ -35,8 +35,8 @@
 
 namespace elevatorSim {
 
-
-const double cTimeManager::redrawInterval = 0.001; /* TODO: use boost to avoid ambiguity */
+/* TODO: use boost to avoid ambiguity */
+const double cTimeManager::redrawInterval = 0.001;
 
 cTimeManager::cTimeManager() {
    init();

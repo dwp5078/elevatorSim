@@ -95,6 +95,16 @@ public:
    void render();
    void update();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
+   void decrefTuple(PyObject* thisTuple) {
+      (void) thisTuple;
+      /* TODO: stub */
+   }
+
    IPersonCarrier* locateContainer() const;
 };
 

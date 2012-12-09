@@ -49,7 +49,8 @@ class Building;
 class Person;
 class IPersonCarrier;
 
-class Floor : public Location, public ISimulationTerminal, public IPersonCarrier {
+class Floor :
+         public Location, public ISimulationTerminal, public IPersonCarrier {
 
    /* friends */
    friend class Building;
@@ -72,11 +73,11 @@ class Floor : public Location, public ISimulationTerminal, public IPersonCarrier
 
    /* constructors */
    Floor(
-      int _yVal,
-      int _thisFloor,
-      float _gfxScaleWidth,
-      bool _hasUpperFloor = false,
-      bool _hasLowerFloor = false  );
+            int _yVal,
+            int _thisFloor,
+            float _gfxScaleWidth,
+            bool _hasUpperFloor = false,
+            bool _hasLowerFloor = false  );
 
 public:
 
@@ -92,6 +93,17 @@ public:
    void render();
    void update();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
+   void decrefTuple(PyObject* thisTuple) {
+      (void) thisTuple;
+      /* TODO: stub */
+   }
+
+   /* public class-local methods */
    void updateSignalArrows();
 
    enum PERSON_CARRIER_TYPE getCarrierType() const {

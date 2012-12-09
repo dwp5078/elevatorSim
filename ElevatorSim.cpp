@@ -91,7 +91,8 @@ int main(int argc, char** argv) {
 
 void compute() {
    /* TODO: move this into a different file */
-   static boost::chrono::milliseconds waitDuration(20); /* TODO: make this a variable */
+   /* TODO: make this a variable */
+   static boost::chrono::milliseconds waitDuration(20);
    SimulationState& simState = SimulationState::acquire();
 
    while( simState.getState() != SimulationState::SIMULATION_KILLED ) {
@@ -107,8 +108,8 @@ bool parseArgs(int argc, char** argv) {
    try {
       options_description desc("Allowed options");
       desc.add_options()
-         ("help", "produce help message")
-         ("verbose", "verbose flag");
+                  ("help", "produce help message")
+                  ("verbose", "verbose flag");
 
       variables_map vm;
       store(parse_command_line(argc, argv, desc), vm);

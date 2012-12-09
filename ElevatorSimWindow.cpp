@@ -115,7 +115,7 @@ void ElevatorSimWindow::menuNewCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "menuNewCB fired with widget ptr " << w
-         << "and userData " << userData << std::endl;
+               << "and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -126,7 +126,7 @@ void ElevatorSimWindow::menuOpenCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "menuNewCB fired with widget ptr " << w
-         << "and userData " << userData << std::endl;
+               << "and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 }
@@ -169,7 +169,7 @@ void ElevatorSimWindow::startSimCB(Fl_Widget* w, void* userData) {
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "in startSimCB with widget ptr " << w
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
    }
 
    Fl_Button* startButton = (Fl_Button*)w;
@@ -191,7 +191,7 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "in pauseSimCB with widget ptr " << w
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -217,7 +217,7 @@ void ElevatorSimWindow::stopSimCB(Fl_Widget* w, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "in stopSimCB with widget ptr " << w
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -242,7 +242,7 @@ void ElevatorSimWindow::menuSaveCB(Fl_Widget* w, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "menuSaveCB fired with widget ptr " << w
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -254,7 +254,7 @@ void ElevatorSimWindow::menuQuitCB(Fl_Widget* w, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "menuQuitCB fired with widget ptr " << w
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -268,7 +268,7 @@ void ElevatorSimWindow::menuAboutCB(Fl_Widget* w, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "menuAboutCB fired with widget ptr " << w
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -282,7 +282,7 @@ void ElevatorSimWindow::quitConfirmedCB(Fl_Button* yesButton, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "quitConfirmedCB fired with widget ptr " << yesButton
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -298,7 +298,7 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
 
       std::stringstream dbgSS;
       dbgSS << "quitCancelledCB fired with widget ptr " << noButton
-         << " and userData " << userData << std::endl;
+               << " and userData " << userData << std::endl;
       LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
    }
 
@@ -308,15 +308,16 @@ void ElevatorSimWindow::quitCancelledCB(Fl_Button* noButton, void* userData) {
 
 void ElevatorSimWindow::buildMenu() {
    static const Fl_Menu_Item menuitems[] = {
-         { "&File", 0, 0, 0, FL_SUBMENU },
-         { "&Open", FL_COMMAND + 'o', (Fl_Callback *)menuOpenCB, this, FL_MENU_INACTIVE },
-         { "E&xit", FL_COMMAND + 'x', (Fl_Callback *)menuQuitCB, this },
-         { 0 },
-         { "&Help", 0, 0, 0, FL_SUBMENU },
-         { "How to use", 0, (Fl_Callback *)menuHelpCB, this },
-         { "About", 0, (Fl_Callback *)menuAboutCB, this },
-         { 0 },
-         { 0 }};
+            { "&File", 0, 0, 0, FL_SUBMENU },
+            { "&Open", FL_COMMAND + 'o',
+                     (Fl_Callback *)menuOpenCB, this, FL_MENU_INACTIVE },
+            { "E&xit", FL_COMMAND + 'x', (Fl_Callback *)menuQuitCB, this },
+            { 0 },
+            { "&Help", 0, 0, 0, FL_SUBMENU },
+            { "How to use", 0, (Fl_Callback *)menuHelpCB, this },
+            { "About", 0, (Fl_Callback *)menuAboutCB, this },
+            { 0 },
+            { 0 }};
 
    Fl_Menu_Bar* menubar = new Fl_Menu_Bar(0, 0, w(), MENUBAR_HEIGHT);
    menubar->copy(menuitems);
@@ -344,14 +345,6 @@ void ElevatorSimWindow::buildButtons() {
    startButton->activate();
    stopButton->deactivate();
    pauseButton->deactivate();
-
-   assert(
-      (startButton->active() &&
-      !stopButton->active() &&
-      !pauseButton->active()) ||
-      (!startButton->active() &&
-      stopButton->active() &&
-      pauseButton->active()));
 }
 
 void ElevatorSimWindow::buildDialogs() {
@@ -392,14 +385,16 @@ void ElevatorSimWindow::buildDialogs() {
 
    /* output version info of libraries */
    aboutSS
-      << "elevatorSim" << std::endl
-      << "  built with: " << std::endl
-      << "    boost v" << BOOST_LIB_VERSION << " http://www.boost.org" <<std::endl
-      << "    fltk v" << FL_MAJOR_VERSION << "_"
-      << FL_MINOR_VERSION << FL_PATCH_VERSION << " http://www.fltk.org" << std::endl
-      << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION
-      << " http://www.python.org " << std::endl
-      << "hosted at: https://github.com/maxdeliso/elevatorSim" << std::endl;
+   << "elevatorSim" << std::endl
+   << "  built with: " << std::endl
+   << "    boost v" << BOOST_LIB_VERSION
+   << " http://www.boost.org" << std::endl
+   << "    fltk v" << FL_MAJOR_VERSION << "_"
+   << FL_MINOR_VERSION << FL_PATCH_VERSION
+   << " http://www.fltk.org" << std::endl
+   << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION
+   << " http://www.python.org\n"
+   << "hosted at: https://github.com/maxdeliso/elevatorSim\n";
 
    do {
       const int lineBufferLen = 256;
@@ -424,7 +419,7 @@ void ElevatorSimWindow::buildDialogs() {
 void ElevatorSimWindow::updateButtonAvailability() {
 
    SimulationState& simState = SimulationState::acquire();
-   
+
    if(isDebugBuild()) {
       LOG_INFO( Logger::SUB_FLTK, "updating button availability...");
    }
@@ -457,24 +452,24 @@ void ElevatorSimWindow::updateButtonAvailability() {
 }
 
 void ElevatorSimWindow::aboutTextPredeleteCB(
-   int pos, int nDeleted, void* userData) {
+         int pos, int nDeleted, void* userData) {
 
-      (void) pos;
-      (void) nDeleted;
-      (void) userData;
+   (void) pos;
+   (void) nDeleted;
+   (void) userData;
 }
 
 void ElevatorSimWindow::aboutTextModifyCB(
-   int pos, int nInserted, int nDeleted,
-   int nRestyled, const char* deletedText,
-   void* userData) {
+         int pos, int nInserted, int nDeleted,
+         int nRestyled, const char* deletedText,
+         void* userData) {
 
-      (void) pos;
-      (void) nInserted;
-      (void) nDeleted;
-      (void) nRestyled;
-      (void) deletedText;
-      (void) userData;
+   (void) pos;
+   (void) nInserted;
+   (void) nDeleted;
+   (void) nRestyled;
+   (void) deletedText;
+   (void) userData;
 }
 
 /* public static member initializers */
@@ -487,55 +482,55 @@ const int ElevatorSimWindow::MENUBAR_HEIGHT = 25;
 
 ElevatorSimWindow::ElevatorSimWindow() :
    Fl_Window(WINDOW_WIDTH,  WINDOW_HEIGHT, WINDOW_TITLE) {
-      renderWindow = new ElevatorSimRenderWindow(
-         ElevatorSimRenderWindow::LEFT_MARGIN,
-         ElevatorSimRenderWindow::TOP_MARGIN,
-         WINDOW_WIDTH -
+   renderWindow = new ElevatorSimRenderWindow(
+            ElevatorSimRenderWindow::LEFT_MARGIN,
+            ElevatorSimRenderWindow::TOP_MARGIN,
+            WINDOW_WIDTH -
             (ElevatorSimRenderWindow::LEFT_MARGIN +
-            ElevatorSimRenderWindow::RIGHT_MARGIN),
-         WINDOW_HEIGHT -
-            (ElevatorSimRenderWindow::TOP_MARGIN +
-            ElevatorSimRenderWindow::BOTTOM_MARGIN));
+                     ElevatorSimRenderWindow::RIGHT_MARGIN),
+                     WINDOW_HEIGHT -
+                     (ElevatorSimRenderWindow::TOP_MARGIN +
+                              ElevatorSimRenderWindow::BOTTOM_MARGIN));
 
-      resizable(*renderWindow);
-      buildMenu();
-      buildButtons();
+   resizable(*renderWindow);
+   buildMenu();
+   buildButtons();
 
-      /* add more widgets to main window here */
+   /* add more widgets to main window here */
 
-      end();
+   end();
 
-      buildDialogs();
+   buildDialogs();
 
-      welcomeWin = new ElevatorSimWelcomeWindow();
-      startWin = new ElevatorSimStartWindow();
-      resultsWin = new ElevatorSimResultsWindow();
+   welcomeWin = new ElevatorSimWelcomeWindow();
+   startWin = new ElevatorSimStartWindow();
+   resultsWin = new ElevatorSimResultsWindow();
 
-      /* some hackery to set the application icon in windows */
-      #ifdef _ES_WINNT
-      HANDLE iconImage = LoadImage(
-         GetModuleHandle(NULL),
-         MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON),
-         IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
+   /* some hackery to set the application icon in windows */
+#ifdef _ES_WINNT
+   HANDLE iconImage = LoadImage(
+            GetModuleHandle(NULL),
+            MAKEINTRESOURCE(IDI_ELEVATOR_SIM_ICON),
+            IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 
-      if(iconImage == NULL) {
-         std::cout << "warning: failed to load application icon!" << std::endl;
-      } else {
-         if(isDebugBuild()) {
-            std::stringstream dbgSS;
-            dbgSS << "loaded app icon OK @ " << (void*)iconImage << std::endl;
-            LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
-         }
-
-         icon( (const void*) iconImage );
+   if(iconImage == NULL) {
+      std::cout << "warning: failed to load application icon!" << std::endl;
+   } else {
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "loaded app icon OK @ " << (void*)iconImage << std::endl;
+         LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
-      #endif
 
-      callback((Fl_Callback*)windowCloseCB, this);
+      icon( (const void*) iconImage );
+   }
+#endif
 
-      /* add more callbacks to main window here */
+   callback((Fl_Callback*)windowCloseCB, this);
 
-      /* initialize any other main window member variables here */
+   /* add more callbacks to main window here */
+
+   /* initialize any other main window member variables here */
 }
 
 ElevatorSimWindow::~ElevatorSimWindow() {
