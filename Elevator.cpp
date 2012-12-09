@@ -283,13 +283,18 @@ namespace elevatorSim {
          yVal % Floor::YVALS_PER_FLOOR == 0 &&
          scheduledFloors.size() > 0 ) {
 
-            if(closeDoorTimer == -1)   {
+            /* is the close door timer unset ? */
+            if(closeDoorTimer == -1) {
+               /* use this tick to calculate the logic tick offset for opening the door */
                closeDoorTimer = currentTime + DEFAULT_DOOR_CLOSE_DELAY;
-            } else if (closeDoorTimer < currentTime)   {
+            } else if (closeDoorTimer < currentTime) {
+               /* otherwise if the door has closed... */
                closeDoorTimer = -1;
 
+               /* stop drawing any people that are dangling */
                peopleGetOnOffAnimationOff();
 
+               /* comute this floor and retrieve the next floor */
                const int thisFloor = (yVal / Floor::YVALS_PER_FLOOR);
                const int nextFloor = scheduledFloors.back();
 
