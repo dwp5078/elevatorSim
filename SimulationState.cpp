@@ -101,11 +101,8 @@ void SimulationState::release() {
 void SimulationState::init() {
    cState = SIMULATION_STARTING;
    logicTicks = 0;
-
-   if( userScript != NULL) {
-      Py_DECREF(userScript);
-      userScript = NULL;
-   }
+   Py_XDECREF(userScript);
+   userScript = NULL;
 }
 
 void SimulationState::update() {
