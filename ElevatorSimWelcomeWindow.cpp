@@ -134,6 +134,7 @@ namespace elevatorSim {
          10, 240, 210, 20, "Continue showing these tips?");
       welcomeTextBuffer = new Fl_Text_Buffer();
       welcomeDisplay = new Fl_Text_Display(10,30,420,200);
+      welcomeDisplay->wrap_mode(Fl_Text_Display::WRAP_AT_BOUNDS,  0);
       welcomeDisplay->buffer(welcomeTextBuffer);
 
       end();
