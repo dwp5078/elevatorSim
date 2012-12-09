@@ -84,7 +84,7 @@ int ElevatorSimWindow::handle(int event) {
          LOG_INFO(Logger::SUB_FLTK, "after focus event");
       }
 
-      if(welcomeWin->isFirstRun()) {
+      if(welcomeWin->shouldShowTips()) {
          welcomeWin->hotspot(15, 15);
          welcomeWin->show();
       }
@@ -204,15 +204,11 @@ void ElevatorSimWindow::pauseSimCB(Fl_Widget* w, void* userData) {
          LOG_INFO( Logger::SUB_FLTK, sstreamToBuffer(dbgSS) );
       }
 
-      /* TODO: affect simulationState */
-      /*
-      if(paused) {
+      if( SimulationState::acquire().togglePause() ) {
          w->label("Resume");
-
       } else {
          w->label("Pause");
-      *}
-      */
+      }
    }
 }
 
@@ -428,7 +424,7 @@ void ElevatorSimWindow::buildDialogs() {
 void ElevatorSimWindow::updateButtonAvailability() {
 
    SimulationState& simState = SimulationState::acquire();
-
+   
    if(isDebugBuild()) {
       LOG_INFO( Logger::SUB_FLTK, "updating button availability...");
    }
@@ -438,12 +434,20 @@ void ElevatorSimWindow::updateButtonAvailability() {
       startButton->deactivate();
       stopButton->activate();
       pauseButton->activate();
+      pauseButton->label("Pause");
       break;
 
    case SimulationState::SIMULATION_READY:
       startButton->activate();
       stopButton->deactivate();
       pauseButton->deactivate();
+      break;
+
+   case SimulationState::SIMULATION_PAUSED:
+      startButton->deactivate();
+      stopButton->activate();
+      pauseButton->activate();
+      pauseButton->label("Resume");
       break;
 
    default:

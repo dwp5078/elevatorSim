@@ -94,6 +94,10 @@ public:
       int randomSeed,
       const std::string& pyAiPath );
 
+   void runUserScriptUnsafe();
+
+   bool togglePause();
+
    void stop();
 
    /* TODO: something more elaborate and safe here */

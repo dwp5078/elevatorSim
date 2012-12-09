@@ -171,6 +171,17 @@ void Building::render() {
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
+   /* Shafts */
+   for(int i=0; i<getMaxElev(); i++)
+   {
+      glPushMatrix();
+      glTranslatef(-gfxScaleWidth + gfxEachElevWidth * i, gfxScaleHeight, -0.65f);
+      glScalef(0.1f, gfxScaleHeight, .8f);
+      glCallList(cRenderObjs::OBJ_CUBE);
+      glPopMatrix();
+   }
+
+
    /* Draw each floor */
    for(unsigned int i=0; i < floors.size(); i++) {
       glPushMatrix();
