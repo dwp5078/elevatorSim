@@ -166,19 +166,40 @@ void SimulationState::start(
 }
 
 void SimulationState::runUserScriptUnsafe() {
-   PyObject* globals = Py_BuildValue("{s:i}", "test", 1);
-   PyObject* locals = Py_BuildValue("{s:i}", "test", 1);
+   assert( userComputeFunction != NULL );
 
-   //PyObject* scriptResult = PyEval_EvalCode(userScript, globals, locals);
+   /* TODO: build a PyObject with the complete simulation state 
+    * instead of test value */
+   PyObject* computeFunctionArgs = Py_BuildValue("{s:i}", "test", 1);
+   
+   if(isDebugBuild()) {
+      LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, "invoking python on user script..." );
+   }
 
-   //if(PyErr_Occurred()) {
-   //   PyErr_Print();
-  // }
+   PyObject* computeFunctionResult = PyObject_CallObject(
+      userComputeFunction,
+      computeFunctionArgs);
 
-   //Py_XDECREF(scriptResult);
+   if(computeFunctionResult == NULL || PyErr_Occurred()) {
+      PyErr_Print();
 
-   Py_DECREF(locals);
-   Py_DECREF(globals);
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         LOG_ERROR( Logger::SUB_ELEVATOR_LOGIC, 
+            "error occurred while attempting to call python object!" );
+      }
+
+   } else {
+      if(isDebugBuild()) {
+         LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, 
+         "got valid result from python. parsing..." );
+      }
+      
+      /* TODO: interpret the results */
+   }
+
+   Py_XDECREF(computeFunctionResult);
+   Py_DECREF(computeFunctionArgs);
 }
 
 bool SimulationState::togglePause() {
