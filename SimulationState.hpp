@@ -82,7 +82,10 @@ public:
    }
 
    void initRenderObjs() {
-      renderObjs->init(); /* TODO: refactor this out */
+      if( renderObjs == NULL ) {
+         renderObjs = new cRenderObjs();
+         renderObjs->init(); /* TODO: refactor this out */
+      }
    }
 
    void init();

@@ -59,6 +59,8 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
    userScriptCodeObject = NULL;
    userScriptExecModule = NULL;
    userComputeFunction = NULL;
+
+   renderObjs = NULL;
 }
 
 SimulationState::~SimulationState() {
