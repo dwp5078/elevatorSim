@@ -145,13 +145,14 @@ void cRenderObjs::initSphere()
 
 void cRenderObjs::initElevator()
 {
+   static const GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
+   static const GLfloat dif[4] = {0.2f, 0.8f, 0.2f, 1.0f};
+   static const GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
+   static const GLfloat shi = 0.3f;
+   static const GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
+
    glNewList(OBJ_ELEVATOR, GL_COMPILE);
 
-   GLfloat amb[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-   GLfloat dif[4] = {0.2f, 0.8f, 0.2f, 1.0f};
-   GLfloat spe[4] = {0.2f, 0.2f, 0.2f, 1.0f};
-   GLfloat shi = 0.3f;
-   GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
    glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
    glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
