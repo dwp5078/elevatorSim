@@ -156,7 +156,9 @@ private:
    static const char USER_SCRIPT_PY_NAME[];
    static const char USER_SCRIPT_PY_FUNC_NAME[];
 
-   PyObject* convertToTuple();
+   PyObject* simStateToTuple();
+   void decrefSimStateTuple(PyObject* simStateTuple);
+
    bool loadPythonScript( const std::string& pyAiPath );
 
    Building* building;
