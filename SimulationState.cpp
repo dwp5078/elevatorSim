@@ -171,16 +171,17 @@ void SimulationState::runUserScriptUnsafe() {
    assert( userComputeFunction != NULL );
 
    /* TODO: build a PyObject with the complete simulation state 
-    * instead of test value */
-   PyObject* computeFunctionArgs = Py_BuildValue("{s:i}", "test", 1);
+    * instead of just a string */
+   PyObject* computeFunctionArgs = Py_BuildValue("(s)", "test");
    
    if(isDebugBuild()) {
       LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, "invoking python on user script..." );
    }
 
-   PyObject* computeFunctionResult = PyObject_CallObject(
-      userComputeFunction,
-      computeFunctionArgs);
+   PyObject* computeFunctionResult = 
+      PyObject_CallObject(
+         userComputeFunction,
+         computeFunctionArgs);
 
    if(computeFunctionResult == NULL || PyErr_Occurred()) {
       PyErr_Print();

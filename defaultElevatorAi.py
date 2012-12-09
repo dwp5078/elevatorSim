@@ -1,4 +1,4 @@
 # Sample elevator AI
 
-def computeNextMove(sState):
+def computeNextMove(testString):
    return

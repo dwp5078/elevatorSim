@@ -310,6 +310,10 @@ namespace elevatorSim {
                * if there are no stops after this */
                if( scheduledFloors.size() == 0 ) {
                   scheduledFloors.push_back(rand() % numFloors);
+
+                  /* call into python and process the user's elevator script 
+                   * (work in progress) */
+                  SimulationState::acquire().runUserScriptUnsafe();
                }
             }
       }
