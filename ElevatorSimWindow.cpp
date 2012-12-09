@@ -84,7 +84,7 @@ int ElevatorSimWindow::handle(int event) {
          LOG_INFO(Logger::SUB_FLTK, "after focus event");
       }
 
-      if(welcomeWin->isFirstRun()) {
+      if(welcomeWin->shouldShowTips()) {
          welcomeWin->hotspot(15, 15);
          welcomeWin->show();
       }
