@@ -56,9 +56,9 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
    stateObjects.insert((cameraManager = new cCameraManager()));
    stateObjects.insert((building = new Building()));
 
-   renderObjs = new cRenderObjs();
    userScriptCodeObject = NULL;
    userScriptExecModule = NULL;
+   userComputeFunction = NULL;
 }
 
 SimulationState::~SimulationState() {
@@ -105,6 +105,7 @@ void SimulationState::init() {
 
    Py_XDECREF(userScriptCodeObject);
    Py_XDECREF(userScriptExecModule);
+   Py_XDECREF(userComputeFunction);
 
    userScriptCodeObject = NULL;
    userScriptExecModule = NULL;
@@ -133,8 +134,10 @@ void SimulationState::start(
    int numFloors,
    int randomSeed,
    const std::string& pyAiPath ) {
-      assert(userScriptCodeObject == NULL && 
-         userScriptExecModule == NULL);
+      assert(
+         userScriptCodeObject == NULL && 
+         userScriptExecModule == NULL &&
+         userComputeFunction == NULL);
 
       bigAssStateMutex.lock();
 
