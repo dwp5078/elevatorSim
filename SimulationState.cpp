@@ -57,7 +57,8 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
    stateObjects.insert((building = new Building()));
 
    renderObjs = new cRenderObjs();
-   userScript = NULL;
+   userScriptCodeObject = NULL;
+   userScriptExecModule = NULL;
 }
 
 SimulationState::~SimulationState() {
@@ -102,10 +103,12 @@ void SimulationState::init() {
    cState = SIMULATION_STARTING;
    logicTicks = 0;
 
-   if( userScript != NULL) {
-      Py_DECREF(userScript);
-      userScript = NULL;
-   }
+   Py_XDECREF(userScriptCodeObject);
+   Py_XDECREF(userScriptExecModule);
+
+   userScriptCodeObject = NULL;
+   userScriptExecModule = NULL;
+   userComputeFunction = NULL;
 }
 
 void SimulationState::update() {
@@ -130,7 +133,8 @@ void SimulationState::start(
    int numFloors,
    int randomSeed,
    const std::string& pyAiPath ) {
-      assert(userScript == NULL);
+      assert(userScriptCodeObject == NULL && 
+         userScriptExecModule == NULL);
 
       bigAssStateMutex.lock();
 
@@ -162,13 +166,14 @@ void SimulationState::runUserScriptUnsafe() {
    PyObject* globals = Py_BuildValue("{s:i}", "test", 1);
    PyObject* locals = Py_BuildValue("{s:i}", "test", 1);
 
-   PyObject* scriptResult = PyEval_EvalCode(userScript, globals, locals);
+   //PyObject* scriptResult = PyEval_EvalCode(userScript, globals, locals);
 
-   if(PyErr_Occurred()) {
-      PyErr_Print();
-   }
+   //if(PyErr_Occurred()) {
+   //   PyErr_Print();
+  // }
 
-   Py_XDECREF(scriptResult);
+   //Py_XDECREF(scriptResult);
+
    Py_DECREF(locals);
    Py_DECREF(globals);
 }
@@ -204,42 +209,77 @@ void SimulationState::stop() {
    bigAssStateMutex.unlock();
 }
 
+const char SimulationState::USER_SCRIPT_PY_NAME[] = "elevatorSim";
+const char SimulationState::USER_SCRIPT_PY_FUNC_NAME[] = "computeNextMove";
+
 bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
    std::string pyBuffer;
-
    std::ifstream pyScriptFile( pyAiPath.c_str(), std::ifstream::in );
-   if (pyScriptFile.is_open()) {
-      int lineCount = 0;
-      while ( pyScriptFile.good() ) {
-         std::string lineBuffer;
-         getline (pyScriptFile, lineBuffer);
-         pyBuffer += lineBuffer;
-         ++lineCount;
-      }
 
-      pyScriptFile.close();
-      (void) lineCount;
-
-      /* see http://docs.python.org/3/c-api/veryhigh.html#Py_CompileStringExFlags */
-
-      /* compile the string into an object */
-      userScript =
-         Py_CompileString(
-            pyBuffer.c_str(),
-            pyAiPath.c_str(),
-            Py_file_input);
-
-      if( userScript == NULL ) {
-         PyErr_Print();
-         return false;
-      }
-
-   } else {
+   if (!pyScriptFile.is_open()) {
       LOG_ERROR( Logger::SUB_GENERAL, "couldn't open script file");
       return false;
    }
 
+   while ( pyScriptFile.good() ) {
+      std::string lineBuffer;
+      getline (pyScriptFile, lineBuffer);
+      pyBuffer += (lineBuffer + '\n');
+   }
+
+   pyScriptFile.close();
+
+   /* compile the string into a code object */
+   userScriptCodeObject =
+      Py_CompileString(
+         pyBuffer.c_str(),
+         pyAiPath.c_str(),
+         Py_file_input);
+
+   if( userScriptCodeObject == NULL ) {
+      PyErr_Print();
+      return false;
+   }
+   
+   /*
+    * std::cerr << "Code object: ";
+    * PyObject_Print( userScriptCodeObject, stderr, 0);
+    * std::cerr << std::endl;
+    */
+
+   userScriptExecModule = PyImport_ExecCodeModule(
+      (char*) USER_SCRIPT_PY_NAME, userScriptCodeObject );
+
+   if( userScriptExecModule == NULL ) {
+      PyErr_Print();
+      Py_DECREF(userScriptCodeObject);
+      userScriptCodeObject = NULL;
+      return false;
+   }
+
+   /*
+    * std::cerr << "Executable module: ";
+    * PyObject_Print( userScriptExecModule, stderr, 0);
+    * std::cerr << std::endl;
+    */
+
+   userComputeFunction = 
+      PyObject_GetAttrString( 
+         userScriptExecModule, 
+         USER_SCRIPT_PY_FUNC_NAME );
+
+   if( userComputeFunction == NULL || 
+      !PyCallable_Check(userComputeFunction)) {
+         PyErr_Print();
+         Py_DECREF(userScriptExecModule);
+         Py_DECREF(userScriptCodeObject);
+         userScriptExecModule = NULL;
+         userScriptCodeObject = NULL;
+         userComputeFunction = NULL;
+         return false;
+   }  
+
    return true;
-}
+} 
 
 } /* namespace elevatorSim */

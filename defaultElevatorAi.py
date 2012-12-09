@@ -1,8 +1,4 @@
 # Sample elevator AI
 
-def determineNextMove():
-   ""Stub""
+def computeNextMove(sState):
    return
-
-if __name__ == "__main__":
-   print "stub";

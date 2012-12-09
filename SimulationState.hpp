@@ -135,8 +135,8 @@ public:
    }
 
 private:
-
-   bool loadPythonScript( const std::string& pyAiPath );
+   SimulationState();
+   ~SimulationState();
 
    static SimulationState* simulationState;
 
@@ -150,11 +150,15 @@ private:
    cCameraManager* cameraManager;
    int logicTicks;
 
-   Building* building;
-   PyObject* userScript;
+   static const char USER_SCRIPT_PY_NAME[];
+   static const char USER_SCRIPT_PY_FUNC_NAME[];
 
-   SimulationState();
-   ~SimulationState();
+   bool loadPythonScript( const std::string& pyAiPath );
+
+   Building* building;
+   PyObject* userScriptCodeObject;
+   PyObject* userScriptExecModule;
+   PyObject* userComputeFunction;
 
 };
 
