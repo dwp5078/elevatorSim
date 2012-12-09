@@ -398,8 +398,8 @@ void ElevatorSimWindow::buildDialogs() {
       << "    fltk v" << FL_MAJOR_VERSION << "_"
       << FL_MINOR_VERSION << FL_PATCH_VERSION << " http://www.fltk.org" << std::endl
       << "    python v" << PY_MAJOR_VERSION << "_" << PY_MINOR_VERSION
-      << " http://www.python.org " << std::endl
-      << "hosted at: https://github.com/maxdeliso/elevatorSim" << std::endl;
+      << " http://www.python.org\n"
+      << "hosted at: https://github.com/maxdeliso/elevatorSim\n";
 
    do {
       const int lineBufferLen = 256;

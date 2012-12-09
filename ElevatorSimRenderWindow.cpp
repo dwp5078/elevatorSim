@@ -275,7 +275,7 @@ void ElevatorSimRenderWindow::rayCasting(int x, int y) {
 
    float mx = (float)((x - GLWindow_width * 0.5) * (1.0 / GLWindow_width) * fovX * 0.5);
    float my = (float)((y - GLWindow_height * 0.5) * (1.0 / GLWindow_width) * fovX * 0.5);
-   Vec3f dx = simState.getCameraManager().GetRight() * mx;
+   Vec3f dx = simState.getCameraManager().getRight() * mx;
    Vec3f dy = simState.getCameraManager().GetCameraUp() * my;
 
    Vec3f dir = simState.getCameraManager().GetCameraLookAt() + (dx + dy) * 2.0;

@@ -37,61 +37,66 @@
 
 namespace elevatorSim {
 
-   std::unordered_map<Person*, IPersonCarrier*>* IPersonCarrier::containerCache = NULL;
+std::unordered_map<Person*, IPersonCarrier*>*
+IPersonCarrier::containerCache = NULL;
 
-   IPersonCarrier::~IPersonCarrier() {
-       /* print debug info */
-      if(isDebugBuild()) {
-         std::stringstream dbgSS;
-         dbgSS << "with IPersonCarrier @ " << this
-            << " with " << people.size()
-            << " people. destructing them..." << std::endl;
+IPersonCarrier::~IPersonCarrier() {
+   /* print debug info */
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "with IPersonCarrier @ " << this
+               << " with " << people.size()
+               << " people. destructing them...\n";
 
-         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
-      }
-
-      for(std::unordered_set<Person*>::iterator iter = people.begin();
-         iter != people.end();
-         ) {
-            Person* currentMutablePerson = *iter;
-            iter = people.erase(iter++);
-            delete currentMutablePerson;
-      }
-
-      if(isDebugBuild()) {
-         std::stringstream dbgSS;
-         dbgSS << "destructing in IPersonCarrier @ " << this
-            << " complete" << std::endl;
-
-         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
-      }
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
 
-   std::unordered_map<Person*, IPersonCarrier*>* IPersonCarrier::acquireContainerCache() {
-      return (containerCache == NULL) ?
-         (containerCache = new std::unordered_map<Person*, IPersonCarrier*>()) :
-         (containerCache);
+   for(std::unordered_set<Person*>::iterator iter = people.begin();
+            iter != people.end();
+   ) {
+      Person* currentMutablePerson = *iter;
+      iter = people.erase(iter++);
+      delete currentMutablePerson;
    }
 
-   inline void IPersonCarrier::invalidateCCEntry( Person * const cp ) {
-      (void) cp;
-   }
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "destructing in IPersonCarrier @ " << this
+               << " complete" << std::endl;
 
-   inline void IPersonCarrier::updateCCEntry( Person * const cp, IPersonCarrier* icp ) {
-      (void) cp;
-      (void) icp;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
    }
+}
 
-   inline Person* IPersonCarrier::checkContainerCache( Person * const cp ) {
-      (void)cp;
+std::unordered_map<Person*, IPersonCarrier*>*
+IPersonCarrier::acquireContainerCache() {
+   return (containerCache == NULL) ?
+            (containerCache =
+                     new std::unordered_map<Person*, IPersonCarrier*>()) :
+                     (containerCache);
+}
 
-      return NULL;
+inline void IPersonCarrier::invalidateCCEntry( Person * const cp ) {
+   (void) cp;
+}
+
+inline void IPersonCarrier::updateCCEntry(
+         Person * const cp,
+         IPersonCarrier* icp ) {
+   (void) cp;
+   (void) icp;
+}
+
+inline Person* IPersonCarrier::checkContainerCache( Person * const cp ) {
+   (void)cp;
+
+   return NULL;
+}
+
+void IPersonCarrier::cleanContainerCache() {
+   if(containerCache != NULL ) {
+      delete containerCache;
    }
-
-   void IPersonCarrier::cleanContainerCache() {
-      if(containerCache != NULL ) {
-         delete containerCache;
-      }
-   }
+}
 
 } /* namespace ElevatorSim */

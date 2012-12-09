@@ -60,11 +60,11 @@ public:
    void update();
    void render();
 
-   void Yaw(float fAngle);
-   void Pitch(float fAngle);
-   void Roll(float fAngle);
+   void yaw(float fAngle);
+   void pitch(float fAngle);
+   void roll(float fAngle);
    
-   Vec3f GetRight();
+   Vec3f getRight();
 
    inline Vec3f GetCameraPos() {
       return m_vecCamPos;

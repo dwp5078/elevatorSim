@@ -257,7 +257,7 @@ void Building::distributePeople() {
 }
 
 int Building::getMaxElevHeight() const {
-   return (floors.size() - 1) * Floor::YVALS_PER_FLOOR;
+   return ((floors.size() - 1) * Floor::YVALS_PER_FLOOR);
 }
 
 int Building::getMinElevHeight() const {

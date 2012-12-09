@@ -61,6 +61,7 @@ SimulationState::SimulationState() : cState(SimulationState::SIMULATION_STARTING
    userComputeFunction = NULL;
 
    renderObjs = NULL;
+   logicTicks = 0;
 }
 
 SimulationState::~SimulationState() {

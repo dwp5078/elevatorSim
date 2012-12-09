@@ -66,7 +66,7 @@ public:
       if(cit == keysPressed.end()) {
          return false;
       } else {
-         return cit->second;;
+         return cit->second;
       }
    }
 };
