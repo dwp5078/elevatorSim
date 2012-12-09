@@ -66,7 +66,7 @@ public:
 
    void addPerson( Person * const p ) {
       std::pair<std::unordered_set<Person*>::iterator, bool> ret =
-         people.insert(p);
+               people.insert(p);
 
       /* ensure that the add succeeded */
       assert(ret.second);

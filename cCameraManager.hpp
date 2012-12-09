@@ -63,7 +63,7 @@ public:
    void yaw(float fAngle);
    void pitch(float fAngle);
    void roll(float fAngle);
-   
+
    Vec3f getRight();
 
    inline Vec3f GetCameraPos() {

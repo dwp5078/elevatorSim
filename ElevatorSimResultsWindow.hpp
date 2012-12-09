@@ -38,21 +38,21 @@
 #include <FL/Fl_Window.H>
 
 namespace elevatorSim {
-   class ElevatorSimResultsWindow : public Fl_Window {
-         /* fltk callbacks */
- 
-         /* user input widgets */
-         
-      public:
+class ElevatorSimResultsWindow : public Fl_Window {
+   /* fltk callbacks */
 
-         /* public static members */
-         const static int WINDOW_WIDTH;
-         const static int WINDOW_HEIGHT;
-         const static char WINDOW_TITLE[];
+   /* user input widgets */
 
-         ElevatorSimResultsWindow();
-         ~ElevatorSimResultsWindow();
-   };
+public:
+
+   /* public static members */
+   const static int WINDOW_WIDTH;
+   const static int WINDOW_HEIGHT;
+   const static char WINDOW_TITLE[];
+
+   ElevatorSimResultsWindow();
+   ~ElevatorSimResultsWindow();
+};
 
 } /* namespace elevatorSim */
 

@@ -45,42 +45,44 @@
 
 namespace elevatorSim {
 /* constructors */
-Building::Building(unsigned int _nStory, unsigned int _nElevator, int _invPersonArriveProb) :
-   gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
-   gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
-   gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
-   gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator),
-   invPersonArriveProb(_invPersonArriveProb) {
+Building::Building(unsigned int _nStory,
+         unsigned int _nElevator,
+         int _invPersonArriveProb) :
+                  gfxScaleHeight(_nStory * cRenderObjs::BUILDING_GAP_HEIGHT),
+                  gfxScaleWidth(_nElevator * cRenderObjs::ELEV_GAP_WIDTH),
+                  gfxEachFloorHeight(gfxScaleHeight * 2 / _nStory ),
+                  gfxEachElevWidth(gfxScaleWidth * 2 / _nElevator),
+                  invPersonArriveProb(_invPersonArriveProb) {
 
-      if(isDebugBuild()) {
-         std::stringstream dbgSS;
-         dbgSS << "in Building(" << _nStory << ", " << _nElevator
-            << ") with address @" << this << std::endl;
-         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
-      }
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "in Building(" << _nStory << ", " << _nElevator
+               << ") with address @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+   }
 
-      floors = std::vector<Floor*> (_nStory);
+   floors = std::vector<Floor*> (_nStory);
 
-      for(unsigned int i=0; i < _nStory ; ++i) {
-         floors[i] =
-            new Floor(
-               i * Floor::YVALS_PER_FLOOR,
-               i,
-               gfxScaleWidth,
-               i != _nStory-1,
-               i != 0);
-      }
+   for(unsigned int i=0; i < _nStory ; ++i) {
+      floors[i] =
+               new Floor(
+                        i * Floor::YVALS_PER_FLOOR,
+                        i,
+                        gfxScaleWidth,
+                        i != _nStory-1,
+                        i != 0);
+   }
 
-      elevators = std::vector<Elevator*> (_nElevator);
-      for(unsigned int i=0; i < _nElevator ; ++i ) {
-         elevators[i] = new Elevator(0);
-      }
+   elevators = std::vector<Elevator*> (_nElevator);
+   for(unsigned int i=0; i < _nElevator ; ++i ) {
+      elevators[i] = new Elevator(0);
+   }
 
-      if(isDebugBuild()) {
-         std::stringstream dbgSS;
-         dbgSS << "finished constructing building @" << this << std::endl;
-         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
-      }
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "finished constructing building @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer( dbgSS ));
+   }
 }
 
 Building::~Building() {
@@ -91,37 +93,37 @@ Building::~Building() {
    }
 
    for(std::vector<Floor*>::iterator iter = floors.begin();
-      iter != floors.end();
-      ) {
-         Floor* currentFloor = *iter;
-         iter = floors.erase(iter++);
-         delete currentFloor;
+            iter != floors.end();
+   ) {
+      Floor* currentFloor = *iter;
+      iter = floors.erase(iter++);
+      delete currentFloor;
    }
 
    for(std::vector<Elevator*>::iterator iter = elevators.begin();
-      iter != elevators.end();
-      ) {
-         Elevator* currentElevator = *iter;
-         iter = elevators.erase(iter++);
-         delete currentElevator;
+            iter != elevators.end();
+   ) {
+      Elevator* currentElevator = *iter;
+      iter = elevators.erase(iter++);
+      delete currentElevator;
    }
 }
 
 /* public methods inherited from SimulationTerminal */
 void Building::init() {
    std::for_each(
-      floors.begin(),
-      floors.end(),
-      [] (Floor * thisFloor ) {
-         thisFloor -> init();
-      });
+            floors.begin(),
+            floors.end(),
+            [] (Floor * thisFloor ) {
+      thisFloor -> init();
+   });
 
    std::for_each(
-      elevators.begin(),
-      elevators.end(),
-      [] (Elevator * thisElevator ) {
-         thisElevator -> init();
-      });
+            elevators.begin(),
+            elevators.end(),
+            [] (Elevator * thisElevator ) {
+      thisElevator -> init();
+   });
 }
 
 void Building::render() {
@@ -136,16 +138,18 @@ void Building::render() {
    static const GLfloat emi[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
    glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
-	glMaterialf(GL_FRONT, GL_SHININESS, shi);
-	glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, spe);
+   glMaterialf(GL_FRONT, GL_SHININESS, shi);
+   glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 
    /* adding waiting queue */
 
    /* Left wall */
    glPushMatrix();
-   glTranslatef(-gfxScaleWidth - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH*2, gfxScaleHeight, 0.f);
+   glTranslatef(
+            -gfxScaleWidth - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH*2,
+            gfxScaleHeight, 0.f);
    glScalef(0.1f, gfxScaleHeight, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
@@ -159,15 +163,25 @@ void Building::render() {
 
    /* Back wall */
    glPushMatrix();
-   glTranslatef(0 - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, gfxScaleHeight, -2.0f);
-   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, gfxScaleHeight, 0.1f);
+   glTranslatef(
+            0 - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
+            gfxScaleHeight, -2.0f);
+   glScalef(
+            gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
+            gfxScaleHeight, 0.1f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
    /* Top wall */
    glPushMatrix();
-   glTranslatef(0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, gfxScaleHeight*2, 0.0f);
-   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 0.1f, 2.0f);
+   glTranslatef(
+            0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
+            gfxScaleHeight*2,
+            0.0f);
+   glScalef(
+            gfxScaleWidth +
+            cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
+            0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
@@ -175,7 +189,8 @@ void Building::render() {
    for(int i=0; i<getMaxElev(); i++)
    {
       glPushMatrix();
-      glTranslatef(-gfxScaleWidth + gfxEachElevWidth * i, gfxScaleHeight, -0.65f);
+      glTranslatef(-gfxScaleWidth + gfxEachElevWidth * i,
+               gfxScaleHeight, -0.65f);
       glScalef(0.1f, gfxScaleHeight, .8f);
       glCallList(cRenderObjs::OBJ_CUBE);
       glPopMatrix();
@@ -186,8 +201,8 @@ void Building::render() {
    for(unsigned int i=0; i < floors.size(); i++) {
       glPushMatrix();
       glTranslatef(
-         0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
-         gfxEachFloorHeight * i, 0.f);
+               0.0f - cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
+               gfxEachFloorHeight * i, 0.f);
 
       floors[i]->render();
 
@@ -198,14 +213,15 @@ void Building::render() {
    for(unsigned int i=0; i < elevators.size(); i++) {
       glPushMatrix();
       glTranslatef(
-         -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH + gfxEachElevWidth * i,
-         /* this is in the logical coordinate system,
-          * so we divide it by YVALS_PER_FLOOR */
-         1.0f +
-         (GLfloat)elevators[i]->getYVal() /
-         Floor::YVALS_PER_FLOOR *
-         gfxEachFloorHeight,
-         0.0f);
+               -gfxScaleWidth + cRenderObjs::ELEV_GAP_WIDTH +
+               gfxEachElevWidth * i,
+               /* this is in the logical coordinate system,
+                * so we divide it by YVALS_PER_FLOOR */
+               1.0f +
+               (GLfloat)elevators[i]->getYVal() /
+               Floor::YVALS_PER_FLOOR *
+               gfxEachFloorHeight,
+               0.0f);
 
       /*
        * elev height is on interval
@@ -226,14 +242,14 @@ void Building::render() {
 
 void Building::update() {
    std::for_each(
-      floors.begin(),
-      floors.end(),
-      [] (Floor* thisFloor) { thisFloor -> update(); });
+            floors.begin(),
+            floors.end(),
+            [] (Floor* thisFloor) { thisFloor -> update(); });
 
    std::for_each(
-      elevators.begin(),
-      elevators.end(),
-      [] (Elevator* thisElevator ) { thisElevator -> update(); });
+            elevators.begin(),
+            elevators.end(),
+            [] (Elevator* thisElevator ) { thisElevator -> update(); });
 
    distributePeople();
 }
@@ -252,7 +268,7 @@ void Building::distributePeople() {
       Person* newPerson = new Person(sourceFloor, destFloor);
 
       /* add the new randomly generated occupant */
-	   floors[sourceFloor]->addPerson(newPerson);
+      floors[sourceFloor]->addPerson(newPerson);
    }
 }
 

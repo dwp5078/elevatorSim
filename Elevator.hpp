@@ -54,7 +54,8 @@ class Floor;
 struct SimulationTerminal;
 class IPersonCarrier;
 
-class Elevator : public Location, public ISimulationTerminal, public IPersonCarrier {
+class Elevator :
+         public Location, public ISimulationTerminal, public IPersonCarrier {
 
    /* friends */
    friend class Building;
@@ -90,10 +91,10 @@ class Elevator : public Location, public ISimulationTerminal, public IPersonCarr
 
    /* constructor */
    Elevator(
-      int _yVal,
-      const int _maxVel = DEFAULT_MAX_VEL,
-      const int _maxAccel = DEFAULT_MAX_ACCEL,
-      const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
+            int _yVal,
+            const int _maxVel = DEFAULT_MAX_VEL,
+            const int _maxAccel = DEFAULT_MAX_ACCEL,
+            const int _maxOccupants = DEFAULT_MAX_OCCUPANTS);
 
    void scheduleAccelsToFloor( const int srcFloor, const int destfloor );
 
@@ -125,9 +126,20 @@ public:
    }
 
    //fancy animation turn on function
-   inline void peopleGetOnAnimationOn() { peopleOnAnimation = true;  peopleOnCounter = DEFAULT_MAX_ANI_COUNTER; }
-   inline void peopleGetOffAnimationOn() { peopleOffAnimation = true; peopleOffCounter = 0;}
-   inline void peopleGetOnOffAnimationOff() { peopleOnAnimation = peopleOffAnimation = false; }
+   inline void peopleGetOnAnimationOn() {
+      peopleOnAnimation = true;
+      peopleOnCounter = DEFAULT_MAX_ANI_COUNTER;
+   }
+
+   inline void peopleGetOffAnimationOn() {
+      peopleOffAnimation = true;
+      peopleOffCounter = 0;
+   }
+
+   inline void peopleGetOnOffAnimationOff() {
+      peopleOnAnimation = false;
+      peopleOffAnimation = false;
+   }
 
    enum PERSON_CARRIER_TYPE getCarrierType() const {
       return IPersonCarrier::ELEVATOR_CARRIER; 

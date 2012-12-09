@@ -51,26 +51,25 @@ const int Floor::YVALS_PER_FLOOR = 5040;
 
 /* constructors */
 Floor::Floor(
-   int _yVal,
-   int _thisFloor,
-   float _gfxScaleWidth,
-   bool _hasUpperFloor,
-   bool _hasLowerFloor
-   ) :
-      Location(_yVal),
-      thisFloor(_thisFloor),
-      gfxScaleWidth(_gfxScaleWidth),
-      hasUpperFloor(_hasUpperFloor),
-      hasLowerFloor(_hasLowerFloor)  {
+         int _yVal,
+         int _thisFloor,
+         float _gfxScaleWidth,
+         bool _hasUpperFloor,
+         bool _hasLowerFloor) :
+                  Location(_yVal),
+                  thisFloor(_thisFloor),
+                  gfxScaleWidth(_gfxScaleWidth),
+                  hasUpperFloor(_hasUpperFloor),
+                  hasLowerFloor(_hasLowerFloor)  {
 
-      signalingUp = false;
-      signalingDown = false;
+   signalingUp = false;
+   signalingDown = false;
 
-      if(isDebugBuild()) {
-         std::stringstream dbgSS;
-         dbgSS << "constructed floor @" << this << std::endl;
-         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
-      }
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "constructed floor @" << this << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 }
 
 Floor::~Floor() {
@@ -103,7 +102,8 @@ void Floor::render() {
    glMaterialfv(GL_FRONT, GL_EMISSION, floor_emi);
 
    glPushMatrix();
-   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH, 0.1f, 2.0f);
+   glScalef(gfxScaleWidth + cRenderObjs::GFX_FLOOR_QUEUE_SCALE_WIDTH,
+            0.1f, 2.0f);
    glCallList(cRenderObjs::OBJ_CUBE);
    glPopMatrix();
 
@@ -171,34 +171,35 @@ void Floor::update() {
     * of functions called as a result of person update.
     */
    for(std::unordered_set<Person*>::iterator iter = people.begin();
-      iter != people.end();
-      ) {
-         /* obtain a pointer to the current person by using iterator */
-         Person* currentMutablePerson = *iter;
+            iter != people.end();
+   ) {
+      /* obtain a pointer to the current person by using iterator */
+      Person* currentMutablePerson = *iter;
 
-         /* copy construct an iterator from the current one */
-         std::unordered_set<Person*>::iterator nextPosition = std::unordered_set<Person*>::iterator(iter);
+      /* copy construct an iterator from the current one */
+      std::unordered_set<Person*>::iterator nextPosition =
+               std::unordered_set<Person*>::iterator(iter);
 
-         /* increment iterator position, to save the next position */
-         ++nextPosition;
+      /* increment iterator position, to save the next position */
+      ++nextPosition;
 
-         /* if the person was getting off on this floor, remove them from the simulation */
-         if(currentMutablePerson->getDestination().getYVal()
-            == thisFloor * Floor::YVALS_PER_FLOOR )  {
+      /* if the person was getting off on this floor, remove them */
+      if(currentMutablePerson->getDestination().getYVal()
+               == thisFloor * Floor::YVALS_PER_FLOOR )  {
 
-               /* pass the old iteration position to erase, but first jump to a new one */
-               people.erase(iter++);
+         people.erase(iter++);
 
-               /* free the mutable person from the simulation */
-               delete currentMutablePerson;
-         } else {
-            /* otherwise we just update the person */
-            currentMutablePerson -> update();
+         /* free the mutable person from the simulation */
+         delete currentMutablePerson;
+      } else {
+         /* otherwise we just update the person */
+         currentMutablePerson -> update();
 
-            /* the current iterator could've been invalidated by a person moving itself, 
-             * so intead of iter++ we just overwrite with the saved position */
-            iter = nextPosition;
-         }
+         /* the current iterator could've been invalidated by a person moving
+          * itself, so intead of iter++ we just overwrite with the saved
+          * position */
+         iter = nextPosition;
+      }
    }
 }
 
@@ -210,11 +211,11 @@ void Floor::updateSignalArrows() {
    while(iter != people.end()) {
       const Person* currentPerson = *iter;
       if(currentPerson->getDestination().getYVal()
-         - thisFloor > 0) {
-            signalingUp = true;
+               - thisFloor > 0) {
+         signalingUp = true;
       } else if(currentPerson->getDestination().getYVal()
-         - thisFloor < 0) {
-            signalingDown = true;
+               - thisFloor < 0) {
+         signalingDown = true;
       }
 
       iter++;

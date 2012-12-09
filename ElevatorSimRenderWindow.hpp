@@ -70,10 +70,10 @@ class ElevatorSimRenderWindow : public Fl_Gl_Window {
    void glInit();
    void setViewport();
    void setPerspective(
-         GLdouble fovy,
-         GLdouble aspect,
-         GLdouble zNear,
-         GLdouble zFar);
+            GLdouble fovy,
+            GLdouble aspect,
+            GLdouble zNear,
+            GLdouble zFar);
 
    void drawFPS(int fps, int totalFrames);
    void drawText(const char * const str, float x, float y);
@@ -81,7 +81,7 @@ class ElevatorSimRenderWindow : public Fl_Gl_Window {
 
    /* public methods */
    ElevatorSimRenderWindow(
-      int X, int Y, int W, int H, const char* Label = 0);
+            int X, int Y, int W, int H, const char* Label = 0);
 
 public:
 
@@ -96,7 +96,7 @@ public:
    /* public instance members */
 
    ~ElevatorSimRenderWindow();
-   
+
    void draw();
 };
 

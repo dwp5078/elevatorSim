@@ -52,7 +52,7 @@ const int ElevatorSimResultsWindow::WINDOW_HEIGHT = 316;
 
 /* public methods */
 ElevatorSimResultsWindow::ElevatorSimResultsWindow() :
-   Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
+            Fl_Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE) {
 
 }
 

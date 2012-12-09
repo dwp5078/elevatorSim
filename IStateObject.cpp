@@ -33,7 +33,7 @@
 #include "IStateObject.hpp"
 
 namespace elevatorSim {
-   IStateObject::~IStateObject() {
+IStateObject::~IStateObject() {
 
-   }
+}
 } /* namespace ElevatorSim */

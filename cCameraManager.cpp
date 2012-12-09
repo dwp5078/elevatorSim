@@ -101,12 +101,12 @@ void cCameraManager::update() {
 
    if(keyManager.isDown(FL_Up)) {
       m_vecCamPos.z = m_vecCamPos.z - move;
-	  m_vecCamLookAt.z = m_vecCamLookAt.z - move;
+      m_vecCamLookAt.z = m_vecCamLookAt.z - move;
    }
 
    if(keyManager.isDown(FL_Down)) {
       m_vecCamPos.z = m_vecCamPos.z + move;
-	  m_vecCamLookAt.z = m_vecCamLookAt.z + move;
+      m_vecCamLookAt.z = m_vecCamLookAt.z + move;
    }
 
    if(keyManager.isDown('w')) {
@@ -146,8 +146,8 @@ void cCameraManager::render()
    glRotatef(m_fRollAngle, 0, 0, 1);
 
    gluLookAt(m_vecCamPos.x, m_vecCamPos.y, m_vecCamPos.z,
-         m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z,
-         m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
+            m_vecCamLookAt.x, m_vecCamLookAt.y, m_vecCamLookAt.z,
+            m_vecCamUp.x, m_vecCamUp.y, m_vecCamUp.z);
 }
 
 void cCameraManager::yaw(float fAngle)
