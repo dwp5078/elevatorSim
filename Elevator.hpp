@@ -82,7 +82,6 @@ class Elevator :
    int peopleOffCounter;
    int peopleOnCounter;
    float peopleOnOffPosX;
-   //int 
 
    std::vector<int> scheduledFloors;
    std::vector<std::pair<int, int>> scheduledAccels;
@@ -150,8 +149,13 @@ public:
    void render();
    void update();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
 };
 
 } /* namespace elevatorSim */
 
-#endif
+#endif /* _ELEVATOR_H */

@@ -95,6 +95,11 @@ public:
    void render();
    void update();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
    IPersonCarrier* locateContainer() const;
 };
 

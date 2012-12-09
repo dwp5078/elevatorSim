@@ -240,6 +240,11 @@ void SimulationState::stop() {
 const char SimulationState::USER_SCRIPT_PY_NAME[] = "elevatorSim";
 const char SimulationState::USER_SCRIPT_PY_FUNC_NAME[] = "computeNextMove";
 
+PyObject* SimulationState::convertToTuple() {
+
+   return NULL;
+}
+
 bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
    std::string pyBuffer;
    std::ifstream pyScriptFile( pyAiPath.c_str(), std::ifstream::in );

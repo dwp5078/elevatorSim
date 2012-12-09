@@ -60,6 +60,11 @@ public:
    void update();
    void render();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
    void yaw(float fAngle);
    void pitch(float fAngle);
    void roll(float fAngle);

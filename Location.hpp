@@ -32,6 +32,8 @@
 #ifndef _LOCATION_H
 #define _LOCATION_H
 
+#include "ElevatorSim.hpp"
+
 namespace elevatorSim {
 
 class Location {
@@ -66,7 +68,6 @@ public:
 
    /* public methods */
    int getYVal() const;
-
 };
 
 } /* namespace elevatorSim */

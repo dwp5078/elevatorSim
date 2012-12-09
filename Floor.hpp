@@ -93,6 +93,12 @@ public:
    void render();
    void update();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
+   /* public class-local methods */
    void updateSignalArrows();
 
    enum PERSON_CARRIER_TYPE getCarrierType() const {

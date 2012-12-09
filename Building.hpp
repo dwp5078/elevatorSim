@@ -79,6 +79,11 @@ public:
    void render();
    void update();
 
+   PyObject* convertToTuple() {
+      /* TODO: stub */
+      return NULL;
+   }
+
    void distributePeople();
 
    /* inline const accessors */
