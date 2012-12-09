@@ -100,6 +100,11 @@ public:
       return NULL;
    }
 
+   void decrefTuple(PyObject* thisTuple) {
+      (void) thisTuple;
+      /* TODO: stub */
+   }
+
    IPersonCarrier* locateContainer() const;
 };
 

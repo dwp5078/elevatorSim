@@ -84,6 +84,11 @@ public:
       return NULL;
    }
 
+   void decrefTuple(PyObject* thisTuple) {
+      (void) thisTuple;
+      /* TODO: stub */
+   }
+
    void distributePeople();
 
    /* inline const accessors */

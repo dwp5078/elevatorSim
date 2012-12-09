@@ -50,6 +50,7 @@ struct ISimulationTerminal : public IStateObject {
 
    virtual ~ISimulationTerminal() = 0;
    virtual PyObject* convertToTuple() = 0;
+   virtual void decrefTuple(PyObject* thisTuple) = 0;
 };
 
 } /* namespace elevatorSim */

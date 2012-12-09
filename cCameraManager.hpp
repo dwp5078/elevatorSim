@@ -65,6 +65,11 @@ public:
       return NULL;
    }
 
+   void decrefTuple(PyObject* thisTuple) {
+      (void) thisTuple;
+      /* TODO: stub */
+   }
+
    void yaw(float fAngle);
    void pitch(float fAngle);
    void roll(float fAngle);
