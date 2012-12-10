@@ -42,14 +42,21 @@
 #include <sstream>
 #include <vector>
 #include <cassert>
+#include <string>
 
 namespace elevatorSim {
 
 template <class T> PyObject* 
-   Building::createTupleFromMember( const std::vector<T*>& memberRef ) {
+   Building::createTupleFromMember( const std::vector<T*>& memberRef ) const {
       /* instantiate a tuple for containing all of the floors */
       PyObject* memberItemTuple = PyTuple_New( memberRef.size() );
-   
+
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "created tuple at: " << memberItemTuple << std::endl;
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+      }
+
       if( memberItemTuple == NULL || PyErr_Occurred() ) {
          PyErr_Print();
       }
@@ -65,7 +72,7 @@ template <class T> PyObject*
          ISimulationTerminal* currentItemTyped 
             = static_cast<ISimulationTerminal*>(currentItemGeneric);
          currentItemTyped->updateTuple();
-         PyTuple_SET_ITEM(memberItemTuple, i, currentItemTyped->getTuple());
+         PyTuple_SET_ITEM(memberItemTuple, i, currentItemTyped->stealTuple());
          ++i;
       }
 
@@ -106,6 +113,9 @@ Building::Building(unsigned int _nStory,
       elevators[i] = new Elevator(0);
    }
 
+   elevatorsTuple = NULL;
+   floorsTuple = NULL;
+
    if(isDebugBuild()) {
       std::stringstream dbgSS;
       dbgSS << "finished constructing building @" << this << std::endl;
@@ -135,6 +145,8 @@ Building::~Building() {
       iter = elevators.erase(iter++);
       delete currentElevator;
    }
+
+   freeTuple();
 }
 
 /* public methods inherited from SimulationTerminal */
@@ -287,17 +299,32 @@ void Building::updateTuple() {
       freeTuple();
    }
 
-   PyObject* floorsTuple = createTupleFromMember(floors);
-   PyObject* elevatorsTuple = createTupleFromMember(elevators);
+   floorsTuple = createTupleFromMember(floors);
+   elevatorsTuple = createTupleFromMember(elevators);
    pythonRepr = Py_BuildValue("(OO)", floorsTuple, elevatorsTuple);
-   
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "created tuple at: " << pythonRepr << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
+
    if( pythonRepr == NULL || PyErr_Occurred() ) {
       PyErr_Print();
    }
 }
 
 void Building::freeTuple() {
+   if( pythonRepr == NULL ) {
+      return;
+   }
 
+   assert(PyObject_Size(pythonRepr) == 2);
+
+   Py_CLEAR(pythonRepr);
+
+   Py_CLEAR(elevatorsTuple);
+   Py_CLEAR(floorsTuple);
 }
 
 void Building::distributePeople() {

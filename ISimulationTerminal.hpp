@@ -40,6 +40,9 @@ namespace elevatorSim {
 struct ISimulationTerminal : public IStateObject {
    virtual void update() = 0;
 
+   ISimulationTerminal::ISimulationTerminal() {
+      pythonRepr = NULL;
+   }
    /*
     * NOTE: The dtor below is declared pure virtual but also defined in
     * the corresponding cpp file. It is pure virtual so that invocations
@@ -59,6 +62,13 @@ struct ISimulationTerminal : public IStateObject {
    PyObject* pythonRepr;
 
    PyObject* getTuple() { return pythonRepr; }
+
+   PyObject* stealTuple() { 
+      PyObject* pythonReprCopy = pythonRepr; 
+      pythonRepr = NULL;
+      return pythonReprCopy;
+   }
+
    virtual void updateTuple() = 0;
    virtual void freeTuple() = 0;
 };

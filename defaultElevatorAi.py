@@ -1,4 +1,4 @@
 # Sample elevator AI
 
-def computeNextMove(testString):
+def computeNextMove(floors, elevators):
    return

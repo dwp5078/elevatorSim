@@ -167,9 +167,8 @@ void SimulationState::start(
 void SimulationState::runUserScriptUnsafe() {
    assert( userComputeFunction != NULL );
 
-   /* TODO: build a PyObject with the complete simulation state 
-    * instead of just a string */
-   PyObject* computeFunctionArgs = Py_BuildValue("(s)", "test");
+   building->updateTuple();
+   PyObject* computeFunctionArgs = building->getTuple();
    
    if(isDebugBuild()) {
       LOG_INFO( Logger::SUB_ELEVATOR_LOGIC, "invoking python on user script..." );
@@ -179,6 +178,12 @@ void SimulationState::runUserScriptUnsafe() {
       PyObject_CallObject(
          userComputeFunction,
          computeFunctionArgs);
+
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "created object at: " << computeFunctionResult << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
 
    if(computeFunctionResult == NULL || PyErr_Occurred()) {
       PyErr_Print();
@@ -198,8 +203,13 @@ void SimulationState::runUserScriptUnsafe() {
       /* TODO: interpret the results */
    }
 
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "XDECREF on " << computeFunctionResult << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
+
    Py_XDECREF(computeFunctionResult);
-   Py_DECREF(computeFunctionArgs);
 }
 
 bool SimulationState::togglePause() {

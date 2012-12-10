@@ -102,6 +102,12 @@ void IPersonCarrier::cleanContainerCache() {
 PyObject* IPersonCarrier::peopleToTuple() const {
    PyObject* peopleTuple = PyTuple_New( people.size() );
 
+   if(isDebugBuild()) {
+      std::stringstream dbgSS;
+      dbgSS << "created tuple at: " << peopleTuple << std::endl;
+      LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+   }
+
    if( peopleTuple == NULL || PyErr_Occurred() ) {
       PyErr_Print();
    }
@@ -114,7 +120,7 @@ PyObject* IPersonCarrier::peopleToTuple() const {
       ++iter) {
          Person* const currentPerson = *iter;
          currentPerson->updateTuple();
-         PyTuple_SET_ITEM(peopleTuple, i, currentPerson->getTuple());
+         PyTuple_SET_ITEM(peopleTuple, i, currentPerson->stealTuple());
          ++i;
    }
 

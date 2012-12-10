@@ -94,15 +94,11 @@ public:
    void update();
 
    void updateTuple() {
-      if(pythonRepr != NULL) {
-         freeTuple();
-      }
-
       pythonRepr = peopleToTuple();
    }
 
    void freeTuple() {
-      Py_CLEAR(pythonRepr);
+
    }
 
    /* public class-local methods */

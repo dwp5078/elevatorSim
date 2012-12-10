@@ -101,7 +101,13 @@ public:
       }
 
       pythonRepr = Py_BuildValue("(ii)", start.getYVal(), destination.getYVal());
-      
+
+      if(isDebugBuild()) {
+         std::stringstream dbgSS;
+         dbgSS << "created tuple at: " << pythonRepr << std::endl;
+         LOG_INFO( Logger::SUB_MEMORY, sstreamToBuffer(dbgSS) );
+      }
+
       if(PyErr_Occurred()) {
          PyErr_Print();
       }
@@ -110,7 +116,7 @@ public:
    }
 
    void freeTuple() {
-      /* TODO */
+      Py_CLEAR(pythonRepr);
    }
 
    IPersonCarrier* locateContainer() const;

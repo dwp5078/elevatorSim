@@ -54,12 +54,15 @@ class Building : public ISimulationTerminal {
    /* private instance members */
    std::vector<Floor*> floors;
    std::vector<Elevator*> elevators;
+   PyObject* elevatorsTuple;
+   PyObject* floorsTuple;
 
    /* private methods */
 
 protected:
 
-   template <class T> PyObject* createTupleFromMember( const std::vector<T*>& memberRef );
+   template <class T> PyObject* createTupleFromMember( 
+      const std::vector<T*>& memberRef ) const;
 
 public:
 
