@@ -106,13 +106,9 @@ void SimulationState::init() {
    cState = SIMULATION_STARTING;
    logicTicks = 0;
 
-   Py_XDECREF(userScriptCodeObject);
-   Py_XDECREF(userScriptExecModule);
-   Py_XDECREF(userComputeFunction);
-
-   userScriptCodeObject = NULL;
-   userScriptExecModule = NULL;
-   userComputeFunction = NULL;
+   Py_CLEAR(userScriptCodeObject);
+   Py_CLEAR(userScriptExecModule);
+   Py_CLEAR(userComputeFunction);
 }
 
 void SimulationState::update() {
@@ -241,6 +237,8 @@ const char SimulationState::USER_SCRIPT_PY_NAME[] = "elevatorSim";
 const char SimulationState::USER_SCRIPT_PY_FUNC_NAME[] = "computeNextMove";
 
 PyObject* SimulationState::simStateToTuple() {
+
+
    return NULL;
 }
 
@@ -288,8 +286,7 @@ bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
 
    if( userScriptExecModule == NULL ) {
       PyErr_Print();
-      Py_DECREF(userScriptCodeObject);
-      userScriptCodeObject = NULL;
+      Py_CLEAR(userScriptCodeObject);
       return false;
    }
 
@@ -307,11 +304,9 @@ bool SimulationState::loadPythonScript( const std::string& pyAiPath ) {
    if( userComputeFunction == NULL || 
       !PyCallable_Check(userComputeFunction)) {
          PyErr_Print();
-         Py_DECREF(userScriptExecModule);
-         Py_DECREF(userScriptCodeObject);
-         userScriptExecModule = NULL;
-         userScriptCodeObject = NULL;
-         userComputeFunction = NULL;
+         Py_CLEAR(userScriptExecModule);
+         Py_CLEAR(userScriptCodeObject);
+         Py_CLEAR(userComputeFunction);
          return false;
    }  
 
