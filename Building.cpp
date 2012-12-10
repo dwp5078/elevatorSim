@@ -44,6 +44,34 @@
 #include <cassert>
 
 namespace elevatorSim {
+
+template <class T> PyObject* 
+   Building::createTupleFromMember( const std::vector<T*>& memberRef ) {
+      /* instantiate a tuple for containing all of the floors */
+      PyObject* memberItemTuple = PyTuple_New( memberRef.size() );
+   
+      if( memberItemTuple == NULL || PyErr_Occurred() ) {
+         PyErr_Print();
+      }
+
+      assert( memberItemTuple != NULL );
+
+      /* iterate over each floor, telling it to update its tuple */
+      int i = 0;
+      for( std::vector<T*>::const_iterator iter = memberRef.begin(); 
+      iter != memberRef.end();
+      ++iter) {
+         T* const currentItemGeneric = *iter;
+         ISimulationTerminal* currentItemTyped 
+            = static_cast<ISimulationTerminal*>(currentItemGeneric);
+         currentItemTyped->updateTuple();
+         PyTuple_SET_ITEM(memberItemTuple, i, currentItemTyped->getTuple());
+         ++i;
+      }
+
+      return memberItemTuple;
+}
+
 /* constructors */
 Building::Building(unsigned int _nStory,
          unsigned int _nElevator,
@@ -255,7 +283,17 @@ void Building::update() {
 }
 
 void Building::updateTuple() {
+   if( pythonRepr != NULL ) {
+      freeTuple();
+   }
 
+   PyObject* floorsTuple = createTupleFromMember(floors);
+   PyObject* elevatorsTuple = createTupleFromMember(elevators);
+   pythonRepr = Py_BuildValue("(OO)", floorsTuple, elevatorsTuple);
+   
+   if( pythonRepr == NULL || PyErr_Occurred() ) {
+      PyErr_Print();
+   }
 }
 
 void Building::freeTuple() {

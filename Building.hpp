@@ -57,6 +57,10 @@ class Building : public ISimulationTerminal {
 
    /* private methods */
 
+protected:
+
+   template <class T> PyObject* createTupleFromMember( const std::vector<T*>& memberRef );
+
 public:
 
    /* public static constants */
