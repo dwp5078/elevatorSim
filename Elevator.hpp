@@ -124,7 +124,7 @@ public:
       return (maxOccupants <= numPeopleContained()?true:false);
    }
 
-   //fancy animation turn on function
+   /* fancy animation turn on function */
    inline void peopleGetOnAnimationOn() {
       peopleOnAnimation = true;
       peopleOnCounter = DEFAULT_MAX_ANI_COUNTER;

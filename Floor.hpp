@@ -93,7 +93,6 @@ public:
    void render();
    void update();
 
-   /* public methods inherited fomr IPersonCarrier */
    void updateTuple() {
       if(pythonRepr != NULL) {
          freeTuple();

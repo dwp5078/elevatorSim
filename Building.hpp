@@ -78,14 +78,9 @@ public:
    void init();
    void render();
    void update();
-   
-   void updateTuple() {
-      /* TODO */
-   }
 
-   void freeTuple() {
-      /* TODO */
-   }
+   void updateTuple();
+   void freeTuple();
 
    void distributePeople();
 

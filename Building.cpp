@@ -254,6 +254,14 @@ void Building::update() {
    distributePeople();
 }
 
+void Building::updateTuple() {
+
+}
+
+void Building::freeTuple() {
+
+}
+
 void Building::distributePeople() {
    /* roll the dice to see if we'll be adding a person */
    if( rand() % invPersonArriveProb == 0 ) {
