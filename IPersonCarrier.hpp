@@ -76,6 +76,9 @@ public:
       return ( people.erase(p) > 0 );
    }
 
+   PyObject* peopleToTuple();
+   void freePeopleTuple(PyObject* peopleTuple);
+
    int numPeopleContained() const {
       return people.size();
    }

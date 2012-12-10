@@ -99,6 +99,13 @@ void IPersonCarrier::cleanContainerCache() {
    }
 }
 
+PyObject* IPersonCarrier::peopleToTuple() {
+   return NULL;
+}
+
+void IPersonCarrier::freePeopleTuple(PyObject* peopleTuple) {
+   (void) peopleTuple;
+}
 
 
 } /* namespace ElevatorSim */
