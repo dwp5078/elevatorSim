@@ -95,22 +95,22 @@ public:
    void render();
    void update();
 
-   PyObject* convertToTuple() {
-      PyObject *personTuple = Py_BuildValue("(ii)", 
-         start.getYVal(), destination.getYVal());
+   void updateTuple() {
+      if(pythonRepr != NULL) {
+         freeTuple();
+      }
+
+      pythonRepr = Py_BuildValue("(ii)", start.getYVal(), destination.getYVal());
       
       if(PyErr_Occurred()) {
          PyErr_Print();
       }
 
-      assert(personTuple != NULL);
-
-      return personTuple;
+      assert(pythonRepr != NULL);
    }
 
-   void decrefTuple(PyObject* thisTuple) {
-      (void) thisTuple;
-      /* TODO: stub */
+   void freeTuple() {
+      /* TODO */
    }
 
    IPersonCarrier* locateContainer() const;

@@ -149,16 +149,13 @@ public:
    void render();
    void update();
 
-   PyObject* convertToTuple() {
-      /* TODO: stub */
-      return NULL;
+   void updateTuple() {
+      /* TODO */
    }
 
-   void decrefTuple(PyObject* thisTuple) {
-      (void) thisTuple;
-      /* TODO: stub */
+   void freeTuple() {
+      /* TODO */
    }
-
 };
 
 } /* namespace elevatorSim */

@@ -80,17 +80,6 @@ public:
       return people.size();
    }
 
-   PyObject* peopleToTuple() const {
-      /* TODO */
-      return NULL;
-   }
-
-   void decrefPeopleTuple(PyObject* peopleTuple){
-      (void) peopleTuple;
-
-      /* TODO */
-   }
-
    virtual enum PERSON_CARRIER_TYPE getCarrierType() const = 0;
 
    virtual ~IPersonCarrier() = 0;

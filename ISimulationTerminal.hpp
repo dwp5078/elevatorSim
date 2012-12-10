@@ -49,8 +49,18 @@ struct ISimulationTerminal : public IStateObject {
     */
 
    virtual ~ISimulationTerminal() = 0;
-   virtual PyObject* convertToTuple() = 0;
-   virtual void decrefTuple(PyObject* thisTuple) = 0;
+
+   /*
+    * All simulation terminals need to be able to create a tuple out of
+    * themselves for processing by the python interpreter. These are the
+    * functions by which this representation is manipulated, as well as
+    * the pointer to the object itself.
+    */
+   PyObject* pythonRepr;
+
+   PyObject* getTuple() { return pythonRepr; }
+   virtual void updateTuple() = 0;
+   virtual void freeTuple() = 0;
 };
 
 } /* namespace elevatorSim */
