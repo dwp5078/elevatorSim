@@ -96,8 +96,16 @@ public:
    void update();
 
    PyObject* convertToTuple() {
-      /* TODO: stub */
-      return NULL;
+      PyObject *personTuple = Py_BuildValue("(ii)", 
+         start.getYVal(), destination.getYVal());
+      
+      if(PyErr_Occurred()) {
+         PyErr_Print();
+      }
+
+      assert(personTuple != NULL);
+
+      return personTuple;
    }
 
    void decrefTuple(PyObject* thisTuple) {
