@@ -99,13 +99,26 @@ void IPersonCarrier::cleanContainerCache() {
    }
 }
 
-PyObject* IPersonCarrier::peopleToTuple() {
-   return NULL;
-}
+PyObject* IPersonCarrier::peopleToTuple() const {
+   PyObject* peopleTuple = PyTuple_New( people.size() );
 
-void IPersonCarrier::freePeopleTuple(PyObject* peopleTuple) {
-   (void) peopleTuple;
-}
+   if( peopleTuple == NULL || PyErr_Occurred() ) {
+      PyErr_Print();
+   }
 
+   assert( peopleTuple != NULL );
+
+   int i = 0;
+   for( std::unordered_set<Person*>::const_iterator iter = people.begin(); 
+      iter != people.end();
+      ++iter) {
+         Person* const currentPerson = *iter;
+         currentPerson->updateTuple();
+         PyTuple_SET_ITEM(peopleTuple, i, currentPerson->getTuple());
+         ++i;
+   }
+
+   return peopleTuple;
+}
 
 } /* namespace ElevatorSim */
