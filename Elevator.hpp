@@ -149,12 +149,17 @@ public:
    void render();
    void update();
 
+   /* public methods inherited fomr IPersonCarrier */
    void updateTuple() {
-      /* TODO */
+      if(pythonRepr != NULL) {
+         freeTuple();
+      }
+
+      pythonRepr = peopleToTuple();
    }
 
    void freeTuple() {
-      /* TODO */
+      Py_CLEAR(pythonRepr);
    }
 };
 
